@@ -1,0 +1,119 @@
+services:
+  userservice:
+    container_name: userserver
+    image: tuyenhaitan/userserver:s2
+    ports:
+      - 8080:8080
+    depends_on:
+      - hustappdb
+      - eurekaserver
+      - redis
+
+
+    environment:
+      KEYCLOAK_CREDENTIALS_SECRET: b8MQiBwtPrk6mBBeKtnnOwrPBVohqbxe
+      KEYCLOAK_REALM: master
+      KEYCLOAK_AUTH_SERVER_URL:  http://gateway.docker.internal:7080
+      KEYCLOAK_SSL_REQUIRED: none
+      KEYCLOAK_RESOURCE: HustApp
+      KEYCLOAK_USE_RESOURCE_ROLE_MAPPINGS: true
+      KEYCLOAK_BEARER_ONLY: true
+      KEYCLOAK_CORS: true
+      KEYCLOAK_PRINCIPAL_ATTRIBUTE: admin
+      KEYCLOAK_USERNAME: admin
+      KEYCLOAK_PASSWORD: admin
+
+      SPRING_DATASOURCE_URL: jdbc:mysql://hustappdb:3306/hustappuser?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+
+      EUREKA_INSTANCE_PREFERIPADDRESS: true
+      EUREKA_CLIENT_REGISTERWITHEUREKA: true
+      EUREKA_CLIENT_FETCHREGISTRY: true
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+
+    networks:
+      - hustapp
+
+
+
+  hustappdb:
+    container_name: hustappdb
+    image: mysql:8.0
+    restart: always
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_DATABASE: hustappuser
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./data:/var/lib/mysql
+    networks:
+      - hustapp
+
+
+  eurekaserver:
+    container_name: eurekaserver
+    image: tuyenhaitan/eurekaserver:s1
+    ports:
+      - 8070:8070
+    environment:
+      SPRING_APPLICATION_NAME: "eurekaserver"
+    networks:
+      - hustapp
+
+
+  redis:
+    container_name: redis-app
+    image: redis
+    ports:
+      - 6379:6379
+    networks:
+      - hustapp
+
+  minio:
+    container_name: minio-app
+    image: quay.io/minio/minio
+    ports:
+      - 9001:9000
+      - 9090:9090
+    environment:
+      - MINIO_ROOT_USER=root
+      - MINIO_ROOT_PASSWORD=Tuyen18072001
+    volumes:
+      - ./minio:/data
+    command: server /data --console-address ":9090"
+    networks:
+      - hustapp
+
+  datacollectionservice:
+    container_name: datacollectionserver
+    image: tuyenhaitan/datacollection:s1
+    ports:
+      - 8090:8090
+    depends_on:
+      - minio
+
+    environment:
+      MINIO_BUCKET_NAME: hust-app
+      MINIO_DEFAULT_FOLDER: /
+      MINIO_ACCESS_NAME: root
+      MINIO_ACCESS_SECRET: Tuyen18072001
+      MINIO_URL: http://minio:9000
+      SPRING_DATASOURCE_URL: jdbc:mysql://hustappdb:3306/hustappuser?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+
+    networks:
+      - hustapp
+
+
+
+
+networks:
+  hustapp:
+    driver: "bridge"
+
+

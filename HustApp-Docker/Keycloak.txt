@@ -1,0 +1,1 @@
+docker run -p 7080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin -v /data/keycloak:/opt/jboss/keycloak/standalone/data quay.io/keycloak/keycloak:22.0.4 start-dev

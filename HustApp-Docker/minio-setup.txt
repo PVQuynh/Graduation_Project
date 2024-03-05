@@ -1,0 +1,2 @@
+
+docker run -p 9001:9000 -p 9090:9090 --name hustapp-minio -v /minio/data:/data -e "MINIO_ROOT_USER=ROOTUSER" -e "MINIO_ROOT_PASSWORD=CHANGEME123" quay.io/minio/minio server /data --console-address ":9090"

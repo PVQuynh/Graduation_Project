@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e8a97874-77f4-4f46-9aea-1fe489da2950" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/LearningApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Graduation_Project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/GP-BE.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/sql/Dump20231209.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/WebsocketApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/WebsocketApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataCollection_Server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/DataCollection_Server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataCollection_Server/src/main/java/com/example/DataCollection/service/Impl/DataCollectionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/DataCollection_Server/src/main/java/com/example/DataCollection/service/Impl/DataCollectionServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataCollection_Server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/DataCollection_Server/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Learning_Server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/HustLearningApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Learning_Server/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/UserServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/UserServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/client/ChatFeignClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/client/ChatFeignClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/client/request/ContactRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/client/request/ContactRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/entity/TokenObj.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/entity/TokenObj.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/security/JWTAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/security/JWTAuthenticationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/service/impl/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/resources/application.properties" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/Learning_Server" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 5
+}]]></component>
+  <component name="ProjectId" id="2dH1BUqdqA2WYhgqIyExPlwFgj9" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "feature/quynh-v1",
+    "ignore.virus.scanning.warn.message": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.HustLearningApplication">
+    <configuration name="DataCollectionApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="datacollectionserver" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.DataCollection.DataCollectionApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EurekaApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="eurekaserver" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.eureka.EurekaApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="gatewayserver" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.gateway.GatewayApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LearningApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="hustlearningserver" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.HustLearning.LearningApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="userserver" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.UserService.UserServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WebsocketApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="chatserver" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.chat.websocket.WebsocketApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e8a97874-77f4-4f46-9aea-1fe489da2950" name="Changes" comment="" />
+      <created>1709650059954</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1709650059954</updated>
+      <workItem from="1709650062331" duration="2930000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+</project>
