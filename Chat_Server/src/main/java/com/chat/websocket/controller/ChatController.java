@@ -22,8 +22,9 @@ public class ChatController {
   public MessageRequest sendMessage(@DestinationVariable int conversationID,
       @Payload MessageRequest messageRequest) {
 
-      chatService.sendMessage(messageRequest, conversationID);
+//      chatService.sendMessage(messageRequest, conversationID);
 
+    System.out.println("Content: " + messageRequest.getContent());
 
     return messageRequest;
   }

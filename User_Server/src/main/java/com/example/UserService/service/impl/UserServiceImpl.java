@@ -130,14 +130,19 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void changePassword(ChangePasswordReq changePasswordReq) {
+  public boolean changePassword(ChangePasswordReq changePasswordReq) {
     String email = EmailUtils.getCurrentUser();
     User user = userRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException());
+
     if (user.getPassword().equals(changePasswordReq.getOldPassword())) {
       user.setPassword(changePasswordReq.getNewPassword());
       userRepository.save(user);
       keycloakService.changePassword(changePasswordReq);
+
+      return true;
     }
+
+    return false;
   }
 
   @Override
@@ -185,6 +190,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public UserDetailDTO getUserById(long userId) {
     String email = EmailUtils.getCurrentUser();
+
     if (!ObjectUtils.isEmpty(email)) {
       User user = userRepository.findById(userId).orElseThrow(() -> new BusinessLogicException());
       UserDTO userDTO = userMapper.toDTO(user);
@@ -201,6 +207,7 @@ public class UserServiceImpl implements UserService {
       }
       return userDetailDTO;
     }
+
     return null;
   }
 

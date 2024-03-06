@@ -11,27 +11,19 @@
         <module name="gatewayserver" />
         <module name="chatserver" />
         <module name="userserver" />
-        <module name="datacollectionserver" />
         <module name="hustlearningserver" />
+        <module name="datacollectionserver" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="HustLearning" target="17" />
-      <module name="learningserver" target="17" />
-      <module name="websocket" target="17" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="HustLearning" options="-parameters" />
       <module name="chatserver" options="-parameters" />
       <module name="datacollectionserver" options="-parameters" />
       <module name="eurekaserver" options="-parameters" />
       <module name="gatewayserver" options="-parameters" />
       <module name="hustlearningserver" options="-parameters" />
-      <module name="learningserver" options="-parameters" />
       <module name="userserver" options="-parameters" />
-      <module name="websocket" options="-parameters" />
     </option>
   </component>
 </project>

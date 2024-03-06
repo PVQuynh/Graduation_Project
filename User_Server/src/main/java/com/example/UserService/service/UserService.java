@@ -30,7 +30,7 @@ public interface UserService {
 
     void updateUser(UpdateUserReq updateUserReq) throws ParseException;
 
-    void changePassword(ChangePasswordReq changePasswordReq);
+    boolean changePassword(ChangePasswordReq changePasswordReq);
 
     PageDTO<UserDTO> search(UserSearchReq userSearchReq);
 

@@ -40,29 +40,32 @@ public class RegisterController {
 
 
 
-
     @PostMapping("/generateOtp")
     public MessagesResponse generateOTP(@RequestBody @Valid RegisterReq registerReq) {
         MessagesResponse ms = new MessagesResponse();
         ms.message = "Sent";
         String email = registerReq.getEmail();
-        int otp = otpService.generateOTP(email);
-        //Generate The Template to send OTP
 
-        String message = "Your OTP verified number is: " + otp;
+
         try {
             if (userService.findByEmail(registerReq.getEmail()).isPresent()) {
                 ms.code = 404;
                 ms.message = "Your email has been used!";
             } else {
+                int otp = otpService.generateOTP(email);
+                //Generate The Template to send OTP
+
+                String message = "Your OTP verified number is: " + otp;
                 redisTemplate.opsForHash().getOperations().delete(email);
                 redisTemplate.opsForHash().put(email,email.hashCode(), registerReq);
                 redisTemplate.expire(email, 300, TimeUnit.SECONDS);
+
+                emailService.sendOtpMessage(registerReq.getEmail(), "OTP verified code", message);
             }
-            emailService.sendOtpMessage(registerReq.getEmail(), "OTP verified code", message);
-        } catch (Exception e) {
+
+        } catch (Exception ex) {
             ms.code = HttpStatus.NOT_ACCEPTABLE.value();
-            ms.message = e.getMessage();
+            ms.message = ex.getMessage();
         }
         return ms;
     }
@@ -71,12 +74,13 @@ public class RegisterController {
     public MessagesResponse validateOtp(@RequestBody @Valid ConfirmOTP confirmOTP) {
         final String SUCCESS = "Register Successfully!";
         final String FAIL = "Entered Otp is NOT valid. Please Retry!";
+
         MessagesResponse ms = new MessagesResponse();
         ms.message = SUCCESS;
         String email = confirmOTP.getEmail();
         RegisterReq registerReq =   (RegisterReq) redisTemplate.opsForHash().get(email,email.hashCode());
-
         int otpnum = confirmOTP.getOtpNum();
+
         //Validate the Otp
         if (otpnum >= 0) {
             int serverOtp = otpService.getOtp(email);

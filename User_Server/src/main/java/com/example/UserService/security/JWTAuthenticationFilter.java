@@ -41,21 +41,23 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
  try {
 
      KeycloaksInfo  keycloaksInfo = getKeyCloaksInfoFromRequest(request);
-     String email = keycloaksInfo.getEmail();
-     if (!ObjectUtils.isEmpty(email)){
-         KeycloaksInfo.RealmAccess roleRealmAccess = keycloaksInfo.getRealmAccess();
-         String  role = roleRealmAccess.getRoles().get(3);
+     if(keycloaksInfo !=null) {
+         String email = keycloaksInfo.getEmail();
+         if (!ObjectUtils.isEmpty(email)){
+             KeycloaksInfo.RealmAccess roleRealmAccess = keycloaksInfo.getRealmAccess();
+             String  role = roleRealmAccess.getRoles().get(3);
 
-         Set<GrantedAuthority> grantedAuthority = Collections.singleton(new GrantedAuthority() {
-             @Override
-             public String getAuthority() {
-                 return role;
-             }
-         });
-         UsernamePasswordAuthenticationToken authenticationToken =
-                 new UsernamePasswordAuthenticationToken(email, null, grantedAuthority);
+             Set<GrantedAuthority> grantedAuthority = Collections.singleton(new GrantedAuthority() {
+                 @Override
+                 public String getAuthority() {
+                     return role;
+                 }
+             });
+             UsernamePasswordAuthenticationToken authenticationToken =
+                     new UsernamePasswordAuthenticationToken(email, null, grantedAuthority);
 
-         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+         }
      }
  } catch (Exception ex) {
      log.error("Failed to set user authentication",ex);

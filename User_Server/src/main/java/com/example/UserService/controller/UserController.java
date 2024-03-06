@@ -28,22 +28,27 @@ public class UserController {
         try {
             userService.updateUser(updateUserReq);
         }
-        catch (Exception exception) {
+        catch (Exception ex) {
             ms.code=5000;
-            ms.message= "Internal Server Error!";
+            ms.message= ex.getMessage();
         }
         return ms;
     }
     @PostMapping("/changePassword")
     public MessagesResponse changePassword(@RequestBody ChangePasswordReq changePasswordReq) {
         MessagesResponse ms = new MessagesResponse();
+
         try {
-             userService.changePassword(changePasswordReq);
+             if (!userService.changePassword(changePasswordReq)) {
+                 ms.code=400;
+                 ms.message="Change Password failed!";
+             }
         }
         catch (Exception ex) {
             ms.code=500;
-            ms.message="Change Password failed!";
+            ms.message= ex.getMessage();
         }
+
         return  ms;
     }
     @PostMapping("/api/search")
@@ -52,8 +57,18 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public UserDetailDTO getById(@PathVariable long userId) {
-        return  userService.getUserById(userId);
+    public MessagesResponse getById(@PathVariable long userId) {
+        MessagesResponse ms = new MessagesResponse();
+
+        try {
+            ms.data = userService.getUserById(userId);
+        }
+        catch (Exception ex) {
+            ms.code=500;
+            ms.message= ex.getMessage();
+        }
+
+        return  ms;
     }
     @PostMapping("/uploadAvatar")
     public MessagesResponse getById(@RequestBody UploadAvatarReq uploadAvatarReq) {
