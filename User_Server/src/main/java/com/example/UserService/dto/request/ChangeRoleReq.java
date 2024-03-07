@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RoleReq {
-    private  String name;
-    private  String description;
-    private  String code;
+public class ChangeRoleReq {
+    private String newRole;
 }

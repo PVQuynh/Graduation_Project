@@ -21,10 +21,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.concurrent.TimeUnit;
 
 @RestController
-@RequestMapping("/api/register")
+@RequestMapping("/register")
 @RequiredArgsConstructor
 public class RegisterController {
-
 
     private final   KeycloakService keycloakService;
 

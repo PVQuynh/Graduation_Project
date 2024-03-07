@@ -15,14 +15,9 @@ import java.util.Optional;
 public interface UserService {
     User create(RegisterReq registerReq);
 
-
-
-
     void deleteUser(long id);
 
     Optional<User> findByEmail(String email);
-
-
 
     User findById(long Id);
 
@@ -33,8 +28,6 @@ public interface UserService {
     boolean changePassword(ChangePasswordReq changePasswordReq);
 
     PageDTO<UserDTO> search(UserSearchReq userSearchReq);
-
-
 
     UserDetailDTO getUserById(long userId);
 

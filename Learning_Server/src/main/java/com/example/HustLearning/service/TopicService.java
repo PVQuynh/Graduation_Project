@@ -16,8 +16,6 @@ public interface TopicService {
 
     void addTopic(TopicReq topicReq);
 
-
-
     void deleteTopicById(long id);
 
     PageDTO<TopicRes> search(SearchParamReq searchParamReq);

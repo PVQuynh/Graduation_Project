@@ -39,11 +39,11 @@ import org.springframework.scheduling.annotation.EnableAsync;
 		in = SecuritySchemeIn.HEADER
 )
 @EnableFeignClients
-public class UserServiceApplication {
+public class UserApplication {
 
 
 	public static void main(String[] args) {
-		SpringApplication.run(UserServiceApplication.class, args);
+		SpringApplication.run(UserApplication.class, args);
 		;
 	}
 

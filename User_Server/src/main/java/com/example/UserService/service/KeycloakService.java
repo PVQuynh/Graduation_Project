@@ -3,6 +3,7 @@ package com.example.UserService.service;
 import com.example.UserService.config.Keycloaks;
 
 import com.example.UserService.dto.request.ChangePasswordReq;
+import com.example.UserService.dto.request.ChangeRoleReq;
 import com.example.UserService.dto.request.RegisterReq;
 import com.example.UserService.dto.request.UpdateUserReq;
 import com.example.UserService.entity.Role;
@@ -35,22 +36,22 @@ import java.util.List;
 public class KeycloakService {
 
 
-    private  final  Keycloaks keycloaks;
+    private final Keycloaks keycloaks;
     @Value("${keycloak.realm}")
     private String realm;
 
     @Value("${keycloak.auth-server-url}")
-    private  String serverUrl;
+    private String serverUrl;
 
     @Value("${keycloak.username}")
-    private  String username;
+    private String username;
     @Value("${keycloak.password}")
-    private  String password;
+    private String password;
     @Value("${keycloak.resource}")
-    private  String clientId;
+    private String clientId;
 
     @Value("${keycloak.credentials.secret}")
-    private  String clientSecret;
+    private String clientSecret;
 
     public List<UserRepresentation> searchUserByEmail(String email) {
         Keycloak keycloak = keycloaks.getKeycloakInstance();
@@ -58,9 +59,7 @@ public class KeycloakService {
 
             List<UserRepresentation> userRepresentations = keycloak.realm(realm).users().list();
             UsersResource usersResource = keycloak.realm(realm).users();
-            return  usersResource.search(email);
-
-
+            return usersResource.search(email);
 
 
         } catch (Exception e) {
@@ -70,16 +69,14 @@ public class KeycloakService {
                 keycloak.close();
             }
         }
-        return  null;
+        return null;
     }
 
-    public  void  createUser(RegisterReq registerReq){
-
-
+    public void createUser(RegisterReq registerReq) {
         String email = registerReq.getEmail();
 
         if (!ObjectUtils.isEmpty(searchUserByEmail(email))) {
-            throw  new RuntimeException("Email của bạn đã được sử dụng");
+            throw new RuntimeException("Email của bạn đã được sử dụng");
         }
 
         Keycloak keycloak = keycloaks.getKeycloakInstance();
@@ -98,7 +95,7 @@ public class KeycloakService {
         Response res = userResource.create(user);
         int statusCode = res.getStatus();
 
-        if (statusCode!= 201) {
+        if (statusCode != 201) {
             throw new BadRequestException("Không thể đăng kí được tài khoản. Vui lòng thử lại!");
         }
         if (statusCode == 201) {
@@ -113,15 +110,16 @@ public class KeycloakService {
         }
 
     }
-    public void createRole(Role roleReq) {
 
-
-
+    public boolean createRole(Role roleReq) {
         Keycloak keycloak = keycloaks.getKeycloakInstance();
+        RealmResource realmResource = keycloak.realm(realm);
 
+        // Check exists
+        List<RoleRepresentation> existingRoles = realmResource.roles().list();
+        boolean roleExists = existingRoles.stream().anyMatch(r -> r.getName().equals(roleReq.getName()));
 
-            RealmResource realmResource = keycloak.realm(realm);
-
+        if (!roleExists) {
             // Tạo một đối tượng RoleRepresentation và đặt tên và mô tả cho role
             RoleRepresentation role = new RoleRepresentation();
             role.setName(roleReq.getName());
@@ -129,10 +127,13 @@ public class KeycloakService {
 
             realmResource.roles().create(role);
 
+            return true;
+        }
 
+        return false;
     }
 
-    public  void  deleteUserByEmail(String email) {
+    public void deleteUserByEmail(String email) {
 
         Keycloak keycloak = keycloaks.getKeycloakInstance();
         UsersResource userResource = keycloak.realm(realm).users();
@@ -140,12 +141,12 @@ public class KeycloakService {
         userResource.get(email).remove();
     }
 
-    public  String  getAccessToken(String username, String password) {
-      Keycloak keycloak =  Keycloak.getInstance(
+    public String getAccessToken(String username, String password) {
+        Keycloak keycloak = Keycloak.getInstance(
                 serverUrl,
                 realm,
-              username,
-              password,
+                username,
+                password,
                 clientId,
                 clientSecret);
         String accessToken = keycloak.tokenManager().getAccessTokenString();
@@ -156,8 +157,8 @@ public class KeycloakService {
         Keycloak keycloak = keycloaks.getKeycloakInstance();
         String email = null;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!ObjectUtils.isEmpty(authentication))  {
-            email = (String)authentication.getPrincipal();
+        if (!ObjectUtils.isEmpty(authentication)) {
+            email = (String) authentication.getPrincipal();
         }
         UsersResource userResource = keycloak.realm(realm).users();
 
@@ -176,9 +177,10 @@ public class KeycloakService {
 
 
         existingUser.resetPassword(newPasswordCredential);
-
-
     }
+
+
+
 
 }
 

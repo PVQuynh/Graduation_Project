@@ -69,14 +69,18 @@ public class DataCollectionServiceImpl implements DataCollectionService {
   @Override
   public void approve(long dataCollectionId) {
     String email = EmailUtils.getCurrentUser();
+
     if (!ObjectUtils.isEmpty(email)) {
       DataCollection dataCollection = dataCollectionRepository.findById(dataCollectionId)
           .orElseThrow(() -> new BusinessLogicException());
+
       if (dataCollection.getStatus() == DataStatus.APPROVED) {
         throw new BusinessLogicException();
       }
+
       dataCollection.setStatus(DataStatus.APPROVED);
       dataCollection.setAdminEmail(email);
+
       dataCollectionRepository.save(dataCollection);
     }
   }

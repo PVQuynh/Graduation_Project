@@ -4,20 +4,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5592bd12-57f9-436c-a0cb-f23e7892a75f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="5592bd12-57f9-436c-a0cb-f23e7892a75f" name="Changes" comment="20:43 6/3/24">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HustApp-Docker/docker-compose-anydesk.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/dto/request/ChangeRoleReq.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/mapper/impl/RoleMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/config/WebsocketConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/config/WebsocketConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/controller/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/controller/ChatController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/WebsocketApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/ChatApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/service/Impl/DataCollectionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/service/Impl/DataCollectionServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/service/TopicService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/service/TopicService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/UserServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/UserApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/controller/FriendShipControlller.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/controller/FriendShipControlller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/controller/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/controller/RegisterController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/controller/TestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/controller/TestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/controller/RoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/controller/RoleController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/security/JWTAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/security/JWTAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/service/OTPService.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/service/OTPService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/dto/request/RoleReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/dto/RoleDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/repository/FriendShipRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/repository/FriendShipRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/service/AddFriendService.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/service/AddFriendService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/service/KeycloakService.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/service/KeycloakService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/service/RoleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/service/RoleService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/service/impl/AddFriendServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/service/impl/AddFriendServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/service/impl/RoleServiceimpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/service/impl/RoleServiceimpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/service/impl/UserServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -25,13 +35,26 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 5
-}]]></component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="2dJgmw0i9iKYXcMZOPbudzWCUgB" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -45,19 +68,29 @@
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/ASUS/Desktop/GP-BE/HustApp-Docker",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "advanced.settings",
+    "settings.editor.selected.configurable": "project.propCompiler",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\ASUS\Desktop\GP-BE\HustApp-Docker" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.UserService.dto.request" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="configurationTypes">
@@ -66,7 +99,14 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.UserServiceApplication">
+  <component name="RunManager" selected="Spring Boot.UserApplication">
+    <configuration name="ChatApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="chatserver" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.chat.websocket.ChatApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="DataCollectionApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="datacollectionserver" />
@@ -98,20 +138,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+    <configuration name="UserApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="userserver" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.UserService.UserServiceApplication" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.UserService.UserApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="WebsocketApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="chatserver" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.chat.websocket.WebsocketApplication" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+    <list>
+      <item itemvalue="Spring Boot.ChatApplication" />
+      <item itemvalue="Spring Boot.UserApplication" />
+      <item itemvalue="Spring Boot.DataCollectionApplication" />
+      <item itemvalue="Spring Boot.EurekaApplication" />
+      <item itemvalue="Spring Boot.GatewayApplication" />
+      <item itemvalue="Spring Boot.LearningApplication" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -121,11 +162,25 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1709731760824</updated>
-      <workItem from="1709731763515" duration="6399000" />
+      <workItem from="1709731763515" duration="6712000" />
+      <workItem from="1709781750700" duration="27964000" />
     </task>
+    <task id="LOCAL-00001" summary="20:43 6/3/24">
+      <option name="closed" value="true" />
+      <created>1709739809737</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1709739809737</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="20:43 6/3/24" />
+    <option name="LAST_COMMIT_MESSAGE" value="20:43 6/3/24" />
   </component>
 </project>

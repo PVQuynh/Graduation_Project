@@ -5,13 +5,16 @@ import com.example.UserService.dto.UserDTO;
 import java.util.List;
 
 public interface AddFriendService {
-     void addFriend(long userId);
 
-    void accept(long userId);
+    List<UserDTO> getSendingList();
 
-    void cancel(long userId);
+    List<UserDTO> getRequestList();
 
-    List<UserDTO> getPending();
+    List<UserDTO> getFriendList();
 
-    List<UserDTO> getFriend();
+    boolean addFriend(long userId);
+
+    void acceptFriend(long userId);
+
+    void cancelFriend(long userId);
 }

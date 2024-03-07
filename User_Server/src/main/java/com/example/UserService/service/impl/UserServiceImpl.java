@@ -7,11 +7,7 @@ import com.example.UserService.client.request.UploadAvatarClientReq;
 import com.example.UserService.dto.PageDTO;
 import com.example.UserService.dto.UserDTO;
 import com.example.UserService.dto.UserDetailDTO;
-import com.example.UserService.dto.request.ChangePasswordReq;
-import com.example.UserService.dto.request.RegisterReq;
-import com.example.UserService.dto.request.UpdateUserReq;
-import com.example.UserService.dto.request.UploadAvatarReq;
-import com.example.UserService.dto.request.UserSearchReq;
+import com.example.UserService.dto.request.*;
 import com.example.UserService.dto.response.MessagesResponse;
 import com.example.UserService.entity.FriendShip;
 import com.example.UserService.entity.Role;
@@ -65,9 +61,9 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public User create(RegisterReq registerReq) {
-    ContactRequest contactRequest = new ContactRequest(registerReq.getName(),
-        registerReq.getEmail(), null);
+    ContactRequest contactRequest = new ContactRequest(registerReq.getName(), registerReq.getEmail(), null);
     MessagesResponse ms = client.createContact(contactRequest);
+
     if (ms.code == 200) {
       User user = new User();
       user.setName(registerReq.getName());
@@ -77,31 +73,30 @@ public class UserServiceImpl implements UserService {
       user.setRole(role);
       return userRepository.save(user);
     }
+
     return null;
   }
 
 
   @Override
   public void deleteUser(long id) {
-
     userRepository.deleteById(id);
   }
 
   @Override
   public Optional<User> findByEmail(String email) {
     return userRepository.findByEmail(email);
-
-
   }
 
 
   @Override
   public User findById(long Id) {
     var userOptional = userRepository.findById(Id);
+
     if (userOptional.isPresent()) {
       return userOptional.get();
     }
-    ;
+
     return null;
   }
 
@@ -111,8 +106,6 @@ public class UserServiceImpl implements UserService {
     User user = userRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException());
 
     return userMapper.toDTO(user);
-
-
   }
 
   @Override
@@ -126,7 +119,6 @@ public class UserServiceImpl implements UserService {
       userRepository.updateUser(email, updateUserReq.getName(), updateUserReq.getPhoneNumber(),
           updateUserReq.getAddress(), birthDay, Gender.valueOf(updateUserReq.getGender()));
     }
-
   }
 
   @Override
@@ -145,12 +137,16 @@ public class UserServiceImpl implements UserService {
     return false;
   }
 
+
   @Override
   public PageDTO<UserDTO> search(UserSearchReq userSearchReq) {
     String email = EmailUtils.getCurrentUser();
+
     CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
     CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
+
     Root<User> root = criteriaQuery.from(User.class);
+
     List<Predicate> predicates = new ArrayList<>();
 
     // Filter by text (if provided)
