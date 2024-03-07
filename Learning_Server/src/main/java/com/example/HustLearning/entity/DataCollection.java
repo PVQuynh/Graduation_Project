@@ -20,12 +20,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class DataCollection extends BaseEntity {
-    @ManyToOne(fetch = FetchType.LAZY,
-        cascade = {CascadeType.MERGE,
-            CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinColumn(name="vocab_id")
-    private Vocabulary vocab;
-
     private String dataLocation;
 
     private String volunteerEmail;
@@ -35,5 +29,9 @@ public class DataCollection extends BaseEntity {
     private int status;
 
     private String feedBack;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="vocab_id")
+    private Vocabulary vocab;
 
 }

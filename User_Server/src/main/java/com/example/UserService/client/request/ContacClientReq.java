@@ -9,13 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ContactRequest {
+public class ContacClientReq {
 
     public String name;
 
     public String email;
 
     public String avatarLocation;
-
-
 }

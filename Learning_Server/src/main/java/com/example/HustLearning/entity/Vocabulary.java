@@ -26,11 +26,7 @@ public class Vocabulary extends BaseEntity{
     @Column(name = "video_location",length = 2000)
     private  String videoLocation;
 
-    @JsonProperty("topic")
-    @ManyToOne(fetch = FetchType.LAZY,
-            cascade = {CascadeType.MERGE,
-                    CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="topic_id")
     private Topic topic;
-
 }

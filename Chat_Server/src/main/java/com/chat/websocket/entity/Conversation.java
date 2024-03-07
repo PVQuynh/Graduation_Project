@@ -13,7 +13,9 @@ import java.util.List;
 @Entity
 @Table(name = "conversation")
 @Builder
+@AttributeOverride(name = "id", column = @Column(name = "conversation_id"))
 public class Conversation extends  BaseEntity{
+
     @Column(name = "conversation_name")
     private String conversationName;
 
@@ -22,8 +24,7 @@ public class Conversation extends  BaseEntity{
 
     @OneToMany(mappedBy = "conversation",
             fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST},
-            orphanRemoval = true)
+            cascade = {CascadeType.ALL})
     private List<GroupMember> groupMembers;
 
 

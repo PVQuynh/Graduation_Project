@@ -28,8 +28,7 @@ public class Answer extends BaseEntity {
     @Column(name = "is_correct")
     private boolean isCorrect;
 
-    @JsonIgnore
-    @ManyToOne(cascade = {CascadeType.PERSIST},fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "question_id")
     private Question question;
 

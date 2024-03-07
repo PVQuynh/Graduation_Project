@@ -24,7 +24,6 @@ public class DataCollection {
     @Column(name = "id")
     private long id;
 
-
     private String content;
 
     @Enumerated(EnumType.STRING)

@@ -27,18 +27,14 @@ public class Topic extends BaseEntity{
     @Column(name = "video_location",length = 2000)
     private  String videoLocation;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "topic",
             fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-                    CascadeType.DETACH, CascadeType.REFRESH})
+            cascade = {CascadeType.ALL})
     private List<Vocabulary> vocabularies;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "topic",
             fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-                    CascadeType.DETACH, CascadeType.REFRESH})
+            cascade = {CascadeType.ALL})
     private List<Question> questions;
 
 }

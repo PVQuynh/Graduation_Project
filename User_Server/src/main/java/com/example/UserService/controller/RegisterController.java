@@ -2,7 +2,6 @@ package com.example.UserService.controller;
 
 
 import com.example.UserService.client.ChatFeignClient;
-import com.example.UserService.client.request.ContactRequest;
 import com.example.UserService.dto.request.ConfirmOTP;
 import com.example.UserService.dto.request.RegisterReq;
 import com.example.UserService.dto.response.MessagesResponse;
@@ -44,7 +43,6 @@ public class RegisterController {
         MessagesResponse ms = new MessagesResponse();
         ms.message = "Sent";
         String email = registerReq.getEmail();
-
 
         try {
             if (userService.findByEmail(registerReq.getEmail()).isPresent()) {

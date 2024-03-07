@@ -11,7 +11,7 @@
         <module name="gatewayserver" />
         <module name="chatserver" />
         <module name="userserver" />
-        <module name="hustlearningserver" />
+        <module name="learningserver" />
         <module name="datacollectionserver" />
       </profile>
     </annotationProcessing>
@@ -22,7 +22,7 @@
       <module name="datacollectionserver" options="-parameters" />
       <module name="eurekaserver" options="-parameters" />
       <module name="gatewayserver" options="-parameters" />
-      <module name="hustlearningserver" options="-parameters" />
+      <module name="learningserver" options="-parameters" />
       <module name="userserver" options="-parameters" />
     </option>
   </component>

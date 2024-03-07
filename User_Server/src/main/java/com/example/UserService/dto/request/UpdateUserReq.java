@@ -12,7 +12,6 @@ import java.util.Date;
 @NoArgsConstructor
 public class UpdateUserReq {
 
-
     private String name;
 
     private String phoneNumber;

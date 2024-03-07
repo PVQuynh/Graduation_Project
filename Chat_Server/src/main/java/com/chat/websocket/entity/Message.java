@@ -17,14 +17,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table
+@Table(name = "message")
 @Builder
-public class Message {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private long id;
+@AttributeOverride(name = "id", column = @Column(name = "message_id"))
+public class Message extends BaseEntity{
 
     @Column(name = "content")
     private String content;
@@ -42,10 +38,7 @@ public class Message {
     @Column(name = "creation_time")
     private LocalDateTime creationTime;
 
-
-
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="group_member_id")
     private GroupMember groupMember;
 

@@ -30,13 +30,11 @@ public class Question extends BaseEntity {
     @Column(name = "video_location",length = 2000)
     private String videoLocation;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "question",
-            cascade = {CascadeType.PERSIST},
-            orphanRemoval = true,fetch = FetchType.EAGER)
+            cascade = {CascadeType.ALL},
+            fetch = FetchType.EAGER)
     private List<Answer> answers;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "topic_id")
     private Topic topic;
