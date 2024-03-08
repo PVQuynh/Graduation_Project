@@ -37,6 +37,7 @@ public class ConversationServiceImpl implements ConversationService {
         .conversationType(ConversationType.valueOf(createConversationReq.conversationType))
         .conversationName(createConversationReq.conversationName)
         .build();
+
     List<GroupMember> groupMembers = createConversationReq.getMembers().stream()
         .map(email -> {
           Contact contact = contactRepository.findByEmail(email)

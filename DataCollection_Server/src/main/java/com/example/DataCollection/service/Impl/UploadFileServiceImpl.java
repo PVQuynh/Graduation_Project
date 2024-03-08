@@ -3,16 +3,17 @@ package com.example.DataCollection.service.Impl;
 
 import com.example.DataCollection.service.UploadService;
 import com.example.DataCollection.utils.GetPreSignedUrlUtils;
-import io.minio.GetObjectArgs;
-import io.minio.GetPresignedObjectUrlArgs;
-import io.minio.MinioClient;
-import io.minio.PutObjectArgs;
+import io.minio.*;
 import io.minio.http.Method;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import io.minio.messages.Bucket;
+import io.minio.messages.Item;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
@@ -27,7 +28,6 @@ public class UploadFileServiceImpl implements UploadService {
 
     private final  MinioClient minioClient;
     private final ApplicationEventPublisher publisher;
-
     private final GetPreSignedUrlUtils getPreSignedUrlUtils;
 
     @Value("${minio.bucket.name}")
@@ -36,13 +36,9 @@ public class UploadFileServiceImpl implements UploadService {
     @Value("${minio.default.folder}")
     String defaultBaseFolder;
 
-
-
     @Override
     public String uploadFile(String name, byte[] content) {
-
         try {
-
             InputStream inputStream = new ByteArrayInputStream(content);
 
             // Tải lên tệp tin lên Minio sử dụng InputStream
@@ -63,6 +59,7 @@ public class UploadFileServiceImpl implements UploadService {
                         .object(defaultBaseFolder + name)
                         .expiry(7, TimeUnit.DAYS)
                         .build());
+
             return getPreSignedUrlUtils.getPreSignedUrl(url);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
@@ -72,7 +69,6 @@ public class UploadFileServiceImpl implements UploadService {
     @Override
     public byte[] getFile(String key) {
         try {
-
             InputStream stream = minioClient.getObject(
                 GetObjectArgs.builder()
                     .bucket(defaultBucketName)
@@ -92,12 +88,53 @@ public class UploadFileServiceImpl implements UploadService {
     }
 
     @Override
-    public List<String> getAllBuckets() {
+    public List<String> getAllBucket() {
         try {
-            return minioClient.listBuckets().stream().map(bucket -> bucket.name())
+            return minioClient.listBuckets().stream().map(Bucket::name)
                 .collect(Collectors.toList());
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public List<String> getAllFileInBucket() {
+
+        try {
+            Iterable<Result<Item>> results = minioClient.listObjects(
+                    ListObjectsArgs.builder().bucket(defaultBucketName).build());
+
+            List<String> filesName = new ArrayList<>();
+            for (Result<Item> result : results) {
+                Item item = result.get();
+                String fileName = item.objectName();
+                filesName.add(fileName);
+            }
+
+            return filesName;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+           return null;
+        }
+    }
+
+    @Override
+    public boolean deleteFileInBucket(String fileName) {
+        try {
+            boolean isObisObjectExists = minioClient.statObject(
+                    StatObjectArgs.builder().bucket(defaultBucketName).object(fileName).build()
+            ) != null;
+
+            if (isObisObjectExists) {
+                minioClient.removeObject(
+                        RemoveObjectArgs.builder().bucket(defaultBucketName).object(fileName).build());
+                return true;
+            }
+
+            return false;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
         }
     }
 }

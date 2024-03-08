@@ -196,6 +196,7 @@ public class UserServiceImpl implements UserService {
             UserDetailDTO userDetailDTO = new UserDetailDTO(userDTO);
             User currentUser = userRepository.findByEmail(email)
                     .orElseThrow(() -> new BusinessLogicException());
+
             if (currentUser.getRole().getCode().equals("USER")) {
                 FriendShip friendShip = friendShipRepository.checkFriendStatus(currentUser.getId(),
                                 userDetailDTO.getId())

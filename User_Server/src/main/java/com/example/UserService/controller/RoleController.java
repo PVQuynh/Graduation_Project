@@ -15,7 +15,7 @@ public class RoleController {
     private  final KeycloakService keycloakService;
     private  final RoleService roleService;
 
-    @GetMapping
+    @GetMapping("/all")
     public MessagesResponse getRoles(){
         MessagesResponse ms = new MessagesResponse();
         try {

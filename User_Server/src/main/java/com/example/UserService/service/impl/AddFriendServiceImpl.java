@@ -121,7 +121,6 @@ public class AddFriendServiceImpl implements AddFriendService {
             }
 
             friendShip.setStatus(FriendShipStatus.FRIEND);
-
             friendShipRepository.save(friendShip);
 
             return true;

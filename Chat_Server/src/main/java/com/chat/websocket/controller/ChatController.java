@@ -1,7 +1,6 @@
 package com.chat.websocket.controller;
 
-import com.chat.websocket.dto.request.MessageRequest;
-import com.chat.websocket.dto.response.MessageResponse;
+import com.chat.websocket.dto.MessageDTO;
 import com.chat.websocket.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -19,14 +18,13 @@ public class ChatController {
   // Send message and save
   @MessageMapping("/chat/{conversationID}")
   @SendTo("/conversation/{conversationID}")
-  public MessageRequest sendMessage(@DestinationVariable int conversationID,
-      @Payload MessageRequest messageRequest) {
+  public MessageDTO sendMessage(@DestinationVariable int conversationID,
+                                @Payload MessageDTO messageDTO) {
 
 //      chatService.sendMessage(messageRequest, conversationID);
 
-    System.out.println("Content: " + messageRequest.getContent());
 
-    return messageRequest;
+    return messageDTO;
   }
 
 

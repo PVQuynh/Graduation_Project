@@ -18,16 +18,16 @@ public class MessageController {
 
   private final MessageService messageService;
 
-  @GetMapping("conversation/{conversationId}")
+  @GetMapping("{conversationId}")
   public List<ChatMessageRes> getAllMessageConversation(@PathVariable  int conversationId) {
     return messageService.getAllMessageConversation(conversationId);
   }
 
-  @DeleteMapping("conversation/{conversationId}")
-  public MessageResponse deleteMessageConversation(long messageId) {
+  @DeleteMapping("{id}")
+  public MessageResponse deleteMessageConversation(@PathVariable long id) {
     MessageResponse ms = new MessageResponse();
     try {
-      messageService.deleteMessageConversation(messageId);
+      messageService.deleteMessageConversation(id);
     } catch (Exception ex) {
       ms.message = ex.getMessage();
       ms.code = 5000;

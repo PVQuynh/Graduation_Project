@@ -1,7 +1,7 @@
 package com.chat.websocket.service.impl;
 
 import com.chat.websocket.constant.MessageStatus;
-import com.chat.websocket.dto.request.MessageRequest;
+import com.chat.websocket.dto.MessageDTO;
 import com.chat.websocket.entity.GroupMember;
 import com.chat.websocket.entity.Message;
 import com.chat.websocket.enum_constant.MessageType;
@@ -24,11 +24,11 @@ public class ChatServiceImpl implements ChatService {
 
     private  final GroupMemberRepository groupMemberRepository;
     @Override
-    public void sendMessage(MessageRequest messageRequest, int conversationID) {
+    public void sendMessage(MessageDTO messageDTO, int conversationID) {
         Message message = Message.builder()
-                .content(messageRequest.getContent())
-                .messageType(MessageType.valueOf(messageRequest.getMessageType()))
-                .mediaLocation(messageRequest.getMediaLocation())
+                .content(messageDTO.getContent())
+                .messageType(MessageType.valueOf(messageDTO.getMessageType()))
+                .mediaLocation(messageDTO.getMediaLocation())
                 .creationTime(LocalDateTime.now())
                 .status(MessageStatus.SENT)
                 .build();

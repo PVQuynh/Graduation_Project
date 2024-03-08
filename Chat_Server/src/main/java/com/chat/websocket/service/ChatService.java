@@ -1,7 +1,7 @@
 package com.chat.websocket.service;
 
-import com.chat.websocket.dto.request.MessageRequest;
+import com.chat.websocket.dto.MessageDTO;
 
 public interface ChatService {
-    void sendMessage(MessageRequest messageRequest, int conversationID);
+    void sendMessage(MessageDTO messageDTO, int conversationID);
 }

@@ -40,7 +40,6 @@ public class GroupMember extends BaseEntity {
     @JoinColumn(name="conversation_id")
     private Conversation conversation;
 
-
     @OneToMany(mappedBy = "groupMember",
             fetch = FetchType.LAZY,
             cascade = {CascadeType.ALL})

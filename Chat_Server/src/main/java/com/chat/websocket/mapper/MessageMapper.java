@@ -1,6 +1,6 @@
 package com.chat.websocket.mapper;
 
-import com.chat.websocket.dto.request.MessageRequest;
+import com.chat.websocket.dto.MessageDTO;
 import com.chat.websocket.entity.Message;
 import com.chat.websocket.enum_constant.MessageType;
 import com.chat.websocket.exception.BusinessLogicException;
@@ -12,15 +12,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MessageMapper {
-    public Message toEntity(MessageRequest messageRequest) {
+    public Message toEntity(MessageDTO messageDTO) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isNotEmpty(email)) {
             throw new BusinessLogicException();
         }
         ModelMapper modelMapper = new ModelMapper();
-        TypeMap<MessageRequest, Message> typeMap =  modelMapper.createTypeMap(MessageRequest.class,Message.class);
-        Message message =  modelMapper.map(messageRequest,Message.class);
-        message.setMessageType(MessageType.valueOf(messageRequest.getMessageType()));
+        TypeMap<MessageDTO, Message> typeMap =  modelMapper.createTypeMap(MessageDTO.class,Message.class);
+        Message message =  modelMapper.map(messageDTO,Message.class);
+        message.setMessageType(MessageType.valueOf(messageDTO.getMessageType()));
         return  message;
     }
 }

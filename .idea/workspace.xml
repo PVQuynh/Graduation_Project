@@ -4,33 +4,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5592bd12-57f9-436c-a0cb-f23e7892a75f" name="Changes" comment="friend-ship 7/3/24">
-      <change afterPath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/security/WebSecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+    <list default="true" id="5592bd12-57f9-436c-a0cb-f23e7892a75f" name="Changes" comment="23:08 7/3/24">
+      <change afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/socketIO/Message.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/socketIO/Socket.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/socketIO/SocketIOConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/socketIO/StartupConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataCollection_Server/src/main/java/com/example/DataCollection/dto/request/DataDeleteReq.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Chat_Server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/request/ContactRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/request/ContactRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/entity/Contact.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/entity/Contact.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/entity/Conversation.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/entity/Conversation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/controller/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/controller/ChatController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/controller/MessageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/controller/MessageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/request/MessageRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/MessageDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/entity/GroupMember.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/entity/GroupMember.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/entity/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/entity/Message.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataCollection_Server/src/main/java/com/example/DataCollection/controller/CollectDataController.java" beforeDir="false" afterPath="$PROJECT_DIR$/DataCollection_Server/src/main/java/com/example/DataCollection/controller/CollectDataController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataCollection_Server/src/main/java/com/example/DataCollection/entity/DataCollection.java" beforeDir="false" afterPath="$PROJECT_DIR$/DataCollection_Server/src/main/java/com/example/DataCollection/entity/DataCollection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataCollection_Server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/DataCollection_Server/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Learning_Server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Learning_Server/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/entity/Answer.java" beforeDir="false" afterPath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/entity/Answer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/entity/DataCollection.java" beforeDir="false" afterPath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/entity/DataCollection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/entity/Question.java" beforeDir="false" afterPath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/entity/Question.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/entity/Topic.java" beforeDir="false" afterPath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/entity/Topic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/entity/Vocabulary.java" beforeDir="false" afterPath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/entity/Vocabulary.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Learning_Server/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/client/ChatFeignClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/client/ChatFeignClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/client/request/ContactRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/client/request/ContacClientReq.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/controller/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/controller/RegisterController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/dto/request/UpdateUserReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/dto/request/UpdateUserReq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/mapper/MessageMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/mapper/MessageMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/ChatService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/ChatService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/impl/ChatServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/impl/ChatServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/impl/ConversationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/impl/ConversationServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/impl/MessageServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/impl/MessageServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataCollection_Server/src/main/java/com/example/DataCollection/controller/UploadDataController.java" beforeDir="false" afterPath="$PROJECT_DIR$/DataCollection_Server/src/main/java/com/example/DataCollection/controller/UploadDataController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataCollection_Server/src/main/java/com/example/DataCollection/service/Impl/UploadFileServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/DataCollection_Server/src/main/java/com/example/DataCollection/service/Impl/UploadFileServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataCollection_Server/src/main/java/com/example/DataCollection/service/UploadService.java" beforeDir="false" afterPath="$PROJECT_DIR$/DataCollection_Server/src/main/java/com/example/DataCollection/service/UploadService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/controller/RoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/controller/RoleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/service/impl/AddFriendServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/service/impl/AddFriendServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/service/impl/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +49,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -62,28 +60,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/ASUS/Desktop/GP-BE/HustApp-Docker",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "project.propCompiler",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/ASUS/Desktop/GP-BE/HustApp-Docker&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propCompiler&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -169,7 +167,8 @@
       <workItem from="1709731763515" duration="6712000" />
       <workItem from="1709781750700" duration="27964000" />
       <workItem from="1709816210648" duration="33000" />
-      <workItem from="1709816270963" duration="10319000" />
+      <workItem from="1709816270963" duration="10701000" />
+      <workItem from="1709864329429" duration="15679000" />
     </task>
     <task id="LOCAL-00001" summary="20:43 6/3/24">
       <option name="closed" value="true" />
@@ -179,7 +178,15 @@
       <option name="project" value="LOCAL" />
       <updated>1709739809737</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="23:08 7/3/24">
+      <option name="closed" value="true" />
+      <created>1709827747953</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1709827747954</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -187,6 +194,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="20:43 6/3/24" />
-    <option name="LAST_COMMIT_MESSAGE" value="20:43 6/3/24" />
+    <MESSAGE value="23:08 7/3/24" />
+    <option name="LAST_COMMIT_MESSAGE" value="23:08 7/3/24" />
   </component>
 </project>

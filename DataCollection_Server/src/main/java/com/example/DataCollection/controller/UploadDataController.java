@@ -1,6 +1,7 @@
 package com.example.DataCollection.controller;
 
 
+import com.example.DataCollection.dto.request.DataDeleteReq;
 import com.example.DataCollection.dto.response.MessagesResponse;
 import com.example.DataCollection.service.UploadService;
 import lombok.RequiredArgsConstructor;
@@ -13,20 +14,19 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/upload-datas")
 @RequiredArgsConstructor
 public class UploadDataController {
    private final UploadService uploadService;
 
-    @GetMapping(path = "/buckets")
-    public List<String> listBuckets() {
-        return uploadService.getAllBuckets();
-
+    @GetMapping("/all")
+    public List<String> getAllData() {
+        return uploadService.getAllFileInBucket();
     }
 
-    @PostMapping(path = "/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public String uploadFile(@RequestPart(value = "file", required = false) MultipartFile files) throws IOException {
-        return uploadService.uploadFile(files.getOriginalFilename(), files.getBytes());
+    @GetMapping(path = "/buckets-name")
+    public List<String> bucketsList() {
+        return uploadService.getAllBucket();
     }
 
     @GetMapping(path = "/download")
@@ -37,8 +37,28 @@ public class UploadDataController {
             ByteArrayResource resource = new ByteArrayResource(data);
             ms.data = resource;
         } catch (Exception ex) {
-            ms.code = 404;
-            ms.message = "File Not Found!";
+            ms.code = 500;
+            ms.message = ex.getMessage();
+        }
+        return ms;
+    }
+
+    @PostMapping(path = "/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public String uploadFile(@RequestPart(value = "file", required = false) MultipartFile files) throws IOException {
+        return uploadService.uploadFile(files.getOriginalFilename(), files.getBytes());
+    }
+
+    @DeleteMapping
+    public MessagesResponse delateData(@RequestBody DataDeleteReq dataDeleteReq) {
+        MessagesResponse ms = new MessagesResponse();
+        try {
+            if (!uploadService.deleteFileInBucket(dataDeleteReq.getFileName())) {
+                ms.code = 400;
+                ms.message = "There are no files to delete!";
+            }
+        } catch (Exception ex) {
+            ms.code = 500;
+            ms.message = ex.getMessage();
         }
         return ms;
     }
