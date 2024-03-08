@@ -21,12 +21,20 @@ public class UploadDataController {
 
     @GetMapping("/all")
     public List<String> getAllData() {
-        return uploadService.getAllFileInBucket();
+        try {
+            return uploadService.getAllFileInBucket();
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
     @GetMapping(path = "/buckets-name")
     public List<String> bucketsList() {
-        return uploadService.getAllBucket();
+        try {
+            return uploadService.getAllBucket();
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
     @GetMapping(path = "/download")

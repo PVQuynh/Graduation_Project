@@ -1,7 +1,6 @@
 package com.chat.websocket.entity;
 
-import com.chat.websocket.dto.request.ContactRequest;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.chat.websocket.dto.request.ContactReq;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,13 +15,10 @@ import java.util.List;
 @AttributeOverride(name = "id", column = @Column(name = "contact_id"))
 public class Contact extends  BaseEntity{
 
-    @Column(name = "first_name")
     private String name;
 
-    @Column(name = "email")
     private String email;
 
-    @Column(name = "avatar_location")
     private String avatarLocation;
 
     @OneToMany(mappedBy = "contact",
@@ -30,9 +26,9 @@ public class Contact extends  BaseEntity{
             cascade = {CascadeType.ALL})
     private List<GroupMember> groupMembers;
 
-    public Contact(ContactRequest contactRequest) {
-       this.name = contactRequest.name;
-        this.email = contactRequest.email;
-        this.avatarLocation = contactRequest.avatarLocation;
+    public Contact(ContactReq contactReq) {
+       this.name = contactReq.name;
+        this.email = contactReq.email;
+        this.avatarLocation = contactReq.avatarLocation;
     }
 }

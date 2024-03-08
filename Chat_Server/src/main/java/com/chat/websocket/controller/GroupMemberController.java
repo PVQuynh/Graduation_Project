@@ -1,6 +1,6 @@
 package com.chat.websocket.controller;
 
-import com.chat.websocket.dto.request.AddMemberReq;
+import com.chat.websocket.dto.request.GroupMemberReq;
 import com.chat.websocket.dto.response.MessageResponse;
 import com.chat.websocket.service.GroupMemberService;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +19,10 @@ public class GroupMemberController {
   private final GroupMemberService groupMemberService;
 
   @PostMapping
-  public MessageResponse addGroupMember(@RequestBody AddMemberReq addmemberReq) {
+  public MessageResponse addGroupMember(@RequestBody GroupMemberReq groupMemberReq) {
     MessageResponse ms = new MessageResponse();
     try {
-      groupMemberService.add(addmemberReq);
+      groupMemberService.save(groupMemberReq);
     } catch (Exception ex) {
       ms.code = 5000;
       ms.message = ex.getMessage();

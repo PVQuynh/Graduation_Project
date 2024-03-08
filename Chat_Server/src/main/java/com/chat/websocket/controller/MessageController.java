@@ -1,6 +1,7 @@
 package com.chat.websocket.controller;
 
-import com.chat.websocket.dto.response.ChatMessageRes;
+import com.chat.websocket.dto.request.ContactReq;
+import com.chat.websocket.dto.response.MessageRes;
 import com.chat.websocket.dto.response.MessageResponse;
 import com.chat.websocket.service.MessageService;
 import java.util.List;
@@ -19,15 +20,19 @@ public class MessageController {
   private final MessageService messageService;
 
   @GetMapping("{conversationId}")
-  public List<ChatMessageRes> getAllMessageConversation(@PathVariable  int conversationId) {
-    return messageService.getAllMessageConversation(conversationId);
+  public List<MessageRes> getAllMessageConversation(@PathVariable  int conversationId) {
+    try {
+      return messageService.getAllMessageConversation(conversationId);
+    } catch (Exception ex) {
+      return null;
+    }
   }
 
   @DeleteMapping("{id}")
-  public MessageResponse deleteMessageConversation(@PathVariable long id) {
+  public MessageResponse deleteMessage(@PathVariable long id) {
     MessageResponse ms = new MessageResponse();
     try {
-      messageService.deleteMessageConversation(id);
+      messageService.deleteMessage(id);
     } catch (Exception ex) {
       ms.message = ex.getMessage();
       ms.code = 5000;

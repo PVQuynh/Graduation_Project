@@ -21,7 +21,6 @@ public class TokenObj implements Serializable {
 
     private String password;
 
-
     private LocalDateTime created;
 
 }

@@ -20,16 +20,12 @@ import java.util.List;
 @AttributeOverride(name = "id", column = @Column(name = "group_member_id"))
 public class GroupMember extends BaseEntity {
 
-    @Column(name = "last_activity")
     private LocalDateTime lastActivity;
 
-    @Column(name = "join_time")
     private LocalDateTime joinTime;
 
-    @Column(name = "left_time")
     private LocalDateTime leftTime;
 
-    @Column(name = "is_active")
     private boolean isActive;
 
     @ManyToOne(fetch = FetchType.EAGER)

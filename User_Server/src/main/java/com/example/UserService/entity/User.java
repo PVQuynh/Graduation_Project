@@ -32,8 +32,9 @@ public class User extends  BaseEntity {
 
     private  String phoneNumber;
 
-
     private  String avatarLocation;
+
+    private  boolean isOauth2;
 
     @Column(name = "birth_day")
     private Date birthDay;
@@ -44,7 +45,5 @@ public class User extends  BaseEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_code")
     private Role role;
-
-    private  boolean isOauth2;
 
 }

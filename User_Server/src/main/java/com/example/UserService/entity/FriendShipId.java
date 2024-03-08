@@ -12,6 +12,7 @@ import java.io.Serializable;
 public class FriendShipId implements Serializable {
 
     private User sendFriend;
+
     private User acceptFriend;
 
 }

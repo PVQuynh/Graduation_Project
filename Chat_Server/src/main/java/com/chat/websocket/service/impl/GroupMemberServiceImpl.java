@@ -1,6 +1,6 @@
 package com.chat.websocket.service.impl;
 
-import com.chat.websocket.dto.request.AddMemberReq;
+import com.chat.websocket.dto.request.GroupMemberReq;
 import com.chat.websocket.entity.Contact;
 import com.chat.websocket.entity.Conversation;
 import com.chat.websocket.entity.GroupMember;
@@ -26,11 +26,13 @@ public class GroupMemberServiceImpl implements GroupMemberService {
   private final ContactService contactService;
 
   @Override
-  public void add(AddMemberReq addmemberReq) {
-    Conversation conversation = conversationService.getById(addmemberReq.getConversationId());
-    List<GroupMember> groupMemberList = addmemberReq.getContactIds().stream()
+  public void save(GroupMemberReq groupMemberReq) {
+    Conversation conversation = conversationService.getById(groupMemberReq.getConversationId());
+
+    List<GroupMember> groupMemberList = groupMemberReq.getContactIds().stream()
         .map(contactId -> {
           Contact contact = contactService.findById(contactId);
+
           return GroupMember.builder()
               .joinTime(LocalDateTime.now())
               .conversation(conversation)
@@ -38,6 +40,7 @@ public class GroupMemberServiceImpl implements GroupMemberService {
               .build();
         })
         .collect(Collectors.toList());
+
     groupMemberRepository.saveAll(groupMemberList);
   }
 

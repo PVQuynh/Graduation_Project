@@ -12,7 +12,9 @@ import lombok.Data;
 public class Role {
     @Id
     private String code;
+
     @NotBlank
     private String name;
+
     private  String description;
 }

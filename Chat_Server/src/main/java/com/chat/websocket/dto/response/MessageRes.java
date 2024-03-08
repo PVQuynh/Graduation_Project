@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class ChatMessageRes {
+public class MessageRes {
 
   private String content;
 

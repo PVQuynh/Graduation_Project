@@ -15,9 +15,14 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("/getUserInfor")
+    @GetMapping("/me")
     public UserDTO getUserInFor() {
-        return userService.getCurrentUser();
+        try {
+            return userService.getCurrentUser();
+        } catch (Exception ex) {
+            return null;
+        }
+
     }
 
     @PutMapping
@@ -54,12 +59,12 @@ public class UserController {
         return userService.search(userSearchReq);
     }
 
-    @GetMapping("/{userId}")
-    public MessagesResponse getById(@PathVariable long userId) {
+    @GetMapping("/{id}")
+    public MessagesResponse getById(@PathVariable long id) {
         MessagesResponse ms = new MessagesResponse();
 
         try {
-            ms.data = userService.getUserById(userId);
+            ms.data = userService.getUserById(id);
         } catch (Exception ex) {
             ms.code = 500;
             ms.message = ex.getMessage();

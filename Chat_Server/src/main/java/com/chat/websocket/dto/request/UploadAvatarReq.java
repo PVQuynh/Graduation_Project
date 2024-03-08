@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UploadAvatarReq {
+
     public String avatarLocation;
+
     public String email;
 }

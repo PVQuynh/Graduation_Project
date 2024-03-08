@@ -1,11 +1,11 @@
 package com.chat.websocket.service;
 
-import com.chat.websocket.dto.response.ChatMessageRes;
+import com.chat.websocket.dto.response.MessageRes;
 import java.util.List;
 
 public interface MessageService {
 
-  List<ChatMessageRes> getAllMessageConversation(long conversationId);
+  List<MessageRes> getAllMessageConversation(long conversationId);
 
-  void deleteMessageConversation(long messageId);
+  void deleteMessage(long id);
 }

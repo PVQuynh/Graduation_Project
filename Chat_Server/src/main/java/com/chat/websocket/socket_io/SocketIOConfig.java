@@ -1,4 +1,4 @@
-package com.chat.websocket.socketIO;
+package com.chat.websocket.socket_io;
 
 import com.corundumstudio.socketio.SocketIOServer;
 import org.springframework.beans.factory.annotation.Value;

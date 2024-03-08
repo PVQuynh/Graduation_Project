@@ -1,9 +1,8 @@
 package com.chat.websocket.controller;
 
-import com.chat.websocket.dto.request.CreateConversationReq;
-import com.chat.websocket.dto.response.GetListConversationRes;
+import com.chat.websocket.dto.request.ConversationReq;
+import com.chat.websocket.dto.response.ConversationAllMeRes;
 import com.chat.websocket.dto.response.MessageResponse;
-import com.chat.websocket.service.ContactService;
 import com.chat.websocket.service.ConversationService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -24,14 +23,16 @@ public class ConversationController {
 
   @PostMapping
   public MessageResponse createConversation(
-      @RequestBody CreateConversationReq createConversationReq) {
+      @RequestBody ConversationReq conversationReq) {
     MessageResponse ms = new MessageResponse();
+
     try {
-      conversationService.createConversation(createConversationReq);
+      conversationService.createConversation(conversationReq);
     } catch (Exception e) {
       ms.code = 5000;
       ms.message = e.getMessage();
     }
+
     return ms;
   }
 
@@ -39,23 +40,33 @@ public class ConversationController {
   @DeleteMapping("/{conversationID}")
   public MessageResponse deleteConversation(@PathVariable("conversationID") int conversationID) {
     MessageResponse ms = new MessageResponse();
+
     try {
       conversationService.deleteById(conversationID);
     } catch (Exception ex) {
       ms.code = 5000;
       ms.message = ex.getMessage();
     }
+
     return ms;
   }
 
   @GetMapping("/list/me")
-  public List<GetListConversationRes> getMyListConversation() {
-   return conversationService.getMyList();
+  public List<ConversationAllMeRes> getMyListConversation() {
+    try {
+      return conversationService.getMyList();
+    } catch (Exception ex) {
+      return null;
+    }
   }
 
-  @GetMapping("/contactId/{contactId}")
-  public GetListConversationRes getConverSationByContactId(@PathVariable long contactId) {
-    return conversationService.getByContactId(contactId);
+  @GetMapping("/contactId/{id}")
+  public ConversationAllMeRes getConverSationByContactId(@PathVariable long id) {
+    try {
+      return conversationService.getByContactId(id);
+    } catch (Exception ex) {
+      return null;
+    }
   }
 
 }

@@ -1,5 +1,6 @@
-package com.chat.websocket.socketIO;
+package com.chat.websocket.socket_io;
 
+import com.chat.websocket.dto.request.MessageReq;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
@@ -9,20 +10,20 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class Socket {
+public class SocketController {
     private final SocketIOServer socketIOServer;
 
     // Tạo SocketIOServer để lắng nghe các sự kiện
-    public Socket(SocketIOServer socketIOServer) {
+    public SocketController(SocketIOServer socketIOServer) {
         this.socketIOServer = socketIOServer;
 
         socketIOServer.addConnectListener(onConnected());
         socketIOServer.addDisconnectListener(onDisconnected());
-        socketIOServer.addEventListener("send_message", Message.class, onMessageReceived());
+        socketIOServer.addEventListener("send_message", MessageReq.class, onMessageReceived());
     }
 
     // Nhận tin nhắn và gửi lại cho phòng
-    private DataListener<Message> onMessageReceived() {
+    private DataListener<MessageReq> onMessageReceived() {
 
         return (senderClient, data, ackSender) -> {
             String room = senderClient.getHandshakeData().getSingleUrlParam("conversation");

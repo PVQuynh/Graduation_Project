@@ -1,11 +1,10 @@
 package com.chat.websocket.service.impl;
 
 import com.chat.websocket.constant.MessageStatus;
-import com.chat.websocket.dto.response.ChatMessageRes;
+import com.chat.websocket.dto.response.MessageRes;
 import com.chat.websocket.entity.Contact;
 import com.chat.websocket.entity.GroupMember;
 import com.chat.websocket.entity.Message;
-import com.chat.websocket.repository.GroupMemberRepository;
 import com.chat.websocket.repository.MessageRepository;
 import com.chat.websocket.service.ContactService;
 import com.chat.websocket.service.GroupMemberService;
@@ -30,19 +29,19 @@ public class MessageServiceImpl implements MessageService {
     private final GroupMemberService groupMemberService;
 
     @Override
-    public List<ChatMessageRes> getAllMessageConversation(long conversationId) {
-        List<ChatMessageRes> chatMessageResList = new ArrayList<>();
+    public List<MessageRes> getAllMessageConversation(long conversationId) {
+        List<MessageRes> messageResList = new ArrayList<>();
         List<Message> messageList = messageRepository.getMessageByConversationId(conversationId);
 
         if (ObjectUtils.isNotEmpty(messageList)) {
-            chatMessageResList = messageList.stream().map(message -> {
+            messageResList = messageList.stream().map(message -> {
                 GroupMember groupMember = message.getGroupMember();
-                ChatMessageRes chatMessageRes = new ChatMessageRes();
+                MessageRes messageRes = new MessageRes();
 
                 if (ObjectUtils.isNotEmpty(groupMember)) {
                     Contact contact = contactService.findById(groupMember.getContact().getId());
 
-                    chatMessageRes = ChatMessageRes.builder()
+                    messageRes = MessageRes.builder()
                             .content(message.getContent())
                             .messageType(message.getMessageType().toString())
                             .creationTime(message.getCreationTime())
@@ -60,14 +59,14 @@ public class MessageServiceImpl implements MessageService {
                     messageRepository.save(message);
                 }
 
-                return chatMessageRes;
+                return messageRes;
             }).collect(Collectors.toList());
         }
-        return chatMessageResList;
+        return messageResList;
     }
 
     @Override
-    public void deleteMessageConversation(long messageId) {
+    public void deleteMessage(long messageId) {
         messageRepository.deleteById(messageId);
     }
 }

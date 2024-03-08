@@ -1,24 +1,19 @@
 package com.chat.websocket.dto.request;
 
-import com.chat.websocket.entity.Contact;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Builder
-public class ContactRequest {
-
-    public String name;
-
-    public String email;
-
-    public String phoneNumber;
-
-    public String avatarLocation;
-
+public class ConversationReq {
+    public String conversationName;
+    public String conversationType;
+    public List<String>  members;
 
 }

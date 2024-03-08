@@ -19,20 +19,15 @@ import java.time.LocalDateTime;
 @AttributeOverride(name = "id", column = @Column(name = "message_id"))
 public class Message extends BaseEntity{
 
-    @Column(name = "content")
     private String content;
 
-    @Column(name = "message_type")
+    @Enumerated(EnumType.STRING)
     private MessageType messageType;
 
-    @Column(name = "media_location")
     private String mediaLocation;
 
-    @Column(name = "status")
     private int status;
 
-    @CreationTimestamp
-    @Column(name = "creation_time")
     private LocalDateTime creationTime;
 
     @ManyToOne(fetch = FetchType.EAGER)

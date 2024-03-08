@@ -1,6 +1,6 @@
 package com.chat.websocket.dto.response;
 
-import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,15 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ContactDetailRes {
+public class ConversationAllMeRes {
+  public  List<GrouAttachConvRes> grouAttachConvResList;
 
-  public long contactId;
-
-  public String name;
-
-  public String avatarLocation;
-
-  public String email;
-
-
+  public long conversationId;
 }

@@ -16,7 +16,6 @@ import java.util.List;
 @AttributeOverride(name = "id", column = @Column(name = "conversation_id"))
 public class Conversation extends  BaseEntity{
 
-    @Column(name = "conversation_name")
     private String conversationName;
 
     @Enumerated(EnumType.STRING)

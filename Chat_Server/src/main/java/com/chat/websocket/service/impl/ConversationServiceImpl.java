@@ -1,8 +1,8 @@
 package com.chat.websocket.service.impl;
 
-import com.chat.websocket.dto.request.CreateConversationReq;
-import com.chat.websocket.dto.response.ContactRes;
-import com.chat.websocket.dto.response.GetListConversationRes;
+import com.chat.websocket.dto.request.ConversationReq;
+import com.chat.websocket.dto.response.GrouAttachConvRes;
+import com.chat.websocket.dto.response.ConversationAllMeRes;
 import com.chat.websocket.entity.Contact;
 import com.chat.websocket.entity.Conversation;
 import com.chat.websocket.entity.GroupMember;
@@ -32,13 +32,13 @@ public class ConversationServiceImpl implements ConversationService {
   private final ConversationRepository conversationRepository;
 
   @Override
-  public Conversation createConversation(CreateConversationReq createConversationReq) {
+  public Conversation createConversation(ConversationReq conversationReq) {
     Conversation conversation = Conversation.builder()
-        .conversationType(ConversationType.valueOf(createConversationReq.conversationType))
-        .conversationName(createConversationReq.conversationName)
+        .conversationType(ConversationType.valueOf(conversationReq.conversationType))
+        .conversationName(conversationReq.conversationName)
         .build();
 
-    List<GroupMember> groupMembers = createConversationReq.getMembers().stream()
+    List<GroupMember> groupMembers = conversationReq.getMembers().stream()
         .map(email -> {
           Contact contact = contactRepository.findByEmail(email)
               .orElseThrow(() -> new BusinessLogicException("User : " + email + " doesn't exist"));
@@ -62,24 +62,28 @@ public class ConversationServiceImpl implements ConversationService {
   }
 
   @Override
-  public List<GetListConversationRes> getMyList() {
+  public List<ConversationAllMeRes> getMyList() {
     String email = EmailUtils.getCurrentUser();
     if (ObjectUtils.isEmpty(email)) {
       throw new BusinessLogicException();
     }
+
     List<Conversation> conversationList = conversationRepository.getMyConversationList(email);
-    List<GetListConversationRes> getListConversationResList = conversationList.stream()
+
+    List<ConversationAllMeRes> allMe = conversationList.stream()
         .map(conversation -> {
-          GetListConversationRes getListConversationRes = GetListConversationRes.builder()
+          ConversationAllMeRes conversationAllMeRes = ConversationAllMeRes.builder()
               .conversationId(conversation.getId())
               .build();
+
           List<GroupMember> groupMemberList = conversation.getGroupMembers();
-          List<ContactRes> contactResList = new ArrayList<>();
+          List<GrouAttachConvRes> grouAttachConvResList = new ArrayList<>();
+
           if (ObjectUtils.isNotEmpty(groupMemberList)) {
-            contactResList = groupMemberList.stream()
+            grouAttachConvResList = groupMemberList.stream()
                 .map(groupMember -> {
                       Contact contact = groupMember.getContact();
-                      ContactRes contactRes = ContactRes.builder()
+                      GrouAttachConvRes grouAttachConvRes = GrouAttachConvRes.builder()
                           .id(contact.getId())
                           .avatarLocation(contact.getAvatarLocation())
                           .name(contact.getName())
@@ -87,56 +91,59 @@ public class ConversationServiceImpl implements ConversationService {
                           .lastActivity(groupMember.getLastActivity())
                           .build();
                   if (ObjectUtils.isNotEmpty(groupMember.getMessages()) && groupMember.getMessages().size() >0) {
-                    contactRes.setLastMessage(
+                    grouAttachConvRes.setLastMessage(
                         groupMember.getMessages().get(groupMember.getMessages().size() - 1)
                             .getContent());
                   }
-                      return contactRes;
+                      return grouAttachConvRes;
                     }
 
                 ).collect(Collectors.toList());
           }
           ;
-          getListConversationRes.setContactResList(contactResList);
-          return getListConversationRes;
+          conversationAllMeRes.setGrouAttachConvResList(grouAttachConvResList);
+          return conversationAllMeRes;
         })
         .collect(Collectors.toList());
 
-    return getListConversationResList;
+    return allMe;
 
   }
 
   @Override
-  public GetListConversationRes getByContactId(long contactId) {
+  public ConversationAllMeRes getByContactId(long contactId) {
     String email = EmailUtils.getCurrentUser();
     if (ObjectUtils.isEmpty(email)) {
       throw new BusinessLogicException();
     }
+
     Conversation conversation = conversationRepository.getByContractId(email, contactId);
-    CreateConversationReq createConversationReq = null;
+    ConversationReq conversationReq = null;
+
     if (ObjectUtils.isEmpty(conversation)) {
       Contact contact = contactRepository.findById(contactId)
           .orElseThrow(BusinessLogicException::new);
-      createConversationReq = CreateConversationReq.builder()
+
+      conversationReq = ConversationReq.builder()
           .conversationName(email + "_" + contact.getEmail())
           .conversationType(ConversationType.SINGLE.toString())
           .members(Arrays.asList(email, contact.getEmail()))
           .build();
 
-      conversation = createConversation(createConversationReq);
+      conversation = createConversation(conversationReq);
 
     }
-    GetListConversationRes getListConversationRes = GetListConversationRes.builder()
+    ConversationAllMeRes conversationAllMeRes = ConversationAllMeRes.builder()
         .conversationId(conversation.getId())
         .build();
     List<GroupMember> groupMemberList = conversation.getGroupMembers();
-    List<ContactRes> contactResList = new ArrayList<>();
+    List<GrouAttachConvRes> grouAttachConvResList = new ArrayList<>();
     if (ObjectUtils.isNotEmpty(groupMemberList)) {
-      contactResList = groupMemberList.stream()
+      grouAttachConvResList = groupMemberList.stream()
           .map(groupMember -> {
                 Contact contact = groupMember.getContact();
 
-                ContactRes contactRes = ContactRes.builder()
+                GrouAttachConvRes grouAttachConvRes = GrouAttachConvRes.builder()
                     .id(contact.getId())
                     .avatarLocation(contact.getAvatarLocation())
                     .name(contact.getName())
@@ -144,18 +151,18 @@ public class ConversationServiceImpl implements ConversationService {
                     .lastActivity(groupMember.getLastActivity())
                     .build();
                 if (ObjectUtils.isNotEmpty(groupMember.getMessages())) {
-                  contactRes.setLastMessage(
+                  grouAttachConvRes.setLastMessage(
                       groupMember.getMessages().get(groupMember.getMessages().size() - 1)
                           .getContent());
                 }
-                return contactRes;
+                return grouAttachConvRes;
               }
 
           ).collect(Collectors.toList());
-      getListConversationRes.setContactResList(contactResList);
+      conversationAllMeRes.setGrouAttachConvResList(grouAttachConvResList);
     }
 
-    return getListConversationRes;
+    return conversationAllMeRes;
   }
 
   @Override
