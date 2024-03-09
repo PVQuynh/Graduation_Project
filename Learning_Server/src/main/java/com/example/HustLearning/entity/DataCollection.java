@@ -1,14 +1,7 @@
 package com.example.HustLearning.entity;
 
 
-import com.example.HustLearning.entity.BaseEntity;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +12,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@AttributeOverride(name = "id", column = @Column(name = "data_collection_id"))
 public class DataCollection extends BaseEntity {
+
     private String dataLocation;
 
     private String volunteerEmail;

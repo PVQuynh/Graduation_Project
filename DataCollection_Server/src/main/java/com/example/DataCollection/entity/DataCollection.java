@@ -18,11 +18,8 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class DataCollection {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private long id;
+@AttributeOverride(name = "id", column = @Column(name = "data_collection_id"))
+public class DataCollection extends BaseEntity{
 
     private String content;
 

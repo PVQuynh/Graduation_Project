@@ -4,19 +4,20 @@ import com.example.UserService.enum_constant.Gender;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 
-@Entity
-@Table(indexes = {
-        @Index(name = "name_index",columnList = "name")
-})
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "user")
+@Builder
+@AttributeOverride(name = "id", column = @Column(name = "user_id"))
 public class User extends  BaseEntity {
 
     @Email(message = "Email isn't valid")
@@ -36,14 +37,13 @@ public class User extends  BaseEntity {
 
     private  boolean isOauth2;
 
-    @Column(name = "birth_day")
     private Date birthDay;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "role_code")
+    @JoinColumn(name = "code")
     private Role role;
 
 }

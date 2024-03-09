@@ -1,4 +1,4 @@
-package com.example.HustLearning.entity;
+package com.example.DataCollection.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
