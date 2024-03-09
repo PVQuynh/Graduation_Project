@@ -54,7 +54,7 @@ public class UserController {
         return ms;
     }
 
-    @PostMapping("/api/search")
+    @PostMapping("/search")
     public PageDTO<UserDTO> GetLists(@RequestBody UserSearchReq userSearchReq) {
         return userService.search(userSearchReq);
     }

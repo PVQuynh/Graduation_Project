@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -21,10 +22,6 @@ import java.util.List;
 public class GroupMember extends BaseEntity {
 
     private LocalDateTime lastActivity;
-
-    private LocalDateTime joinTime;
-
-    private LocalDateTime leftTime;
 
     private boolean isActive;
 
@@ -40,10 +37,4 @@ public class GroupMember extends BaseEntity {
             fetch = FetchType.LAZY,
             cascade = {CascadeType.ALL})
     private List<Message> messages;
-
-    public GroupMember(LocalDateTime joinTime, Contact contact, Conversation conversation) {
-        this.joinTime = joinTime;
-        this.contact = contact;
-        this.conversation = conversation;
-    }
 }

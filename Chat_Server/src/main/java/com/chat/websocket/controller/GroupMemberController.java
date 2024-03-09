@@ -1,15 +1,11 @@
 package com.chat.websocket.controller;
 
 import com.chat.websocket.dto.request.GroupMemberReq;
+import com.chat.websocket.dto.response.GroupMemberRes;
 import com.chat.websocket.dto.response.MessageResponse;
 import com.chat.websocket.service.GroupMemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/group-member")
@@ -17,6 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class GroupMemberController {
 
   private final GroupMemberService groupMemberService;
+
+  @GetMapping("/{conversationId}")
+  public GroupMemberRes getGroupMemberInConversation(@PathVariable("conversationId") long conversationId) {
+    try {
+      return groupMemberService.getGroupMemberByConversationId(conversationId);
+    } catch (Exception ex) {
+      return null;
+    }
+  }
 
   @PostMapping
   public MessageResponse addGroupMember(@RequestBody GroupMemberReq groupMemberReq) {

@@ -1,7 +1,8 @@
 package com.chat.websocket.controller;
 
 import com.chat.websocket.dto.request.ConversationReq;
-import com.chat.websocket.dto.response.ConversationAllMeRes;
+import com.chat.websocket.dto.request.UpdateConversationReq;
+import com.chat.websocket.dto.response.ConversationAndGrouAttachConvListRes;
 import com.chat.websocket.dto.response.MessageResponse;
 import com.chat.websocket.service.ConversationService;
 import java.util.List;
@@ -21,6 +22,24 @@ public class ConversationController {
 
   private final ConversationService conversationService;
 
+  @GetMapping("/all-me")
+  public List<ConversationAndGrouAttachConvListRes> getMyListConversation() {
+    try {
+      return conversationService.getMyList();
+    } catch (Exception ex) {
+      return null;
+    }
+  }
+
+  @GetMapping("/{contactId}")
+  public ConversationAndGrouAttachConvListRes getConversationByContactId(@PathVariable long contactId) {
+    try {
+      return conversationService.getByContactId(contactId);
+    } catch (Exception ex) {
+      return null;
+    }
+  }
+
   @PostMapping
   public MessageResponse createConversation(
       @RequestBody ConversationReq conversationReq) {
@@ -36,13 +55,26 @@ public class ConversationController {
     return ms;
   }
 
+  @PostMapping("/{id}")
+  public MessageResponse updateConversation(@PathVariable long id,
+          @RequestBody UpdateConversationReq updateConversationReq) {
+    MessageResponse ms = new MessageResponse();
+    try {
+      conversationService.updateConversation(id, updateConversationReq);
+    } catch (Exception e) {
+      ms.code = 5000;
+      ms.message = e.getMessage();
+    }
 
-  @DeleteMapping("/{conversationID}")
-  public MessageResponse deleteConversation(@PathVariable("conversationID") int conversationID) {
+    return ms;
+  }
+
+  @DeleteMapping("/{id}")
+  public MessageResponse deleteConversation(@PathVariable("id") int id) {
     MessageResponse ms = new MessageResponse();
 
     try {
-      conversationService.deleteById(conversationID);
+      conversationService.deleteById(id);
     } catch (Exception ex) {
       ms.code = 5000;
       ms.message = ex.getMessage();
@@ -50,23 +82,4 @@ public class ConversationController {
 
     return ms;
   }
-
-  @GetMapping("/list/me")
-  public List<ConversationAllMeRes> getMyListConversation() {
-    try {
-      return conversationService.getMyList();
-    } catch (Exception ex) {
-      return null;
-    }
-  }
-
-  @GetMapping("/contactId/{id}")
-  public ConversationAllMeRes getConverSationByContactId(@PathVariable long id) {
-    try {
-      return conversationService.getByContactId(id);
-    } catch (Exception ex) {
-      return null;
-    }
-  }
-
 }

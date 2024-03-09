@@ -29,7 +29,6 @@ public class ChatServiceImpl implements ChatService {
                 .content(messageReq.getContent())
                 .messageType(MessageType.valueOf(messageReq.getMessageType()))
                 .mediaLocation(messageReq.getMediaLocation())
-                .creationTime(LocalDateTime.now())
                 .status(MessageStatus.SENT)
                 .build();
 

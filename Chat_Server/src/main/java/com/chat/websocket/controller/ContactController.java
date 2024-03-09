@@ -27,7 +27,6 @@ public class ContactController {
         }
     }
 
-    // Create contact
     @PostMapping
     public MessageResponse createContact(@RequestBody @Valid ContactReq contactReq) {
         MessageResponse ms = new MessageResponse();

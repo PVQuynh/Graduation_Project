@@ -44,7 +44,7 @@ public class MessageServiceImpl implements MessageService {
                     messageRes = MessageRes.builder()
                             .content(message.getContent())
                             .messageType(message.getMessageType().toString())
-                            .creationTime(message.getCreationTime())
+                            .creationTime(message.getCreated())
                             .mediaLocation(message.getMediaLocation())
                             .status(MessageStatus.SEEN)
                             .conversationId(groupMember.getConversation().getId())

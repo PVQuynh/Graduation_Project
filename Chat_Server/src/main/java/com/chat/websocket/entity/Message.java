@@ -28,8 +28,6 @@ public class Message extends BaseEntity{
 
     private int status;
 
-    private LocalDateTime creationTime;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="group_member_id")
     private GroupMember groupMember;

@@ -1,6 +1,8 @@
 package com.chat.websocket.dto.response;
 
 import java.time.LocalDateTime;
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +22,7 @@ public class MessageRes {
 
   private int status;
 
-  private LocalDateTime creationTime;
+  private Date creationTime;
 
   private String name;
 

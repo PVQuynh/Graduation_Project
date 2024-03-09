@@ -10,8 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ConversationAllMeRes {
-  public  List<GrouAttachConvRes> grouAttachConvResList;
+public class ConversationAndGrouAttachConvListRes {
 
   public long conversationId;
+
+  public  List<GrouAttachConvRes> grouAttachConvResList;
+
 }

@@ -13,7 +13,9 @@ import java.util.List;
 @Builder
 public class ConversationReq {
     public String conversationName;
+
     public String conversationType;
+
     public List<String>  members;
 
 }

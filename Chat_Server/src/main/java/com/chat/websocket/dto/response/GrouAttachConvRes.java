@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class GrouAttachConvRes {
-  public long id;
 
   public String name;
 

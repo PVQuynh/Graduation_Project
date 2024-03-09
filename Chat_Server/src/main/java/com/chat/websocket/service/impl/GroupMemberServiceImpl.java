@@ -1,6 +1,7 @@
 package com.chat.websocket.service.impl;
 
 import com.chat.websocket.dto.request.GroupMemberReq;
+import com.chat.websocket.dto.response.GroupMemberRes;
 import com.chat.websocket.entity.Contact;
 import com.chat.websocket.entity.Conversation;
 import com.chat.websocket.entity.GroupMember;
@@ -26,6 +27,13 @@ public class GroupMemberServiceImpl implements GroupMemberService {
   private final ContactService contactService;
 
   @Override
+  public GroupMemberRes getGroupMemberByConversationId(long conversationId) {
+    GroupMember groupMember = groupMemberRepository.findGroupMemberByConversationId(conversationId).orElseThrow(BusinessLogicException::new);
+
+      return new GroupMemberRes(groupMember);
+  }
+
+  @Override
   public void save(GroupMemberReq groupMemberReq) {
     Conversation conversation = conversationService.getById(groupMemberReq.getConversationId());
 
@@ -34,7 +42,6 @@ public class GroupMemberServiceImpl implements GroupMemberService {
           Contact contact = contactService.findById(contactId);
 
           return GroupMember.builder()
-              .joinTime(LocalDateTime.now())
               .conversation(conversation)
               .contact(contact)
               .build();
@@ -53,7 +60,6 @@ public class GroupMemberServiceImpl implements GroupMemberService {
   public void deleteMember(long groupMemberId) {
     GroupMember groupMember = groupMemberRepository.findById(groupMemberId).orElseThrow(
         BusinessLogicException::new);
-    groupMember.setLeftTime(LocalDateTime.now());
     groupMember.setLastActivity(LocalDateTime.now());
     groupMember.setActive(false);
     groupMemberRepository.save(groupMember);
