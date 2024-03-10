@@ -14,5 +14,5 @@ public interface GroupMemberRepository extends JpaRepository<GroupMember,Long> {
     Optional<GroupMember> findGroupMemberByConversationId(@Param("conversationId") long conversationId);
 
     @Query("select gm from GroupMember gm where gm.contact.email = :email and gm.conversation.id = :conversationId" )
-    Optional<GroupMember> findByEmailAndConversationId(@Param("email") String email,@Param("conversationId") int conversationId);
+    Optional<GroupMember> findByEmailAndConversationId(@Param("email") String email,@Param("conversationId") long conversationId);
 }

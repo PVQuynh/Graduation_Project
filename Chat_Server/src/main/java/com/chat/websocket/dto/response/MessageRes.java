@@ -22,11 +22,9 @@ public class MessageRes {
 
   private int status;
 
-  private Date creationTime;
-
-  private String name;
+  private Date created;
 
   private long conversationId;
 
-  private long groupMemberId;
+  private long contactId;
 }

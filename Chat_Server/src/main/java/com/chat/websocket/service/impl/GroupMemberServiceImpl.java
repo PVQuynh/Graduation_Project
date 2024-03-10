@@ -66,6 +66,11 @@ public class GroupMemberServiceImpl implements GroupMemberService {
   }
 
   @Override
+  public GroupMember findByEmailAndConversationId(String email, long conversationID) {
+    return groupMemberRepository.findByEmailAndConversationId(email, conversationID).orElseThrow(() -> new BusinessLogicException());
+  }
+
+  @Override
   public void save(GroupMember groupMember) {
     groupMemberRepository.save(groupMember);
   }

@@ -4,9 +4,11 @@ import com.chat.websocket.dto.request.ConversationReq;
 import com.chat.websocket.dto.request.UpdateConversationReq;
 import com.chat.websocket.dto.response.GrouAttachConvRes;
 import com.chat.websocket.dto.response.ConversationAndGrouAttachConvListRes;
+import com.chat.websocket.dto.response.LastMessageRes;
 import com.chat.websocket.entity.Contact;
 import com.chat.websocket.entity.Conversation;
 import com.chat.websocket.entity.GroupMember;
+import com.chat.websocket.entity.Message;
 import com.chat.websocket.enum_constant.ConversationType;
 import com.chat.websocket.exception.BusinessLogicException;
 import com.chat.websocket.repository.ContactRepository;
@@ -78,17 +80,27 @@ public class ConversationServiceImpl implements ConversationService {
 
                                 GrouAttachConvRes grouAttachConvRes = GrouAttachConvRes.builder()
                                         .avatarLocation(contact.getAvatarLocation())
-                                        .name(contact.getName())
+                                        .contactName(contact.getName())
                                         .email(contact.getEmail())
                                         .lastActivity(groupMember.getLastActivity())
                                         .build();
 
-                                if (ObjectUtils.isNotEmpty(groupMember.getMessages())) {
-                                    grouAttachConvRes.setLastMessage(
-                                            groupMember.getMessages().get(groupMember.getMessages().size() - 1).getContent());
-                                }
+                        LastMessageRes lastMessageRes = null;
+                        if (ObjectUtils.isNotEmpty(groupMember.getMessages())) {
+                            Message lastMessage = groupMember.getMessages().get(groupMember.getMessages().size() - 1);
 
-                                return grouAttachConvRes;
+                            lastMessageRes = LastMessageRes.builder()
+                                    .content(lastMessage.getContent())
+                                    .messageType(lastMessage.getMessageType())
+                                    .mediaLocation(lastMessage.getMediaLocation())
+                                    .status(lastMessage.getStatus())
+                                    .created(lastMessage.getCreated())
+                                    .contactName(lastMessage.getGroupMember().getContact().getName())
+                                    .build();
+                        }
+
+                        grouAttachConvRes.setLastMessageRes(lastMessageRes);
+                        return grouAttachConvRes;
                             }
 
                     ).collect(Collectors.toList());
@@ -169,16 +181,27 @@ public class ConversationServiceImpl implements ConversationService {
 
                                             GrouAttachConvRes grouAttachConvRes = GrouAttachConvRes.builder()
                                                     .avatarLocation(contact.getAvatarLocation())
-                                                    .name(contact.getName())
+                                                    .contactName(contact.getName())
                                                     .email(contact.getEmail())
                                                     .lastActivity(groupMember.getLastActivity())
                                                     .build();
 
+                                            LastMessageRes lastMessageRes = null;
                                             if (ObjectUtils.isNotEmpty(groupMember.getMessages())) {
-                                                grouAttachConvRes.setLastMessage(groupMember.getMessages()
-                                                        .get(groupMember.getMessages().size() - 1)
-                                                        .getContent());
+                                                Message lastMessage = groupMember.getMessages().get(groupMember.getMessages().size() - 1);
+
+                                                lastMessageRes = LastMessageRes.builder()
+                                                        .content(lastMessage.getContent())
+                                                        .messageType(lastMessage.getMessageType())
+                                                        .mediaLocation(lastMessage.getMediaLocation())
+                                                        .status(lastMessage.getStatus())
+                                                        .created(lastMessage.getCreated())
+                                                        .contactName(lastMessage.getGroupMember().getContact().getName())
+                                                        .build();
                                             }
+
+                                            grouAttachConvRes.setLastMessageRes(lastMessageRes);
+
                                             return grouAttachConvRes;
                                         }
 

@@ -17,6 +17,10 @@ public interface GroupMemberService {
 
 
   //
+  //
+  //
+  GroupMember findByEmailAndConversationId(String email, long conversationID);
+
   void save(GroupMember groupMember);
 
 }

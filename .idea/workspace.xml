@@ -4,29 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5592bd12-57f9-436c-a0cb-f23e7892a75f" name="Changes" comment="Fix BaseEntity 16:00 8/3/24">
-      <change afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/request/UpdateConversationReq.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/response/GroupMemberRes.java" afterDir="false" />
+    <list default="true" id="5592bd12-57f9-436c-a0cb-f23e7892a75f" name="Changes" comment="chatserver 23:31 9/3/24">
+      <change afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/response/LastMessageRes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/controller/ContactController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/controller/ContactController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/controller/ConversationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/controller/ConversationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/controller/GroupMemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/controller/GroupMemberController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/request/ConversationReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/request/ConversationReq.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/request/GroupMemberReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/request/GroupMemberReq.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/response/ConversationAllMeRes.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/response/ConversationAndGrouAttachConvListRes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/request/MessageReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/request/MessageReq.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/response/GrouAttachConvRes.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/response/GrouAttachConvRes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/response/MessageRes.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/response/MessageRes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/entity/GroupMember.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/entity/GroupMember.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/entity/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/entity/Message.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/repository/ConversationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/repository/ConversationRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/response/MessageResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/response/MessageResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/mapper/MessageMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/mapper/MessageMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/repository/GroupMemberRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/repository/GroupMemberRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/ConversationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/ConversationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/ChatService.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/GroupMemberService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/GroupMemberService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/impl/ChatServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/impl/ChatServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/MessageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/MessageService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/impl/ChatServiceImpl.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/impl/ConversationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/impl/ConversationServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/impl/GroupMemberServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/impl/GroupMemberServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/impl/MessageServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/impl/MessageServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/UserService/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/socket_io/Doanh.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/socket_io/SocketController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/socket_io/SocketController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/websocket/WebsocketController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/websocket/WebsocketController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -170,7 +166,8 @@
       <workItem from="1709816210648" duration="33000" />
       <workItem from="1709816270963" duration="10701000" />
       <workItem from="1709864329429" duration="23913000" />
-      <workItem from="1709987918394" duration="13822000" />
+      <workItem from="1709987918394" duration="14031000" />
+      <workItem from="1710034828399" duration="4937000" />
     </task>
     <task id="LOCAL-00001" summary="20:43 6/3/24">
       <option name="closed" value="true" />
@@ -212,7 +209,15 @@
       <option name="project" value="LOCAL" />
       <updated>1709990849284</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="chatserver 23:31 9/3/24">
+      <option name="closed" value="true" />
+      <created>1710001884729</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1710001884729</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -224,6 +229,7 @@
     <MESSAGE value="start chatserver 8/3/24" />
     <MESSAGE value="chatserver 16:00 8/3/24" />
     <MESSAGE value="Fix BaseEntity 16:00 8/3/24" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix BaseEntity 16:00 8/3/24" />
+    <MESSAGE value="chatserver 23:31 9/3/24" />
+    <option name="LAST_COMMIT_MESSAGE" value="chatserver 23:31 9/3/24" />
   </component>
 </project>

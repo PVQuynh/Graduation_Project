@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class GrouAttachConvRes {
 
-  public String name;
+  public String contactName;
 
   public String avatarLocation;
 
@@ -20,5 +20,5 @@ public class GrouAttachConvRes {
 
   public LocalDateTime lastActivity;
 
-  public String lastMessage;
+  public LastMessageRes lastMessageRes;
 }

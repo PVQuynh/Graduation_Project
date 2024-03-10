@@ -1,10 +1,13 @@
 package com.chat.websocket.service.impl;
 
 import com.chat.websocket.constant.MessageStatus;
+import com.chat.websocket.dto.request.MessageReq;
 import com.chat.websocket.dto.response.MessageRes;
 import com.chat.websocket.entity.Contact;
 import com.chat.websocket.entity.GroupMember;
 import com.chat.websocket.entity.Message;
+import com.chat.websocket.exception.BusinessLogicException;
+import com.chat.websocket.repository.GroupMemberRepository;
 import com.chat.websocket.repository.MessageRepository;
 import com.chat.websocket.service.ContactService;
 import com.chat.websocket.service.GroupMemberService;
@@ -15,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.chat.websocket.utils.EmailUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
@@ -24,6 +28,7 @@ import org.springframework.stereotype.Service;
 public class MessageServiceImpl implements MessageService {
 
     private final MessageRepository messageRepository;
+
     private final ContactService contactService;
 
     private final GroupMemberService groupMemberService;
@@ -44,11 +49,12 @@ public class MessageServiceImpl implements MessageService {
                     messageRes = MessageRes.builder()
                             .content(message.getContent())
                             .messageType(message.getMessageType().toString())
-                            .creationTime(message.getCreated())
                             .mediaLocation(message.getMediaLocation())
                             .status(MessageStatus.SEEN)
+                            .created(message.getCreated())
                             .conversationId(groupMember.getConversation().getId())
-                            .groupMemberId(groupMember.getId()).name(contact.getName()).build();
+                            .contactId(contact.getId())
+                            .build();
 
                     // Update Group Member
                     groupMember.setLastActivity(LocalDateTime.now());
@@ -63,6 +69,27 @@ public class MessageServiceImpl implements MessageService {
             }).collect(Collectors.toList());
         }
         return messageResList;
+    }
+
+    @Override
+    public void saveMessage(long conversationId, MessageReq messageReq) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
+        GroupMember groupMember = groupMemberService.findByEmailAndConversationId(email, conversationId);
+        if (ObjectUtils.isNotEmpty(groupMember)) {
+            Message message = Message.builder()
+                    .content(messageReq.getContent())
+                    .messageType(messageReq.getMessageType())
+                    .mediaLocation(messageReq.getMediaLocation())
+                    .status(messageReq.getStatus())
+                    .groupMember(groupMember)
+                    .build();
+
+            messageRepository.save(message);
+        }
     }
 
     @Override

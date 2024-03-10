@@ -23,12 +23,12 @@ public class SocketController {
     }
 
     // Nhận tin nhắn và gửi lại cho phòng
-    private DataListener<MessageReq> onMessageReceived() {
+    public DataListener<MessageReq> onMessageReceived() {
 
         return (senderClient, data, ackSender) -> {
-            String room = senderClient.getHandshakeData().getSingleUrlParam("conversation");
+            String conversation = senderClient.getHandshakeData().getSingleUrlParam("conversation");
 
-            senderClient.getNamespace().getRoomOperations(room).getClients().forEach(
+            senderClient.getNamespace().getRoomOperations(conversation).getClients().forEach(
                     x -> {
                         if (!x.getSessionId().equals(senderClient.getSessionId())) {
                             x.sendEvent("get_message", data);
@@ -39,13 +39,13 @@ public class SocketController {
     }
 
     // Xử lý kết nối
-    private ConnectListener onConnected() {
+    public ConnectListener onConnected() {
         return client -> {
-            String room = client.getHandshakeData().getSingleUrlParam("conversation");
-            client.joinRoom(room);
-//            client.getNamespace().getRoomOperations(room)
+            String conversation = client.getHandshakeData().getSingleUrlParam("conversation");
+            client.joinRoom(conversation);
+//            client.getNamespace().getRoomOperations(conversation)
 //                    .sendEvent("get_message", String.format("%s connected to -> %s",
-//                            client.getSessionId(), room
+//                            client.getSessionId(), conversation
 //                    ));
 
 //            log.info(String.format("SocketID: %s connected", client.getSessionId().toString()));
@@ -53,14 +53,14 @@ public class SocketController {
     }
 
     // Xử lý ngắt kết nối
-    private DisconnectListener onDisconnected() {
+    public DisconnectListener onDisconnected() {
         return client -> {
 
-            String room = client.getHandshakeData().getSingleUrlParam("room");
+            String conversation = client.getHandshakeData().getSingleUrlParam("conversation");
 
-//            client.getNamespace().getRoomOperations(room)
+//            client.getNamespace().getRoomOperations(conversation)
 //                    .sendEvent("get_message", String.format("%s disconnected from -> %s",
-//                            client.getSessionId(), room
+//                            client.getSessionId(), conversation
 //                    ));
 //
 //            log.info(String.format("SocketID: %s disconnected!", client.getSessionId().toString()));
