@@ -17,6 +17,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class MessageRes {
 
+  private long messageId;
+
   private String content;
 
   @Enumerated(EnumType.STRING)

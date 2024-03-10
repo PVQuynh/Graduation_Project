@@ -43,7 +43,7 @@ public class SocketController {
                 messageService.setSeenForMessage(Integer.parseInt(conversationId));
             } catch (Exception ex) {
                 client.getNamespace().getRoomOperations(conversationId)
-                        .sendEvent("get_message", String.format("Đăng nhập để xét trạng thái tin nhắn!"));
+                        .sendEvent("get_message", String.format("Yêu cầu bạn đăng nhập để xét trạng thái tin nhắn!"));
             }
         };
     }

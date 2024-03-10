@@ -47,6 +47,7 @@ public class MessageServiceImpl implements MessageService {
                     Contact contact = contactService.findById(groupMember.getContact().getId());
 
                     messageRes = MessageRes.builder()
+                            .messageId(message.getId())
                             .content(message.getContent())
                             .messageType(message.getMessageType())
                             .mediaLocation(message.getMediaLocation())
