@@ -1,16 +1,13 @@
 package com.chat.websocket.controller;
 
 import com.chat.websocket.dto.request.ContactReq;
+import com.chat.websocket.dto.request.UpdateMessageReq;
 import com.chat.websocket.dto.response.MessageRes;
 import com.chat.websocket.dto.response.MessageResponse;
 import com.chat.websocket.service.MessageService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/messages")
@@ -28,6 +25,18 @@ public class MessageController {
     }
   }
 
+  @PutMapping
+  public MessageResponse updateMessage(@RequestBody UpdateMessageReq updateMessageReq) {
+    MessageResponse ms = new MessageResponse();
+    try {
+      messageService.updateMessage(updateMessageReq);
+    } catch (Exception ex) {
+      ms.message = ex.getMessage();
+      ms.code = 5000;
+    }
+    return ms;
+  }
+
   @DeleteMapping("{id}")
   public MessageResponse deleteMessage(@PathVariable long id) {
     MessageResponse ms = new MessageResponse();
@@ -38,6 +47,5 @@ public class MessageController {
       ms.code = 5000;
     }
     return ms;
-
   }
 }

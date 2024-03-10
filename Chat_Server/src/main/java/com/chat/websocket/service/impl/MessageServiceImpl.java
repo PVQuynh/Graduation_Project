@@ -2,6 +2,7 @@ package com.chat.websocket.service.impl;
 
 import com.chat.websocket.constant.MessageStatus;
 import com.chat.websocket.dto.request.MessageReq;
+import com.chat.websocket.dto.request.UpdateMessageReq;
 import com.chat.websocket.dto.response.MessageRes;
 import com.chat.websocket.entity.Contact;
 import com.chat.websocket.entity.GroupMember;
@@ -95,9 +96,20 @@ public class MessageServiceImpl implements MessageService {
             throw new BusinessLogicException();
         }
 
-        Contact contact = contactService.findByEmail(email);
-
         messageRepository.setSeenForMessage(conversationId, email);
+    }
+
+    @Override
+    public void updateMessage(UpdateMessageReq updateMessageReq) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
+        Message message = messageRepository.findById(updateMessageReq.getMessageId()).orElseThrow(BusinessLogicException::new);
+        message.setContent(updateMessageReq.getContent());
+
+        messageRepository.save(message);
     }
 
     @Override
