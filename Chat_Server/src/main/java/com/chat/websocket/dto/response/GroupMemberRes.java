@@ -14,14 +14,20 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 public class GroupMemberRes {
+
     private LocalDateTime lastActivity;
 
     private Date joinTime;
 
     private boolean isActive;
 
+    private long contactId;
+
     public GroupMemberRes(GroupMember groupMember) {
         this.lastActivity = groupMember.getLastActivity();
         this.isActive = groupMember.isActive();
+        this.contactId = groupMember.getContact().getId();
     }
+
+
 }

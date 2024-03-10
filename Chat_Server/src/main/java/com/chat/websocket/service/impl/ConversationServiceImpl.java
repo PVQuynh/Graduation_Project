@@ -47,21 +47,24 @@ public class ConversationServiceImpl implements ConversationService {
         if (ObjectUtils.isEmpty(email)) {
             throw new BusinessLogicException();
         }
+
         //
         // Conversation
         //
-        Conversation conversation = conversationRepository.getConversationByContractId(contactId);
+        Conversation conversation = conversationRepository.getConversationByContractId(email, contactId);
         ConversationReq conversationReq = null;
 
         // Nếu chưa có conversation thì tạo
         if (ObjectUtils.isEmpty(conversation)) {
-            Contact contact = contactRepository.findById(contactId)
+            Contact contactById = contactRepository.findById(contactId)
+                    .orElseThrow(BusinessLogicException::new);
+            Contact contactByEmail = contactRepository.findByEmail(email)
                     .orElseThrow(BusinessLogicException::new);
 
             conversationReq = ConversationReq.builder()
-                    .conversationName(email + "_" + contact.getEmail())
+                    .conversationName(email + "_" + contactByEmail.getEmail())
                     .conversationType(ConversationType.SINGLE.toString())
-                    .members(Arrays.asList(email, contact.getEmail()))
+                    .contactIds(Arrays.asList(contactByEmail.getId(), contactById.getId()))
                     .build();
 
             conversation = createConversation(conversationReq);
@@ -101,8 +104,7 @@ public class ConversationServiceImpl implements ConversationService {
 
                         grouAttachConvRes.setLastMessageRes(lastMessageRes);
                         return grouAttachConvRes;
-                            }
-
+                    }
                     ).collect(Collectors.toList());
         }
 
@@ -115,41 +117,13 @@ public class ConversationServiceImpl implements ConversationService {
     }
 
     @Override
-    public Conversation createConversation(ConversationReq conversationReq) {
-        Conversation conversation = Conversation.builder()
-                .conversationType(ConversationType.valueOf(conversationReq.conversationType))
-                .conversationName(conversationReq.conversationName)
-                .build();
-
-        List<GroupMember> groupMembers = conversationReq.getMembers().stream()
-                .map(email -> {
-                    Contact contact = contactRepository.findByEmail(email)
-                            .orElseThrow(() -> new BusinessLogicException("User : " + email + " doesn't exist"));
-                    return contact;
-                })
-
-                .map(contact -> GroupMember.builder()
-                        .contact(contact)
-                        .conversation(conversation)
-                        .build()
-                )
-
-                .collect(Collectors.toList());
-
-        conversation.setGroupMembers(groupMembers);
-
-       return conversationRepository.save(conversation);
-    }
-
-    @Override
-    public void updateConversation(long id, UpdateConversationReq updateConversationReq) {
+    public void updateConversation(UpdateConversationReq updateConversationReq) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
             throw new BusinessLogicException();
         }
 
-        Conversation conversation = new Conversation();
-        conversation.setId(id);
+        Conversation conversation = conversationRepository.findById(updateConversationReq.getConversationId()).orElseThrow(() -> new BusinessLogicException());
         conversation.setConversationName(updateConversationReq.getConversationName());
 
         conversationRepository.save(conversation);
@@ -218,5 +192,38 @@ public class ConversationServiceImpl implements ConversationService {
         return allMe;
     }
 
+    //
+    //
+    //
+    @Override
+    public Conversation createConversation(ConversationReq conversationReq) {
+        Conversation conversation = Conversation.builder()
+                .conversationType(ConversationType.valueOf(conversationReq.conversationType))
+                .conversationName(conversationReq.conversationName)
+                .build();
+
+        List<GroupMember> groupMembers = conversationReq.getContactIds().stream()
+                .map(contactId -> {
+                    Contact contact = contactRepository.findById(contactId)
+                            .orElseThrow(() -> new BusinessLogicException("User : " + contactId + " doesn't exist"));
+                    return contact;
+                })
+
+                .map(contact -> GroupMember.builder()
+                        .contact(contact)
+                        .conversation(conversation)
+                        .build()
+                )
+                .collect(Collectors.toList());
+
+        conversation.setGroupMembers(groupMembers);
+
+        return conversationRepository.save(conversation);
+    }
+
+    @Override
+    public void save(Conversation conversation) {
+        conversationRepository.save(conversation);
+    }
 
 }

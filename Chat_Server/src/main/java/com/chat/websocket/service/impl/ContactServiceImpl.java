@@ -36,8 +36,7 @@ public class ContactServiceImpl implements ContactService {
 
   @Override
   public void uploadAvatar(UploadAvatarReq uploadAvatarReq) {
-    Contact contact = contactRepository.findByEmail(uploadAvatarReq.email)
-        .orElseThrow(() -> new BusinessLogicException());
+    Contact contact = contactRepository.findByEmail(uploadAvatarReq.email).orElseThrow(BusinessLogicException::new);
     contact.setAvatarLocation(uploadAvatarReq.avatarLocation);
     contactRepository.save(contact);
 
@@ -48,6 +47,10 @@ public class ContactServiceImpl implements ContactService {
     return contactRepository.findById(id).orElseThrow(BusinessLogicException::new);
   }
 
+  @Override
+  public Contact findByEmail(String email) {
+    return contactRepository.findByEmail(email).orElseThrow(BusinessLogicException::new);
+  }
 
 
 }

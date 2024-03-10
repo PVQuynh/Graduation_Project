@@ -39,7 +39,12 @@ public class SocketController {
 
             client.joinRoom(conversationId);
 
-//            messageService.setSeenForMessage(Integer.parseInt(conversationId));
+            try{
+                messageService.setSeenForMessage(Integer.parseInt(conversationId));
+            } catch (Exception ex) {
+                client.getNamespace().getRoomOperations(conversationId)
+                        .sendEvent("get_message", String.format("Đăng nhập để xét trạng thái tin nhắn!"));
+            }
         };
     }
 
@@ -59,7 +64,7 @@ public class SocketController {
                     }
             );
 
-//            messageService.saveMessage(Long.parseLong(conversationId) ,messageReq);
+            messageService.saveMessage(Long.parseLong(conversationId) ,messageReq);
         };
     }
 

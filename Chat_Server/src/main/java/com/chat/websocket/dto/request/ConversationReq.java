@@ -16,6 +16,6 @@ public class ConversationReq {
 
     public String conversationType;
 
-    public List<String>  members;
+    public List<Long>  contactIds;
 
 }

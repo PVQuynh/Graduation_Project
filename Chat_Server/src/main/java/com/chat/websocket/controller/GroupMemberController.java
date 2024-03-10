@@ -7,6 +7,8 @@ import com.chat.websocket.service.GroupMemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/group-member")
 @RequiredArgsConstructor
@@ -15,9 +17,9 @@ public class GroupMemberController {
   private final GroupMemberService groupMemberService;
 
   @GetMapping("/{conversationId}")
-  public GroupMemberRes getGroupMemberInConversation(@PathVariable("conversationId") long conversationId) {
+  public List<GroupMemberRes> getGroupMemberInConversation(@PathVariable("conversationId") long conversationId) {
     try {
-      return groupMemberService.getGroupMemberByConversationId(conversationId);
+      return groupMemberService.getGroupMembersByConversationId(conversationId);
     } catch (Exception ex) {
       return null;
     }
@@ -35,11 +37,11 @@ public class GroupMemberController {
     return ms;
   }
 
-  @DeleteMapping("/{groupMemberId}")
-  public MessageResponse deleteGroupMember(@PathVariable long groupMemberId){
+  @DeleteMapping("/{id}")
+  public MessageResponse deleteGroupMember(@PathVariable long id){
     MessageResponse ms = new MessageResponse();
     try {
-      groupMemberService.deleteMember(groupMemberId);
+      groupMemberService.deleteMember(id);
     } catch (Exception ex) {
       ms.code = 5000;
       ms.message = ex.getMessage();

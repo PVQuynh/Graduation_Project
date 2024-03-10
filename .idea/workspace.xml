@@ -4,17 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5592bd12-57f9-436c-a0cb-f23e7892a75f" name="Changes" comment="chatserver 10:03 10/3/24">
-      <change afterPath="$PROJECT_DIR$/HustApp-Docker/mysql.txt" afterDir="false" />
+    <list default="true" id="5592bd12-57f9-436c-a0cb-f23e7892a75f" name="Changes" comment="complete chatserver 16:00 10/3/24">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/constant/MessageStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/constant/MessageStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/request/MessageReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/request/MessageReq.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/response/MessageRes.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/response/MessageRes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/controller/ConversationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/controller/ConversationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/controller/GroupMemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/controller/GroupMemberController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/request/ConversationReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/request/ConversationReq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/request/UpdateConversationReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/request/UpdateConversationReq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/response/GroupMemberRes.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/response/GroupMemberRes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/repository/ConversationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/repository/ConversationRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/repository/GroupMemberRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/repository/GroupMemberRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/repository/MessageRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/repository/MessageRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/MessageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/MessageService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/ContactService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/ContactService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/ConversationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/ConversationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/GroupMemberService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/GroupMemberService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/impl/ContactServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/impl/ContactServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/impl/ConversationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/impl/ConversationServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/impl/GroupMemberServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/impl/GroupMemberServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/impl/MessageServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/impl/MessageServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/socket_io/SocketController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/socket_io/SocketController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/websocket/WebsocketController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/websocket/WebsocketController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,7 +97,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.UserApplication">
+  <component name="RunManager" selected="Spring Boot.ChatApplication">
     <configuration name="ChatApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="chatserver" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.chat.websocket.ChatApplication" />
@@ -161,7 +168,7 @@
       <workItem from="1709987918394" duration="14031000" />
       <workItem from="1710034828399" duration="5009000" />
       <workItem from="1710051340812" duration="3772000" />
-      <workItem from="1710058310218" duration="2720000" />
+      <workItem from="1710058310218" duration="13098000" />
     </task>
     <task id="LOCAL-00001" summary="20:43 6/3/24">
       <option name="closed" value="true" />
@@ -219,11 +226,37 @@
       <option name="project" value="LOCAL" />
       <updated>1710039804341</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="complete chatserver 16:00 10/3/24">
+      <option name="closed" value="true" />
+      <created>1710061220526</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1710061220526</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="java:org.springframework.security:spring-security-core" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-core" />
+    <option featureType="dependencySupport" implementationName="java:jakarta.validation:jakarta.validation-api" />
+    <option featureType="dependencySupport" implementationName="java:io.projectreactor:reactor-core" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.data:spring-data-commons" />
+    <option featureType="dependencySupport" implementationName="executable:kubectl" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.cloud:spring-cloud-context" />
+    <option featureType="dependencySupport" implementationName="java:org.hibernate.validator:hibernate-validator" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-webmvc" />
+    <option featureType="dependencySupport" implementationName="java:org.projectlombok:lombok" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-websocket" />
+    <option featureType="dependencySupport" implementationName="executable:docker" />
+    <option featureType="dependencySupport" implementationName="java:jakarta.persistence:jakarta.persistence-api" />
+    <option featureType="dependencySupport" implementationName="java:jakarta.ws.rs:jakarta.ws.rs-api" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-messaging" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.boot:spring-boot" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="20:43 6/3/24" />
@@ -233,6 +266,7 @@
     <MESSAGE value="Fix BaseEntity 16:00 8/3/24" />
     <MESSAGE value="chatserver 23:31 9/3/24" />
     <MESSAGE value="chatserver 10:03 10/3/24" />
-    <option name="LAST_COMMIT_MESSAGE" value="chatserver 10:03 10/3/24" />
+    <MESSAGE value="complete chatserver 16:00 10/3/24" />
+    <option name="LAST_COMMIT_MESSAGE" value="complete chatserver 16:00 10/3/24" />
   </component>
 </project>

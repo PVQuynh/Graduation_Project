@@ -73,12 +73,7 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public void saveMessage(long conversationId, MessageReq messageReq) {
-        String email = EmailUtils.getCurrentUser();
-        if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
-        }
-
-        GroupMember groupMember = groupMemberService.findByEmailAndConversationId(email, conversationId);
+        GroupMember groupMember = groupMemberService.findByContactIdAndConversationId(messageReq.getContactId(), conversationId);
         if (ObjectUtils.isNotEmpty(groupMember)) {
             Message message = Message.builder()
                     .content(messageReq.getContent())
@@ -98,6 +93,8 @@ public class MessageServiceImpl implements MessageService {
         if (ObjectUtils.isEmpty(email)) {
             throw new BusinessLogicException();
         }
+
+        Contact contact = contactService.findByEmail(email);
 
         messageRepository.setSeenForMessage(conversationId, email);
     }

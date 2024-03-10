@@ -14,10 +14,16 @@ public interface ConversationService {
 
     ConversationAndGrouAttachConvListRes getByContactId(long contactId);
 
-    Conversation createConversation(ConversationReq conversationReq);
-
-    void updateConversation(long id, UpdateConversationReq updateConversationReq);
+    void updateConversation(UpdateConversationReq updateConversationReq);
 
     void deleteById(long conversationID);
+
+
+    //
+    //
+    //
+    Conversation createConversation(ConversationReq conversationReq);
+
+    void save(Conversation conversation);
 
 }

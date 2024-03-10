@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface GroupMemberService {
 
-  GroupMemberRes getGroupMemberByConversationId(long conversationId);
+  List<GroupMemberRes> getGroupMembersByConversationId(long conversationId);
 
   void save(GroupMemberReq groupMemberReq);
 
@@ -19,7 +19,7 @@ public interface GroupMemberService {
   //
   //
   //
-  GroupMember findByEmailAndConversationId(String email, long conversationID);
+  GroupMember findByContactIdAndConversationId(long contactId, long conversationID);
 
   void save(GroupMember groupMember);
 

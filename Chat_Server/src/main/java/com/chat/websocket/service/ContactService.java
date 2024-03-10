@@ -13,6 +13,10 @@ public interface ContactService{
 
     void uploadAvatar(UploadAvatarReq uploadAvatarReq);
 
+    //
+    //
+    //
     Contact findById(long id);
 
+    Contact findByEmail(String email);
 }

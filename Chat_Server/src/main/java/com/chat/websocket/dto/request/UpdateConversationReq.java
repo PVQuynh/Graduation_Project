@@ -13,6 +13,8 @@ import java.util.List;
 @Builder
 public class UpdateConversationReq {
 
+    public long conversationId;
+
     public String conversationName;
 
 }
