@@ -13,17 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class WebsocketController {
 
-  private final MessageService messageService;
+    private final MessageService messageService;
 
-  @MessageMapping("/chat/{conversationId}")
-  @SendTo("/conversation/{conversationId}")
-  public MessageReq sendMessage(@DestinationVariable int conversationId,
-                                @Payload MessageReq messageReq) {
+    @MessageMapping("/chat/{conversationId}")
+    @SendTo("/conversation/{conversationId}")
+    public MessageReq sendMessage(@DestinationVariable int conversationId,
+                                  @Payload MessageReq messageReq) {
 
-      messageService.saveMessage(conversationId, messageReq);
+//        messageService.setSeenForMessage(conversationId);
+//        messageService.saveMessage(conversationId, messageReq);
 
-    return messageReq;
-  }
+        return messageReq;
+    }
 
 
 }

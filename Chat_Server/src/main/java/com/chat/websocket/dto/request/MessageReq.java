@@ -23,5 +23,6 @@ public class MessageReq {
 
   private String mediaLocation;
 
-  private int status;
+  private long contactId;
+
 }

@@ -10,5 +10,7 @@ public interface MessageService {
 
   void saveMessage(long conversationId,MessageReq messageReq);
 
+  void setSeenForMessage(long conversationId);
+
   void deleteMessage(long id);
 }

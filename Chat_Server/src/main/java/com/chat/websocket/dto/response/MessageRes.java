@@ -3,6 +3,9 @@ package com.chat.websocket.dto.response;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+import com.chat.websocket.enum_constant.MessageType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +19,8 @@ public class MessageRes {
 
   private String content;
 
-  private String messageType;
+  @Enumerated(EnumType.STRING)
+  private MessageType messageType;
 
   private String mediaLocation;
 

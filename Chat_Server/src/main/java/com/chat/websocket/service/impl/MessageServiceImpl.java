@@ -48,7 +48,7 @@ public class MessageServiceImpl implements MessageService {
 
                     messageRes = MessageRes.builder()
                             .content(message.getContent())
-                            .messageType(message.getMessageType().toString())
+                            .messageType(message.getMessageType())
                             .mediaLocation(message.getMediaLocation())
                             .status(MessageStatus.SEEN)
                             .created(message.getCreated())
@@ -84,12 +84,22 @@ public class MessageServiceImpl implements MessageService {
                     .content(messageReq.getContent())
                     .messageType(messageReq.getMessageType())
                     .mediaLocation(messageReq.getMediaLocation())
-                    .status(messageReq.getStatus())
+                    .status(MessageStatus.SENT)
                     .groupMember(groupMember)
                     .build();
 
             messageRepository.save(message);
         }
+    }
+
+    @Override
+    public void setSeenForMessage(long conversationId) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
+        messageRepository.setSeenForMessage(conversationId, email);
     }
 
     @Override
