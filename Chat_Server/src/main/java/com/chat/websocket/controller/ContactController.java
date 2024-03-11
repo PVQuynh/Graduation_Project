@@ -1,12 +1,13 @@
 package com.chat.websocket.controller;
 
+import com.chat.websocket.dto.PageDTO;
+import com.chat.websocket.dto.request.ContactByEmailReq;
 import com.chat.websocket.dto.request.ContactReq;
+import com.chat.websocket.dto.request.ContactSearchReq;
 import com.chat.websocket.dto.request.UploadAvatarReq;
 import com.chat.websocket.dto.response.ContactRes;
 import com.chat.websocket.dto.response.MessageResponse;
-import com.chat.websocket.entity.Contact;
 import com.chat.websocket.service.ContactService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,8 +28,31 @@ public class ContactController {
         }
     }
 
+    @GetMapping("/{id}")
+    public ContactReq getById(@PathVariable long id) {
+        try {
+            return contactService.getById(id);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    @PostMapping("/find-by-email")
+    public ContactRes findByEmail(@RequestBody ContactByEmailReq contactByEmailReq) {
+        try {
+            return contactService.getByEmail(contactByEmailReq);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    @PostMapping("/search")
+    public PageDTO<ContactRes> getList(@RequestBody ContactSearchReq contactSearchReq) {
+        return contactService.search(contactSearchReq);
+    }
+
     @PostMapping
-    public MessageResponse createContact(@RequestBody @Valid ContactReq contactReq) {
+    public MessageResponse createContact(@RequestBody ContactReq contactReq) {
         MessageResponse ms = new MessageResponse();
 
         try {

@@ -16,6 +16,8 @@ import java.util.Date;
 @Builder
 public class LastMessageRes {
 
+    private long messageId;
+
     private String content;
 
     @Enumerated(EnumType.STRING)

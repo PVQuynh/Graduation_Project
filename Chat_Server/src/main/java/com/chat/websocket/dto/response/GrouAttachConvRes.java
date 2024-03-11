@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class GrouAttachConvRes {
 
+  public long contactId;
+
   public String contactName;
 
   public String avatarLocation;

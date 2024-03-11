@@ -12,7 +12,10 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class PageDTO<T> {
+
     List<T> data;
+
     int page;
+
     int totalElements;
 }

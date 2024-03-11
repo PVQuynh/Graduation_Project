@@ -1,15 +1,14 @@
-package com.example.UserService.dto.request;
+package com.chat.websocket.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UploadAvatarReq {
-
-    public String avatarLocation;
+@Builder
+public class ContactByEmailReq {
+    private String email;
 }

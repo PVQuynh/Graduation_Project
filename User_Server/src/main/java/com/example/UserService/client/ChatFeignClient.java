@@ -17,4 +17,5 @@ public interface ChatFeignClient {
 
     @PostMapping(value = "/contacts/upload-avatar", consumes = "application/json")
     MessagesResponse uploadAvatar(@RequestBody UploadAvatarClientReq uploadAvatarReq);
+
 }

@@ -60,20 +60,23 @@ public class GroupMemberServiceImpl implements GroupMemberService {
             .filter(contactId -> !existingContactIds.contains(contactId))
             .collect(Collectors.toList());
 
-    // Tao groupMemberList từ các newContactIds còn lại
-    List<GroupMember> groupMemberList = newContactIds.stream()
-            .map(contactId -> {
-              Contact contact = contactService.findById(contactId);
+    if (!newContactIds.isEmpty()) {
+      // Tao groupMemberList từ các newContactIds còn lại
+      List<GroupMember> groupMemberList = newContactIds.stream()
+              .map(contactId -> {
+                Contact contact = contactService.findById(contactId);
 
-              return GroupMember.builder()
-                      .conversation(conversation)
-                      .contact(contact)
-                      .build();
-            })
-            .collect(Collectors.toList());
+                return GroupMember.builder()
+                        .conversation(conversation)
+                        .contact(contact)
+                        .build();
+              })
+              .collect(Collectors.toList());
 
-    conversation.setConversationType(ConversationType.GROUP);
-    conversation.setGroupMembers(groupMemberList);
+      conversation.setConversationType(ConversationType.GROUP);
+      conversation.setGroupMembers(groupMemberList);
+    }
+
     conversationService.save(conversation);
   }
 

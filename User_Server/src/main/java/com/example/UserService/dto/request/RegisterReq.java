@@ -12,15 +12,16 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterReq implements Serializable{
+
     @NotBlank
     private String name;
+
     @Email
     private String email;
+
     @NotBlank
     private String password;
 
-
     private String role;
-
 
 }

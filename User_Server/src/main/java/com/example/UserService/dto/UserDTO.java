@@ -14,7 +14,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserDTO {
 
-    private  long id;
+    private long userId;
+
     @NotBlank
     private String name;
     @Email

@@ -10,14 +10,14 @@ public class SocketIOConfig {
     @Value("${socket-server.port}")
     private int port;
 
-    @Value("${socket-server.host}")
-    private String host;
+//    @Value("${socket-server.host}")
+//    private String host;
 
 
     @Bean
     public SocketIOServer socketIOServer(){
         com.corundumstudio.socketio.Configuration config = new com.corundumstudio.socketio.Configuration();
-        config.setHostname(host);
+//        config.setHostname(host);
         config.setPort(port);
         config.setOrigin("*");
         return new SocketIOServer(config);

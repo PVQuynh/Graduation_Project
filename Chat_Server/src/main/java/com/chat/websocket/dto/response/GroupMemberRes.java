@@ -25,6 +25,7 @@ public class GroupMemberRes {
 
     public GroupMemberRes(GroupMember groupMember) {
         this.lastActivity = groupMember.getLastActivity();
+        this.joinTime = groupMember.getCreated();
         this.isActive = groupMember.isActive();
         this.contactId = groupMember.getContact().getId();
     }

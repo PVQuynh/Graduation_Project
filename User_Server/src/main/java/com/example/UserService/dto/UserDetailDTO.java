@@ -13,9 +13,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class UserDetailDTO {
-    private  long id;
+
+    private  long userId;
+
     @NotBlank
     private String name;
+
     @Email
     private String email;
 
@@ -34,7 +37,7 @@ public class UserDetailDTO {
     private  int friendStatus;
 
     public UserDetailDTO(UserDTO userDTO) {
-        this.id = userDTO.getId();
+        this.userId = userDTO.getUserId();
         this.name = userDTO.getName();
         this.email = userDTO.getEmail();
         this.phoneNumber = userDTO.getPhoneNumber();

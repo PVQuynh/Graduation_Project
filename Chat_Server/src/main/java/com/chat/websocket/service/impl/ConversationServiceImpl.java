@@ -52,22 +52,26 @@ public class ConversationServiceImpl implements ConversationService {
         // Conversation
         //
         Conversation conversation = conversationRepository.getConversationByContractId(email, contactId);
-        ConversationReq conversationReq = null;
 
         // Nếu chưa có conversation thì tạo
         if (ObjectUtils.isEmpty(conversation)) {
+            ConversationReq conversationReq = null;
+
             Contact contactById = contactRepository.findById(contactId)
                     .orElseThrow(BusinessLogicException::new);
+
             Contact contactByEmail = contactRepository.findByEmail(email)
                     .orElseThrow(BusinessLogicException::new);
 
-            conversationReq = ConversationReq.builder()
-                    .conversationName(email + "_" + contactByEmail.getEmail())
-                    .conversationType(ConversationType.SINGLE.toString())
-                    .contactIds(Arrays.asList(contactByEmail.getId(), contactById.getId()))
-                    .build();
+            if (!contactById.equals(contactByEmail)) {
+                conversationReq = ConversationReq.builder()
+                        .conversationName(email + "_" + contactByEmail.getEmail())
+                        .conversationType(ConversationType.SINGLE.toString())
+                        .contactIds(Arrays.asList(contactByEmail.getId(), contactById.getId()))
+                        .build();
 
-            conversation = createConversation(conversationReq);
+                conversation = createConversation(conversationReq);
+            }
         }
 
         //
@@ -82,29 +86,31 @@ public class ConversationServiceImpl implements ConversationService {
                                 Contact contact = groupMember.getContact();
 
                                 GrouAttachConvRes grouAttachConvRes = GrouAttachConvRes.builder()
+                                        .contactId(contact.getId())
                                         .avatarLocation(contact.getAvatarLocation())
                                         .contactName(contact.getName())
                                         .email(contact.getEmail())
                                         .lastActivity(groupMember.getLastActivity())
                                         .build();
 
-                        LastMessageRes lastMessageRes = null;
-                        if (ObjectUtils.isNotEmpty(groupMember.getMessages())) {
-                            Message lastMessage = groupMember.getMessages().get(groupMember.getMessages().size() - 1);
+                                LastMessageRes lastMessageRes = null;
+                                if (ObjectUtils.isNotEmpty(groupMember.getMessages())) {
+                                    Message lastMessage = groupMember.getMessages().get(groupMember.getMessages().size() - 1);
 
-                            lastMessageRes = LastMessageRes.builder()
-                                    .content(lastMessage.getContent())
-                                    .messageType(lastMessage.getMessageType())
-                                    .mediaLocation(lastMessage.getMediaLocation())
-                                    .status(lastMessage.getStatus())
-                                    .created(lastMessage.getCreated())
-                                    .contactName(lastMessage.getGroupMember().getContact().getName())
-                                    .build();
-                        }
+                                    lastMessageRes = LastMessageRes.builder()
+                                            .messageId(lastMessage.getId())
+                                            .content(lastMessage.getContent())
+                                            .messageType(lastMessage.getMessageType())
+                                            .mediaLocation(lastMessage.getMediaLocation())
+                                            .status(lastMessage.getStatus())
+                                            .created(lastMessage.getCreated())
+                                            .contactName(lastMessage.getGroupMember().getContact().getName())
+                                            .build();
+                                }
 
-                        grouAttachConvRes.setLastMessageRes(lastMessageRes);
-                        return grouAttachConvRes;
-                    }
+                                grouAttachConvRes.setLastMessageRes(lastMessageRes);
+                                return grouAttachConvRes;
+                            }
                     ).collect(Collectors.toList());
         }
 
@@ -154,6 +160,7 @@ public class ConversationServiceImpl implements ConversationService {
                                             Contact contact = groupMember.getContact();
 
                                             GrouAttachConvRes grouAttachConvRes = GrouAttachConvRes.builder()
+//                                                    .contactId(contact.getId())
                                                     .avatarLocation(contact.getAvatarLocation())
                                                     .contactName(contact.getName())
                                                     .email(contact.getEmail())
@@ -165,6 +172,7 @@ public class ConversationServiceImpl implements ConversationService {
                                                 Message lastMessage = groupMember.getMessages().get(groupMember.getMessages().size() - 1);
 
                                                 lastMessageRes = LastMessageRes.builder()
+//                                                        .messageId(lastMessage.getId())
                                                         .content(lastMessage.getContent())
                                                         .messageType(lastMessage.getMessageType())
                                                         .mediaLocation(lastMessage.getMediaLocation())

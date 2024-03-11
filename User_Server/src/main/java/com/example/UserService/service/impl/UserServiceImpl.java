@@ -171,15 +171,17 @@ public class UserServiceImpl implements UserService {
         }
 
         if (!predicates.isEmpty()) {
-
             criteriaQuery.where(predicates.toArray(new Predicate[0]));
         }
+
         TypedQuery<User> query = entityManager.createQuery(criteriaQuery);
         int totalRows = query.getResultList().size();
+
         List<User> results = query
                 .setFirstResult((userSearchReq.page - 1) * userSearchReq.size) // Offset
                 .setMaxResults(userSearchReq.size) // Limit
                 .getResultList();
+
         PageDTO<UserDTO> userResPageDTO = new PageDTO<>(userMapper.toDTOList(results),
                 userSearchReq.page, totalRows);
 
@@ -199,7 +201,7 @@ public class UserServiceImpl implements UserService {
 
             if (currentUser.getRole().getCode().equals("USER")) {
                 FriendShip friendShip = friendShipRepository.checkFriendStatus(currentUser.getId(),
-                                userDetailDTO.getId())
+                                userDetailDTO.getUserId())
                         .orElse(null);
                 if (!ObjectUtils.isEmpty(friendShip)) {
                     userDetailDTO.setFriendStatus(friendShip.getStatus());

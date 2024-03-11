@@ -16,8 +16,6 @@ public class ContactReq {
 
     public String email;
 
-    public String phoneNumber;
-
     public String avatarLocation;
 
     public ContactReq(Contact contact) {

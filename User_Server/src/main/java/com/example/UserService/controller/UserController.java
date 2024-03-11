@@ -22,41 +22,6 @@ public class UserController {
         } catch (Exception ex) {
             return null;
         }
-
-    }
-
-    @PutMapping
-    public MessagesResponse updateUser(@RequestBody UpdateUserReq updateUserReq) {
-        MessagesResponse ms = new MessagesResponse();
-        try {
-            userService.updateUser(updateUserReq);
-        } catch (Exception ex) {
-            ms.code = 5000;
-            ms.message = ex.getMessage();
-        }
-        return ms;
-    }
-
-    @PostMapping("/changePassword")
-    public MessagesResponse changePassword(@RequestBody ChangePasswordReq changePasswordReq) {
-        MessagesResponse ms = new MessagesResponse();
-
-        try {
-            if (!userService.changePassword(changePasswordReq)) {
-                ms.code = 400;
-                ms.message = "Change Password failed!";
-            }
-        } catch (Exception ex) {
-            ms.code = 500;
-            ms.message = ex.getMessage();
-        }
-
-        return ms;
-    }
-
-    @PostMapping("/search")
-    public PageDTO<UserDTO> GetLists(@RequestBody UserSearchReq userSearchReq) {
-        return userService.search(userSearchReq);
     }
 
     @GetMapping("/{id}")
@@ -73,7 +38,41 @@ public class UserController {
         return ms;
     }
 
-    @PostMapping("/uploadAvatar")
+    @PostMapping("/search")
+    public PageDTO<UserDTO> GetLists(@RequestBody UserSearchReq userSearchReq) {
+        return userService.search(userSearchReq);
+    }
+
+    @PutMapping
+    public MessagesResponse updateUser(@RequestBody UpdateUserReq updateUserReq) {
+        MessagesResponse ms = new MessagesResponse();
+        try {
+            userService.updateUser(updateUserReq);
+        } catch (Exception ex) {
+            ms.code = 5000;
+            ms.message = ex.getMessage();
+        }
+        return ms;
+    }
+
+    @PostMapping("/change-password")
+    public MessagesResponse changePassword(@RequestBody ChangePasswordReq changePasswordReq) {
+        MessagesResponse ms = new MessagesResponse();
+
+        try {
+            if (!userService.changePassword(changePasswordReq)) {
+                ms.code = 400;
+                ms.message = "Change Password failed!";
+            }
+        } catch (Exception ex) {
+            ms.code = 500;
+            ms.message = ex.getMessage();
+        }
+
+        return ms;
+    }
+
+    @PostMapping("/upload-avatar")
     public MessagesResponse getById(@RequestBody UploadAvatarReq uploadAvatarReq) {
         MessagesResponse ms = new MessagesResponse();
         try {

@@ -50,7 +50,7 @@ public class AuthController {
         }
 }
 
-    @PostMapping("/refreshToken")
+    @PostMapping("/refresh-token")
     public AuthenticationResponse refresh(@RequestBody @Valid RefreshTokenRq refreshTokenRq) {
         String refreshToken = refreshTokenRq.getRefresh_token();
         TokenObj tokenObj = (TokenObj) redisTemplate.opsForHash().get(refreshToken,refreshToken.hashCode());

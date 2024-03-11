@@ -10,8 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ConfirmOTP {
+
     @Email
     private String email;
+
     @NotNull
     private int otpNum;
 }

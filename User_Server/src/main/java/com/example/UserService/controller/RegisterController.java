@@ -38,7 +38,7 @@ public class RegisterController {
 
 
 
-    @PostMapping("/generateOtp")
+    @PostMapping("/generate-otp")
     public MessagesResponse generateOTP(@RequestBody @Valid RegisterReq registerReq) {
         MessagesResponse ms = new MessagesResponse();
         ms.message = "Sent";
@@ -67,7 +67,7 @@ public class RegisterController {
         return ms;
     }
 
-    @PostMapping("/validateOtp")
+    @PostMapping("/validate-otp")
     public MessagesResponse validateOtp(@RequestBody @Valid ConfirmOTP confirmOTP) {
         final String SUCCESS = "Register Successfully!";
         final String FAIL = "Entered Otp is NOT valid. Please Retry!";
