@@ -30,19 +30,8 @@ public class RoleController {
     @PostMapping
     public MessagesResponse createRole( @RequestBody Role role) {
         MessagesResponse ms = new MessagesResponse();
-
-       try {
-           if (!keycloakService.createRole(role)) {
-               ms.code = 409;
-               ms.message = "Role already exists!";
-           } else {
-               keycloakService.createRole(role);
-           }
-
-       } catch (Exception ex) {
-           ms.code = 500;
-           ms.message = ex.getMessage();
-       }
+        keycloakService.createRole(role);
+        roleService.create(role);
 
         return ms;
     }

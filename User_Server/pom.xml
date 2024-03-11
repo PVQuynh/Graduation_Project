@@ -12,7 +12,7 @@
 	<artifactId>userserver</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>userserver</name>
-	<description>UserServer</description>
+	<description>userserver</description>
 	<properties>
 		<java.version>17</java.version>
 		<spring-cloud.version>2022.0.4</spring-cloud.version>
@@ -181,7 +181,7 @@
 				<version>3.3.2</version>
 				<configuration>
 					<to>
-						<image>quynhpv/${project.artifactId}:s1</image>
+						<image>quynhpv/${project.artifactId}:s7</image>
 					</to>
 				</configuration>
 			</plugin>

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
 
@@ -17,6 +18,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@EntityListeners(AuditingEntityListener.class)
 @IdClass(FriendShipId.class)
 public class FriendShip {
 
@@ -32,7 +34,7 @@ public class FriendShip {
 
     private int status;
 
-    @Column(name = "created_date")
+    @Column(name = "created_date", nullable = false)
     @CreatedDate
     private Date created;
 
@@ -40,13 +42,11 @@ public class FriendShip {
     @LastModifiedDate
     private Date modified;
 
-    @Column(name = "created_by")
+    @Column(name = "created_by", nullable = false)
     @CreatedBy
     private String author;
 
     @Column(name = "modified_by")
     @LastModifiedDate
     private String editor;
-
-
 }

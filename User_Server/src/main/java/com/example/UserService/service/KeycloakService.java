@@ -3,13 +3,8 @@ package com.example.UserService.service;
 import com.example.UserService.config.Keycloaks;
 
 import com.example.UserService.dto.request.ChangePasswordReq;
-import com.example.UserService.dto.request.ChangeRoleReq;
 import com.example.UserService.dto.request.RegisterReq;
-import com.example.UserService.dto.request.UpdateUserReq;
 import com.example.UserService.entity.Role;
-import com.example.UserService.entity.User;
-import com.example.UserService.exception.BusinessLogicException;
-import com.example.UserService.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.RealmResource;
@@ -81,6 +76,7 @@ public class KeycloakService {
 
         Keycloak keycloak = keycloaks.getKeycloakInstance();
         UsersResource userResource = keycloak.realm(realm).users();
+
         CredentialRepresentation passwordCredential = new CredentialRepresentation();
         passwordCredential.setTemporary(false);
         passwordCredential.setType(CredentialRepresentation.PASSWORD);
@@ -111,27 +107,18 @@ public class KeycloakService {
 
     }
 
-    public boolean createRole(Role roleReq) {
+    public void createRole(Role roleReq) {
         Keycloak keycloak = keycloaks.getKeycloakInstance();
         RealmResource realmResource = keycloak.realm(realm);
 
-        // Check exists
-        List<RoleRepresentation> existingRoles = realmResource.roles().list();
-        boolean roleExists = existingRoles.stream().anyMatch(r -> r.getName().equals(roleReq.getName()));
+        // Tạo một đối tượng RoleRepresentation và đặt tên và mô tả cho role
+        RoleRepresentation role = new RoleRepresentation();
+        role.setName(roleReq.getName());
+        role.setDescription(roleReq.getDescription());
 
-        if (!roleExists) {
-            // Tạo một đối tượng RoleRepresentation và đặt tên và mô tả cho role
-            RoleRepresentation role = new RoleRepresentation();
-            role.setName(roleReq.getName());
-            role.setDescription(roleReq.getDescription());
-
-            realmResource.roles().create(role);
-
-            return true;
-        }
-
-        return false;
+        realmResource.roles().create(role);
     }
+
 
     public void deleteUserByEmail(String email) {
 
