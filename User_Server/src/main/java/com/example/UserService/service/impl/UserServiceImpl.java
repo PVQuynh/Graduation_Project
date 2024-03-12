@@ -149,7 +149,6 @@ public class UserServiceImpl implements UserService {
         CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
 
         Root<User> root = criteriaQuery.from(User.class);
-
         List<Predicate> predicates = new ArrayList<>();
 
         // Filter by text (if provided)
@@ -171,6 +170,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if (!predicates.isEmpty()) {
+
             criteriaQuery.where(predicates.toArray(new Predicate[0]));
         }
 
