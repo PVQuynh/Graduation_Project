@@ -34,21 +34,19 @@ public class SocketController {
             String conversationId = client.getHandshakeData().getSingleUrlParam("conversationId");
             String contactId = client.getHandshakeData().getSingleUrlParam("contactId");
 
-            System.out.println("onConnected conversationId: " + conversationId);
+           if (contactId != null && contactId != null) {
+               client.getSessionId();
+               client.joinRoom(conversationId);
 
-            client.getSessionId();
-            System.out.println("client.getSessionId(): " + client.getSessionId());
-
-            client.joinRoom(conversationId);
-
-            try {
-                messageService.setSeenForMessageByContactId(Integer.parseInt(conversationId), Integer.parseInt(contactId));
-            } catch (Exception ex) {
-                client.getNamespace().getRoomOperations(conversationId)
-                        .sendEvent("get_message", String.format("Yêu cầu bạn đăng nhập để xét trạng thái tin nhắn!"));
-            }
-
-
+               try {
+                   messageService.setSeenForMessageByContactId(Integer.parseInt(conversationId), Integer.parseInt(contactId));
+               } catch (Exception ex) {
+                   client.getNamespace().getRoomOperations(conversationId)
+                           .sendEvent("get_message", String.format("Yêu cầu bạn đăng nhập để xét trạng thái tin nhắn!"));
+               }
+           } else {
+               client.disconnect();
+           }
         };
     }
 
@@ -78,19 +76,15 @@ public class SocketController {
             String conversationId = client.getHandshakeData().getSingleUrlParam("conversationId");
             String contactId = client.getHandshakeData().getSingleUrlParam("contactId");
 
-            System.out.println("onConnected conversationId: " + conversationId);
-
-            client.getSessionId();
-            System.out.println("client.getSessionId(): " + client.getSessionId());
-
-            client.joinRoom(conversationId);
-
-            try {
-                messageService.setSeenForMessageByContactId(Integer.parseInt(conversationId), Integer.parseInt(contactId));
-            } catch (Exception ex) {
-                client.getNamespace().getRoomOperations(conversationId)
-                        .sendEvent("get_message", String.format("Yêu cầu bạn đăng nhập để xét trạng thái tin nhắn!"));
+            if (conversationId !=null && contactId !=null) {
+                try {
+                    messageService.setSeenForMessageByContactId(Integer.parseInt(conversationId), Integer.parseInt(contactId));
+                } catch (Exception ex) {
+                    client.getNamespace().getRoomOperations(conversationId)
+                            .sendEvent("get_message", "Yêu cầu bạn đăng nhập để xét trạng thái tin nhắn!");
+                }
             }
         };
     }
+
 }

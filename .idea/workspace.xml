@@ -4,40 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5592bd12-57f9-436c-a0cb-f23e7892a75f" name="Changes" comment="fix chat 18:50 12/3/24">
-      <change afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/request/MessageLimitReq.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/mapper/impl/MessageMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/dto/request/UpdateQuestionReq.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/dto/request/UpdateTopicReq.java" afterDir="false" />
+    <list default="true" id="5592bd12-57f9-436c-a0cb-f23e7892a75f" name="Changes" comment="learning 23:00 12/3/24">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Chat_Server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/controller/MessageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/controller/MessageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/mapper/MessageMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/repository/ConversationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/repository/ConversationRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/repository/MessageRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/repository/MessageRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/MessageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/MessageService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/impl/MessageServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/service/impl/MessageServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/websocket/WebsocketConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/websocket/WebsocketConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/websocket/WebsocketController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/websocket/WebsocketController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/controller/QuestionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/controller/QuestionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/controller/TopicController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/controller/TopicController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/dto/AnswerDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/dto/AnswerDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/dto/request/QuestionSearchParam.java" beforeDir="false" afterPath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/dto/request/QuestionLimitReq.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/dto/response/QuestionRes.java" beforeDir="false" afterPath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/dto/response/QuestionRes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/entity/DataCollection.java" beforeDir="false" afterPath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/entity/DataCollection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/entity/Question.java" beforeDir="false" afterPath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/entity/Question.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/entity/Topic.java" beforeDir="false" afterPath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/entity/Topic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/entity/Vocabulary.java" beforeDir="false" afterPath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/entity/Vocabulary.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/mapper/Impl/QuestionMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/mapper/Impl/QuestionMapperImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/repository/QuestionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/repository/QuestionRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/repository/TopicRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/repository/TopicRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/service/Impl/QuestionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/service/Impl/QuestionServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/service/Impl/TopicServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/service/Impl/TopicServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/service/QuestionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/service/QuestionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/service/TopicService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/HustLearning/service/TopicService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Learning_Server/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/socket_io/SocketController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/socket_io/SocketController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -165,11 +135,11 @@
     </configuration>
     <list>
       <item itemvalue="Spring Boot.ChatApplication" />
-      <item itemvalue="Spring Boot.UserApplication" />
       <item itemvalue="Spring Boot.DataCollectionApplication" />
-      <item itemvalue="Spring Boot.LearningApplication" />
       <item itemvalue="Spring Boot.EurekaApplication" />
       <item itemvalue="Spring Boot.GatewayApplication" />
+      <item itemvalue="Spring Boot.LearningApplication" />
+      <item itemvalue="Spring Boot.UserApplication" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -197,7 +167,8 @@
       <workItem from="1710169461426" duration="570000" />
       <workItem from="1710214565572" duration="1460000" />
       <workItem from="1710226883042" duration="3673000" />
-      <workItem from="1710238637328" duration="15580000" />
+      <workItem from="1710238637328" duration="15713000" />
+      <workItem from="1710260000790" duration="551000" />
     </task>
     <task id="LOCAL-00001" summary="20:43 6/3/24">
       <option name="closed" value="true" />
@@ -319,7 +290,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710244261744</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="learning 23:00 12/3/24">
+      <option name="closed" value="true" />
+      <created>1710259557934</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1710259557934</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -371,6 +350,7 @@
     <MESSAGE value="user and chat 22:06 11/3/24" />
     <MESSAGE value="fix users/search 11:00 12/3/24" />
     <MESSAGE value="fix chat 18:50 12/3/24" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix chat 18:50 12/3/24" />
+    <MESSAGE value="learning 23:00 12/3/24" />
+    <option name="LAST_COMMIT_MESSAGE" value="learning 23:00 12/3/24" />
   </component>
 </project>
