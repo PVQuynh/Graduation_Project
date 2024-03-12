@@ -2,10 +2,7 @@ package com.example.HustLearning.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
@@ -13,18 +10,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "topic")
-@ToString(exclude = {"vocabularies", "questions"})
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "topic_id"))
+@Builder
 public class Topic extends BaseEntity{
 
-    @Column(name = "content")
     private String content;
 
-    @Column(name = "image_location",length = 2000)
     private String imageLocation;
 
-    @Column(name = "video_location",length = 2000)
     private  String videoLocation;
 
     @OneToMany(mappedBy = "topic",

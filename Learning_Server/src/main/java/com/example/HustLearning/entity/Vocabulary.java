@@ -17,13 +17,10 @@ import lombok.ToString;
 @AttributeOverride(name = "id", column = @Column(name = "vocabulary_id"))
 public class Vocabulary extends BaseEntity{
 
-    @Column(name = "content",length = 2000)
     private String content;
 
-    @Column(name = "image_location",length = 2000)
     private String imageLocation;
 
-    @Column(name = "video_location",length = 2000)
     private  String videoLocation;
 
     @ManyToOne(fetch = FetchType.EAGER)

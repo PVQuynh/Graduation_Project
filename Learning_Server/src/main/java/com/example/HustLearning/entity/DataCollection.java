@@ -25,7 +25,7 @@ public class DataCollection extends BaseEntity {
 
     private String feedBack;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="vocab_id")
     private Vocabulary vocab;
 

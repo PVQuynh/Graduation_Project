@@ -3,6 +3,7 @@ package com.example.HustLearning.service;
 import com.example.HustLearning.dto.PageDTO;
 import com.example.HustLearning.dto.request.SearchParamReq;
 import com.example.HustLearning.dto.request.TopicReq;
+import com.example.HustLearning.dto.request.UpdateTopicReq;
 import com.example.HustLearning.dto.response.TopicRes;
 import com.example.HustLearning.entity.Topic;
 
@@ -12,9 +13,9 @@ public interface TopicService {
 
     List<TopicRes> getAllTopic();
 
-    Topic getTopicById(long id);
-
     void addTopic(TopicReq topicReq);
+
+    void updateTopic(UpdateTopicReq updateTopicReq);
 
     void deleteTopicById(long id);
 

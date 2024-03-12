@@ -1,21 +1,23 @@
 package com.example.HustLearning.service;
 
 import com.example.HustLearning.dto.request.QuestionReq;
-import com.example.HustLearning.dto.request.QuestionSearchParam;
+import com.example.HustLearning.dto.request.QuestionLimitReq;
+import com.example.HustLearning.dto.request.UpdateQuestionReq;
 import com.example.HustLearning.dto.response.QuestionRes;
-import com.example.HustLearning.entity.Question;
 
 import java.util.List;
 
 public interface QuestionService {
 
+    List<QuestionRes> getQuestionsByTopicId(long topicId);
+
+    List<QuestionRes> questionLimits(QuestionLimitReq searchParam);
 
     void addQuestion(QuestionReq question);
 
+    void updateQuestion(UpdateQuestionReq updateQuestionReq);
 
     void deleteQuestionById(long id);
 
-    List<QuestionRes> getQuestionsByTopicId(long topicId);
 
-    List<QuestionRes> searchQuestion(QuestionSearchParam searchParam);
 }

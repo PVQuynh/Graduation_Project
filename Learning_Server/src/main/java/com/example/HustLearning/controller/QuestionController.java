@@ -3,16 +3,13 @@ package com.example.HustLearning.controller;
 
 import com.example.HustLearning.constant.HTTPCode;
 import com.example.HustLearning.dto.request.QuestionReq;
-import com.example.HustLearning.dto.request.QuestionSearchParam;
+import com.example.HustLearning.dto.request.QuestionLimitReq;
+import com.example.HustLearning.dto.request.UpdateQuestionReq;
 import com.example.HustLearning.dto.response.MessagesResponse;
 import com.example.HustLearning.dto.response.QuestionRes;
-import com.example.HustLearning.entity.Question;
-import com.example.HustLearning.mapper.Impl.QuestionMapperImpl;
 import com.example.HustLearning.service.QuestionService;
-import com.example.HustLearning.service.TopicService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,22 +21,26 @@ public class QuestionController {
 
     private final QuestionService questionService;
 
-//    @GetMapping("/{topicId}")
-//    public MessagesResponse getAllQuestion(@PathVariable("topicId") long topicId) {
-//        MessagesResponse ms = new MessagesResponse();
-//        try {
-//            ms.data = questionService.getQuestionsByTopicId(topicId);
-//        } catch (Exception ex) {
-//            ms.code = 404;
-//            ms.message = ex.getMessage();
-//        }
-//
-//
-//        return ms;
-//    }
+    @GetMapping("/{topicId}")
+    public List<QuestionRes> getAllQuestion(@PathVariable("topicId") long topicId) {
+        try {
+            return questionService.getQuestionsByTopicId(topicId);
+        } catch (Exception ex) {
+           return null;
+        }
+    }
+
+    @PostMapping("/limits-topic")
+    public List<QuestionRes> questionLimits(@RequestBody @Valid QuestionLimitReq questionLimitReq) {
+        try {
+            return questionService.questionLimits(questionLimitReq);
+        } catch (Exception ex) {
+           return null;
+        }
+    }
 
     @PostMapping
-    public MessagesResponse addQuestion(@RequestBody @Valid QuestionReq questionReq) {
+    public MessagesResponse addQuestion(@RequestBody QuestionReq questionReq) {
         MessagesResponse ms = new MessagesResponse();
         try {
              questionService.addQuestion(questionReq);
@@ -49,11 +50,12 @@ public class QuestionController {
         }
         return ms;
     }
-    @PostMapping("/get-by-topic")
-    public MessagesResponse getByTopic(@RequestBody @Valid QuestionSearchParam searchParam) {
+
+    @PutMapping
+    public MessagesResponse updateQuestion(@RequestBody UpdateQuestionReq updateQuestionReq) {
         MessagesResponse ms = new MessagesResponse();
         try {
-            ms.data=questionService.searchQuestion(searchParam);
+            questionService.updateQuestion(updateQuestionReq);
         } catch (Exception ex) {
             ms.code = HTTPCode.INTERAL_SERVER_ERROR;
             ms.message = ex.getMessage();

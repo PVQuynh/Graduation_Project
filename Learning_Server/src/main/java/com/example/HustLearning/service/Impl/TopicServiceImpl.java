@@ -4,8 +4,10 @@ package com.example.HustLearning.service.Impl;
 import com.example.HustLearning.dto.PageDTO;
 import com.example.HustLearning.dto.request.SearchParamReq;
 import com.example.HustLearning.dto.request.TopicReq;
+import com.example.HustLearning.dto.request.UpdateTopicReq;
 import com.example.HustLearning.dto.response.TopicRes;
 import com.example.HustLearning.entity.Topic;
+import com.example.HustLearning.exception.BusinessLogicException;
 import com.example.HustLearning.mapper.Impl.TopicMapperImpl;
 import com.example.HustLearning.repository.TopicRepository;
 import com.example.HustLearning.service.TopicService;
@@ -42,14 +44,29 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public Topic getTopicById(long id) {
-     return topicRepository.findById(id).orElse(null);
+    public void addTopic(TopicReq topicReq) {
+        Topic topic = topicRepository.findByContent(topicReq.getContent());
 
+        if (ObjectUtils.isEmpty(topic)){
+            topic = topicMapper.toEntity(topicReq);
+            topicRepository.save(topic);
+        }
     }
 
     @Override
-    public void addTopic(TopicReq topicReq) {
-        Topic topic = topicMapper.toEntity(topicReq);
+    public void updateTopic(UpdateTopicReq updateTopicReq) {
+        Topic topic = topicRepository.findById(updateTopicReq.getTopicId()).orElseThrow(BusinessLogicException::new);
+
+        if (updateTopicReq.getContent() != null) {
+            topic.setContent(updateTopicReq.getContent());
+        }
+        if (updateTopicReq.getImageLocation() != null) {
+            topic.setImageLocation(updateTopicReq.getImageLocation());
+        }
+        if (updateTopicReq.getVideoLocation() != null) {
+            topic.setVideoLocation(updateTopicReq.getVideoLocation());
+        }
+
         topicRepository.save(topic);
     }
 

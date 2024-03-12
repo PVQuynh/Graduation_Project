@@ -6,11 +6,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class QuestionSearchParam {
-    public  int page =1 ;
-    public  int size =10;
-    public  long topicId;
+public class UpdateTopicReq {
+
+    private long topicId;
+
+    private String content;
+
+    private String imageLocation;
+
+    private  String videoLocation;
+
 }

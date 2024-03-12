@@ -18,16 +18,14 @@ import java.util.List;
 @AttributeOverride(name = "id", column = @Column(name = "question_id"))
 public class Question extends BaseEntity {
 
-    @Column(name = "content")
+    @Column(length = 2000)
     private String content;
 
-    @Column(name = "explanation",length = 2000)
+    @Column(length = 2000)
     private String explanation;
 
-    @Column(name = "image_location",length = 2000)
     private String imageLocation;
 
-    @Column(name = "video_location",length = 2000)
     private String videoLocation;
 
     @OneToMany(mappedBy = "question",

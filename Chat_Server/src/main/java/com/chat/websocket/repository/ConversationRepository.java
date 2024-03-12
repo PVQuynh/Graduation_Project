@@ -11,7 +11,8 @@ import org.springframework.data.repository.query.Param;
 
 public interface ConversationRepository extends JpaRepository<Conversation, Long> {
     @Query("select cv from Conversation cv inner join GroupMember gm on cv.id = gm.conversation.id "
-            + " where gm.contact.email = :email")
+            + " where gm.contact.email = :email "
+            + "order by cv.created desc ")
     List<Conversation> getMyConversationList(@Param("email") String email);
 
     @Query("select distinct  cv from Conversation cv inner join GroupMember gm on cv.id = gm.conversation.id "

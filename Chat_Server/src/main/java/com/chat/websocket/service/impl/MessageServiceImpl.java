@@ -1,6 +1,7 @@
 package com.chat.websocket.service.impl;
 
 import com.chat.websocket.constant.MessageStatus;
+import com.chat.websocket.dto.request.MessageLimitReq;
 import com.chat.websocket.dto.request.MessageReq;
 import com.chat.websocket.dto.request.UpdateMessageReq;
 import com.chat.websocket.dto.response.MessageRes;
@@ -8,6 +9,7 @@ import com.chat.websocket.entity.Contact;
 import com.chat.websocket.entity.GroupMember;
 import com.chat.websocket.entity.Message;
 import com.chat.websocket.exception.BusinessLogicException;
+import com.chat.websocket.mapper.impl.MessageMapper;
 import com.chat.websocket.repository.GroupMemberRepository;
 import com.chat.websocket.repository.MessageRepository;
 import com.chat.websocket.service.ContactService;
@@ -22,6 +24,8 @@ import java.util.stream.Collectors;
 import com.chat.websocket.utils.EmailUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,6 +33,8 @@ import org.springframework.stereotype.Service;
 public class MessageServiceImpl implements MessageService {
 
     private final MessageRepository messageRepository;
+
+    private final MessageMapper messageMapper;
 
     private final ContactService contactService;
 
@@ -71,6 +77,15 @@ public class MessageServiceImpl implements MessageService {
             }).collect(Collectors.toList());
         }
         return messageResList;
+    }
+
+    @Override
+    public List<MessageRes> messageLimits(MessageLimitReq messageLimitReq) {
+        Pageable pageable = PageRequest.of(messageLimitReq.getPage(), messageLimitReq.getSize());
+
+        List<Message> messages = messageRepository.findMessageLimitsByConversationId(messageLimitReq.getConversationId(), pageable);
+
+        return messageMapper.toDTOList(messages);
     }
 
     @Override

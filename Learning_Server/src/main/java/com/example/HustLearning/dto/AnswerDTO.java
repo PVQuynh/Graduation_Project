@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AnswerDTO {
 
+    private long answerId;
+
     private String content;
 
     private boolean isCorrect;

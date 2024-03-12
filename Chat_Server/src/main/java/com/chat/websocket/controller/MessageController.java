@@ -1,6 +1,7 @@
 package com.chat.websocket.controller;
 
 import com.chat.websocket.dto.request.ContactReq;
+import com.chat.websocket.dto.request.MessageLimitReq;
 import com.chat.websocket.dto.request.UpdateMessageReq;
 import com.chat.websocket.dto.response.MessageRes;
 import com.chat.websocket.dto.response.MessageResponse;
@@ -20,6 +21,15 @@ public class MessageController {
   public List<MessageRes> getAllMessageConversation(@PathVariable  int conversationId) {
     try {
       return messageService.getAllMessageConversation(conversationId);
+    } catch (Exception ex) {
+      return null;
+    }
+  }
+
+  @PostMapping("limits-conversation")
+  public List<MessageRes> getMessageLimits(@RequestBody MessageLimitReq messageLimitReq) {
+    try {
+      return messageService.messageLimits(messageLimitReq);
     } catch (Exception ex) {
       return null;
     }

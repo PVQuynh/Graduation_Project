@@ -47,7 +47,7 @@ public class QuestionMapperImpl implements QuestionMapper {
         List<AnswerDTO> answerDTOList = anwserMapper.toDTOList(answers);
 
         QuestionRes questionRes = modelMapper.map(entity, QuestionRes.class);
-        questionRes.setId(entity.getId());
+        questionRes.setQuestionId(entity.getId());
         questionRes.setAnswerDTOS(answerDTOList);
         questionRes.setTopic_id(entity.getTopic().getId());
 
