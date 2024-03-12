@@ -52,7 +52,7 @@ public class MessageServiceImpl implements MessageService {
                             .content(message.getContent())
                             .messageType(message.getMessageType())
                             .mediaLocation(message.getMediaLocation())
-                            .status(MessageStatus.SEEN)
+                            .status(message.getStatus())
                             .created(message.getCreated())
                             .conversationId(groupMember.getConversation().getId())
                             .contactId(contact.getId())
@@ -97,6 +97,14 @@ public class MessageServiceImpl implements MessageService {
         }
 
         messageRepository.setSeenForMessage(conversationId, email);
+
+    }
+
+    @Override
+    public void setSeenForMessageByContactId(long conversationId, long contactId) {
+
+        messageRepository.setSeenForMessageByContactId(conversationId, contactId);
+
     }
 
     @Override

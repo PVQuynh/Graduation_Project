@@ -10,11 +10,11 @@ import com.chat.websocket.entity.Contact;
 
 public interface ContactService{
 
-    ContactReq getById(long id);
+    ContactRes getContactById(long id);
 
     ContactRes getByEmail(ContactByEmailReq contactByEmailReq);
 
-    ContactReq getMyContact();
+    ContactRes getMyContact();
 
     PageDTO<ContactRes> search(ContactSearchReq contactSearchReq);
 
@@ -27,5 +27,4 @@ public interface ContactService{
     //
     Contact findById(long id);
 
-    Contact findByEmail(String email);
 }

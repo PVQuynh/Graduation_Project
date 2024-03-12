@@ -24,6 +24,14 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
             "AND ms.groupMember.contact.email != :email")
     void setSeenForMessage(@Param("conversationId") long conversationId, @Param("email") String email);
 
+    @Modifying
+    @Transactional
+    @Query("UPDATE Message ms SET ms.status = 200 " +
+            "WHERE ms.groupMember.conversation.id = :conversationId " +
+            "AND ms.status = 100 " +
+            "AND ms.groupMember.contact.id != :contactId")
+    void setSeenForMessageByContactId(@Param("conversationId") long conversationId, @Param("contactId") long contactId);
+
 
 }
 

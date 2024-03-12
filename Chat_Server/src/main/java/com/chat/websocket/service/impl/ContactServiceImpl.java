@@ -40,11 +40,10 @@ public class ContactServiceImpl implements ContactService {
     private final ContactMapper contactMapper;
 
     @Override
-    public ContactReq getById(long id) {
-
+    public ContactRes getContactById(long id) {
         Contact contact = contactRepository.findById(id).orElseThrow(BusinessLogicException::new);
 
-        return new ContactReq(contact);
+        return new ContactRes(contact);
     }
 
     @Override
@@ -55,13 +54,13 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public ContactReq getMyContact() {
+    public ContactRes getMyContact() {
         String email = EmailUtils.getCurrentUser();
 
         Contact contact = contactRepository.findByEmail(email)
                 .orElseThrow(() -> new BusinessLogicException());
 
-        return new ContactReq(contact);
+        return new ContactRes(contact);
     }
 
     @Override
@@ -127,11 +126,6 @@ public class ContactServiceImpl implements ContactService {
     @Override
     public Contact findById(long id) {
         return contactRepository.findById(id).orElseThrow(BusinessLogicException::new);
-    }
-
-    @Override
-    public Contact findByEmail(String email) {
-        return contactRepository.findByEmail(email).orElseThrow(BusinessLogicException::new);
     }
 
 

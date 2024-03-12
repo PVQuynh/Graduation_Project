@@ -32,19 +32,23 @@ public class SocketController {
     public ConnectListener onConnected() {
         return client -> {
             String conversationId = client.getHandshakeData().getSingleUrlParam("conversationId");
-            System.out.println("onConnected conversationId: "+ conversationId);
+            String contactId = client.getHandshakeData().getSingleUrlParam("contactId");
+
+            System.out.println("onConnected conversationId: " + conversationId);
 
             client.getSessionId();
-            System.out.println( "client.getSessionId(): "+client.getSessionId());
+            System.out.println("client.getSessionId(): " + client.getSessionId());
 
             client.joinRoom(conversationId);
 
-            try{
-                messageService.setSeenForMessage(Integer.parseInt(conversationId));
+            try {
+                messageService.setSeenForMessageByContactId(Integer.parseInt(conversationId), Integer.parseInt(contactId));
             } catch (Exception ex) {
                 client.getNamespace().getRoomOperations(conversationId)
                         .sendEvent("get_message", String.format("Yêu cầu bạn đăng nhập để xét trạng thái tin nhắn!"));
             }
+
+
         };
     }
 
@@ -53,8 +57,8 @@ public class SocketController {
 
         return (senderClient, messageReq, ackSender) -> {
             String conversationId = senderClient.getHandshakeData().getSingleUrlParam("conversationId");
-            System.out.println("onMessageReceived conversationId: "+ conversationId);
-            System.out.println("onMessageReceived messageReq: "+ messageReq);
+            System.out.println("onMessageReceived conversationId: " + conversationId);
+            System.out.println("onMessageReceived messageReq: " + messageReq);
 
             senderClient.getNamespace().getRoomOperations(conversationId).getClients().forEach(
                     x -> {
@@ -64,21 +68,29 @@ public class SocketController {
                     }
             );
 
-            messageService.saveMessage(Long.parseLong(conversationId) ,messageReq);
+            messageService.saveMessage(Long.parseLong(conversationId), messageReq);
         };
     }
 
     // Xử lý ngắt kết nối
     public DisconnectListener onDisconnected() {
         return client -> {
-//            String conversationId = client.getHandshakeData().getSingleUrlParam("conversationId");
+            String conversationId = client.getHandshakeData().getSingleUrlParam("conversationId");
+            String contactId = client.getHandshakeData().getSingleUrlParam("contactId");
 
-//            client.getNamespace().getRoomOperations(conversationId)
-//                    .sendEvent("get_message", String.format("%s disconnected from -> %s",
-//                            client.getSessionId(), conversationId
-//                    ));
-//
-//            log.info(String.format("SocketID: %s disconnected!", client.getSessionId().toString()));
+            System.out.println("onConnected conversationId: " + conversationId);
+
+            client.getSessionId();
+            System.out.println("client.getSessionId(): " + client.getSessionId());
+
+            client.joinRoom(conversationId);
+
+            try {
+                messageService.setSeenForMessageByContactId(Integer.parseInt(conversationId), Integer.parseInt(contactId));
+            } catch (Exception ex) {
+                client.getNamespace().getRoomOperations(conversationId)
+                        .sendEvent("get_message", String.format("Yêu cầu bạn đăng nhập để xét trạng thái tin nhắn!"));
+            }
         };
     }
 }

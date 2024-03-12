@@ -20,7 +20,6 @@ public class ContactRes {
 
   public String email;
 
-
   public ContactRes(Contact contact) {
     this.contactId = contact.getId();
     this.name = contact.getName();

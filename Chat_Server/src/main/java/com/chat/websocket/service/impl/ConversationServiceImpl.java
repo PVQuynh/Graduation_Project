@@ -160,7 +160,7 @@ public class ConversationServiceImpl implements ConversationService {
                                             Contact contact = groupMember.getContact();
 
                                             GrouAttachConvRes grouAttachConvRes = GrouAttachConvRes.builder()
-//                                                    .contactId(contact.getId())
+                                                    .contactId(contact.getId())
                                                     .avatarLocation(contact.getAvatarLocation())
                                                     .contactName(contact.getName())
                                                     .email(contact.getEmail())
@@ -172,7 +172,7 @@ public class ConversationServiceImpl implements ConversationService {
                                                 Message lastMessage = groupMember.getMessages().get(groupMember.getMessages().size() - 1);
 
                                                 lastMessageRes = LastMessageRes.builder()
-//                                                        .messageId(lastMessage.getId())
+                                                        .messageId(lastMessage.getId())
                                                         .content(lastMessage.getContent())
                                                         .messageType(lastMessage.getMessageType())
                                                         .mediaLocation(lastMessage.getMediaLocation())

@@ -20,7 +20,7 @@ public class ContactController {
     private final ContactService contactService;
 
     @GetMapping("/me")
-    public ContactReq getMyContact() {
+    public ContactRes getMyContact() {
         try {
             return contactService.getMyContact();
         } catch (Exception ex) {
@@ -29,9 +29,9 @@ public class ContactController {
     }
 
     @GetMapping("/{id}")
-    public ContactReq getById(@PathVariable long id) {
+    public ContactRes getById(@PathVariable long id) {
         try {
-            return contactService.getById(id);
+            return contactService.getContactById(id);
         } catch (Exception ex) {
             return null;
         }

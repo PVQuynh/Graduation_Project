@@ -13,6 +13,8 @@ public interface MessageService {
 
   void setSeenForMessage(long conversationId);
 
+  void setSeenForMessageByContactId(long conversationId, long contactId);
+
   void updateMessage(UpdateMessageReq updateMessageReq);
 
   void deleteMessage(long id);
