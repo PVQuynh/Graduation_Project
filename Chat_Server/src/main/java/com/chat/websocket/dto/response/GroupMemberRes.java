@@ -15,6 +15,8 @@ import java.util.Date;
 @Builder
 public class GroupMemberRes {
 
+    private long groupMemberId;
+
     private LocalDateTime lastActivity;
 
     private Date joinTime;
@@ -24,6 +26,7 @@ public class GroupMemberRes {
     private long contactId;
 
     public GroupMemberRes(GroupMember groupMember) {
+        this.groupMemberId = groupMember.getId();
         this.lastActivity = groupMember.getLastActivity();
         this.joinTime = groupMember.getCreated();
         this.isActive = groupMember.isActive();

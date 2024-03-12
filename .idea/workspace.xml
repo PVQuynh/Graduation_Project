@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5592bd12-57f9-436c-a0cb-f23e7892a75f" name="Changes" comment="learning 23:00 12/3/24">
+    <list default="true" id="5592bd12-57f9-436c-a0cb-f23e7892a75f" name="Changes" comment="learning 23:07 12/3/24">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/response/GroupMemberRes.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/dto/response/GroupMemberRes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/socket_io/SocketController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/websocket/socket_io/SocketController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -168,7 +168,8 @@
       <workItem from="1710214565572" duration="1460000" />
       <workItem from="1710226883042" duration="3673000" />
       <workItem from="1710238637328" duration="15713000" />
-      <workItem from="1710260000790" duration="551000" />
+      <workItem from="1710260000790" duration="615000" />
+      <workItem from="1710260750490" duration="342000" />
     </task>
     <task id="LOCAL-00001" summary="20:43 6/3/24">
       <option name="closed" value="true" />
@@ -298,7 +299,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710259557934</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="learning 23:07 12/3/24">
+      <option name="closed" value="true" />
+      <created>1710260588557</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1710260588557</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -351,6 +360,7 @@
     <MESSAGE value="fix users/search 11:00 12/3/24" />
     <MESSAGE value="fix chat 18:50 12/3/24" />
     <MESSAGE value="learning 23:00 12/3/24" />
-    <option name="LAST_COMMIT_MESSAGE" value="learning 23:00 12/3/24" />
+    <MESSAGE value="learning 23:07 12/3/24" />
+    <option name="LAST_COMMIT_MESSAGE" value="learning 23:07 12/3/24" />
   </component>
 </project>

@@ -34,7 +34,7 @@ public class SocketController {
             String conversationId = client.getHandshakeData().getSingleUrlParam("conversationId");
             String contactId = client.getHandshakeData().getSingleUrlParam("contactId");
 
-           if (contactId != null && contactId != null) {
+           if (contactId != null && conversationId != null) {
                client.getSessionId();
                client.joinRoom(conversationId);
 
@@ -76,7 +76,7 @@ public class SocketController {
             String conversationId = client.getHandshakeData().getSingleUrlParam("conversationId");
             String contactId = client.getHandshakeData().getSingleUrlParam("contactId");
 
-            if (conversationId !=null && contactId !=null) {
+            if (contactId !=null && conversationId !=null) {
                 try {
                     messageService.setSeenForMessageByContactId(Integer.parseInt(conversationId), Integer.parseInt(contactId));
                 } catch (Exception ex) {
