@@ -37,4 +37,6 @@ public interface DataCollectionService {
 
     void reject(DataRejectReq dataRejectReq);
 
+    void delete(long id);
+
 }

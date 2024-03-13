@@ -1,21 +1,15 @@
 package com.example.HustLearning.controller;
 
-import com.example.HustLearning.constant.ExceptionConstant;
 import com.example.HustLearning.constant.HTTPCode;
 import com.example.HustLearning.dto.PageDTO;
 import com.example.HustLearning.dto.request.SearchParamReq;
-import com.example.HustLearning.dto.request.UpdateVocabReq;
-import com.example.HustLearning.dto.request.VocabReq;
-import com.example.HustLearning.dto.response.TopicRes;
-import com.example.HustLearning.dto.response.VocabRes;
+import com.example.HustLearning.dto.request.UpdateVocabularyReq;
+import com.example.HustLearning.dto.request.VocabularyLimitReq;
+import com.example.HustLearning.dto.request.VocabularyReq;
+import com.example.HustLearning.dto.response.VocabularyRes;
 import com.example.HustLearning.dto.response.MessagesResponse;
-import com.example.HustLearning.entity.Vocabulary;
-import com.example.HustLearning.mapper.Impl.VocabularyMapperImpl;
-import com.example.HustLearning.service.TopicService;
 import com.example.HustLearning.service.VocabularySerivce;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,25 +22,33 @@ public class VocabularyController {
     private final VocabularySerivce vocabularyService;
 
     @GetMapping("/{topicId}")
-    public List<VocabRes> getAllVocabularies(@PathVariable("topicId") long topicId) {
+    public List<VocabularyRes> getAllVocabularies(@PathVariable("topicId") long topicId) {
         try {
             return vocabularyService.getVocabulariesByTopicId(topicId);
-
         } catch (Exception ex) {
           return  null;
         }
     }
 
+    @PostMapping("/limits-topic")
+    public List<VocabularyRes> getAllVocabularies(@RequestBody VocabularyLimitReq vocabularyLimitReq) {
+        try {
+            return vocabularyService.vocabularyLimits(vocabularyLimitReq);
+        } catch (Exception ex) {
+            return  null;
+        }
+    }
+
     @PostMapping("/search")
-    public PageDTO<VocabRes> GetLists(@RequestBody SearchParamReq searchParamReq){
+    public PageDTO<VocabularyRes> getLists(@RequestBody SearchParamReq searchParamReq){
         return  vocabularyService.search(searchParamReq);
     }
 
     @PostMapping
-    public MessagesResponse addVocabulary(@RequestBody VocabReq vocabReq) {
+    public MessagesResponse addVocabulary(@RequestBody VocabularyReq vocabularyReq) {
         MessagesResponse ms = new MessagesResponse();
         try {
-            vocabularyService.addVocabulary(vocabReq);
+            vocabularyService.addVocabulary(vocabularyReq);
         } catch (Exception ex) {
             ms.code = HTTPCode.INTERAL_SERVER_ERROR;
             ms.message = ex.getMessage();
@@ -55,10 +57,10 @@ public class VocabularyController {
     }
 
     @PutMapping
-    public MessagesResponse updateVocabulary(@RequestBody UpdateVocabReq updateVocabReq) {
+    public MessagesResponse updateVocabulary(@RequestBody UpdateVocabularyReq updateVocabularyReq) {
         MessagesResponse ms = new MessagesResponse();
         try {
-            vocabularyService.updateVocabulary(updateVocabReq);
+            vocabularyService.updateVocabulary(updateVocabularyReq);
         } catch (Exception ex) {
             ms.code = HTTPCode.INTERAL_SERVER_ERROR;
             ms.message = ex.getMessage();

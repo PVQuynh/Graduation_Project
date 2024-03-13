@@ -137,4 +137,17 @@ public class CollectDataController {
         return ms;
     }
 
+    @DeleteMapping("/{id}")
+    public MessagesResponse deletetData(@PathVariable long id){
+        MessagesResponse ms = new MessagesResponse();
+        try {
+            dataCollectionService.delete(id);
+        }
+        catch (Exception exception) {
+            ms.code = 500;
+            ms.message = exception.getMessage();
+        }
+        return ms;
+    }
+
 }

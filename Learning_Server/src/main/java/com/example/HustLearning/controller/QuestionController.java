@@ -31,7 +31,7 @@ public class QuestionController {
     }
 
     @PostMapping("/limits-topic")
-    public List<QuestionRes> questionLimits(@RequestBody @Valid QuestionLimitReq questionLimitReq) {
+    public List<QuestionRes> questionLimits(@RequestBody QuestionLimitReq questionLimitReq) {
         try {
             return questionService.questionLimits(questionLimitReq);
         } catch (Exception ex) {

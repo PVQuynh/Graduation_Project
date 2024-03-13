@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 public interface AnswerService {
+
     List<Answer> getAllAnswer();
 
     Answer getAnswerById(long id);

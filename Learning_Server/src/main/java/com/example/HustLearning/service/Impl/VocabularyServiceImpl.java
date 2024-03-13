@@ -2,17 +2,15 @@ package com.example.HustLearning.service.Impl;
 
 import com.example.HustLearning.dto.PageDTO;
 import com.example.HustLearning.dto.request.SearchParamReq;
-import com.example.HustLearning.dto.request.UpdateVocabReq;
-import com.example.HustLearning.dto.request.VocabReq;
-import com.example.HustLearning.dto.response.TopicRes;
-import com.example.HustLearning.dto.response.VocabRes;
-import com.example.HustLearning.entity.DataCollection;
+import com.example.HustLearning.dto.request.UpdateVocabularyReq;
+import com.example.HustLearning.dto.request.VocabularyLimitReq;
+import com.example.HustLearning.dto.request.VocabularyReq;
+import com.example.HustLearning.dto.response.VocabularyRes;
+import com.example.HustLearning.entity.Question;
 import com.example.HustLearning.entity.Topic;
 import com.example.HustLearning.entity.Vocabulary;
 import com.example.HustLearning.exception.BusinessLogicException;
 import com.example.HustLearning.mapper.Impl.VocabularyMapperImpl;
-import com.example.HustLearning.mapper.VocabMapper;
-import com.example.HustLearning.repository.TopicRepository;
 import com.example.HustLearning.repository.VocabularyRepository;
 import com.example.HustLearning.service.VocabularySerivce;
 import jakarta.persistence.EntityManager;
@@ -26,10 +24,12 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+
 import org.springframework.util.ObjectUtils;
 
 @Service
@@ -44,13 +44,22 @@ public class VocabularyServiceImpl implements VocabularySerivce {
     private  final VocabularyMapperImpl vocabularyMapper;
 
     @Override
-    public List<VocabRes> getVocabulariesByTopicId(long topicId) {
+    public List<VocabularyRes> getVocabulariesByTopicId(long topicId) {
         List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesByTopicId(topicId).orElse(null);
         return vocabularyMapper.toDTOList(vocabularies);
     }
 
     @Override
-    public PageDTO<VocabRes> search(SearchParamReq searchParamReq) {
+    public List<VocabularyRes> vocabularyLimits(VocabularyLimitReq vocabularyLimitReq) {
+        Pageable pageable = PageRequest.of(vocabularyLimitReq.getPage()-1, vocabularyLimitReq.getSize());
+
+        List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesLimitByTopicId(vocabularyLimitReq.getTopicId(), pageable).orElse(null);
+
+        return vocabularyMapper.toDTOList(vocabularies);
+    }
+
+    @Override
+    public PageDTO<VocabularyRes> search(SearchParamReq searchParamReq) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Vocabulary> criteriaQuery = criteriaBuilder.createQuery(Vocabulary.class);
         Root<Vocabulary> root = criteriaQuery.from(Vocabulary.class);
@@ -82,35 +91,40 @@ public class VocabularyServiceImpl implements VocabularySerivce {
 
             criteriaQuery.where(predicates.toArray(new Predicate[0]));
         }
+
         TypedQuery<Vocabulary> query = entityManager.createQuery(criteriaQuery);
         int totalRows = query.getResultList().size();
         List<Vocabulary> results = query
                 .setFirstResult((searchParamReq.page - 1) * searchParamReq.size) // Offset
                 .setMaxResults(searchParamReq.size) // Limit
                 .getResultList();
-        PageDTO<VocabRes> userResPageDTO = new PageDTO<>(vocabularyMapper.toDTOList(results), searchParamReq.page, totalRows);
+        PageDTO<VocabularyRes> userResPageDTO = new PageDTO<>(vocabularyMapper.toDTOList(results), searchParamReq.page, totalRows);
 
         return userResPageDTO;
     }
 
     @Override
-    public void addVocabulary(VocabReq vocabReq) {
-        Vocabulary vocabulary = vocabularyMapper.toEntity(vocabReq);
-        vocabularyRepository.save(vocabulary);
+    public void addVocabulary(VocabularyReq vocabularyReq) {
+        Vocabulary vocabulary = vocabularyRepository.findByContent(vocabularyReq.getContent()).orElse(null);
+
+        if (vocabulary == null) {
+            vocabulary = vocabularyMapper.toEntity(vocabularyReq);
+            vocabularyRepository.save(vocabulary);
+        }
     }
 
     @Override
-    public void updateVocabulary(UpdateVocabReq updateVocabReq) {
-        Vocabulary vocabulary = vocabularyRepository.findVocabulariesById(updateVocabReq.getVocabularyId()).orElseThrow(BusinessLogicException::new);
+    public void updateVocabulary(UpdateVocabularyReq updateVocabularyReq) {
+        Vocabulary vocabulary = vocabularyRepository.findById(updateVocabularyReq.getVocabularyId()).orElseThrow(BusinessLogicException::new);
 
-        if (updateVocabReq.getContent() != null) {
-            vocabulary.setContent(updateVocabReq.getContent());
+        if (updateVocabularyReq.getContent() != null) {
+            vocabulary.setContent(updateVocabularyReq.getContent());
         }
-        if (updateVocabReq.getImageLocation() !=null) {
-            vocabulary.setImageLocation(updateVocabReq.getImageLocation());
+        if (updateVocabularyReq.getImageLocation() !=null) {
+            vocabulary.setImageLocation(updateVocabularyReq.getImageLocation());
         }
-        if (updateVocabReq.getVideoLocation() != null) {
-            vocabulary.setVideoLocation(updateVocabReq.getVideoLocation());
+        if (updateVocabularyReq.getVideoLocation() != null) {
+            vocabulary.setVideoLocation(updateVocabularyReq.getVideoLocation());
         }
 
         vocabularyRepository.save(vocabulary);

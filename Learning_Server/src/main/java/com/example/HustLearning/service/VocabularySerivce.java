@@ -1,23 +1,22 @@
 package com.example.HustLearning.service;
 
 import com.example.HustLearning.dto.PageDTO;
-import com.example.HustLearning.dto.request.SearchParamReq;
-import com.example.HustLearning.dto.request.UpdateVocabReq;
-import com.example.HustLearning.dto.request.VocabReq;
-import com.example.HustLearning.dto.response.VocabRes;
-import com.example.HustLearning.entity.Vocabulary;
+import com.example.HustLearning.dto.request.*;
+import com.example.HustLearning.dto.response.VocabularyRes;
 
 import java.util.List;
 
 public interface VocabularySerivce {
 
-    List<VocabRes> getVocabulariesByTopicId(long topicId);
+    List<VocabularyRes> getVocabulariesByTopicId(long topicId);
 
-    PageDTO<VocabRes> search(SearchParamReq searchParamReq);
+    List<VocabularyRes> vocabularyLimits(VocabularyLimitReq vocabularyLimitReq);
 
-    void addVocabulary(VocabReq vocabulary);
+    PageDTO<VocabularyRes> search(SearchParamReq searchParamReq);
 
-    void updateVocabulary(UpdateVocabReq updateVocabReq);
+    void addVocabulary(VocabularyReq vocabulary);
+
+    void updateVocabulary(UpdateVocabularyReq updateVocabularyReq);
 
     void deleteById(long id);
 

@@ -1,10 +1,12 @@
 package com.example.HustLearning.mapper.Impl;
 
-import com.example.HustLearning.dto.AnswerDTO;
+import com.example.HustLearning.dto.request.AnswerReq;
+import com.example.HustLearning.dto.response.AnswerRes;
 import com.example.HustLearning.dto.request.QuestionReq;
 import com.example.HustLearning.dto.response.QuestionRes;
 import com.example.HustLearning.entity.Answer;
 import com.example.HustLearning.entity.Question;
+import com.example.HustLearning.mapper.AnswerMapper;
 import com.example.HustLearning.mapper.QuestionMapper;
 import com.example.HustLearning.repository.TopicRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,19 +21,21 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class QuestionMapperImpl implements QuestionMapper {
 
-    private final AnwserMapper anwserMapper;
+    private final AnswerMapper anwserMapper;
     private final TopicRepository topicRepository;
 
     @Override
     public Question toEntity(QuestionReq dto) {
         ModelMapper modelMapper = new ModelMapper();
 
-        TypeMap<QuestionRes, Question> typeMap =  modelMapper.createTypeMap(QuestionRes.class,Question.class);
-        List<AnswerDTO> answerDTOS = dto.getAnswerDTOS();
-        List<Answer> answers = anwserMapper.toEntityList(answerDTOS);
+        List<AnswerReq> answerReqs = dto.getAnswerReqs();
+        List<Answer> answers = anwserMapper.toEntityList(answerReqs);
+
         Question question = modelMapper.map(dto,Question.class);
         answers.forEach(answer -> answer.setQuestion(question));
-        long topicId = dto.getTopic_id();
+
+        long topicId = dto.getTopicId();
+
         question.setAnswers(answers);
         question.setTopic(topicRepository.findById(topicId).get());
 
@@ -42,13 +46,12 @@ public class QuestionMapperImpl implements QuestionMapper {
     public QuestionRes toDTO(Question entity) {
         ModelMapper modelMapper = new ModelMapper();
 
-        TypeMap<Question, QuestionRes> typeMap =  modelMapper.createTypeMap(Question.class, QuestionRes.class);
         List<Answer> answers = entity.getAnswers();
-        List<AnswerDTO> answerDTOList = anwserMapper.toDTOList(answers);
+        List<AnswerRes> answerResList = anwserMapper.toDTOList(answers);
 
         QuestionRes questionRes = modelMapper.map(entity, QuestionRes.class);
         questionRes.setQuestionId(entity.getId());
-        questionRes.setAnswerDTOS(answerDTOList);
+        questionRes.setAnswerResList(answerResList);
         questionRes.setTopic_id(entity.getTopic().getId());
 
         return questionRes;

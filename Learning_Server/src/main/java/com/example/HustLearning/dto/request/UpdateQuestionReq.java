@@ -1,6 +1,5 @@
 package com.example.HustLearning.dto.request;
 
-import com.example.HustLearning.dto.AnswerDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -7,6 +7,7 @@ import com.example.HustLearning.entity.Topic;
 import java.util.List;
 
 public interface TopicMapper {
+
     Topic toEntity(TopicReq dto);
 
     TopicRes toDTO(Topic entity);

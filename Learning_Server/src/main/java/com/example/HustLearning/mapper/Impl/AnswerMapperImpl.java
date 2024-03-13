@@ -1,8 +1,12 @@
 package com.example.HustLearning.mapper.Impl;
 
-import com.example.HustLearning.dto.AnswerDTO;
+import com.example.HustLearning.dto.request.AnswerReq;
+import com.example.HustLearning.dto.response.AnswerRes;
+import com.example.HustLearning.entity.Topic;
 import com.example.HustLearning.entity.Answer;
 import com.example.HustLearning.mapper.AnswerMapper;
+import com.example.HustLearning.mapper.AnswerMapper;
+import com.example.HustLearning.repository.TopicRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -12,11 +16,11 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class AnwserMapper implements AnswerMapper {
+public class AnswerMapperImpl implements AnswerMapper {
 
 
     @Override
-    public Answer toEntity(AnswerDTO dto) {
+    public Answer toEntity(AnswerReq dto) {
         ModelMapper modelMapper = new ModelMapper();
         Answer answer = modelMapper.map(dto, Answer.class);
 
@@ -24,20 +28,20 @@ public class AnwserMapper implements AnswerMapper {
     }
 
     @Override
-    public AnswerDTO toDTO(Answer entity) {
+    public AnswerRes toDTO(Answer entity) {
         ModelMapper modelMapper = new ModelMapper();
-        AnswerDTO answerDTO = modelMapper.map(entity,AnswerDTO.class);
+        AnswerRes answerDTO = modelMapper.map(entity, AnswerRes.class);
 
         return answerDTO;
     }
 
     @Override
-    public List<AnswerDTO> toDTOList(List<Answer> entityList) {
+    public List<AnswerRes> toDTOList(List<Answer> entityList) {
         return entityList.stream().map(entity->toDTO(entity)).collect(Collectors.toList());
     }
 
     @Override
-    public List<Answer> toEntityList(List<AnswerDTO> dtoList) {
+    public List<Answer> toEntityList(List<AnswerReq> dtoList) {
         return dtoList.stream().map(dto->toEntity(dto)).collect(Collectors.toList());
     }
 

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class DataCollectionRes {
 
-  private long id;
+  private long dataCollectionId;
 
   private long vocabId;
 

@@ -7,7 +7,9 @@ import com.example.HustLearning.entity.Question;
 import java.util.List;
 
 public interface QuestionMapper {
+
     Question toEntity(QuestionReq dto);
+
     QuestionRes toDTO(Question entity);
 
     List<QuestionRes> toDTOList(List<Question> entityList);

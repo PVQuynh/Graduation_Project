@@ -6,8 +6,6 @@ import java.util.List;
 
 public interface DataCollectionMapper {
 
-
-
   DataCollectionRes toDTO(DataCollection entity);
 
   List<DataCollectionRes> toDTOList(List<DataCollection> entityList);

@@ -81,7 +81,7 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public List<MessageRes> messageLimits(MessageLimitReq messageLimitReq) {
-        Pageable pageable = PageRequest.of(messageLimitReq.getPage(), messageLimitReq.getSize());
+        Pageable pageable = PageRequest.of(messageLimitReq.getPage()-1, messageLimitReq.getSize());
 
         List<Message> messages = messageRepository.findMessageLimitsByConversationId(messageLimitReq.getConversationId(), pageable);
 

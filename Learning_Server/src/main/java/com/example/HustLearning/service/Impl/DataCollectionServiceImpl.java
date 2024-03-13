@@ -52,7 +52,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     @Override
     public void sendData(DataProvideReq dataProvideReq) {
         String email = EmailUtils.getCurrentUser();
-        Vocabulary vocabulary = vocabRepository.findVocabulariesById(dataProvideReq.getVocab_id())
+        Vocabulary vocabulary = vocabRepository.findById(dataProvideReq.getVocabularyId())
                 .orElseThrow(BusinessLogicException::new);
 
         if (!ObjectUtils.isEmpty(email)) {
@@ -153,10 +153,10 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 predicates.add(statusLike);
             }
 
-            if (!ObjectUtils.isEmpty(dataSearchForUserParam.vocab)) {
+            if (!ObjectUtils.isEmpty(dataSearchForUserParam.vocabulary)) {
                 Join<DataCollection, Vocabulary> vocabJoin = root.join("vocab");
                 Predicate vocabLike = criteriaBuilder.like(criteriaBuilder.lower(vocabJoin.get("content")),
-                        "%" + dataSearchForUserParam.vocab.toLowerCase() + "%");
+                        "%" + dataSearchForUserParam.vocabulary.toLowerCase() + "%");
                 predicates.add(vocabLike);
             }
 
@@ -231,10 +231,10 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             predicates.add(statusLike);
         }
 
-        if (!ObjectUtils.isEmpty(dataSearchForAdminParam.vocab)) {
+        if (!ObjectUtils.isEmpty(dataSearchForAdminParam.vocabulary)) {
             Join<DataCollection, Vocabulary> vocabJoin = root.join("vocab");
             Predicate vocabLike = criteriaBuilder.like(criteriaBuilder.lower(vocabJoin.get("content")),
-                    "%" + dataSearchForAdminParam.vocab.toLowerCase() + "%");
+                    "%" + dataSearchForAdminParam.vocabulary.toLowerCase() + "%");
             predicates.add(vocabLike);
         }
 
@@ -315,6 +315,10 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
     }
 
+    @Override
+    public void delete(long id) {
+        dataCollectionRepository.deleteById(id);
+    }
 
 
 }

@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class VocabRes {
-    private long id;
+public class VocabularyRes {
+    private long vocabularyId;
 
     private String content;
 

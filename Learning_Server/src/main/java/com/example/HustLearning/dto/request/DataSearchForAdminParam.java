@@ -15,7 +15,7 @@ public class DataSearchForAdminParam {
 
   public  String volunteerEmail;
   public String topic;
-  public String vocab;
+  public String vocabulary;
   public  boolean ascending = false;
   public String orderBy;
   public String createdFrom;

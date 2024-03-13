@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class SearchDataRes {
 
-  private long id;
+  private long dataCollectionId;
 
   private String vocab;
 

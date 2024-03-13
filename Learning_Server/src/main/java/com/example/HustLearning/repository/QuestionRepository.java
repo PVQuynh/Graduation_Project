@@ -17,7 +17,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     Optional<List<Question>>findQuestionsByTopicId(@Param("topicId") long topicId );
 
     @Query("select q from Question q where q.topic.id = :topicId")
-    Optional<List<Question>> findQuestionLimitsByContactId(@Param("topicId") long topicId, Pageable pageable);
+    Optional<List<Question>> findQuestionLimitsByTopicId(@Param("topicId") long topicId, Pageable pageable);
 
     @Query("select q from Question q where q.topic.id = :topicId")
     Optional<List<Question>>searchQuestionsByTopicId(@Param("topicId") long topicId, Pageable pageable);

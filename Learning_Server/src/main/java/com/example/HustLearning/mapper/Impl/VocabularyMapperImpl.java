@@ -1,7 +1,7 @@
 package com.example.HustLearning.mapper.Impl;
 
-import com.example.HustLearning.dto.request.VocabReq;
-import com.example.HustLearning.dto.response.VocabRes;
+import com.example.HustLearning.dto.request.VocabularyReq;
+import com.example.HustLearning.dto.response.VocabularyRes;
 import com.example.HustLearning.entity.Topic;
 import com.example.HustLearning.entity.Vocabulary;
 import com.example.HustLearning.mapper.VocabMapper;
@@ -19,11 +19,11 @@ public class VocabularyMapperImpl implements VocabMapper {
     private final TopicRepository topicRepository;
 
     @Override
-    public Vocabulary toEntity(VocabReq dto) {
+    public Vocabulary toEntity(VocabularyReq dto) {
         ModelMapper modelMapper = new ModelMapper();
         Vocabulary vocabulary = modelMapper.map(dto, Vocabulary.class);
 
-        long topicId = dto.getTopic_id();
+        long topicId = dto.getTopicId();
         Topic topic = topicRepository.findById(topicId).get();
         vocabulary.setTopic(topic);
 
@@ -31,9 +31,9 @@ public class VocabularyMapperImpl implements VocabMapper {
     }
 
     @Override
-    public VocabRes toDTO(Vocabulary entity) {
+    public VocabularyRes toDTO(Vocabulary entity) {
         ModelMapper modelMapper = new ModelMapper();
-        VocabRes vocabularyDTO = modelMapper.map(entity, VocabRes.class);
+        VocabularyRes vocabularyDTO = modelMapper.map(entity, VocabularyRes.class);
 
         long topicId = entity.getTopic().getId();
         vocabularyDTO.setTopic_id(topicId);
@@ -42,12 +42,12 @@ public class VocabularyMapperImpl implements VocabMapper {
     }
 
     @Override
-    public List<VocabRes> toDTOList(List<Vocabulary> entityList) {
+    public List<VocabularyRes> toDTOList(List<Vocabulary> entityList) {
         return entityList.stream().map(entity->toDTO(entity)).collect(Collectors.toList());
     }
 
     @Override
-    public List<Vocabulary> toEntityList(List<VocabReq> dtoList) {
+    public List<Vocabulary> toEntityList(List<VocabularyReq> dtoList) {
         return dtoList.stream().map(dto->toEntity(dto)).collect(Collectors.toList());
     }
 

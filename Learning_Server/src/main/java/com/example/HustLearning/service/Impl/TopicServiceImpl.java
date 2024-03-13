@@ -45,9 +45,9 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public void addTopic(TopicReq topicReq) {
-        Topic topic = topicRepository.findByContent(topicReq.getContent()).orElseThrow(BusinessLogicException::new);
+        Topic topic = topicRepository.findByContent(topicReq.getContent()).orElse(null);
 
-        if (ObjectUtils.isEmpty(topic)){
+        if (topic == null){
             topic = topicMapper.toEntity(topicReq);
             topicRepository.save(topic);
         }

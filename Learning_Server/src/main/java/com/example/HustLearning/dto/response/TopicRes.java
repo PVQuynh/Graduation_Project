@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TopicRes {
 
-    private int id;
+    private long topicId;
 
     private String content;
 

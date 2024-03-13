@@ -14,7 +14,7 @@ public class DataSearchForUserParam {
   public  int size =10;
 
   public String topic;
-  public String vocab;
+  public String vocabulary;
   public  boolean ascending = false;
   public String orderBy;
   public String createdFrom;

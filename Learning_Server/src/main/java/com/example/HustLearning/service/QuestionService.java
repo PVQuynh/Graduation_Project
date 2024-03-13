@@ -11,7 +11,7 @@ public interface QuestionService {
 
     List<QuestionRes> getQuestionsByTopicId(long topicId);
 
-    List<QuestionRes> questionLimits(QuestionLimitReq searchParam);
+    List<QuestionRes> questionLimits(QuestionLimitReq questionLimitReq);
 
     void addQuestion(QuestionReq question);
 

@@ -1,6 +1,5 @@
 package com.example.HustLearning.dto.response;
 
-import com.example.HustLearning.dto.AnswerDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,6 +25,6 @@ public class QuestionRes {
 
     private long topic_id;
 
-    private List<AnswerDTO> answerDTOS;
+    private List<AnswerRes> answerResList;
 
 }

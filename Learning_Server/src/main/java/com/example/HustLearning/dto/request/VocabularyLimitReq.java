@@ -5,11 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Builder
-public class HistorySearchReq {
-    boolean isApproved;
-    boolean isRejected;
+public class VocabularyLimitReq {
+
+    public  int page =1 ;
+
+    public  int size =10;
+    
+    public  long topicId;
 }

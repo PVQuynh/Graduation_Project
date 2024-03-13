@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class SearchParamReq {
+
     public  int page =1 ;
     public  int size =10;
     public String text;

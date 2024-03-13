@@ -9,13 +9,14 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateVocabReq {
-
-    private long vocabularyId;
+public class VocabularyReq {
 
     private String content;
 
     private String imageLocation;
 
     private  String videoLocation;
+
+    private  long topicId;
+
 }

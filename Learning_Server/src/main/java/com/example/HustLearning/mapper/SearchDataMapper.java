@@ -6,8 +6,6 @@ import java.util.List;
 
 public interface SearchDataMapper {
 
-
-
   SearchDataRes toDTO(DataCollection entity);
 
   List<SearchDataRes> toDTOList(List<DataCollection> entityList);

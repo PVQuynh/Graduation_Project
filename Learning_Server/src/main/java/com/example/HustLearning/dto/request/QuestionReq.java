@@ -1,6 +1,5 @@
 package com.example.HustLearning.dto.request;
 
-import com.example.HustLearning.dto.AnswerDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +21,7 @@ public class QuestionReq {
 
     private  String videoLocation;
 
-    private long topic_id;
+    private long topicId;
 
-    private List<AnswerDTO> answerDTOS;
+    private List<AnswerReq> answerReqs;
 }

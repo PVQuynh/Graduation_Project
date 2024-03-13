@@ -29,15 +29,17 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<QuestionRes> getQuestionsByTopicId(long topicId) {
+
         List<Question> questions = questionRepository.findQuestionsByTopicId(topicId).orElse(null);
+
         return questionMapper.toDTOList(questions);
     }
 
     @Override
     public List<QuestionRes> questionLimits(QuestionLimitReq questionLimitReq) {
-        Pageable pageable = PageRequest.of(questionLimitReq.getPage(), questionLimitReq.getSize());
+        Pageable pageable = PageRequest.of(questionLimitReq.getPage()-1, questionLimitReq.getSize());
 
-        List<Question> questions = questionRepository.findQuestionLimitsByContactId(questionLimitReq.getTopicId(), pageable).orElse(null);
+        List<Question> questions = questionRepository.findQuestionLimitsByTopicId(questionLimitReq.getTopicId(), pageable).orElse(null);
 
         return questionMapper.toDTOList(questions);
     }

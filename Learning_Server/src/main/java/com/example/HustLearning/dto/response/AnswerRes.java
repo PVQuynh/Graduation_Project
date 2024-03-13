@@ -1,4 +1,4 @@
-package com.example.HustLearning.dto;
+package com.example.HustLearning.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnswerDTO {
+public class AnswerRes {
 
     private long answerId;
 
