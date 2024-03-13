@@ -1,6 +1,7 @@
 package com.example.HustLearning.service.Impl;
 
 import com.example.HustLearning.entity.Answer;
+import com.example.HustLearning.exception.BusinessLogicException;
 import com.example.HustLearning.repository.AnswerRepository;
 import com.example.HustLearning.repository.QuestionRepository;
 import com.example.HustLearning.service.AnswerService;
@@ -52,10 +53,7 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public List<Answer> getAnswersByQuestionId(long questionId) {
-        if (questionRepository.findById(questionId).isPresent()) {
-            return answerRepository.findAnswersByQuestionId(questionId);
-        }
+        return answerRepository.findAnswersByQuestionId(questionId).orElseThrow(BusinessLogicException::new);
 
-        return null;
     }
 }

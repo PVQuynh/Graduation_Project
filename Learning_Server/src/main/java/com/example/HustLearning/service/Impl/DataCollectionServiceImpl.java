@@ -148,7 +148,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             Predicate emailLike = criteriaBuilder.equal(root.get("volunteerEmail"), email);
             predicates.add(emailLike);
 
-            if (dataSearchForUserParam.status != 300) {
+            if (dataSearchForUserParam.status != 400) {
                 Predicate statusLike = criteriaBuilder.equal(root.get("status"), dataSearchForUserParam.status);
                 predicates.add(statusLike);
             }

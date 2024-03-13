@@ -30,7 +30,7 @@ public class CollectDataController {
         }
     }
 
-    @GetMapping("/pending-list-for-user")
+    @GetMapping("/pending-list-me")
     public List<DataCollectionRes> getPendingMe(){
         try {
             return dataCollectionService.getPendingMe();
@@ -40,7 +40,7 @@ public class CollectDataController {
         }
     }
 
-    @GetMapping("/approved-list-for-user")
+    @GetMapping("/approved-list-me")
     public List<DataCollectionRes> getApprovedMe(){
         try {
             return dataCollectionService.getApprovedMe();
@@ -50,7 +50,7 @@ public class CollectDataController {
         }
     }
 
-    @GetMapping("/reject-list-for-user")
+    @GetMapping("/reject-list-me")
     public List<DataCollectionRes> getRejectMe(){
         try {
             return dataCollectionService.getRejectMe();
@@ -60,7 +60,7 @@ public class CollectDataController {
         }
     }
 
-    @PostMapping ("search-for-user")
+    @PostMapping ("search-for-me")
     public PageDTO<SearchDataRes> getDataForUser(@RequestBody DataSearchForUserParam dataSearchForUserParam)
             throws ParseException {
 
@@ -94,7 +94,7 @@ public class CollectDataController {
 
 
     // Admin
-    @GetMapping("/pending-list-for-admin")
+    @GetMapping("/pending-list-admin")
     public List<DataCollectionRes> getPendingAdmin(){
         try {
             return dataCollectionService.getPendingAdmin();

@@ -37,7 +37,7 @@ public class VocabularyController {
         }
     }
 
-    @PostMapping("/api/search")
+    @PostMapping("/search")
     public PageDTO<VocabRes> GetLists(@RequestBody SearchParamReq searchParamReq){
         return  vocabularyService.search(searchParamReq);
     }

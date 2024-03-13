@@ -65,7 +65,6 @@ public class TopicController {
         return ms;
     }
 
-
     @DeleteMapping("/{id}")
     public MessagesResponse deleteTopic(@PathVariable("id") long id) {
         MessagesResponse ms = new MessagesResponse();
