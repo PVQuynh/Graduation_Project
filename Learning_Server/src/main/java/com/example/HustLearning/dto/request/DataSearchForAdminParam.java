@@ -9,12 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class DataSearchparam {
+public class DataSearchForAdminParam {
   public  int page =1 ;
   public  int size =10;
 
   public  String volunteerEmail;
-
   public String topic;
   public String vocab;
   public  boolean ascending = false;

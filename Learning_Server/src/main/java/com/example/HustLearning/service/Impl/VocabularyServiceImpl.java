@@ -2,12 +2,14 @@ package com.example.HustLearning.service.Impl;
 
 import com.example.HustLearning.dto.PageDTO;
 import com.example.HustLearning.dto.request.SearchParamReq;
+import com.example.HustLearning.dto.request.UpdateVocabReq;
 import com.example.HustLearning.dto.request.VocabReq;
 import com.example.HustLearning.dto.response.TopicRes;
 import com.example.HustLearning.dto.response.VocabRes;
 import com.example.HustLearning.entity.DataCollection;
 import com.example.HustLearning.entity.Topic;
 import com.example.HustLearning.entity.Vocabulary;
+import com.example.HustLearning.exception.BusinessLogicException;
 import com.example.HustLearning.mapper.Impl.VocabularyMapperImpl;
 import com.example.HustLearning.mapper.VocabMapper;
 import com.example.HustLearning.repository.TopicRepository;
@@ -41,26 +43,10 @@ public class VocabularyServiceImpl implements VocabularySerivce {
 
     private  final VocabularyMapperImpl vocabularyMapper;
 
-
-
-    @Override
-    public void addVocabulary(VocabReq vocabReq) {
-        Vocabulary vocabulary = vocabularyMapper.toEntity(vocabReq);
-        vocabularyRepository.save(vocabulary);
-    }
-
-
-
-
     @Override
     public List<VocabRes> getVocabulariesByTopicId(long topicId) {
-      List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesByTopicId(topicId).orElse(null);
-      return vocabularyMapper.toDTOList(vocabularies);
-    }
-
-    @Override
-    public void deleteById(long id) {
-        vocabularyRepository.deleteById(id);
+        List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesByTopicId(topicId).orElse(null);
+        return vocabularyMapper.toDTOList(vocabularies);
     }
 
     @Override
@@ -99,11 +85,41 @@ public class VocabularyServiceImpl implements VocabularySerivce {
         TypedQuery<Vocabulary> query = entityManager.createQuery(criteriaQuery);
         int totalRows = query.getResultList().size();
         List<Vocabulary> results = query
-            .setFirstResult((searchParamReq.page - 1) * searchParamReq.size) // Offset
-            .setMaxResults(searchParamReq.size) // Limit
-            .getResultList();
+                .setFirstResult((searchParamReq.page - 1) * searchParamReq.size) // Offset
+                .setMaxResults(searchParamReq.size) // Limit
+                .getResultList();
         PageDTO<VocabRes> userResPageDTO = new PageDTO<>(vocabularyMapper.toDTOList(results), searchParamReq.page, totalRows);
 
         return userResPageDTO;
     }
+
+    @Override
+    public void addVocabulary(VocabReq vocabReq) {
+        Vocabulary vocabulary = vocabularyMapper.toEntity(vocabReq);
+        vocabularyRepository.save(vocabulary);
+    }
+
+    @Override
+    public void updateVocabulary(UpdateVocabReq updateVocabReq) {
+        Vocabulary vocabulary = vocabularyRepository.findVocabulariesById(updateVocabReq.getVocabularyId()).orElseThrow(BusinessLogicException::new);
+
+        if (updateVocabReq.getContent() != null) {
+            vocabulary.setContent(updateVocabReq.getContent());
+        }
+        if (updateVocabReq.getImageLocation() !=null) {
+            vocabulary.setImageLocation(updateVocabReq.getImageLocation());
+        }
+        if (updateVocabReq.getVideoLocation() != null) {
+            vocabulary.setVideoLocation(updateVocabReq.getVideoLocation());
+        }
+
+        vocabularyRepository.save(vocabulary);
+    }
+
+    @Override
+    public void deleteById(long id) {
+        vocabularyRepository.deleteById(id);
+    }
+
+
 }

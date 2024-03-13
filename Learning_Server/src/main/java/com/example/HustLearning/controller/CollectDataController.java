@@ -1,20 +1,16 @@
 package com.example.HustLearning.controller;
 
 import com.example.HustLearning.dto.PageDTO;
-import com.example.HustLearning.dto.request.DataProvideReq;
-import com.example.HustLearning.dto.request.DataRejectReq;
-import com.example.HustLearning.dto.request.DataSearchparam;
+import com.example.HustLearning.dto.request.*;
+import com.example.HustLearning.dto.response.DataCollectionRes;
 import com.example.HustLearning.dto.response.MessagesResponse;
 import com.example.HustLearning.dto.response.SearchDataRes;
 import com.example.HustLearning.service.DataCollectionService;
 import java.text.ParseException;
+import java.util.List;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/collect-data")
@@ -22,71 +18,112 @@ import org.springframework.web.bind.annotation.RestController;
 public class CollectDataController {
     private final DataCollectionService dataCollectionService;
 
-    @GetMapping("/get-history")
-    public MessagesResponse getHistory(){
-        MessagesResponse ms = new MessagesResponse();
+
+    // User
+    @GetMapping("/all-me")
+    public List<DataCollectionRes> getAllMe(){
         try {
-            ms.data = dataCollectionService.getHistory();
+            return dataCollectionService.getAllMe();
         }
         catch (Exception ex) {
-            ms.code = 5000;
-            ms.message = ex.getMessage();
+            return null;
         }
-        return  ms;
     }
 
-    @PostMapping ("/get-approved")
-    public PageDTO<SearchDataRes> getApproved(@RequestBody DataSearchparam dataSearchparam)
-        throws ParseException {
-
-           return dataCollectionService.getApproved(dataSearchparam);
-
-    }
-
-    @PostMapping ("get-data")
-    public PageDTO<SearchDataRes> getData(@RequestBody DataSearchparam dataSearchparam)
-        throws ParseException {
-
-        return dataCollectionService.searchDataCollection(dataSearchparam);
-
-    }
-
-    @GetMapping("/get-pending")
-    public MessagesResponse getPending(){
-        MessagesResponse ms = new MessagesResponse();
+    @GetMapping("/pending-list-for-user")
+    public List<DataCollectionRes> getPendingMe(){
         try {
-            ms.data = dataCollectionService.getPending();
+            return dataCollectionService.getPendingMe();
         }
         catch (Exception ex) {
-            ms.code = 5000;
-            ms.message = ex.getMessage();
+            return null;
         }
-        return  ms;
     }
 
-    @PostMapping("/send-data")
+    @GetMapping("/approved-list-for-user")
+    public List<DataCollectionRes> getApprovedMe(){
+        try {
+            return dataCollectionService.getApprovedMe();
+        }
+        catch (Exception ex) {
+            return null;
+        }
+    }
+
+    @GetMapping("/reject-list-for-user")
+    public List<DataCollectionRes> getRejectMe(){
+        try {
+            return dataCollectionService.getRejectMe();
+        }
+        catch (Exception ex) {
+            return null;
+        }
+    }
+
+    @PostMapping ("search-for-user")
+    public PageDTO<SearchDataRes> getDataForUser(@RequestBody DataSearchForUserParam dataSearchForUserParam)
+            throws ParseException {
+
+        return dataCollectionService.searchDataCollectionForUser(dataSearchForUserParam);
+
+    }
+
+    @PostMapping
     public MessagesResponse sendData(@RequestBody DataProvideReq dataProvideReq) {
         MessagesResponse ms = new MessagesResponse();
         try {
             dataCollectionService.sendData(dataProvideReq);
         } catch (Exception e) {
-            ms.code = 5000;
+            ms.code = 500;
             ms.message = e.getMessage();
         }
         return ms;
     }
 
-    @GetMapping("/approve/{dataCollectionId}")
-    public MessagesResponse approveData(@PathVariable long dataCollectionId) {
+    @PutMapping
+    public MessagesResponse updateData(@RequestBody UpdateDataReq updateDataReq) {
         MessagesResponse ms = new MessagesResponse();
         try {
-            dataCollectionService.approve(dataCollectionId);
+            dataCollectionService.updateData(updateDataReq);
         } catch (Exception e) {
-            ms.code = 5000;
+            ms.code = 500;
             ms.message = e.getMessage();
         }
         return ms;
     }
+
+
+    // Admin
+    @GetMapping("/pending-list-for-admin")
+    public List<DataCollectionRes> getPendingAdmin(){
+        try {
+            return dataCollectionService.getPendingAdmin();
+        }
+        catch (Exception ex) {
+            return null;
+        }
+    }
+
+    @PostMapping ("search-for-admin")
+    public PageDTO<SearchDataRes> getDataForAdmin(@RequestBody DataSearchForAdminParam dataSearchForAdminParam)
+        throws ParseException {
+
+        return dataCollectionService.searchDataCollectionForAdmin(dataSearchForAdminParam);
+
+    }
+
+    @PostMapping("/approve/{id}")
+    public MessagesResponse approveData(@PathVariable long id) {
+        MessagesResponse ms = new MessagesResponse();
+        try {
+            dataCollectionService.approve(id);
+        } catch (Exception e) {
+            ms.code = 500;
+            ms.message = e.getMessage();
+        }
+        return ms;
+    }
+
     @PostMapping("/reject")
     public MessagesResponse rejectData(@RequestBody DataRejectReq dataRejectReq){
         MessagesResponse ms = new MessagesResponse();
@@ -94,7 +131,7 @@ public class CollectDataController {
             dataCollectionService.reject(dataRejectReq);
         }
         catch (Exception exception) {
-            ms.code = 5000;
+            ms.code = 500;
             ms.message = exception.getMessage();
         }
         return ms;
