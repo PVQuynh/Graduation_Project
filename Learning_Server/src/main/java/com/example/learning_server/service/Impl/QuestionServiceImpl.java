@@ -29,7 +29,6 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<QuestionRes> getQuestionsByTopicId(long topicId) {
-
         List<Question> questions = questionRepository.findQuestionsByTopicId(topicId).orElseThrow(BusinessLogicException::new);
 
         return questionMapper.toDTOList(questions);

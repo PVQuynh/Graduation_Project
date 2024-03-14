@@ -221,10 +221,9 @@ public class UserServiceImpl implements UserService {
         if (currentUser.getRole().getCode().equals("USER")) {
             FriendShip friendShip = friendShipRepository.checkFriendStatus(currentUser.getId(),
                             userDetailDTO.getUserId())
-                    .orElse(null);
-            if (!ObjectUtils.isEmpty(friendShip)) {
-                userDetailDTO.setFriendStatus(friendShip.getStatus());
-            }
+                    .orElseThrow(BusinessLogicException::new);
+
+            userDetailDTO.setFriendStatus(friendShip.getStatus());
         }
         return userDetailDTO;
 

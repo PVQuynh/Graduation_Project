@@ -129,6 +129,7 @@ public class ConversationServiceImpl implements ConversationService {
     @Override
     public void updateConversation(UpdateConversationReq updateConversationReq) {
         String email = EmailUtils.getCurrentUser();
+        System.out.println("email: "+email);
         if (ObjectUtils.isEmpty(email)) {
             throw new BusinessLogicException();
         }

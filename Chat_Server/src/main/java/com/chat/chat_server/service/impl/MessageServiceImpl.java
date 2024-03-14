@@ -99,7 +99,6 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public void saveMessage(long conversationId, MessageReq messageReq) {
-
         GroupMember groupMember = groupMemberService.findByContactIdAndConversationId(messageReq.getContactId(), conversationId);
         if (ObjectUtils.isNotEmpty(groupMember)) {
             Message message = Message.builder()

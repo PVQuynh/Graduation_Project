@@ -41,7 +41,11 @@ public class UserController {
 
     @PostMapping("/search")
     public PageDTO<UserDTO> GetLists(@RequestBody UserSearchReq userSearchReq) {
-        return userService.search(userSearchReq);
+        try {
+            return userService.search(userSearchReq);
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
     @PutMapping

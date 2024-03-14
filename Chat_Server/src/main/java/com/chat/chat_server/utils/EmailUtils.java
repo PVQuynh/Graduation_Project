@@ -6,11 +6,15 @@ import org.springframework.util.ObjectUtils;
 
 public class EmailUtils {
     public static String getCurrentUser() {
-        String email = null;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!ObjectUtils.isEmpty(authentication)) {
-            email = (String) authentication.getPrincipal();
+
+        if (!ObjectUtils.isEmpty(authentication) && authentication.getPrincipal() !=null) {
+            String email = (String) authentication.getPrincipal();
+            if (!email.equals("anonymousUser")) {
+                return email;
+            }
         }
-        return email;
+
+        return null;
     }
 }
