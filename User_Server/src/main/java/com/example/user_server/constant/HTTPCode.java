@@ -1,4 +1,4 @@
-package com.example.learning_server.constant;
+package com.example.user_server.constant;
 
 public class HTTPCode {
     public static int SUCCESS = 200;

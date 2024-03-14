@@ -1,5 +1,7 @@
 package com.chat.chat_server.controller;
 
+import com.chat.chat_server.constant.ExceptionConstant;
+import com.chat.chat_server.constant.HTTPCode;
 import com.chat.chat_server.dto.request.GroupMemberReq;
 import com.chat.chat_server.dto.response.GroupMemberRes;
 import com.chat.chat_server.dto.response.MessageResponse;
@@ -31,8 +33,8 @@ public class GroupMemberController {
     try {
       groupMemberService.save(groupMemberReq);
     } catch (Exception ex) {
-      ms.code = 5000;
-      ms.message = ex.getMessage();
+      ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
+      ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
     }
     return ms;
   }
@@ -43,8 +45,8 @@ public class GroupMemberController {
     try {
       groupMemberService.deleteMember(id);
     } catch (Exception ex) {
-      ms.code = 5000;
-      ms.message = ex.getMessage();
+      ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
+      ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
     }
     return ms;
   }

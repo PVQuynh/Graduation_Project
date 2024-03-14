@@ -1,4 +1,4 @@
-package com.example.learning_server.constant;
+package com.chat.chat_server.constant;
 
 public class HTTPCode {
     public static int SUCCESS = 200;

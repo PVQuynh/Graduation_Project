@@ -1,9 +1,10 @@
 package com.example.learning_server.controller;
 
+import com.example.learning_server.constant.ExceptionConstant;
 import com.example.learning_server.constant.HTTPCode;
 import com.example.learning_server.dto.request.AnswerReq;
 import com.example.learning_server.dto.request.UpdateAnswerReq;
-import com.example.learning_server.dto.response.MessagesResponse;
+import com.example.learning_server.dto.response.MessageResponse;
 import com.example.learning_server.service.AnswerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -15,37 +16,37 @@ public class AnswerController {
     private final AnswerService answerService;
 
     @PostMapping
-    public MessagesResponse addAnwser(@RequestBody AnswerReq answerReq) {
-        MessagesResponse ms = new MessagesResponse();
+    public MessageResponse addAnswer(@RequestBody AnswerReq answerReq) {
+        MessageResponse ms = new MessageResponse();
         try {
             answerService.addAnswer(answerReq);
         } catch (Exception ex) {
-            ms.code = HTTPCode.INTERAL_SERVER_ERROR;
-            ms.message = ex.getMessage();
+            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
+            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
         }
         return ms;
     }
 
     @PutMapping
-    public MessagesResponse updateAnwser(@RequestBody UpdateAnswerReq updateAnswerReq) {
-        MessagesResponse ms = new MessagesResponse();
+    public MessageResponse updateAnswer(@RequestBody UpdateAnswerReq updateAnswerReq) {
+        MessageResponse ms = new MessageResponse();
         try {
             answerService.updateAnswer(updateAnswerReq);
         } catch (Exception ex) {
-            ms.code = HTTPCode.INTERAL_SERVER_ERROR;
-            ms.message = ex.getMessage();
+            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
+            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
         }
         return ms;
     }
 
     @DeleteMapping("/{id}")
-    public MessagesResponse deleteAnswer(@PathVariable("id") long id) {
-        MessagesResponse ms = new MessagesResponse();
+    public MessageResponse deleteAnswer(@PathVariable("id") long id) {
+        MessageResponse ms = new MessageResponse();
         try {
             answerService.deleteAnswer(id);
         } catch (Exception ex) {
-            ms.code = HTTPCode.INTERAL_SERVER_ERROR;
-            ms.message = ex.getMessage();
+            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
+            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
         }
         return ms;
     }

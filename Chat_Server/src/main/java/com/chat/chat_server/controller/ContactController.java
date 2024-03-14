@@ -1,5 +1,7 @@
 package com.chat.chat_server.controller;
 
+import com.chat.chat_server.constant.ExceptionConstant;
+import com.chat.chat_server.constant.HTTPCode;
 import com.chat.chat_server.dto.PageDTO;
 import com.chat.chat_server.dto.request.ContactByEmailReq;
 import com.chat.chat_server.dto.request.ContactReq;
@@ -58,8 +60,8 @@ public class ContactController {
         try {
             contactService.saveContact(contactReq);
         } catch (Exception ex) {
-            ms.code = 500;
-            ms.message = ex.getMessage();
+            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
+            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
         }
 
         return ms;
@@ -73,8 +75,8 @@ public class ContactController {
             contactService.uploadAvatar(uploadAvatarReq);
         }
         catch (Exception ex) {
-            ms.code = 500;
-            ms.message = ex.getMessage();
+            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
+            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
         }
         return ms;
 

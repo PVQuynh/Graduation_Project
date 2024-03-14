@@ -1,6 +1,6 @@
-package com.chat.chat_server.dto.response;
+package com.example.user_server.dto.response;
 
-import com.chat.chat_server.constant.HTTPCode;
+import com.example.user_server.constant.HTTPCode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

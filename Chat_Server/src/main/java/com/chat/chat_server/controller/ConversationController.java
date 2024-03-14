@@ -1,5 +1,7 @@
 package com.chat.chat_server.controller;
 
+import com.chat.chat_server.constant.ExceptionConstant;
+import com.chat.chat_server.constant.HTTPCode;
 import com.chat.chat_server.dto.request.ConversationReq;
 import com.chat.chat_server.dto.request.UpdateConversationReq;
 import com.chat.chat_server.dto.response.ConversationAndGrouAttachConvListRes;
@@ -44,8 +46,8 @@ public class ConversationController {
         try {
             conversationService.createConversation(conversationReq);
         } catch (Exception e) {
-            ms.code = 5000;
-            ms.message = e.getMessage();
+            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
+            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
         }
 
         return ms;
@@ -57,8 +59,8 @@ public class ConversationController {
         try {
             conversationService.updateConversation(updateConversationReq);
         } catch (Exception e) {
-            ms.code = 5000;
-            ms.message = e.getMessage();
+            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
+            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
         }
 
         return ms;
@@ -71,8 +73,8 @@ public class ConversationController {
         try {
             conversationService.deleteById(id);
         } catch (Exception ex) {
-            ms.code = 5000;
-            ms.message = ex.getMessage();
+            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
+            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
         }
 
         return ms;

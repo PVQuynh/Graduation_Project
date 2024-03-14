@@ -1,9 +1,11 @@
 package com.example.user_server.controller;
 
+import com.example.user_server.constant.ExceptionConstant;
+import com.example.user_server.constant.HTTPCode;
 import com.example.user_server.dto.PageDTO;
 import com.example.user_server.dto.UserDTO;
 import com.example.user_server.dto.request.*;
-import com.example.user_server.dto.response.MessagesResponse;
+import com.example.user_server.dto.response.MessageResponse;
 import com.example.user_server.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -24,14 +26,14 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public MessagesResponse getById(@PathVariable long id) {
-        MessagesResponse ms = new MessagesResponse();
+    public MessageResponse getById(@PathVariable long id) {
+        MessageResponse ms = new MessageResponse();
 
         try {
             ms.data = userService.getUserById(id);
         } catch (Exception ex) {
-            ms.code = 500;
-            ms.message = ex.getMessage();
+            ms.code = HTTPCode.RESOURCE_NOT_FOUND;
+            ms.message = ExceptionConstant.RESOURCE_NOT_FOUND;
         }
 
         return ms;
@@ -43,42 +45,42 @@ public class UserController {
     }
 
     @PutMapping
-    public MessagesResponse updateUser(@RequestBody UpdateUserReq updateUserReq) {
-        MessagesResponse ms = new MessagesResponse();
+    public MessageResponse updateUser(@RequestBody UpdateUserReq updateUserReq) {
+        MessageResponse ms = new MessageResponse();
         try {
             userService.updateUser(updateUserReq);
         } catch (Exception ex) {
-            ms.code = 5000;
-            ms.message = ex.getMessage();
+            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
+            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
         }
         return ms;
     }
 
     @PostMapping("/change-password")
-    public MessagesResponse changePassword(@RequestBody ChangePasswordReq changePasswordReq) {
-        MessagesResponse ms = new MessagesResponse();
+    public MessageResponse changePassword(@RequestBody ChangePasswordReq changePasswordReq) {
+        MessageResponse ms = new MessageResponse();
 
         try {
             if (!userService.changePassword(changePasswordReq)) {
-                ms.code = 400;
-                ms.message = "Change Password failed!";
+                ms.code = HTTPCode.RESOURCE_NOT_FOUND;
+                ms.message = ExceptionConstant.RESOURCE_NOT_FOUND;
             }
         } catch (Exception ex) {
-            ms.code = 500;
-            ms.message = ex.getMessage();
+            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
+            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
         }
 
         return ms;
     }
 
     @PostMapping("/upload-avatar")
-    public MessagesResponse getById(@RequestBody UploadAvatarReq uploadAvatarReq) {
-        MessagesResponse ms = new MessagesResponse();
+    public MessageResponse getById(@RequestBody UploadAvatarReq uploadAvatarReq) {
+        MessageResponse ms = new MessageResponse();
         try {
             userService.uploadAvatar(uploadAvatarReq);
         } catch (Exception ex) {
-            ms.code = 5000;
-            ms.message = ex.getMessage();
+            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
+            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
         }
         return ms;
     }

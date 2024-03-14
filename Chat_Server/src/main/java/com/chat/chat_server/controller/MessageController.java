@@ -1,5 +1,7 @@
 package com.chat.chat_server.controller;
 
+import com.chat.chat_server.constant.ExceptionConstant;
+import com.chat.chat_server.constant.HTTPCode;
 import com.chat.chat_server.dto.request.MessageLimitReq;
 import com.chat.chat_server.dto.request.UpdateMessageReq;
 import com.chat.chat_server.dto.response.MessageRes;
@@ -40,8 +42,8 @@ public class MessageController {
     try {
       messageService.updateMessage(updateMessageReq);
     } catch (Exception ex) {
-      ms.message = ex.getMessage();
-      ms.code = 5000;
+      ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
+      ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
     }
     return ms;
   }

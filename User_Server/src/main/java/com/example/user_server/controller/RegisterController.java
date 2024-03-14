@@ -2,9 +2,11 @@ package com.example.user_server.controller;
 
 
 import com.example.user_server.client.ChatFeignClient;
+import com.example.user_server.constant.ExceptionConstant;
+import com.example.user_server.constant.HTTPCode;
 import com.example.user_server.dto.request.ConfirmOTP;
 import com.example.user_server.dto.request.RegisterReq;
-import com.example.user_server.dto.response.MessagesResponse;
+import com.example.user_server.dto.response.MessageResponse;
 import com.example.user_server.entity.User;
 import com.example.user_server.service.EmailService;
 import com.example.user_server.service.KeycloakService;
@@ -39,8 +41,8 @@ public class RegisterController {
 
 
     @PostMapping("/generate-otp")
-    public MessagesResponse generateOTP(@RequestBody @Valid RegisterReq registerReq) {
-        MessagesResponse ms = new MessagesResponse();
+    public MessageResponse generateOTP(@RequestBody @Valid RegisterReq registerReq) {
+        MessageResponse ms = new MessageResponse();
         ms.message = "Sent";
         String email = registerReq.getEmail();
 
@@ -68,11 +70,11 @@ public class RegisterController {
     }
 
     @PostMapping("/validate-otp")
-    public MessagesResponse validateOtp(@RequestBody @Valid ConfirmOTP confirmOTP) {
+    public MessageResponse validateOtp(@RequestBody @Valid ConfirmOTP confirmOTP) {
         final String SUCCESS = "Register Successfully!";
         final String FAIL = "Entered Otp is NOT valid. Please Retry!";
 
-        MessagesResponse ms = new MessagesResponse();
+        MessageResponse ms = new MessageResponse();
         ms.message = SUCCESS;
         String email = confirmOTP.getEmail();
         RegisterReq registerReq =   (RegisterReq) redisTemplate.opsForHash().get(email,email.hashCode());
@@ -92,8 +94,8 @@ public class RegisterController {
                         }
                         redisTemplate.opsForHash().getOperations().delete(email);
                     } catch (Exception e) {
-                        ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
-                        ms.message = e.getMessage();
+                        ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
+                        ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
                     }
                 } else {
                     ms.code = HttpStatus.UNAUTHORIZED.value();

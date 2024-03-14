@@ -1,17 +1,15 @@
 package com.example.learning_server.controller;
 
 
+import com.example.learning_server.constant.ExceptionConstant;
 import com.example.learning_server.constant.HTTPCode;
 import com.example.learning_server.dto.request.QuestionReq;
 import com.example.learning_server.dto.request.QuestionLimitReq;
 import com.example.learning_server.dto.request.UpdateQuestionReq;
-import com.example.learning_server.dto.response.MessagesResponse;
-import com.example.learning_server.dto.response.QuestionRes;
+import com.example.learning_server.dto.response.MessageResponse;
 import com.example.learning_server.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,55 +19,63 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @GetMapping("/{topicId}")
-    public List<QuestionRes> getAllQuestion(@PathVariable("topicId") long topicId) {
+    public MessageResponse getAllQuestion(@PathVariable("topicId") long topicId) {
+
+        MessageResponse ms = new MessageResponse();
         try {
-            return questionService.getQuestionsByTopicId(topicId);
+            ms.data = questionService.getQuestionsByTopicId(topicId);
         } catch (Exception ex) {
-           return null;
+            ms.code = HTTPCode.RESOURCE_NOT_FOUND;
+            ms.message = ExceptionConstant.RESOURCE_NOT_FOUND;
         }
+        return ms;
     }
 
     @PostMapping("/limits-topic")
-    public List<QuestionRes> questionLimits(@RequestBody QuestionLimitReq questionLimitReq) {
+    public MessageResponse questionLimits(@RequestBody QuestionLimitReq questionLimitReq) {
+
+        MessageResponse ms = new MessageResponse();
         try {
-            return questionService.questionLimits(questionLimitReq);
+            ms.data = questionService.questionLimits(questionLimitReq);
         } catch (Exception ex) {
-           return null;
+            ms.code = HTTPCode.RESOURCE_NOT_FOUND;
+            ms.message = ExceptionConstant.RESOURCE_NOT_FOUND;
         }
+        return ms;
     }
 
     @PostMapping
-    public MessagesResponse addQuestion(@RequestBody QuestionReq questionReq) {
-        MessagesResponse ms = new MessagesResponse();
+    public MessageResponse addQuestion(@RequestBody QuestionReq questionReq) {
+        MessageResponse ms = new MessageResponse();
         try {
              questionService.addQuestion(questionReq);
         } catch (Exception ex) {
-            ms.code = HTTPCode.INTERAL_SERVER_ERROR;
+            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
             ms.message = ex.getMessage();
         }
         return ms;
     }
 
     @PutMapping
-    public MessagesResponse updateQuestion(@RequestBody UpdateQuestionReq updateQuestionReq) {
-        MessagesResponse ms = new MessagesResponse();
+    public MessageResponse updateQuestion(@RequestBody UpdateQuestionReq updateQuestionReq) {
+        MessageResponse ms = new MessageResponse();
         try {
             questionService.updateQuestion(updateQuestionReq);
         } catch (Exception ex) {
-            ms.code = HTTPCode.INTERAL_SERVER_ERROR;
+            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
             ms.message = ex.getMessage();
         }
         return ms;
     }
 
     @DeleteMapping("/{id}")
-    public MessagesResponse deleteQuestion(@PathVariable long id) {
-        MessagesResponse ms = new MessagesResponse();
+    public MessageResponse deleteQuestion(@PathVariable long id) {
+        MessageResponse ms = new MessageResponse();
         try {
             questionService.deleteQuestionById(id);
         }
         catch (Exception ex) {
-            ms.code = HTTPCode.INTERAL_SERVER_ERROR;
+            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
             ms.message = ex.getMessage();
         }
         return  ms;

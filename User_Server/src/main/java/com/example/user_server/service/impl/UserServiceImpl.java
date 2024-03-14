@@ -8,7 +8,7 @@ import com.example.user_server.dto.PageDTO;
 import com.example.user_server.dto.UserDTO;
 import com.example.user_server.dto.UserDetailDTO;
 import com.example.user_server.dto.request.*;
-import com.example.user_server.dto.response.MessagesResponse;
+import com.example.user_server.dto.response.MessageResponse;
 import com.example.user_server.entity.FriendShip;
 import com.example.user_server.entity.Role;
 import com.example.user_server.entity.User;
@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User create(RegisterReq registerReq) {
         ContacClientReq contactRequest = new ContacClientReq(registerReq.getName(), registerReq.getEmail(), null);
-        MessagesResponse ms = client.createContact(contactRequest);
+        MessageResponse ms = client.createContact(contactRequest);
 
         if (ms.code == 200) {
             User user = new User();
@@ -226,7 +226,7 @@ public class UserServiceImpl implements UserService {
                 .email(email)
                 .build();
 
-        MessagesResponse ms = client.uploadAvatar(uploadAvatarClientReq);
+        MessageResponse ms = client.uploadAvatar(uploadAvatarClientReq);
 
         if (ms.code == 200) {
 
