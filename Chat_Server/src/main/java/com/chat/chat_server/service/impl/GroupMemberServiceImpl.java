@@ -116,11 +116,6 @@ public class GroupMemberServiceImpl implements GroupMemberService {
 
   @Override
   public GroupMember findByContactIdAndConversationId(long contactId, long conversationID) {
-    String email = EmailUtils.getCurrentUser();
-    if (ObjectUtils.isEmpty(email)) {
-      throw new BusinessLogicException();
-    }
-
     return groupMemberRepository.findByContactIdAndConversationId(contactId, conversationID).orElseThrow(() -> new BusinessLogicException());
   }
 
