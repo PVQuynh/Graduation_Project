@@ -28,8 +28,6 @@ public class SearchDataRes {
 
   private Date modified;
 
-  private String author;
-
   private String editor;
 
   private long topicId;

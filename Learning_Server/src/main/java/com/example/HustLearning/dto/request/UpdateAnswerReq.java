@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnswerReq {
+public class UpdateAnswerReq {
+
+    private long answerId;
 
     private String content;
 
@@ -17,8 +19,6 @@ public class AnswerReq {
 
     private String imageLocation;
 
-    private String videoLocation;
-
-    private long questionId;
+    private  String videoLocation;
 
 }

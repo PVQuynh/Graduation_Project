@@ -19,6 +19,7 @@ public class AnswerRes {
 
     private String imageLocation;
 
-    private  String videoLocation;
+    private String videoLocation;
 
+    private long questionId;
 }

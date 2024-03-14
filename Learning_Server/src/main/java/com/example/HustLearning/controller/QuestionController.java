@@ -8,7 +8,6 @@ import com.example.HustLearning.dto.request.UpdateQuestionReq;
 import com.example.HustLearning.dto.response.MessagesResponse;
 import com.example.HustLearning.dto.response.QuestionRes;
 import com.example.HustLearning.service.QuestionService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

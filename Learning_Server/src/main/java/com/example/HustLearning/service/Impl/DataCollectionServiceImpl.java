@@ -144,7 +144,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             Root<DataCollection> root = criteriaQuery.from(DataCollection.class);
             List<Predicate> predicates = new ArrayList<>();
 
-            Predicate emailLike = criteriaBuilder.equal(root.get("volunteerEmail"), email);
+            Predicate emailLike = criteriaBuilder.equal(root.get("author"), email);
             predicates.add(emailLike);
 
             if (dataSearchForUserParam.status != 400) {

@@ -35,8 +35,7 @@ public class VocabularyMapperImpl implements VocabMapper {
         ModelMapper modelMapper = new ModelMapper();
         VocabularyRes vocabularyDTO = modelMapper.map(entity, VocabularyRes.class);
 
-        long topicId = entity.getTopic().getId();
-        vocabularyDTO.setTopicId(topicId);
+        vocabularyDTO.setTopicId(entity.getTopic().getId());
 
         return vocabularyDTO;
     }

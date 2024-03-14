@@ -18,8 +18,12 @@ public class SearchDataMapperImpl implements SearchDataMapper {
     ModelMapper modelMapper = new ModelMapper();
 
     SearchDataRes searchDataRes = modelMapper.map(entity, SearchDataRes.class);
+
+    searchDataRes.setVolunteerEmail(entity.getAuthor());
+
     searchDataRes.setTopicId(entity.getVocabulary().getTopic().getId());
     searchDataRes.setTopicContent(entity.getVocabulary().getTopic().getContent());
+
     searchDataRes.setVocabularyId(entity.getVocabulary().getId());
     searchDataRes.setVocabularyContent(entity.getVocabulary().getContent());
 

@@ -28,8 +28,6 @@ public class DataCollectionRes {
 
   private Date modified;
 
-  private String author;
-
   private String editor;
 
   private long vocabularyId;
