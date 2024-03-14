@@ -52,7 +52,7 @@ public class QuestionMapperImpl implements QuestionMapper {
         QuestionRes questionRes = modelMapper.map(entity, QuestionRes.class);
         questionRes.setQuestionId(entity.getId());
         questionRes.setAnswerResList(answerResList);
-        questionRes.setTopic_id(entity.getTopic().getId());
+        questionRes.setTopicId(entity.getTopic().getId());
 
         return questionRes;
     }

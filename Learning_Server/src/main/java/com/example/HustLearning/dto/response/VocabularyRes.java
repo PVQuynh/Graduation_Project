@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class VocabularyRes {
+
     private long vocabularyId;
 
     private String content;
@@ -18,6 +19,6 @@ public class VocabularyRes {
 
     private  String videoLocation;
 
-    private  long topic_id;
+    private  long topicId;
 
 }

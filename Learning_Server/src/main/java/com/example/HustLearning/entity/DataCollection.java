@@ -12,12 +12,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@AttributeOverride(name = "id", column = @Column(name = "data_collection_id"))
+@AttributeOverrides({
+        @AttributeOverride(name = "id", column = @Column(name = "data_collection_id")),
+        @AttributeOverride(name = "author", column = @Column(name = "volunteer_email"))
+})
 public class DataCollection extends BaseEntity {
 
     private String dataLocation;
-
-    private String volunteerEmail;
 
     private String adminEmail;
 
@@ -26,7 +27,7 @@ public class DataCollection extends BaseEntity {
     private String feedBack;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="vocab_id")
-    private Vocabulary vocab;
+    @JoinColumn(name="vocabulary_id")
+    private Vocabulary vocabulary;
 
 }

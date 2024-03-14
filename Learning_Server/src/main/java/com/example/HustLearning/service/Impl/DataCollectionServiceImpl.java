@@ -58,8 +58,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if (!ObjectUtils.isEmpty(email)) {
             DataCollection dataCollection = DataCollection.builder()
                     .dataLocation(dataProvideReq.getDataLocation())
-                    .volunteerEmail(email)
-                    .vocab(vocabulary)
+                    .vocabulary(vocabulary)
                     .status(DataStatus.WAITING)
                     .build();
             dataCollectionRepository.save(dataCollection);
@@ -77,7 +76,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
         if (updateDataReq.getVocabularyId() != 0) {
             Vocabulary vocabulary = vocabRepository.findById(updateDataReq.getVocabularyId()).orElseThrow(BusinessLogicException::new);
-            dataCollection.setVocab(vocabulary);
+            dataCollection.setVocabulary(vocabulary);
         }
 
         dataCollectionRepository.save(dataCollection);
@@ -154,7 +153,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             }
 
             if (!ObjectUtils.isEmpty(dataSearchForUserParam.vocabulary)) {
-                Join<DataCollection, Vocabulary> vocabJoin = root.join("vocab");
+                Join<DataCollection, Vocabulary> vocabJoin = root.join("vocabulary");
                 Predicate vocabLike = criteriaBuilder.like(criteriaBuilder.lower(vocabJoin.get("content")),
                         "%" + dataSearchForUserParam.vocabulary.toLowerCase() + "%");
                 predicates.add(vocabLike);
@@ -186,15 +185,16 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             }
 
             if (!predicates.isEmpty()) {
-
                 criteriaQuery.where(predicates.toArray(new Predicate[0]));
             }
+
             TypedQuery<DataCollection> query = entityManager.createQuery(criteriaQuery);
             int totalRows = query.getResultList().size();
             List<DataCollection> results = query
                     .setFirstResult((dataSearchForUserParam.page - 1) * dataSearchForUserParam.size) // Offset
                     .setMaxResults(dataSearchForUserParam.size) // Limit
                     .getResultList();
+
             PageDTO<SearchDataRes> userResPageDTO = new PageDTO<>(searchDataMapper.toDTOList(results),
                     dataSearchForUserParam.page, totalRows);
 
@@ -222,7 +222,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         List<Predicate> predicates = new ArrayList<>();
 
         if (!ObjectUtils.isEmpty(dataSearchForAdminParam.volunteerEmail)) {
-            Predicate emailLike = criteriaBuilder.equal(root.get("volunteerEmail"), dataSearchForAdminParam.volunteerEmail);
+            Predicate emailLike = criteriaBuilder.equal(root.get("author"), dataSearchForAdminParam.volunteerEmail);
             predicates.add(emailLike);
         }
 
@@ -232,7 +232,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
 
         if (!ObjectUtils.isEmpty(dataSearchForAdminParam.vocabulary)) {
-            Join<DataCollection, Vocabulary> vocabJoin = root.join("vocab");
+            Join<DataCollection, Vocabulary> vocabJoin = root.join("vocabulary");
             Predicate vocabLike = criteriaBuilder.like(criteriaBuilder.lower(vocabJoin.get("content")),
                     "%" + dataSearchForAdminParam.vocabulary.toLowerCase() + "%");
             predicates.add(vocabLike);

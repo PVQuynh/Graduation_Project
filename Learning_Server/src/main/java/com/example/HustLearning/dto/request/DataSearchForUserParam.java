@@ -15,10 +15,10 @@ public class DataSearchForUserParam {
 
   public String topic;
   public String vocabulary;
+
   public  boolean ascending = false;
   public String orderBy;
   public String createdFrom;
   public String createdTo;
-
   public int status;
 }

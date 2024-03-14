@@ -14,8 +14,6 @@ public class DataCollectionRes {
 
   private long dataCollectionId;
 
-  private long vocabId;
-
   private String dataLocation;
 
   private String volunteerEmail;
@@ -33,4 +31,6 @@ public class DataCollectionRes {
   private String author;
 
   private String editor;
+
+  private long vocabularyId;
 }

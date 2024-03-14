@@ -15,12 +15,16 @@ public class JpaAuditingConfig {
     public AuditorAware<String> auditorProvider() {
         return new AuditorAwareImpl();
     }
+
     public static class AuditorAwareImpl implements AuditorAware<String>{
 
         @Override
         public Optional<String> getCurrentAuditor() {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-           return authentication==null ? null : Optional.ofNullable(authentication.getName());
+            if (authentication != null && authentication.isAuthenticated()) {
+                return Optional.ofNullable(authentication.getName());
+            }
+            return Optional.empty();
         }
     }
 

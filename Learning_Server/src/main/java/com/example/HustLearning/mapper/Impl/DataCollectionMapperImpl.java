@@ -16,7 +16,9 @@ public class DataCollectionMapperImpl implements DataCollectionMapper {
     ModelMapper modelMapper = new ModelMapper();
 
     DataCollectionRes dataCollectionRes = modelMapper.map(entity, DataCollectionRes.class);
-    dataCollectionRes.setVocabId(entity.getVocab().getId());
+    dataCollectionRes.setVocabularyId(entity.getVocabulary().getId());
+    dataCollectionRes.setVolunteerEmail(entity.getAuthor());
+    dataCollectionRes.setAdminEmail(entity.getAdminEmail());
     return dataCollectionRes;
 
   }

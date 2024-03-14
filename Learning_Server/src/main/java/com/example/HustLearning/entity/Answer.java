@@ -16,16 +16,12 @@ import lombok.ToString;
 @AttributeOverride(name = "id", column = @Column(name = "answer_id"))
 public class Answer extends BaseEntity {
 
-    @Column(name = "content")
     private String content;
 
-    @Column(name = "image_location",length = 2000)
     private String imageLocation;
 
-    @Column(name = "video_location",length = 2000)
     private String videoLocation;
 
-    @Column(name = "is_correct")
     private boolean isCorrect;
 
     @ManyToOne(fetch = FetchType.EAGER)

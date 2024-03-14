@@ -23,7 +23,7 @@ public class QuestionRes {
 
     private  String videoLocation;
 
-    private long topic_id;
+    private long topicId;
 
     private List<AnswerRes> answerResList;
 

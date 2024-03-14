@@ -14,10 +14,6 @@ public class SearchDataRes {
 
   private long dataCollectionId;
 
-  private String vocab;
-
-  private String topic;
-
   private String dataLocation;
 
   private String volunteerEmail;
@@ -35,4 +31,14 @@ public class SearchDataRes {
   private String author;
 
   private String editor;
+
+  private long topicId;
+
+  private String topicContent;
+
+  private long vocabularyId;
+
+  private String vocabularyContent;
+
+
 }

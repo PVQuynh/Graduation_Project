@@ -16,44 +16,7 @@ import java.util.Optional;
 public class AnswerServiceImpl implements AnswerService {
 
     private final AnswerRepository answerRepository;
+
     private final QuestionRepository questionRepository;
 
-    @Override
-    public List<Answer> getAllAnswer() {
-        return answerRepository.findAll();
-    }
-
-    @Override
-    public Answer getAnswerById(long id) {
-        Optional<Answer> optionalAnswer = answerRepository.findById(id);
-
-        if (optionalAnswer.isPresent()) {
-            return optionalAnswer.get();
-        }
-
-        return null;
-    }
-
-    @Override
-    public void addAnswer(Answer answer) {
-        answerRepository.save(answer);
-    }
-
-    @Override
-    public Answer deleteAnswerById(long id) {
-        Optional<Answer> optionalAnswer = answerRepository.findById(id);
-
-        if (answerRepository.findById(id).isPresent()) {
-            answerRepository.deleteById(id);
-            return optionalAnswer.get();
-        }
-
-        return null;
-    }
-
-    @Override
-    public List<Answer> getAnswersByQuestionId(long questionId) {
-        return answerRepository.findAnswersByQuestionId(questionId).orElseThrow(BusinessLogicException::new);
-
-    }
 }
