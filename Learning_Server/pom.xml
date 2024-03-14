@@ -114,7 +114,7 @@
                 <version>3.3.2</version>
                 <configuration>
                     <to>
-                        <image>tuyenhaitan/${project.artifactId}:s15</image>
+                        <image>quynhpv/${project.artifactId}:s1</image>
                     </to>
                 </configuration>
             </plugin>
