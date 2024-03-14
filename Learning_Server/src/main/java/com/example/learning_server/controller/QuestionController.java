@@ -51,7 +51,7 @@ public class QuestionController {
              questionService.addQuestion(questionReq);
         } catch (Exception ex) {
             ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
-            ms.message = ex.getMessage();
+            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
         }
         return ms;
     }
@@ -63,7 +63,7 @@ public class QuestionController {
             questionService.updateQuestion(updateQuestionReq);
         } catch (Exception ex) {
             ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
-            ms.message = ex.getMessage();
+            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
         }
         return ms;
     }
@@ -76,7 +76,7 @@ public class QuestionController {
         }
         catch (Exception ex) {
             ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
-            ms.message = ex.getMessage();
+            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
         }
         return  ms;
     }

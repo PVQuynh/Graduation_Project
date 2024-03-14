@@ -16,8 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import com.chat.chat_server.utils.EmailUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +34,11 @@ public class GroupMemberServiceImpl implements GroupMemberService {
 
   @Override
   public List<GroupMemberRes> getGroupMembersByConversationId(long conversationId) {
+    String email = EmailUtils.getCurrentUser();
+    if (ObjectUtils.isEmpty(email)) {
+      throw new BusinessLogicException();
+    }
+
     List<GroupMember> groupMembers = groupMemberRepository.findGroupMembersByConversationId(conversationId);
 
     List<GroupMemberRes> groupMemberResList = new ArrayList<>();
@@ -46,6 +54,11 @@ public class GroupMemberServiceImpl implements GroupMemberService {
 
   @Override
   public void save(GroupMemberReq groupMemberReq) {
+    String email = EmailUtils.getCurrentUser();
+    if (ObjectUtils.isEmpty(email)) {
+      throw new BusinessLogicException();
+    }
+
     Conversation conversation = conversationService.getById(groupMemberReq.getConversationId());
     List<GroupMember> groupMembersAlreadyInConversation = conversation.getGroupMembers();
 
@@ -83,21 +96,41 @@ public class GroupMemberServiceImpl implements GroupMemberService {
 
   @Override
   public void saveAll(List<GroupMember> groupMembers) {
+    String email = EmailUtils.getCurrentUser();
+    if (ObjectUtils.isEmpty(email)) {
+      throw new BusinessLogicException();
+    }
+
     groupMemberRepository.saveAll(groupMembers);
   }
 
   @Override
   public void deleteMember(long id) {
+    String email = EmailUtils.getCurrentUser();
+    if (ObjectUtils.isEmpty(email)) {
+      throw new BusinessLogicException();
+    }
+
     groupMemberRepository.deleteById(id);
   }
 
   @Override
   public GroupMember findByContactIdAndConversationId(long contactId, long conversationID) {
+    String email = EmailUtils.getCurrentUser();
+    if (ObjectUtils.isEmpty(email)) {
+      throw new BusinessLogicException();
+    }
+
     return groupMemberRepository.findByContactIdAndConversationId(contactId, conversationID).orElseThrow(() -> new BusinessLogicException());
   }
 
   @Override
   public void save(GroupMember groupMember) {
+    String email = EmailUtils.getCurrentUser();
+    if (ObjectUtils.isEmpty(email)) {
+      throw new BusinessLogicException();
+    }
+
     groupMemberRepository.save(groupMember);
   }
 

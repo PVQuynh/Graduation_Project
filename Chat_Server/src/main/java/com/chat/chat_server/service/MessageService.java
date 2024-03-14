@@ -14,8 +14,6 @@ public interface MessageService {
 
   void saveMessage(long conversationId,MessageReq messageReq);
 
-  void setSeenForMessage(long conversationId);
-
   void setSeenForMessageByContactId(long conversationId, long contactId);
 
   void updateMessage(UpdateMessageReq updateMessageReq);

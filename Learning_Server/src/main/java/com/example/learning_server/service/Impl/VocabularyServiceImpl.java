@@ -8,10 +8,12 @@ import com.example.learning_server.dto.request.VocabularyReq;
 import com.example.learning_server.dto.response.VocabularyRes;
 import com.example.learning_server.entity.Topic;
 import com.example.learning_server.entity.Vocabulary;
+import com.example.learning_server.exception.AlreadyExistsException;
 import com.example.learning_server.exception.BusinessLogicException;
 import com.example.learning_server.mapper.Impl.VocabularyMapperImpl;
 import com.example.learning_server.repository.VocabularyRepository;
 import com.example.learning_server.service.VocabularySerivce;
+import com.example.learning_server.utils.EmailUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.PersistenceContextType;
@@ -44,7 +46,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
 
     @Override
     public List<VocabularyRes> getVocabulariesByTopicId(long topicId) {
-        List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesByTopicId(topicId).orElse(null);
+        List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesByTopicId(topicId).orElseThrow(BusinessLogicException::new);
         return vocabularyMapper.toDTOList(vocabularies);
     }
 
@@ -52,7 +54,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
     public List<VocabularyRes> vocabularyLimits(VocabularyLimitReq vocabularyLimitReq) {
         Pageable pageable = PageRequest.of(vocabularyLimitReq.getPage()-1, vocabularyLimitReq.getSize());
 
-        List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesLimitByTopicId(vocabularyLimitReq.getTopicId(), pageable).orElse(null);
+        List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesLimitByTopicId(vocabularyLimitReq.getTopicId(), pageable).orElseThrow(BusinessLogicException::new);
 
         return vocabularyMapper.toDTOList(vocabularies);
     }
@@ -104,16 +106,28 @@ public class VocabularyServiceImpl implements VocabularySerivce {
 
     @Override
     public void addVocabulary(VocabularyReq vocabularyReq) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
         Vocabulary vocabulary = vocabularyRepository.findByContent(vocabularyReq.getContent()).orElse(null);
 
-        if (vocabulary == null) {
-            vocabulary = vocabularyMapper.toEntity(vocabularyReq);
-            vocabularyRepository.save(vocabulary);
+        if (vocabulary != null) {
+            throw new AlreadyExistsException();
         }
+
+        vocabulary = vocabularyMapper.toEntity(vocabularyReq);
+        vocabularyRepository.save(vocabulary);
     }
 
     @Override
     public void updateVocabulary(UpdateVocabularyReq updateVocabularyReq) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
         Vocabulary vocabulary = vocabularyRepository.findById(updateVocabularyReq.getVocabularyId()).orElseThrow(BusinessLogicException::new);
 
         if (updateVocabularyReq.getContent() != null) {
@@ -131,6 +145,11 @@ public class VocabularyServiceImpl implements VocabularySerivce {
 
     @Override
     public void deleteById(long id) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
         vocabularyRepository.deleteById(id);
     }
 

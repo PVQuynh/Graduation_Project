@@ -40,6 +40,11 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public ContactRes getContactById(long id) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
         Contact contact = contactRepository.findById(id).orElseThrow(BusinessLogicException::new);
 
         return new ContactRes(contact);
@@ -47,6 +52,11 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public ContactRes getByEmail(ContactByEmailReq contactByEmailReq) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
         Contact contact = contactRepository.findByEmail(contactByEmailReq.getEmail()).orElseThrow(BusinessLogicException::new);
 
         return new ContactRes(contact);
@@ -55,6 +65,9 @@ public class ContactServiceImpl implements ContactService {
     @Override
     public ContactRes getMyContact() {
         String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
 
         Contact contact = contactRepository.findByEmail(email)
                 .orElseThrow(() -> new BusinessLogicException());
@@ -65,6 +78,9 @@ public class ContactServiceImpl implements ContactService {
     @Override
     public PageDTO<ContactRes> search(ContactSearchReq contactSearchReq) {
         String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Contact> criteriaQuery = criteriaBuilder.createQuery(Contact.class);
@@ -110,12 +126,22 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public void saveContact(ContactReq contactReq) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
         Contact contact = new Contact(contactReq);
         contactRepository.save(contact);
     }
 
     @Override
     public void uploadAvatar(UploadAvatarReq uploadAvatarReq) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
         Contact contact = contactRepository.findByEmail(uploadAvatarReq.email).orElseThrow(BusinessLogicException::new);
         contact.setAvatarLocation(uploadAvatarReq.avatarLocation);
         contactRepository.save(contact);
@@ -124,6 +150,11 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public Contact findById(long id) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
         return contactRepository.findById(id).orElseThrow(BusinessLogicException::new);
     }
 

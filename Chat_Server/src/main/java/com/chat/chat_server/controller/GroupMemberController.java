@@ -16,38 +16,38 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GroupMemberController {
 
-  private final GroupMemberService groupMemberService;
+    private final GroupMemberService groupMemberService;
 
-  @GetMapping("/{conversationId}")
-  public List<GroupMemberRes> getGroupMemberInConversation(@PathVariable("conversationId") long conversationId) {
-    try {
-      return groupMemberService.getGroupMembersByConversationId(conversationId);
-    } catch (Exception ex) {
-      return null;
+    @GetMapping("/{conversationId}")
+    public List<GroupMemberRes> getGroupMemberInConversation(@PathVariable("conversationId") long conversationId) {
+        try {
+            return groupMemberService.getGroupMembersByConversationId(conversationId);
+        } catch (Exception ex) {
+            return null;
+        }
     }
-  }
 
-  @PostMapping
-  public MessageResponse addGroupMember(@RequestBody GroupMemberReq groupMemberReq) {
-    MessageResponse ms = new MessageResponse();
-    try {
-      groupMemberService.save(groupMemberReq);
-    } catch (Exception ex) {
-      ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
-      ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
+    @PostMapping
+    public MessageResponse addGroupMember(@RequestBody GroupMemberReq groupMemberReq) {
+        MessageResponse ms = new MessageResponse();
+        try {
+            groupMemberService.save(groupMemberReq);
+        } catch (Exception ex) {
+            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
+            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
+        }
+        return ms;
     }
-    return ms;
-  }
 
-  @DeleteMapping("/{id}")
-  public MessageResponse deleteGroupMember(@PathVariable long id){
-    MessageResponse ms = new MessageResponse();
-    try {
-      groupMemberService.deleteMember(id);
-    } catch (Exception ex) {
-      ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
-      ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
+    @DeleteMapping("/{id}")
+    public MessageResponse deleteGroupMember(@PathVariable long id) {
+        MessageResponse ms = new MessageResponse();
+        try {
+            groupMemberService.deleteMember(id);
+        } catch (Exception ex) {
+            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
+            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
+        }
+        return ms;
     }
-    return ms;
-  }
 }

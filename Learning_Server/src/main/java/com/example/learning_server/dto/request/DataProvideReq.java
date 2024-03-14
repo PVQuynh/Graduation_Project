@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class DataProvideReq {
+
     private String dataLocation;
+
     private long vocabularyId;
 }

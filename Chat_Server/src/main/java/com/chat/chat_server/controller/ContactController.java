@@ -73,15 +73,13 @@ public class ContactController {
         MessageResponse ms = new MessageResponse();
         try {
             contactService.uploadAvatar(uploadAvatarReq);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
             ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
         }
         return ms;
 
     }
-
 
 
 }

@@ -13,9 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/collect-data")
+@RequestMapping("/data-collection")
 @RequiredArgsConstructor
-public class CollectDataController {
+public class DataCollectionController {
     private final DataCollectionService dataCollectionService;
 
 

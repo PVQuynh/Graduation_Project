@@ -58,7 +58,7 @@ public class VocabularyController {
             vocabularyService.addVocabulary(vocabularyReq);
         } catch (Exception ex) {
             ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
-            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
+            ms.message = ex.getMessage(); // not fix
         }
         return ms;
     }

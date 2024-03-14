@@ -30,6 +30,7 @@ public class AddFriendServiceImpl implements AddFriendService {
         if (ObjectUtils.isEmpty(email)) {
             throw new BusinessLogicException();
         }
+
         List<FriendShip> friendShipList = friendShipRepository.findSendingList(email)
                 .orElseThrow(() -> new BusinessLogicException());
         if (ObjectUtils.isEmpty(friendShipList)) {
@@ -47,6 +48,7 @@ public class AddFriendServiceImpl implements AddFriendService {
         if (ObjectUtils.isEmpty(email)) {
             throw new BusinessLogicException();
         }
+
         List<FriendShip> friendShipList = friendShipRepository.findRequestList(email)
                 .orElseThrow(() -> new BusinessLogicException());
         if (ObjectUtils.isEmpty(friendShipList)) {
@@ -65,6 +67,7 @@ public class AddFriendServiceImpl implements AddFriendService {
         if (ObjectUtils.isEmpty(email)) {
             throw new BusinessLogicException();
         }
+
         List<FriendShip> friendShipList = friendShipRepository.findAllFriend(email)
                 .orElseThrow(() -> new BusinessLogicException());
         if (ObjectUtils.isEmpty(friendShipList)) {
@@ -89,6 +92,7 @@ public class AddFriendServiceImpl implements AddFriendService {
         if (ObjectUtils.isEmpty(email)) {
             throw new BusinessLogicException();
         }
+
         User sendUser = userRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException());
 
         // Lấy ra danh sách đã gửi lời mời cho mình
@@ -151,6 +155,7 @@ public class AddFriendServiceImpl implements AddFriendService {
         if (ObjectUtils.isEmpty(email)) {
             throw new BusinessLogicException();
         }
+
         FriendShip friendShip = friendShipRepository.findFriendShipByEmailAndId(email, userId).orElseThrow(() -> new BusinessLogicException());
         friendShipRepository.delete(friendShip);
     }

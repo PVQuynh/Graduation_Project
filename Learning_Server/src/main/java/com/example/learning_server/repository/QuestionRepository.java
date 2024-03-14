@@ -11,8 +11,6 @@ import java.util.Optional;
 
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 
-    Question findQuestionsByContent(String content);
-
     @Query("select q from Question q where q.topic.id = :topicId")
     Optional<List<Question>>findQuestionsByTopicId(@Param("topicId") long topicId );
 

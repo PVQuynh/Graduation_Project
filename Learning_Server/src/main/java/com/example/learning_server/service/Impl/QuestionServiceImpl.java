@@ -5,10 +5,12 @@ import com.example.learning_server.dto.request.QuestionLimitReq;
 import com.example.learning_server.dto.request.UpdateQuestionReq;
 import com.example.learning_server.dto.response.QuestionRes;
 import com.example.learning_server.entity.Question;
+import com.example.learning_server.exception.AlreadyExistsException;
 import com.example.learning_server.exception.BusinessLogicException;
 import com.example.learning_server.mapper.QuestionMapper;
 import com.example.learning_server.repository.QuestionRepository;
 import com.example.learning_server.service.QuestionService;
+import com.example.learning_server.utils.EmailUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +30,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public List<QuestionRes> getQuestionsByTopicId(long topicId) {
 
-        List<Question> questions = questionRepository.findQuestionsByTopicId(topicId).orElse(null);
+        List<Question> questions = questionRepository.findQuestionsByTopicId(topicId).orElseThrow(BusinessLogicException::new);
 
         return questionMapper.toDTOList(questions);
     }
@@ -37,23 +39,29 @@ public class QuestionServiceImpl implements QuestionService {
     public List<QuestionRes> questionLimits(QuestionLimitReq questionLimitReq) {
         Pageable pageable = PageRequest.of(questionLimitReq.getPage()-1, questionLimitReq.getSize());
 
-        List<Question> questions = questionRepository.findQuestionLimitsByTopicId(questionLimitReq.getTopicId(), pageable).orElse(null);
+        List<Question> questions = questionRepository.findQuestionLimitsByTopicId(questionLimitReq.getTopicId(), pageable).orElseThrow(BusinessLogicException::new);
 
         return questionMapper.toDTOList(questions);
     }
 
     @Override
     public void addQuestion(QuestionReq questionReq) {
-        Question question = questionRepository.findQuestionsByContent(questionReq.getContent());
-
-        if (ObjectUtils.isEmpty(question)) {
-            question = questionMapper.toEntity(questionReq);
-            questionRepository.save(question);
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
         }
+
+        Question question = questionMapper.toEntity(questionReq);
+        questionRepository.save(question);
     }
 
     @Override
     public void updateQuestion(UpdateQuestionReq updateQuestionReq) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
         Question question = questionRepository.findById(updateQuestionReq.getQuestionId()).orElseThrow(BusinessLogicException::new);
 
         if (question.getContent()!=null) {
@@ -73,7 +81,11 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public void deleteQuestionById(long id) {
+    public void deleteQuestionById(long id) { String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
         questionRepository.deleteById(id);
     }
 

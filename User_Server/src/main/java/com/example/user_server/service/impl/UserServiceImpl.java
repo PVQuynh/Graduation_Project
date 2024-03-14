@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
             user.setName(registerReq.getName());
             user.setEmail(registerReq.getEmail());
             user.setPassword(registerReq.getPassword());
-            Role role = roleRepository.findByCode(registerReq.getRole()).orElse(null);
+            Role role = roleRepository.findByCode(registerReq.getRole()).orElseThrow(BusinessLogicException::new);
             user.setRole(role);
             return userRepository.save(user);
         }
@@ -82,6 +82,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(long id) {
+        String email = EmailUtils.getCurrentUser();
+        if (org.apache.commons.lang3.ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
         userRepository.deleteById(id);
     }
 
@@ -105,6 +110,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO getCurrentUser() {
         String email = EmailUtils.getCurrentUser();
+        if (org.apache.commons.lang3.ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
         User user = userRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException());
 
         return userMapper.toDTO(user);
@@ -113,21 +122,25 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUser(UpdateUserReq updateUserReq) throws ParseException {
         String email = EmailUtils.getCurrentUser();
-
-        if (!ObjectUtils.isEmpty(email)) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date birthDay = dateFormat.parse(updateUserReq.getBirthDay());
-
-            userRepository.updateUser(email, updateUserReq.getName(), updateUserReq.getPhoneNumber(),
-                    updateUserReq.getAddress(), birthDay, Gender.valueOf(updateUserReq.getGender()));
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
         }
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date birthDay = dateFormat.parse(updateUserReq.getBirthDay());
+
+        userRepository.updateUser(email, updateUserReq.getName(), updateUserReq.getPhoneNumber(),
+                updateUserReq.getAddress(), birthDay, Gender.valueOf(updateUserReq.getGender()));
     }
 
     @Override
     public boolean changePassword(ChangePasswordReq changePasswordReq) {
         String email = EmailUtils.getCurrentUser();
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException());
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
 
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException());
 
         if (user.getPassword().equals(changePasswordReq.getOldPassword())) {
             user.setPassword(changePasswordReq.getNewPassword());
@@ -144,6 +157,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public PageDTO<UserDTO> search(UserSearchReq userSearchReq) {
         String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
@@ -191,26 +207,27 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetailDTO getUserById(long userId) {
         String email = EmailUtils.getCurrentUser();
-
-        if (!ObjectUtils.isEmpty(email)) {
-            User user = userRepository.findById(userId).orElseThrow(() -> new BusinessLogicException());
-            UserDTO userDTO = userMapper.toDTO(user);
-            UserDetailDTO userDetailDTO = new UserDetailDTO(userDTO);
-            User currentUser = userRepository.findByEmail(email)
-                    .orElseThrow(() -> new BusinessLogicException());
-
-            if (currentUser.getRole().getCode().equals("USER")) {
-                FriendShip friendShip = friendShipRepository.checkFriendStatus(currentUser.getId(),
-                                userDetailDTO.getUserId())
-                        .orElse(null);
-                if (!ObjectUtils.isEmpty(friendShip)) {
-                    userDetailDTO.setFriendStatus(friendShip.getStatus());
-                }
-            }
-            return userDetailDTO;
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
         }
 
-        return null;
+        User user = userRepository.findById(userId).orElseThrow(() -> new BusinessLogicException());
+        UserDTO userDTO = userMapper.toDTO(user);
+        UserDetailDTO userDetailDTO = new UserDetailDTO(userDTO);
+
+        User currentUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> new BusinessLogicException());
+
+        if (currentUser.getRole().getCode().equals("USER")) {
+            FriendShip friendShip = friendShipRepository.checkFriendStatus(currentUser.getId(),
+                            userDetailDTO.getUserId())
+                    .orElse(null);
+            if (!ObjectUtils.isEmpty(friendShip)) {
+                userDetailDTO.setFriendStatus(friendShip.getStatus());
+            }
+        }
+        return userDetailDTO;
+
     }
 
     @Override
@@ -229,7 +246,6 @@ public class UserServiceImpl implements UserService {
         MessageResponse ms = client.uploadAvatar(uploadAvatarClientReq);
 
         if (ms.code == 200) {
-
             User user = userRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException());
             user.setAvatarLocation(uploadAvatarReq.getAvatarLocation());
             userRepository.save(user);

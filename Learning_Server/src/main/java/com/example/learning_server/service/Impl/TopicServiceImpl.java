@@ -7,10 +7,12 @@ import com.example.learning_server.dto.request.TopicReq;
 import com.example.learning_server.dto.request.UpdateTopicReq;
 import com.example.learning_server.dto.response.TopicRes;
 import com.example.learning_server.entity.Topic;
+import com.example.learning_server.exception.AlreadyExistsException;
 import com.example.learning_server.exception.BusinessLogicException;
 import com.example.learning_server.mapper.Impl.TopicMapperImpl;
 import com.example.learning_server.repository.TopicRepository;
 import com.example.learning_server.service.TopicService;
+import com.example.learning_server.utils.EmailUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.PersistenceContextType;
@@ -45,16 +47,28 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public void addTopic(TopicReq topicReq) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
         Topic topic = topicRepository.findByContent(topicReq.getContent()).orElse(null);
 
-        if (topic == null){
-            topic = topicMapper.toEntity(topicReq);
-            topicRepository.save(topic);
+        if (topic != null){
+           throw new AlreadyExistsException();
         }
+
+        topic = topicMapper.toEntity(topicReq);
+        topicRepository.save(topic);
     }
 
     @Override
     public void updateTopic(UpdateTopicReq updateTopicReq) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
         Topic topic = topicRepository.findById(updateTopicReq.getTopicId()).orElseThrow(BusinessLogicException::new);
 
         if (updateTopicReq.getContent() != null) {
@@ -73,6 +87,11 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public void deleteTopicById(long id) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
        topicRepository.deleteById(id);
     }
 

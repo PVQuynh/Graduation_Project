@@ -41,6 +41,11 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public List<MessageRes> getAllMessageConversation(long conversationId) {
+        String email = EmailUtils.getCurrentUser();
+        if (org.springframework.util.ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
         List<MessageRes> messageResList = new ArrayList<>();
         List<Message> messageList = messageRepository.getMessageByConversationId(conversationId);
 
@@ -80,6 +85,11 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public List<MessageRes> messageLimits(MessageLimitReq messageLimitReq) {
+        String email = EmailUtils.getCurrentUser();
+        if (org.springframework.util.ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
         Pageable pageable = PageRequest.of(messageLimitReq.getPage()-1, messageLimitReq.getSize());
 
         List<Message> messages = messageRepository.findMessageLimitsByConversationId(messageLimitReq.getConversationId(), pageable);
@@ -89,6 +99,7 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public void saveMessage(long conversationId, MessageReq messageReq) {
+
         GroupMember groupMember = groupMemberService.findByContactIdAndConversationId(messageReq.getContactId(), conversationId);
         if (ObjectUtils.isNotEmpty(groupMember)) {
             Message message = Message.builder()
@@ -104,19 +115,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public void setSeenForMessage(long conversationId) {
-        String email = EmailUtils.getCurrentUser();
-        if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
-        }
-
-        messageRepository.setSeenForMessage(conversationId, email);
-
-    }
-
-    @Override
     public void setSeenForMessageByContactId(long conversationId, long contactId) {
-
         messageRepository.setSeenForMessageByContactId(conversationId, contactId);
 
     }
@@ -136,6 +135,11 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public void deleteMessage(long messageId) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
         messageRepository.deleteById(messageId);
     }
 }

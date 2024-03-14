@@ -37,6 +37,11 @@ public class ConversationServiceImpl implements ConversationService {
 
     @Override
     public Conversation getById(long conversationId) {
+        String email = EmailUtils.getCurrentUser();
+        if (org.springframework.util.ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
         return conversationRepository.findById(conversationId).orElseThrow(BusinessLogicException::new);
     }
 
@@ -136,6 +141,11 @@ public class ConversationServiceImpl implements ConversationService {
 
     @Override
     public void deleteById(long conversationID) {
+        String email = EmailUtils.getCurrentUser();
+        if (org.springframework.util.ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
         conversationRepository.deleteById(conversationID);
     }
 
@@ -204,6 +214,11 @@ public class ConversationServiceImpl implements ConversationService {
     //
     @Override
     public Conversation createConversation(ConversationReq conversationReq) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
         Conversation conversation = Conversation.builder()
                 .conversationType(ConversationType.valueOf(conversationReq.conversationType))
                 .conversationName(conversationReq.conversationName)
@@ -230,6 +245,11 @@ public class ConversationServiceImpl implements ConversationService {
 
     @Override
     public void save(Conversation conversation) {
+        String email = EmailUtils.getCurrentUser();
+        if (org.springframework.util.ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
         conversationRepository.save(conversation);
     }
 

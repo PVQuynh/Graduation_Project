@@ -51,23 +51,24 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
     @Override
     public void sendData(DataProvideReq dataProvideReq) {
-        String email = EmailUtils.getCurrentUser();
         Vocabulary vocabulary = vocabRepository.findById(dataProvideReq.getVocabularyId())
                 .orElseThrow(BusinessLogicException::new);
 
-        if (!ObjectUtils.isEmpty(email)) {
-            DataCollection dataCollection = DataCollection.builder()
-                    .dataLocation(dataProvideReq.getDataLocation())
-                    .vocabulary(vocabulary)
-                    .status(DataStatus.WAITING)
-                    .build();
-            dataCollectionRepository.save(dataCollection);
-        }
+        DataCollection dataCollection = DataCollection.builder()
+                .dataLocation(dataProvideReq.getDataLocation())
+                .vocabulary(vocabulary)
+                .status(DataStatus.WAITING)
+                .build();
 
+        dataCollectionRepository.save(dataCollection);
     }
 
     @Override
     public void updateData(UpdateDataReq updateDataReq) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
 
         DataCollection dataCollection = dataCollectionRepository.findById(updateDataReq.getDataCollectionId()).orElseThrow(BusinessLogicException::new);
 
@@ -85,127 +86,126 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     @Override
     public List<DataCollectionRes> getAllMe() {
         String email = EmailUtils.getCurrentUser();
-
-        if (!ObjectUtils.isEmpty(email)) {
-            List<DataCollection> dataCollections = dataCollectionRepository.getAllMe(email).orElseThrow(BusinessLogicException::new);
-            return dataCollectionMapper.toDTOList(dataCollections);
-
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
         }
 
-        return null;
+        List<DataCollection> dataCollections = dataCollectionRepository.getAllMe(email).orElseThrow(BusinessLogicException::new);
+
+        return dataCollectionMapper.toDTOList(dataCollections);
+
     }
 
     @Override
     public List<DataCollectionRes> getPendingMe() {
         String email = EmailUtils.getCurrentUser();
-
-        if (!ObjectUtils.isEmpty(email)) {
-            List<DataCollection> dataCollections = dataCollectionRepository.getPendingMe(email).orElseThrow(BusinessLogicException::new);
-            return dataCollectionMapper.toDTOList(dataCollections);
-
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
         }
 
-        return null;
+        List<DataCollection> dataCollections = dataCollectionRepository.getPendingMe(email).orElseThrow(BusinessLogicException::new);
+        return dataCollectionMapper.toDTOList(dataCollections);
     }
 
     @Override
     public List<DataCollectionRes> getApprovedMe() {
         String email = EmailUtils.getCurrentUser();
-
-        if (!ObjectUtils.isEmpty(email)) {
-            List<DataCollection> dataCollections = dataCollectionRepository.getApprovedMe(email).orElseThrow(BusinessLogicException::new);
-            return dataCollectionMapper.toDTOList(dataCollections);
-
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
         }
 
-        return null;
+        List<DataCollection> dataCollections = dataCollectionRepository.getApprovedMe(email).orElseThrow(BusinessLogicException::new);
+        return dataCollectionMapper.toDTOList(dataCollections);
     }
 
     @Override
     public List<DataCollectionRes> getRejectMe() {
         String email = EmailUtils.getCurrentUser();
-
-        if (!ObjectUtils.isEmpty(email)) {
-            List<DataCollection> dataCollections = dataCollectionRepository.getRejectMe(email).orElseThrow(BusinessLogicException::new);
-            return dataCollectionMapper.toDTOList(dataCollections);
-
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
         }
 
-        return null;
+        List<DataCollection> dataCollections = dataCollectionRepository.getRejectMe(email).orElseThrow(BusinessLogicException::new);
+        return dataCollectionMapper.toDTOList(dataCollections);
     }
 
     @Override
     public PageDTO<SearchDataRes> searchDataCollectionForUser(DataSearchForUserParam dataSearchForUserParam) throws ParseException {
         String email = EmailUtils.getCurrentUser();
-
-        if (!ObjectUtils.isEmpty(email)) {
-            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-            CriteriaQuery<DataCollection> criteriaQuery = criteriaBuilder.createQuery(DataCollection.class);
-            Root<DataCollection> root = criteriaQuery.from(DataCollection.class);
-            List<Predicate> predicates = new ArrayList<>();
-
-            Predicate emailLike = criteriaBuilder.equal(root.get("author"), email);
-            predicates.add(emailLike);
-
-            if (dataSearchForUserParam.status != 400) {
-                Predicate statusLike = criteriaBuilder.equal(root.get("status"), dataSearchForUserParam.status);
-                predicates.add(statusLike);
-            }
-
-            if (!ObjectUtils.isEmpty(dataSearchForUserParam.vocabulary)) {
-                Join<DataCollection, Vocabulary> vocabJoin = root.join("vocabulary");
-                Predicate vocabLike = criteriaBuilder.like(criteriaBuilder.lower(vocabJoin.get("content")),
-                        "%" + dataSearchForUserParam.vocabulary.toLowerCase() + "%");
-                predicates.add(vocabLike);
-            }
-
-            if (!ObjectUtils.isEmpty(dataSearchForUserParam.createdFrom)) {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Date createdFrom = dateFormat.parse(dataSearchForUserParam.createdFrom);
-                Predicate createdFromLike = criteriaBuilder.greaterThanOrEqualTo(root.get("created"),
-                        createdFrom);
-                predicates.add(createdFromLike);
-            }
-
-            if (!ObjectUtils.isEmpty(dataSearchForUserParam.createdTo)) {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Date createdTo = dateFormat.parse(dataSearchForUserParam.createdTo);
-                Predicate createdToLike = criteriaBuilder.lessThanOrEqualTo(root.get("created"), createdTo);
-                predicates.add(createdToLike);
-            }
-
-            // Filter by descending and orderBy (if provided)
-            if (!ObjectUtils.isEmpty(dataSearchForUserParam.ascending) && !ObjectUtils.isEmpty(
-                    dataSearchForUserParam.orderBy)) {
-                if (dataSearchForUserParam.ascending) {
-                    criteriaQuery.orderBy(criteriaBuilder.asc(root.get(dataSearchForUserParam.orderBy)));
-                } else {
-                    criteriaQuery.orderBy(criteriaBuilder.desc(root.get(dataSearchForUserParam.orderBy)));
-                }
-            }
-
-            if (!predicates.isEmpty()) {
-                criteriaQuery.where(predicates.toArray(new Predicate[0]));
-            }
-
-            TypedQuery<DataCollection> query = entityManager.createQuery(criteriaQuery);
-            int totalRows = query.getResultList().size();
-            List<DataCollection> results = query
-                    .setFirstResult((dataSearchForUserParam.page - 1) * dataSearchForUserParam.size) // Offset
-                    .setMaxResults(dataSearchForUserParam.size) // Limit
-                    .getResultList();
-
-            PageDTO<SearchDataRes> userResPageDTO = new PageDTO<>(searchDataMapper.toDTOList(results),
-                    dataSearchForUserParam.page, totalRows);
-
-            return userResPageDTO;
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
         }
 
-        return null;
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<DataCollection> criteriaQuery = criteriaBuilder.createQuery(DataCollection.class);
+        Root<DataCollection> root = criteriaQuery.from(DataCollection.class);
+        List<Predicate> predicates = new ArrayList<>();
+
+        if (!ObjectUtils.isEmpty(email)) {
+            Predicate emailLike = criteriaBuilder.equal(root.get("author"), email);
+            predicates.add(emailLike);
+        }
+
+        if (dataSearchForUserParam.status != 400) {
+            Predicate statusLike = criteriaBuilder.equal(root.get("status"), dataSearchForUserParam.status);
+            predicates.add(statusLike);
+        }
+
+        if (!ObjectUtils.isEmpty(dataSearchForUserParam.vocabulary)) {
+            Join<DataCollection, Vocabulary> vocabJoin = root.join("vocabulary");
+            Predicate vocabLike = criteriaBuilder.like(criteriaBuilder.lower(vocabJoin.get("content")),
+                    "%" + dataSearchForUserParam.vocabulary.toLowerCase() + "%");
+            predicates.add(vocabLike);
+        }
+
+        if (!ObjectUtils.isEmpty(dataSearchForUserParam.createdFrom)) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date createdFrom = dateFormat.parse(dataSearchForUserParam.createdFrom);
+            Predicate createdFromLike = criteriaBuilder.greaterThanOrEqualTo(root.get("created"),
+                    createdFrom);
+            predicates.add(createdFromLike);
+        }
+
+        if (!ObjectUtils.isEmpty(dataSearchForUserParam.createdTo)) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date createdTo = dateFormat.parse(dataSearchForUserParam.createdTo);
+            Predicate createdToLike = criteriaBuilder.lessThanOrEqualTo(root.get("created"), createdTo);
+            predicates.add(createdToLike);
+        }
+
+        // Filter by descending and orderBy (if provided)
+        if (!ObjectUtils.isEmpty(dataSearchForUserParam.ascending) && !ObjectUtils.isEmpty(
+                dataSearchForUserParam.orderBy)) {
+            if (dataSearchForUserParam.ascending) {
+                criteriaQuery.orderBy(criteriaBuilder.asc(root.get(dataSearchForUserParam.orderBy)));
+            } else {
+                criteriaQuery.orderBy(criteriaBuilder.desc(root.get(dataSearchForUserParam.orderBy)));
+            }
+        }
+
+        if (!predicates.isEmpty()) {
+            criteriaQuery.where(predicates.toArray(new Predicate[0]));
+        }
+
+        TypedQuery<DataCollection> query = entityManager.createQuery(criteriaQuery);
+        int totalRows = query.getResultList().size();
+        List<DataCollection> results = query
+                .setFirstResult((dataSearchForUserParam.page - 1) * dataSearchForUserParam.size) // Offset
+                .setMaxResults(dataSearchForUserParam.size) // Limit
+                .getResultList();
+
+        PageDTO<SearchDataRes> userResPageDTO = new PageDTO<>(searchDataMapper.toDTOList(results),
+                dataSearchForUserParam.page, totalRows);
+
+        return userResPageDTO;
     }
 
     @Override
     public List<DataCollectionRes> getPendingAdmin() {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
 
         List<DataCollection> dataCollectionList = dataCollectionRepository.getPendingAdmin().orElseThrow(BusinessLogicException::new);
 
@@ -213,8 +213,11 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     }
 
     @Override
-    public PageDTO<SearchDataRes> searchDataCollectionForAdmin(DataSearchForAdminParam dataSearchForAdminParam)
-            throws ParseException {
+    public PageDTO<SearchDataRes> searchDataCollectionForAdmin(DataSearchForAdminParam dataSearchForAdminParam) throws ParseException {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<DataCollection> criteriaQuery = criteriaBuilder.createQuery(DataCollection.class);
@@ -282,41 +285,47 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     @Override
     public void approve(long id) {
         String email = EmailUtils.getCurrentUser();
-
-        if (!ObjectUtils.isEmpty(email)) {
-            DataCollection dataCollection = dataCollectionRepository.findById(id)
-                    .orElseThrow(() -> new BusinessLogicException());
-
-            if (dataCollection.getStatus() == DataStatus.APPROVED) {
-                throw new BusinessLogicException();
-            }
-
-            dataCollection.setStatus(DataStatus.APPROVED);
-            dataCollection.setAdminEmail(email);
-
-            dataCollectionRepository.save(dataCollection);
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
         }
+
+        DataCollection dataCollection = dataCollectionRepository.findById(id).orElseThrow(() -> new BusinessLogicException());
+
+        if (dataCollection.getStatus() == DataStatus.APPROVED) {
+            throw new BusinessLogicException();
+        }
+
+        dataCollection.setStatus(DataStatus.APPROVED);
+        dataCollection.setAdminEmail(email);
+
+        dataCollectionRepository.save(dataCollection);
     }
 
     @Override
     public void reject(DataRejectReq dataRejectReq) {
         String email = EmailUtils.getCurrentUser();
-        if (!ObjectUtils.isEmpty(email)) {
-            DataCollection dataCollection = dataCollectionRepository.findById(
-                            dataRejectReq.dataCollectionId)
-                    .orElseThrow(() -> new BusinessLogicException());
-            if (dataCollection.getStatus() == DataStatus.REJECTED) {
-                throw new BusinessLogicException();
-            }
-            dataCollection.setStatus(DataStatus.REJECTED);
-            dataCollection.setAdminEmail(email);
-            dataCollection.setFeedBack(dataRejectReq.feedBack);
-            dataCollectionRepository.save(dataCollection);
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
         }
+
+        DataCollection dataCollection = dataCollectionRepository.findById(
+                dataRejectReq.dataCollectionId).orElseThrow(() -> new BusinessLogicException());
+        if (dataCollection.getStatus() == DataStatus.REJECTED) {
+            throw new BusinessLogicException();
+        }
+        dataCollection.setStatus(DataStatus.REJECTED);
+        dataCollection.setAdminEmail(email);
+        dataCollection.setFeedBack(dataRejectReq.feedBack);
+        dataCollectionRepository.save(dataCollection);
     }
 
     @Override
     public void delete(long id) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
         dataCollectionRepository.deleteById(id);
     }
 
