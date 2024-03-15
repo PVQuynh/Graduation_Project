@@ -4,10 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5592bd12-57f9-436c-a0cb-f23e7892a75f" name="Changes" comment="cs-ls-us 11:45 15/3/24">
+    <list default="true" id="5592bd12-57f9-436c-a0cb-f23e7892a75f" name="Changes" comment="fix limits-message 11:45 15/3/24">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Chat_Server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/service/impl/MessageServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/service/impl/MessageServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/service/impl/ContactServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/service/impl/ContactServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/client/ChatFeignClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/client/ChatFeignClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/client/request/ContacClientReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/client/request/ContactClientReq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/RegisterController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/KeycloakService.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/KeycloakService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/impl/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -178,7 +184,9 @@
       <workItem from="1710406671509" duration="6690000" />
       <workItem from="1710427783377" duration="7082000" />
       <workItem from="1710464890166" duration="13636000" />
-      <workItem from="1710480917642" duration="1110000" />
+      <workItem from="1710480917642" duration="2354000" />
+      <workItem from="1710498172540" duration="249000" />
+      <workItem from="1710509104638" duration="4025000" />
     </task>
     <task id="LOCAL-00001" summary="20:43 6/3/24">
       <option name="closed" value="true" />
@@ -452,7 +460,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710477955280</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="fix limits-message 11:45 15/3/24">
+      <option name="closed" value="true" />
+      <created>1710482097921</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1710482097922</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -488,7 +504,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix chatserver 21:00 10/3/24" />
     <MESSAGE value="fix chatserver 21:08 10/3/24" />
     <MESSAGE value="fix chatserver 21:23 10/3/24" />
     <MESSAGE value="docker-compose cs-dcs-us 11:55 11/3/24" />
@@ -513,6 +528,7 @@
     <MESSAGE value="fix http-status 11:21 15/3/24" />
     <MESSAGE value="UserController 11:21 15/3/24" />
     <MESSAGE value="cs-ls-us 11:45 15/3/24" />
-    <option name="LAST_COMMIT_MESSAGE" value="cs-ls-us 11:45 15/3/24" />
+    <MESSAGE value="fix limits-message 11:45 15/3/24" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix limits-message 11:45 15/3/24" />
   </component>
 </project>

@@ -34,7 +34,7 @@ public class RegisterController {
 
     private final RedisTemplate<String, Object> redisTemplate;
 
-    private  final ChatFeignClient client;
+    private  final ChatFeignClient chatFeignClient;
 
 
 
@@ -93,7 +93,7 @@ public class RegisterController {
                         redisTemplate.opsForHash().getOperations().delete(email);
                     } catch (Exception e) {
                         ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
-                        ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
+                        ms.message = e.getMessage();
                     }
                 } else {
                     ms.code = HttpStatus.UNAUTHORIZED.value();

@@ -94,6 +94,7 @@ public class KeycloakService {
         if (statusCode != 201) {
             throw new BadRequestException("Không thể đăng kí được tài khoản. Vui lòng thử lại!");
         }
+
         if (statusCode == 201) {
             // Gán role cho người dùng
             String userId = res.getLocation().getPath().replaceAll(".*/([^/]+)", "$1");

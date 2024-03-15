@@ -126,11 +126,6 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public void saveContact(ContactReq contactReq) {
-        String email = EmailUtils.getCurrentUser();
-        if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
-        }
-
         Contact contact = new Contact(contactReq);
         contactRepository.save(contact);
     }

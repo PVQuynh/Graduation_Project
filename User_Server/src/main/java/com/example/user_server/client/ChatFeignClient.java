@@ -1,6 +1,6 @@
 package com.example.user_server.client;
 
-import com.example.user_server.client.request.ContacClientReq;
+import com.example.user_server.client.request.ContactClientReq;
 import com.example.user_server.client.request.UploadAvatarClientReq;
 import com.example.user_server.dto.response.MessageResponse;
 import jakarta.validation.Valid;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public interface ChatFeignClient {
 
     @PostMapping(value = "/contacts", consumes = "application/json")
-    MessageResponse createContact(@RequestBody @Valid ContacClientReq contactRequest);
+    MessageResponse createContact(@RequestBody @Valid ContactClientReq contactRequest);
 
     @PostMapping(value = "/contacts/upload-avatar", consumes = "application/json")
     MessageResponse uploadAvatar(@RequestBody UploadAvatarClientReq uploadAvatarReq);

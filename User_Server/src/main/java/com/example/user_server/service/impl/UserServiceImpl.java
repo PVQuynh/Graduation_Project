@@ -2,7 +2,7 @@ package com.example.user_server.service.impl;
 
 
 import com.example.user_server.client.ChatFeignClient;
-import com.example.user_server.client.request.ContacClientReq;
+import com.example.user_server.client.request.ContactClientReq;
 import com.example.user_server.client.request.UploadAvatarClientReq;
 import com.example.user_server.dto.PageDTO;
 import com.example.user_server.dto.UserDTO;
@@ -56,26 +56,27 @@ public class UserServiceImpl implements UserService {
 
     private final RoleRepository roleRepository;
 
-    private final ChatFeignClient client;
+    private final ChatFeignClient chatFeignClient;
 
     private final FriendShipRepository friendShipRepository;
 
 
     @Override
     public User create(RegisterReq registerReq) {
-        ContacClientReq contactRequest = new ContacClientReq(registerReq.getName(), registerReq.getEmail(), null);
-        MessageResponse ms = client.createContact(contactRequest);
+        ContactClientReq contactRequest = new ContactClientReq(registerReq.getName(),
+                registerReq.getEmail(), null);
+        MessageResponse ms = chatFeignClient.createContact(contactRequest);
 
         if (ms.code == 200) {
             User user = new User();
             user.setName(registerReq.getName());
             user.setEmail(registerReq.getEmail());
             user.setPassword(registerReq.getPassword());
-            Role role = roleRepository.findByCode(registerReq.getRole()).orElseThrow(BusinessLogicException::new);
+            Role role = roleRepository.findByCode(registerReq.getRole()).orElse(null);
             user.setRole(role);
+
             return userRepository.save(user);
         }
-
         return null;
     }
 
@@ -243,7 +244,7 @@ public class UserServiceImpl implements UserService {
                 .email(email)
                 .build();
 
-        MessageResponse ms = client.uploadAvatar(uploadAvatarClientReq);
+        MessageResponse ms = chatFeignClient.uploadAvatar(uploadAvatarClientReq);
 
         if (ms.code == 200) {
             User user = userRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException());
