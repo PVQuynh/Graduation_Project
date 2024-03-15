@@ -132,11 +132,6 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public void uploadAvatar(UploadAvatarReq uploadAvatarReq) {
-        String email = EmailUtils.getCurrentUser();
-        if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
-        }
-
         Contact contact = contactRepository.findByEmail(uploadAvatarReq.email).orElseThrow(BusinessLogicException::new);
         contact.setAvatarLocation(uploadAvatarReq.avatarLocation);
         contactRepository.save(contact);

@@ -4,16 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5592bd12-57f9-436c-a0cb-f23e7892a75f" name="Changes" comment="fix limits-message 11:45 15/3/24">
+    <list default="true" id="5592bd12-57f9-436c-a0cb-f23e7892a75f" name="Changes" comment="fix login 21:30 15/3/24">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/service/impl/ContactServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/service/impl/ContactServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/client/ChatFeignClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/client/ChatFeignClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/client/request/ContacClientReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/client/request/ContactClientReq.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/RegisterController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/KeycloakService.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/KeycloakService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/impl/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -186,7 +179,7 @@
       <workItem from="1710464890166" duration="13636000" />
       <workItem from="1710480917642" duration="2354000" />
       <workItem from="1710498172540" duration="249000" />
-      <workItem from="1710509104638" duration="4025000" />
+      <workItem from="1710509104638" duration="5531000" />
     </task>
     <task id="LOCAL-00001" summary="20:43 6/3/24">
       <option name="closed" value="true" />
@@ -468,7 +461,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710482097922</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="fix login 21:30 15/3/24">
+      <option name="closed" value="true" />
+      <created>1710513189404</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1710513189404</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -504,7 +505,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix chatserver 21:08 10/3/24" />
     <MESSAGE value="fix chatserver 21:23 10/3/24" />
     <MESSAGE value="docker-compose cs-dcs-us 11:55 11/3/24" />
     <MESSAGE value="user and chat 21:50 11/3/24" />
@@ -529,6 +529,18 @@
     <MESSAGE value="UserController 11:21 15/3/24" />
     <MESSAGE value="cs-ls-us 11:45 15/3/24" />
     <MESSAGE value="fix limits-message 11:45 15/3/24" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix limits-message 11:45 15/3/24" />
+    <MESSAGE value="fix login 21:30 15/3/24" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix login 21:30 15/3/24" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/impl/UserServiceImpl.java</url>
+          <line>248</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
