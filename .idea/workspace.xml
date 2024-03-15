@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5592bd12-57f9-436c-a0cb-f23e7892a75f" name="Changes" comment="fix http-status 23:30 14/3/24" />
+    <list default="true" id="5592bd12-57f9-436c-a0cb-f23e7892a75f" name="Changes" comment="fix http-status 11:21 15/3/24" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -85,7 +85,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.UserApplication">
+  <component name="RunManager" selected="Spring Boot.ChatApplication">
     <configuration name="ChatApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="chatserver" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.chat.chat_server.ChatApplication" />
@@ -173,7 +173,7 @@
       <workItem from="1710391666392" duration="13607000" />
       <workItem from="1710406671509" duration="6690000" />
       <workItem from="1710427783377" duration="7082000" />
-      <workItem from="1710464890166" duration="10845000" />
+      <workItem from="1710464890166" duration="11462000" />
     </task>
     <task id="LOCAL-00001" summary="20:43 6/3/24">
       <option name="closed" value="true" />
@@ -415,7 +415,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710475927460</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="fix http-status 11:21 15/3/24">
+      <option name="closed" value="true" />
+      <created>1710476537430</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1710476537430</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -451,7 +459,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="chatserver 23:31 9/3/24" />
     <MESSAGE value="chatserver 10:03 10/3/24" />
     <MESSAGE value="complete chatserver 16:00 10/3/24" />
     <MESSAGE value="fix chatserver 21:00 10/3/24" />
@@ -476,6 +483,7 @@
     <MESSAGE value="fix get-current 23:30 14/3/24" />
     <MESSAGE value="fix save-message 23:30 14/3/24" />
     <MESSAGE value="fix http-status 23:30 14/3/24" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix http-status 23:30 14/3/24" />
+    <MESSAGE value="fix http-status 11:21 15/3/24" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix http-status 11:21 15/3/24" />
   </component>
 </project>
