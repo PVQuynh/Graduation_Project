@@ -46,8 +46,14 @@ public class VocabularyServiceImpl implements VocabularySerivce {
 
     @Override
     public List<VocabularyRes> getVocabulariesByTopicId(long topicId) {
-        List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesByTopicId(topicId).orElseThrow(BusinessLogicException::new);
+        List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesByTopicId(topicId).orElseThrow(() -> new BusinessLogicException());
+        if (vocabularies.isEmpty()) throw new BusinessLogicException();
+
         return vocabularyMapper.toDTOList(vocabularies);
+    }
+
+    public Vocabulary getVocabulary(long id) {
+        return vocabularyRepository.findById(id).orElseThrow(BusinessLogicException::new);
     }
 
     @Override
@@ -55,6 +61,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
         Pageable pageable = PageRequest.of(vocabularyLimitReq.getPage()-1, vocabularyLimitReq.getSize());
 
         List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesLimitByTopicId(vocabularyLimitReq.getTopicId(), pageable).orElseThrow(BusinessLogicException::new);
+        if (vocabularies.isEmpty()) throw new BusinessLogicException();
 
         return vocabularyMapper.toDTOList(vocabularies);
     }

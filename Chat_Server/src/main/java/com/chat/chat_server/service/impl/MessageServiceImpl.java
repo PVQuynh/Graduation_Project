@@ -48,6 +48,8 @@ public class MessageServiceImpl implements MessageService {
 
         List<MessageRes> messageResList = new ArrayList<>();
         List<Message> messageList = messageRepository.getMessageByConversationId(conversationId);
+        if (messageList.isEmpty()) throw new BusinessLogicException();
+
 
         if (ObjectUtils.isNotEmpty(messageList)) {
             messageResList = messageList.stream().map(message -> {
@@ -93,6 +95,7 @@ public class MessageServiceImpl implements MessageService {
         Pageable pageable = PageRequest.of(messageLimitReq.getPage()-1, messageLimitReq.getSize());
 
         List<Message> messages = messageRepository.findMessageLimitsByConversationId(messageLimitReq.getConversationId(), pageable);
+        if (messages.isEmpty()) throw new BusinessLogicException();
 
         return messageMapper.toDTOList(messages);
     }

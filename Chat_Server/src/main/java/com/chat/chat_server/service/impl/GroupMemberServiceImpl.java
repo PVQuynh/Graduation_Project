@@ -40,6 +40,7 @@ public class GroupMemberServiceImpl implements GroupMemberService {
     }
 
     List<GroupMember> groupMembers = groupMemberRepository.findGroupMembersByConversationId(conversationId);
+    if (groupMembers.isEmpty()) throw new BusinessLogicException();
 
     List<GroupMemberRes> groupMemberResList = new ArrayList<>();
 

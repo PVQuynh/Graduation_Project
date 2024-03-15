@@ -34,7 +34,6 @@ public class WebSecurityConfig {
         http.csrf((csrf) -> csrf.disable())
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests
-
                                 .anyRequest()
                                 .permitAll()
                 )

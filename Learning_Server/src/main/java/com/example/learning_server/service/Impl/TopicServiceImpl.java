@@ -42,6 +42,8 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public List<TopicRes> getAllTopic() {
         List<Topic> topics = topicRepository.findAll();
+        if (topics.isEmpty()) throw new BusinessLogicException();
+
         return topicMapper.toDTOList(topics);
     }
 

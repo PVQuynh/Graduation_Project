@@ -91,6 +91,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
 
         List<DataCollection> dataCollections = dataCollectionRepository.getAllMe(email).orElseThrow(BusinessLogicException::new);
+        if (dataCollections.isEmpty()) throw new BusinessLogicException();
 
         return dataCollectionMapper.toDTOList(dataCollections);
 
@@ -104,6 +105,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
 
         List<DataCollection> dataCollections = dataCollectionRepository.getPendingMe(email).orElseThrow(BusinessLogicException::new);
+        if (dataCollections.isEmpty()) throw new BusinessLogicException();
+
+
         return dataCollectionMapper.toDTOList(dataCollections);
     }
 
@@ -115,6 +119,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
 
         List<DataCollection> dataCollections = dataCollectionRepository.getApprovedMe(email).orElseThrow(BusinessLogicException::new);
+        if (dataCollections.isEmpty()) throw new BusinessLogicException();
+
         return dataCollectionMapper.toDTOList(dataCollections);
     }
 
@@ -126,6 +132,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
 
         List<DataCollection> dataCollections = dataCollectionRepository.getRejectMe(email).orElseThrow(BusinessLogicException::new);
+        if (dataCollections.isEmpty()) throw new BusinessLogicException();
+
         return dataCollectionMapper.toDTOList(dataCollections);
     }
 
@@ -208,6 +216,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
 
         List<DataCollection> dataCollectionList = dataCollectionRepository.getPendingAdmin().orElseThrow(BusinessLogicException::new);
+        if (dataCollectionList.isEmpty()) throw new BusinessLogicException();
 
         return dataCollectionMapper.toDTOList(dataCollectionList);
     }

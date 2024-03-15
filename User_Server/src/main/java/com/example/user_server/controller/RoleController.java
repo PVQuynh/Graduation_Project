@@ -1,13 +1,12 @@
 package com.example.user_server.controller;
 
 
-import com.example.user_server.constant.ExceptionConstant;
-import com.example.user_server.constant.HTTPCode;
 import com.example.user_server.dto.response.MessageResponse;
 import com.example.user_server.entity.Role;
 import com.example.user_server.service.KeycloakService;
 import com.example.user_server.service.RoleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,8 +22,8 @@ public class RoleController {
         try {
             ms.data = roleService.getAllRole();
         } catch (Exception ex) {
-            ms.code = HTTPCode.RESOURCE_NOT_FOUND;
-            ms.message = ExceptionConstant.RESOURCE_NOT_FOUND;
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
         }
         return ms;
     }
@@ -36,8 +35,8 @@ public class RoleController {
             keycloakService.createRole(role);
             roleService.create(role);
         } catch (Exception ex) {
-            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
-            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
         }
         return ms;
     }

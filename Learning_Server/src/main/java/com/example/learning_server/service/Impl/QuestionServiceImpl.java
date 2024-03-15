@@ -30,6 +30,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public List<QuestionRes> getQuestionsByTopicId(long topicId) {
         List<Question> questions = questionRepository.findQuestionsByTopicId(topicId).orElseThrow(BusinessLogicException::new);
+        if (questions.isEmpty()) throw new BusinessLogicException();
 
         return questionMapper.toDTOList(questions);
     }
@@ -39,6 +40,7 @@ public class QuestionServiceImpl implements QuestionService {
         Pageable pageable = PageRequest.of(questionLimitReq.getPage()-1, questionLimitReq.getSize());
 
         List<Question> questions = questionRepository.findQuestionLimitsByTopicId(questionLimitReq.getTopicId(), pageable).orElseThrow(BusinessLogicException::new);
+        if (questions.isEmpty()) throw new BusinessLogicException();
 
         return questionMapper.toDTOList(questions);
     }

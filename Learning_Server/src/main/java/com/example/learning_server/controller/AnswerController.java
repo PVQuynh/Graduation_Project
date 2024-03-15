@@ -1,12 +1,11 @@
 package com.example.learning_server.controller;
 
-import com.example.learning_server.constant.ExceptionConstant;
-import com.example.learning_server.constant.HTTPCode;
 import com.example.learning_server.dto.request.AnswerReq;
 import com.example.learning_server.dto.request.UpdateAnswerReq;
 import com.example.learning_server.dto.response.MessageResponse;
 import com.example.learning_server.service.AnswerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,8 +20,8 @@ public class AnswerController {
         try {
             answerService.addAnswer(answerReq);
         } catch (Exception ex) {
-            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
-            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
         }
         return ms;
     }
@@ -33,8 +32,8 @@ public class AnswerController {
         try {
             answerService.updateAnswer(updateAnswerReq);
         } catch (Exception ex) {
-            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
-            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
         }
         return ms;
     }
@@ -45,8 +44,8 @@ public class AnswerController {
         try {
             answerService.deleteAnswer(id);
         } catch (Exception ex) {
-            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
-            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
         }
         return ms;
     }

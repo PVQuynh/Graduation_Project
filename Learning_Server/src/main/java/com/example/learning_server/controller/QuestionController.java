@@ -1,14 +1,13 @@
 package com.example.learning_server.controller;
 
 
-import com.example.learning_server.constant.ExceptionConstant;
-import com.example.learning_server.constant.HTTPCode;
 import com.example.learning_server.dto.request.QuestionReq;
 import com.example.learning_server.dto.request.QuestionLimitReq;
 import com.example.learning_server.dto.request.UpdateQuestionReq;
 import com.example.learning_server.dto.response.MessageResponse;
 import com.example.learning_server.service.QuestionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,8 +24,8 @@ public class QuestionController {
         try {
             ms.data = questionService.getQuestionsByTopicId(topicId);
         } catch (Exception ex) {
-            ms.code = HTTPCode.RESOURCE_NOT_FOUND;
-            ms.message = ExceptionConstant.RESOURCE_NOT_FOUND;
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
         }
         return ms;
     }
@@ -38,8 +37,8 @@ public class QuestionController {
         try {
             ms.data = questionService.questionLimits(questionLimitReq);
         } catch (Exception ex) {
-            ms.code = HTTPCode.RESOURCE_NOT_FOUND;
-            ms.message = ExceptionConstant.RESOURCE_NOT_FOUND;
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
         }
         return ms;
     }
@@ -50,8 +49,8 @@ public class QuestionController {
         try {
              questionService.addQuestion(questionReq);
         } catch (Exception ex) {
-            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
-            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
         }
         return ms;
     }
@@ -62,8 +61,8 @@ public class QuestionController {
         try {
             questionService.updateQuestion(updateQuestionReq);
         } catch (Exception ex) {
-            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
-            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
         }
         return ms;
     }
@@ -75,8 +74,8 @@ public class QuestionController {
             questionService.deleteQuestionById(id);
         }
         catch (Exception ex) {
-            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
-            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
         }
         return  ms;
     }

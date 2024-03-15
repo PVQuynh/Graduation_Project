@@ -37,6 +37,8 @@ public class RoleServiceimpl implements RoleService {
         }
         
         List<Role> roles = roleRepository.findAll();
+        if (roles.isEmpty()) throw new BusinessLogicException();
+
         return roleMapper.toDTOList(roles);
     }
 }

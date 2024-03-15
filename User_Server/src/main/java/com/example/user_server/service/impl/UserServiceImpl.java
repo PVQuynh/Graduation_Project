@@ -212,6 +212,7 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = userRepository.findById(userId).orElseThrow(() -> new BusinessLogicException());
+
         UserDTO userDTO = userMapper.toDTO(user);
         UserDetailDTO userDetailDTO = new UserDetailDTO(userDTO);
 

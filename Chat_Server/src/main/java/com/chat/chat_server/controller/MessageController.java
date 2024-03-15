@@ -1,7 +1,5 @@
 package com.chat.chat_server.controller;
 
-import com.chat.chat_server.constant.ExceptionConstant;
-import com.chat.chat_server.constant.HTTPCode;
 import com.chat.chat_server.dto.request.MessageLimitReq;
 import com.chat.chat_server.dto.request.UpdateMessageReq;
 import com.chat.chat_server.dto.response.MessageRes;
@@ -11,6 +9,7 @@ import com.chat.chat_server.service.MessageService;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -44,8 +43,8 @@ public class MessageController {
         try {
             messageService.updateMessage(updateMessageReq);
         } catch (Exception ex) {
-            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
-            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
         }
         return ms;
     }

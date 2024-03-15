@@ -1,26 +1,21 @@
 package com.chat.chat_server.dto.response;
 
-import com.chat.chat_server.constant.HTTPCode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.http.HttpStatus;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class MessageResponse {
 
-    public int code = HTTPCode.SUCCESS;
+    public int code = HttpStatus.OK.value();
 
-    public String message = "Successfully!";
+    public String message = HttpStatus.OK.getReasonPhrase();
 
     public Object data;
-
-    public MessageResponse() {
-        code = HTTPCode.SUCCESS;
-        message = "Successfully!";
-    }
-
-
 
 }

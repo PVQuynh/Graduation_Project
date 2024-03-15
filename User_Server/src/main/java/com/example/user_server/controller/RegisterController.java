@@ -2,8 +2,6 @@ package com.example.user_server.controller;
 
 
 import com.example.user_server.client.ChatFeignClient;
-import com.example.user_server.constant.ExceptionConstant;
-import com.example.user_server.constant.HTTPCode;
 import com.example.user_server.dto.request.ConfirmOTP;
 import com.example.user_server.dto.request.RegisterReq;
 import com.example.user_server.dto.response.MessageResponse;
@@ -48,7 +46,7 @@ public class RegisterController {
 
         try {
             if (userService.findByEmail(registerReq.getEmail()).isPresent()) {
-                ms.code = 404;
+                ms.code = HttpStatus.NOT_FOUND.value();
                 ms.message = "Your email has been used!";
             } else {
                 int otp = otpService.generateOTP(email);
@@ -94,8 +92,8 @@ public class RegisterController {
                         }
                         redisTemplate.opsForHash().getOperations().delete(email);
                     } catch (Exception e) {
-                        ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
-                        ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
+                        ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+                        ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
                     }
                 } else {
                     ms.code = HttpStatus.UNAUTHORIZED.value();

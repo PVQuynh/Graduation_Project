@@ -33,6 +33,7 @@ public class AddFriendServiceImpl implements AddFriendService {
 
         List<FriendShip> friendShipList = friendShipRepository.findSendingList(email)
                 .orElseThrow(() -> new BusinessLogicException());
+        if (friendShipList.isEmpty()) throw new BusinessLogicException();
 
         List<User> users = friendShipList.stream()
                 .map(friendShip -> friendShip.getAcceptFriend())
@@ -49,6 +50,7 @@ public class AddFriendServiceImpl implements AddFriendService {
 
         List<FriendShip> friendShipList = friendShipRepository.findRequestList(email)
                 .orElseThrow(() -> new BusinessLogicException());
+        if (friendShipList.isEmpty()) throw new BusinessLogicException();
 
         List<User> users = friendShipList.stream()
                 .map(friendShip -> friendShip.getSendFriend())
@@ -66,6 +68,7 @@ public class AddFriendServiceImpl implements AddFriendService {
 
         List<FriendShip> friendShipList = friendShipRepository.findAllFriend(email)
                 .orElseThrow(() -> new BusinessLogicException());
+        if (friendShipList.isEmpty()) throw new BusinessLogicException();
 
         List<User> users = friendShipList.stream()
                 .map(friendShip -> {

@@ -1,7 +1,5 @@
 package com.chat.chat_server.controller;
 
-import com.chat.chat_server.constant.ExceptionConstant;
-import com.chat.chat_server.constant.HTTPCode;
 import com.chat.chat_server.dto.PageDTO;
 import com.chat.chat_server.dto.request.ContactByEmailReq;
 import com.chat.chat_server.dto.request.ContactReq;
@@ -11,6 +9,7 @@ import com.chat.chat_server.dto.response.ContactRes;
 import com.chat.chat_server.dto.response.MessageResponse;
 import com.chat.chat_server.service.ContactService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 //@Controller
@@ -60,8 +59,8 @@ public class ContactController {
         try {
             contactService.saveContact(contactReq);
         } catch (Exception ex) {
-            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
-            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
         }
 
         return ms;
@@ -74,8 +73,8 @@ public class ContactController {
         try {
             contactService.uploadAvatar(uploadAvatarReq);
         } catch (Exception ex) {
-            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
-            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
         }
         return ms;
 

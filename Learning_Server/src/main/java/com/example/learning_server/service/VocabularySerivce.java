@@ -3,6 +3,7 @@ package com.example.learning_server.service;
 import com.example.learning_server.dto.PageDTO;
 import com.example.learning_server.dto.request.*;
 import com.example.learning_server.dto.response.VocabularyRes;
+import com.example.learning_server.exception.BusinessLogicException;
 
 import java.util.List;
 

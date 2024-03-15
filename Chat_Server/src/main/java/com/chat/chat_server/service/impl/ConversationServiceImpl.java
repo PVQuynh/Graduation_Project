@@ -158,6 +158,8 @@ public class ConversationServiceImpl implements ConversationService {
         }
 
         List<Conversation> conversationList = conversationRepository.getMyConversationList(email);
+        if (conversationList.isEmpty()) throw new BusinessLogicException();
+
 
         List<ConversationAndGrouAttachConvListRes> allMe = conversationList.stream()
                 .map(conversation -> {

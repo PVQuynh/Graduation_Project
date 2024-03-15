@@ -1,7 +1,5 @@
 package com.example.learning_server.controller;
 
-import com.example.learning_server.constant.ExceptionConstant;
-import com.example.learning_server.constant.HTTPCode;
 import com.example.learning_server.dto.PageDTO;
 import com.example.learning_server.dto.request.SearchParamReq;
 import com.example.learning_server.dto.request.TopicReq;
@@ -12,6 +10,7 @@ import com.example.learning_server.mapper.Impl.TopicMapperImpl;
 import com.example.learning_server.service.TopicService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,8 +27,8 @@ public class TopicController {
         try {
             ms.data = topicService.getAllTopic();
         } catch (Exception ex) {
-            ms.code = HTTPCode.RESOURCE_NOT_FOUND;
-            ms.message = ExceptionConstant.RESOURCE_NOT_FOUND;
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();;
         }
 
         return ms;
@@ -47,8 +46,8 @@ public class TopicController {
         try {
             topicService.addTopic(topicReq);
         } catch (Exception ex) {
-            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
-            ms.message = ex.getMessage(); // not fix
+            ms.code = HttpStatus.CONFLICT.value();
+            ms.message = HttpStatus.CONFLICT.getReasonPhrase();
         }
 
         return ms;
@@ -61,8 +60,8 @@ public class TopicController {
         try {
             topicService.updateTopic(updateTopicReq);
         } catch (Exception ex) {
-            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
-            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
         }
 
         return ms;
@@ -75,8 +74,8 @@ public class TopicController {
         try {
             topicService.deleteTopicById(id);
         } catch (Exception ex) {
-            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
-            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
         }
 
         return ms;

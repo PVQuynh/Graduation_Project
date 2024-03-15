@@ -1,7 +1,5 @@
 package com.example.learning_server.controller;
 
-import com.example.learning_server.constant.ExceptionConstant;
-import com.example.learning_server.constant.HTTPCode;
 import com.example.learning_server.dto.PageDTO;
 import com.example.learning_server.dto.request.SearchParamReq;
 import com.example.learning_server.dto.request.UpdateVocabularyReq;
@@ -11,6 +9,7 @@ import com.example.learning_server.dto.response.VocabularyRes;
 import com.example.learning_server.dto.response.MessageResponse;
 import com.example.learning_server.service.VocabularySerivce;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,6 +19,7 @@ public class VocabularyController {
 
     private final VocabularySerivce vocabularyService;
 
+
     @GetMapping("/{topicId}")
     public MessageResponse getAllVocabularies(@PathVariable("topicId") long topicId) {
 
@@ -27,11 +27,12 @@ public class VocabularyController {
         try {
             ms.data = vocabularyService.getVocabulariesByTopicId(topicId);
         } catch (Exception ex) {
-            ms.code = HTTPCode.RESOURCE_NOT_FOUND;
-            ms.message = ExceptionConstant.RESOURCE_NOT_FOUND;
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
         }
         return ms;
     }
+
 
     @PostMapping("/limits-topic")
     public MessageResponse getAllVocabularies(@RequestBody VocabularyLimitReq vocabularyLimitReq) {
@@ -40,8 +41,8 @@ public class VocabularyController {
         try {
             ms.data = vocabularyService.vocabularyLimits(vocabularyLimitReq);
         } catch (Exception ex) {
-            ms.code = HTTPCode.RESOURCE_NOT_FOUND;
-            ms.message = ExceptionConstant.RESOURCE_NOT_FOUND;
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
         }
         return ms;
     }
@@ -57,8 +58,8 @@ public class VocabularyController {
         try {
             vocabularyService.addVocabulary(vocabularyReq);
         } catch (Exception ex) {
-            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
-            ms.message = ex.getMessage(); // not fix
+            ms.code = HttpStatus.CONFLICT.value();
+            ms.message = HttpStatus.CONFLICT.getReasonPhrase(); // not fix
         }
         return ms;
     }
@@ -69,8 +70,8 @@ public class VocabularyController {
         try {
             vocabularyService.updateVocabulary(updateVocabularyReq);
         } catch (Exception ex) {
-            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
-            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
         }
         return ms;
     }
@@ -82,8 +83,8 @@ public class VocabularyController {
         try {
             vocabularyService.deleteById(id);
         } catch (Exception ex) {
-            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
-            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
         }
         return ms;
     }

@@ -1,7 +1,5 @@
 package com.example.learning_server.controller;
 
-import com.example.learning_server.constant.ExceptionConstant;
-import com.example.learning_server.constant.HTTPCode;
 import com.example.learning_server.dto.PageDTO;
 import com.example.learning_server.dto.request.*;
 import com.example.learning_server.dto.response.MessageResponse;
@@ -10,6 +8,7 @@ import com.example.learning_server.service.DataCollectionService;
 import java.text.ParseException;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,8 +25,8 @@ public class DataCollectionController {
         try {
             ms.data = dataCollectionService.getAllMe();
         } catch (Exception e) {
-            ms.code = HTTPCode.RESOURCE_NOT_FOUND;
-            ms.message = ExceptionConstant.RESOURCE_NOT_FOUND;
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
         }
         return ms;
     }
@@ -38,8 +37,8 @@ public class DataCollectionController {
         try {
             ms.data = dataCollectionService.getPendingMe();
         } catch (Exception e) {
-            ms.code = HTTPCode.RESOURCE_NOT_FOUND;
-            ms.message = ExceptionConstant.RESOURCE_NOT_FOUND;
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
         }
         return ms;
     }
@@ -50,8 +49,8 @@ public class DataCollectionController {
         try {
             ms.data = dataCollectionService.getApprovedMe();
         } catch (Exception e) {
-            ms.code = HTTPCode.RESOURCE_NOT_FOUND;
-            ms.message = ExceptionConstant.RESOURCE_NOT_FOUND;
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
         }
         return ms;
     }
@@ -63,8 +62,8 @@ public class DataCollectionController {
         try {
             ms.data = dataCollectionService.getRejectMe();
         } catch (Exception e) {
-            ms.code = HTTPCode.RESOURCE_NOT_FOUND;
-            ms.message = ExceptionConstant.RESOURCE_NOT_FOUND;
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
         }
         return ms;
     }
@@ -83,8 +82,8 @@ public class DataCollectionController {
         try {
             dataCollectionService.sendData(dataProvideReq);
         } catch (Exception e) {
-            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
-            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
         }
         return ms;
     }
@@ -95,8 +94,8 @@ public class DataCollectionController {
         try {
             dataCollectionService.updateData(updateDataReq);
         } catch (Exception e) {
-            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
-            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
         }
         return ms;
     }
@@ -110,8 +109,8 @@ public class DataCollectionController {
         try {
             ms.data = dataCollectionService.getPendingAdmin();
         } catch (Exception e) {
-            ms.code = HTTPCode.RESOURCE_NOT_FOUND;
-            ms.message = ExceptionConstant.RESOURCE_NOT_FOUND;
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
         }
         return ms;
     }
@@ -130,8 +129,8 @@ public class DataCollectionController {
         try {
             dataCollectionService.approve(id);
         } catch (Exception e) {
-            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
-            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
         }
         return ms;
     }
@@ -143,8 +142,8 @@ public class DataCollectionController {
             dataCollectionService.reject(dataRejectReq);
         }
         catch (Exception exception) {
-            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
-            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
         }
         return ms;
     }
@@ -156,8 +155,8 @@ public class DataCollectionController {
             dataCollectionService.delete(id);
         }
         catch (Exception exception) {
-            ms.code = HTTPCode.INTERNAL_SERVER_ERROR;
-            ms.message = ExceptionConstant.INTERNAL_SERVER_ERROR;
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
         }
         return ms;
     }
