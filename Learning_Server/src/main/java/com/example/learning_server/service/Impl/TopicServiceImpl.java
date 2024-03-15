@@ -55,7 +55,6 @@ public class TopicServiceImpl implements TopicService {
         }
 
         Topic topic = topicRepository.findByContent(topicReq.getContent()).orElse(null);
-
         if (topic != null){
            throw new AlreadyExistsException();
         }

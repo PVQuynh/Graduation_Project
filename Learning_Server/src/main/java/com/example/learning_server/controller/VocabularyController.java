@@ -7,6 +7,8 @@ import com.example.learning_server.dto.request.VocabularyLimitReq;
 import com.example.learning_server.dto.request.VocabularyReq;
 import com.example.learning_server.dto.response.VocabularyRes;
 import com.example.learning_server.dto.response.MessageResponse;
+import com.example.learning_server.exception.AlreadyExistsException;
+import com.example.learning_server.exception.BusinessLogicException;
 import com.example.learning_server.service.VocabularySerivce;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -48,8 +50,8 @@ public class VocabularyController {
     }
 
     @PostMapping("/search")
-    public PageDTO<VocabularyRes> getLists(@RequestBody SearchParamReq searchParamReq){
-        return  vocabularyService.search(searchParamReq);
+    public PageDTO<VocabularyRes> getLists(@RequestBody SearchParamReq searchParamReq) {
+        return vocabularyService.search(searchParamReq);
     }
 
     @PostMapping
@@ -57,9 +59,12 @@ public class VocabularyController {
         MessageResponse ms = new MessageResponse();
         try {
             vocabularyService.addVocabulary(vocabularyReq);
-        } catch (Exception ex) {
+        } catch (AlreadyExistsException ex) {
             ms.code = HttpStatus.CONFLICT.value();
             ms.message = HttpStatus.CONFLICT.getReasonPhrase(); // not fix
+        } catch (BusinessLogicException ex) {
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(); // not fix
         }
         return ms;
     }

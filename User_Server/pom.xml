@@ -181,7 +181,7 @@
 				<version>3.3.2</version>
 				<configuration>
 					<to>
-						<image>quynhpv/${project.artifactId}:s13</image>
+						<image>quynhpv/${project.artifactId}:s14</image>
 					</to>
 				</configuration>
 			</plugin>

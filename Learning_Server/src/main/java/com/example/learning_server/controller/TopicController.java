@@ -6,6 +6,8 @@ import com.example.learning_server.dto.request.TopicReq;
 import com.example.learning_server.dto.request.UpdateTopicReq;
 import com.example.learning_server.dto.response.MessageResponse;
 import com.example.learning_server.dto.response.TopicRes;
+import com.example.learning_server.exception.AlreadyExistsException;
+import com.example.learning_server.exception.BusinessLogicException;
 import com.example.learning_server.mapper.Impl.TopicMapperImpl;
 import com.example.learning_server.service.TopicService;
 import jakarta.validation.Valid;
@@ -28,14 +30,15 @@ public class TopicController {
             ms.data = topicService.getAllTopic();
         } catch (Exception ex) {
             ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
-            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();;
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
+            ;
         }
 
         return ms;
     }
 
     @PostMapping("/search")
-    public PageDTO<TopicRes> GetLists(@RequestBody SearchParamReq searchParamReq){
+    public PageDTO<TopicRes> GetLists(@RequestBody SearchParamReq searchParamReq) {
         return topicService.search(searchParamReq);
     }
 
@@ -45,9 +48,12 @@ public class TopicController {
 
         try {
             topicService.addTopic(topicReq);
-        } catch (Exception ex) {
+        } catch (AlreadyExistsException ex) {
             ms.code = HttpStatus.CONFLICT.value();
-            ms.message = HttpStatus.CONFLICT.getReasonPhrase();
+            ms.message = HttpStatus.CONFLICT.getReasonPhrase(); // not fix
+        } catch (BusinessLogicException ex) {
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(); // not fix
         }
 
         return ms;
