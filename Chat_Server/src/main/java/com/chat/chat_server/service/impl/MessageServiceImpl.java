@@ -75,13 +75,14 @@ public class MessageServiceImpl implements MessageService {
                     groupMemberService.save(groupMember);
 
                     // Update
-                    message.setStatus(MessageStatus.SEEN);
+//                    message.setStatus(MessageStatus.SEEN);
                     messageRepository.save(message);
                 }
 
                 return messageRes;
             }).collect(Collectors.toList());
         }
+
         return messageResList;
     }
 
@@ -94,10 +95,43 @@ public class MessageServiceImpl implements MessageService {
 
         Pageable pageable = PageRequest.of(messageLimitReq.getPage()-1, messageLimitReq.getSize());
 
-        List<Message> messages = messageRepository.findMessageLimitsByConversationId(messageLimitReq.getConversationId(), pageable);
-        if (messages.isEmpty()) throw new BusinessLogicException();
+        List<MessageRes> messageResList = new ArrayList<>();
+        List<Message> messageList = messageRepository.findMessageLimitsByConversationId(messageLimitReq.conversationId, pageable);
+        if (messageList.isEmpty()) throw new BusinessLogicException();
 
-        return messageMapper.toDTOList(messages);
+
+        if (ObjectUtils.isNotEmpty(messageList)) {
+            messageResList = messageList.stream().map(message -> {
+                GroupMember groupMember = message.getGroupMember();
+                MessageRes messageRes = new MessageRes();
+
+                if (ObjectUtils.isNotEmpty(groupMember)) {
+                    Contact contact = contactService.findById(groupMember.getContact().getId());
+
+                    messageRes = MessageRes.builder()
+                            .messageId(message.getId())
+                            .content(message.getContent())
+                            .messageType(message.getMessageType())
+                            .mediaLocation(message.getMediaLocation())
+                            .status(message.getStatus())
+                            .created(message.getCreated())
+                            .conversationId(groupMember.getConversation().getId())
+                            .contactId(contact.getId())
+                            .build();
+
+                    // Update Group Member
+                    groupMember.setLastActivity(LocalDateTime.now());
+                    groupMemberService.save(groupMember);
+
+                    // Update
+//                    message.setStatus(MessageStatus.SEEN);
+                    messageRepository.save(message);
+                }
+
+                return messageRes;
+            }).collect(Collectors.toList());
+        }
+        return messageResList;
     }
 
     @Override
