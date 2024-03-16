@@ -27,17 +27,15 @@ public class QuestionMapperImpl implements QuestionMapper {
     @Override
     public Question toEntity(QuestionReq dto) {
         ModelMapper modelMapper = new ModelMapper();
+        Question question = modelMapper.map(dto,Question.class);
 
         List<AnswerReq> answerReqs = dto.getAnswerReqs();
         List<Answer> answers = anwserMapper.toEntityList(answerReqs);
-
-        Question question = modelMapper.map(dto, Question.class);
         answers.forEach(answer -> answer.setQuestion(question));
+        question.setAnswers(answers);
 
         long topicId = dto.getTopicId();
-
-        question.setAnswers(answers);
-        question.setTopic(topicRepository.findById(topicId).orElseThrow(BusinessLogicException::new));
+        question.setTopic(topicRepository.findById(topicId).get());
 
         return question;
     }
