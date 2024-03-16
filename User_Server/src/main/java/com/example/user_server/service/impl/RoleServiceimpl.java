@@ -26,11 +26,6 @@ public class RoleServiceimpl implements RoleService {
 
     @Override
     public List<RoleDTO> getAllRole() {
-        String email = EmailUtils.getCurrentUser();
-        if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
-        }
-        
         List<Role> roles = roleRepository.findAll();
         if (roles.isEmpty()) throw new BusinessLogicException();
 
