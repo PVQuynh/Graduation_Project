@@ -2,7 +2,7 @@ package com.example.hust_learning_server.service.Impl;
 
 
 import com.example.hust_learning_server.dto.PageDTO;
-import com.example.hust_learning_server.dto.request.SearchParamReq;
+import com.example.hust_learning_server.dto.request.SearchTopicParamReq;
 import com.example.hust_learning_server.dto.request.TopicReq;
 import com.example.hust_learning_server.dto.request.UpdateTopicReq;
 import com.example.hust_learning_server.dto.response.TopicRes;
@@ -85,19 +85,8 @@ public class TopicServiceImpl implements TopicService {
         topicRepository.save(topic);
     }
 
-
     @Override
-    public void deleteTopicById(long id) {
-        String email = EmailUtils.getCurrentUser();
-        if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
-        }
-
-       topicRepository.deleteById(id);
-    }
-
-    @Override
-    public PageDTO<TopicRes> search(SearchParamReq searchParamReq) {
+    public PageDTO<TopicRes> search(SearchTopicParamReq searchTopicParamReq) {
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Topic> criteriaQuery = criteriaBuilder.createQuery(Topic.class);
@@ -105,16 +94,16 @@ public class TopicServiceImpl implements TopicService {
         List<Predicate> predicates = new ArrayList<>();
 
         // Filter by text (if provided)
-        String searchText = "%" + searchParamReq.text + "%";
+        String searchText = "%" + searchTopicParamReq.text + "%";
         Predicate contentLike = criteriaBuilder.like(root.get("content"), searchText);
         predicates.add(contentLike);
 
         // Filter by descending and orderBy (if provided)
-        if (!ObjectUtils.isEmpty(searchParamReq.ascending) && !ObjectUtils.isEmpty(searchParamReq.orderBy)) {
-            if (searchParamReq.ascending) {
-                criteriaQuery.orderBy(criteriaBuilder.asc(root.get(searchParamReq.orderBy)));
+        if (!ObjectUtils.isEmpty(searchTopicParamReq.ascending) && !ObjectUtils.isEmpty(searchTopicParamReq.orderBy)) {
+            if (searchTopicParamReq.ascending) {
+                criteriaQuery.orderBy(criteriaBuilder.asc(root.get(searchTopicParamReq.orderBy)));
             } else {
-                criteriaQuery.orderBy(criteriaBuilder.desc(root.get(searchParamReq.orderBy)));
+                criteriaQuery.orderBy(criteriaBuilder.desc(root.get(searchTopicParamReq.orderBy)));
             }
         }
 
@@ -125,11 +114,21 @@ public class TopicServiceImpl implements TopicService {
         TypedQuery<Topic> query = entityManager.createQuery(criteriaQuery);
         int totalRows = query.getResultList().size();
         List<Topic> results = query
-            .setFirstResult((searchParamReq.page - 1) * searchParamReq.size) // Offset
-            .setMaxResults(searchParamReq.size) // Limit
+            .setFirstResult((searchTopicParamReq.page - 1) * searchTopicParamReq.size) // Offset
+            .setMaxResults(searchTopicParamReq.size) // Limit
             .getResultList();
-        PageDTO<TopicRes> userResPageDTO = new PageDTO<>(topicMapper.toDTOList(results), searchParamReq.page, totalRows);
+        PageDTO<TopicRes> userResPageDTO = new PageDTO<>(topicMapper.toDTOList(results), searchTopicParamReq.page, totalRows);
 
         return userResPageDTO;
+    }
+
+    @Override
+    public void deleteTopicById(long id) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
+        topicRepository.deleteById(id);
     }
 }

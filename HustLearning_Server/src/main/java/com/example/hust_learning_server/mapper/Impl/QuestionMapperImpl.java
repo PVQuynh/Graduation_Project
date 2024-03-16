@@ -6,6 +6,7 @@ import com.example.hust_learning_server.dto.request.QuestionReq;
 import com.example.hust_learning_server.dto.response.QuestionRes;
 import com.example.hust_learning_server.entity.Answer;
 import com.example.hust_learning_server.entity.Question;
+import com.example.hust_learning_server.exception.BusinessLogicException;
 import com.example.hust_learning_server.mapper.AnswerMapper;
 import com.example.hust_learning_server.mapper.QuestionMapper;
 import com.example.hust_learning_server.repository.TopicRepository;
@@ -30,13 +31,13 @@ public class QuestionMapperImpl implements QuestionMapper {
         List<AnswerReq> answerReqs = dto.getAnswerReqs();
         List<Answer> answers = anwserMapper.toEntityList(answerReqs);
 
-        Question question = modelMapper.map(dto,Question.class);
+        Question question = modelMapper.map(dto, Question.class);
         answers.forEach(answer -> answer.setQuestion(question));
 
         long topicId = dto.getTopicId();
 
         question.setAnswers(answers);
-        question.setTopic(topicRepository.findById(topicId).get());
+        question.setTopic(topicRepository.findById(topicId).orElseThrow(BusinessLogicException::new));
 
         return question;
     }

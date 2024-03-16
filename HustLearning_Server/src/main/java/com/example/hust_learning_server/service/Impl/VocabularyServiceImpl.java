@@ -1,10 +1,7 @@
 package com.example.hust_learning_server.service.Impl;
 
 import com.example.hust_learning_server.dto.PageDTO;
-import com.example.hust_learning_server.dto.request.SearchParamReq;
-import com.example.hust_learning_server.dto.request.UpdateVocabularyReq;
-import com.example.hust_learning_server.dto.request.VocabularyLimitReq;
-import com.example.hust_learning_server.dto.request.VocabularyReq;
+import com.example.hust_learning_server.dto.request.*;
 import com.example.hust_learning_server.dto.response.VocabularyRes;
 import com.example.hust_learning_server.entity.Topic;
 import com.example.hust_learning_server.entity.Vocabulary;
@@ -67,31 +64,31 @@ public class VocabularyServiceImpl implements VocabularySerivce {
     }
 
     @Override
-    public PageDTO<VocabularyRes> search(SearchParamReq searchParamReq) {
+    public PageDTO<VocabularyRes> search(SearchVocabularyParamReq searchVocabularyParamReq) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Vocabulary> criteriaQuery = criteriaBuilder.createQuery(Vocabulary.class);
         Root<Vocabulary> root = criteriaQuery.from(Vocabulary.class);
         List<Predicate> predicates = new ArrayList<>();
 
         // Filter by text (if provided)
-        if (!ObjectUtils.isEmpty(searchParamReq.text)) {
-            String searchText = "%" + searchParamReq.text + "%";
+        if (!ObjectUtils.isEmpty(searchVocabularyParamReq.text)) {
+            String searchText = "%" + searchVocabularyParamReq.text + "%";
             Predicate contentLike = criteriaBuilder.like(root.get("content"), searchText);
             predicates.add(contentLike);
         }
 
-        if (searchParamReq.topicId !=0){
+        if (searchVocabularyParamReq.topicId !=0){
             Join<Vocabulary, Topic> topicJoin = root.join("topic");
-            Predicate topicLike = criteriaBuilder.equal(topicJoin.get("id"), searchParamReq.topicId);
+            Predicate topicLike = criteriaBuilder.equal(topicJoin.get("id"), searchVocabularyParamReq.topicId);
             predicates.add(topicLike);
         }
 
         // Filter by descending and orderBy (if provided)
-        if (!ObjectUtils.isEmpty(searchParamReq.ascending) && !ObjectUtils.isEmpty(searchParamReq.orderBy)) {
-            if (searchParamReq.ascending) {
-                criteriaQuery.orderBy(criteriaBuilder.asc(root.get(searchParamReq.orderBy)));
+        if (!ObjectUtils.isEmpty(searchVocabularyParamReq.ascending) && !ObjectUtils.isEmpty(searchVocabularyParamReq.orderBy)) {
+            if (searchVocabularyParamReq.ascending) {
+                criteriaQuery.orderBy(criteriaBuilder.asc(root.get(searchVocabularyParamReq.orderBy)));
             } else {
-                criteriaQuery.orderBy(criteriaBuilder.desc(root.get(searchParamReq.orderBy)));
+                criteriaQuery.orderBy(criteriaBuilder.desc(root.get(searchVocabularyParamReq.orderBy)));
             }
         }
 
@@ -103,10 +100,10 @@ public class VocabularyServiceImpl implements VocabularySerivce {
         TypedQuery<Vocabulary> query = entityManager.createQuery(criteriaQuery);
         int totalRows = query.getResultList().size();
         List<Vocabulary> results = query
-                .setFirstResult((searchParamReq.page - 1) * searchParamReq.size) // Offset
-                .setMaxResults(searchParamReq.size) // Limit
+                .setFirstResult((searchVocabularyParamReq.page - 1) * searchVocabularyParamReq.size) // Offset
+                .setMaxResults(searchVocabularyParamReq.size) // Limit
                 .getResultList();
-        PageDTO<VocabularyRes> userResPageDTO = new PageDTO<>(vocabularyMapper.toDTOList(results), searchParamReq.page, totalRows);
+        PageDTO<VocabularyRes> userResPageDTO = new PageDTO<>(vocabularyMapper.toDTOList(results), searchVocabularyParamReq.page, totalRows);
 
         return userResPageDTO;
     }
@@ -152,12 +149,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
 
     @Override
     public void deleteById(long id) {
-        String email = EmailUtils.getCurrentUser();
-        if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
-        }
 
-        vocabularyRepository.deleteById(id);
     }
 
 

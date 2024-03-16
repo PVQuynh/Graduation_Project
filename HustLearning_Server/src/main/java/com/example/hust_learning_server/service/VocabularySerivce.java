@@ -12,7 +12,7 @@ public interface VocabularySerivce {
 
     List<VocabularyRes> vocabularyLimits(VocabularyLimitReq vocabularyLimitReq);
 
-    PageDTO<VocabularyRes> search(SearchParamReq searchParamReq);
+    PageDTO<VocabularyRes> search(SearchVocabularyParamReq searchVocabularyParamReq);
 
     void addVocabulary(VocabularyReq vocabulary);
 

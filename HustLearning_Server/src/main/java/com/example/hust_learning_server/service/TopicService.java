@@ -1,7 +1,7 @@
 package com.example.hust_learning_server.service;
 
 import com.example.hust_learning_server.dto.PageDTO;
-import com.example.hust_learning_server.dto.request.SearchParamReq;
+import com.example.hust_learning_server.dto.request.SearchTopicParamReq;
 import com.example.hust_learning_server.dto.request.TopicReq;
 import com.example.hust_learning_server.dto.request.UpdateTopicReq;
 import com.example.hust_learning_server.dto.response.TopicRes;
@@ -18,5 +18,5 @@ public interface TopicService {
 
     void deleteTopicById(long id);
 
-    PageDTO<TopicRes> search(SearchParamReq searchParamReq);
+    PageDTO<TopicRes> search(SearchTopicParamReq searchTopicParamReq);
 }

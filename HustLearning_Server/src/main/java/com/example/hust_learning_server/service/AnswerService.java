@@ -9,6 +9,6 @@ public interface AnswerService {
 
     void updateAnswer (UpdateAnswerReq updateAnswerReq);
 
-    void deleteAnswer (long id);
+    void deleteAnswer(long id);
 
 }

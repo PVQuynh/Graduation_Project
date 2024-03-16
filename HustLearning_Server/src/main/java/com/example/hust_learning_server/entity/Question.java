@@ -12,7 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "question")
-@ToString(exclude = {"topic", "answers"})
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "question_id"))
 public class Question extends BaseEntity {

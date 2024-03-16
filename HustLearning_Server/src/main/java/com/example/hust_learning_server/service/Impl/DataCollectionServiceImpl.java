@@ -29,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -154,7 +155,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             predicates.add(emailLike);
         }
 
-        if (dataSearchForUserParam.status != 400) {
+        if (Set.of(100, 200, 300).contains(dataSearchForUserParam.status)) {
             Predicate statusLike = criteriaBuilder.equal(root.get("status"), dataSearchForUserParam.status);
             predicates.add(statusLike);
         }
@@ -238,7 +239,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             predicates.add(emailLike);
         }
 
-        if (dataSearchForAdminParam.status != 400) {
+        if (Set.of(100, 200, 300).contains(dataSearchForAdminParam.status)) {
             Predicate statusLike = criteriaBuilder.equal(root.get("status"), dataSearchForAdminParam.status);
             predicates.add(statusLike);
         }

@@ -1,10 +1,7 @@
 package com.example.hust_learning_server.controller;
 
 import com.example.hust_learning_server.dto.PageDTO;
-import com.example.hust_learning_server.dto.request.SearchParamReq;
-import com.example.hust_learning_server.dto.request.UpdateVocabularyReq;
-import com.example.hust_learning_server.dto.request.VocabularyLimitReq;
-import com.example.hust_learning_server.dto.request.VocabularyReq;
+import com.example.hust_learning_server.dto.request.*;
 import com.example.hust_learning_server.dto.response.VocabularyRes;
 import com.example.hust_learning_server.dto.response.MessageResponse;
 import com.example.hust_learning_server.exception.AlreadyExistsException;
@@ -50,8 +47,8 @@ public class VocabularyController {
     }
 
     @PostMapping("/search")
-    public PageDTO<VocabularyRes> getLists(@RequestBody SearchParamReq searchParamReq) {
-        return vocabularyService.search(searchParamReq);
+    public PageDTO<VocabularyRes> getLists(@RequestBody SearchVocabularyParamReq searchVocabularyParamReq) {
+        return vocabularyService.search(searchVocabularyParamReq);
     }
 
     @PostMapping

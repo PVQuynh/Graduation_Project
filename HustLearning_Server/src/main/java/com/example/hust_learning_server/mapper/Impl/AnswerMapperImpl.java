@@ -25,7 +25,7 @@ public class AnswerMapperImpl implements AnswerMapper {
         ModelMapper modelMapper = new ModelMapper();
         Answer answer = modelMapper.map(dto, Answer.class);
 
-        Question question = questionRepository.findById(dto.getQuestionId()).orElseThrow(BusinessLogicException::new);
+        Question question = questionRepository.findById(dto.getQuestionId()).orElse(null);
         answer.setQuestion(question);
 
         return answer;

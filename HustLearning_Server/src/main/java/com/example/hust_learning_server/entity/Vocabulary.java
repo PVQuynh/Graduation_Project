@@ -10,7 +10,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "vocabulary")
-@ToString(exclude = "topic")
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "vocabulary_id"))
 public class Vocabulary extends BaseEntity{

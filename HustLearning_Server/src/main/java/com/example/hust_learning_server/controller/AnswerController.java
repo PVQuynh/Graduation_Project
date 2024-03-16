@@ -41,7 +41,7 @@ public class AnswerController {
     @DeleteMapping("/{id}")
     public MessageResponse deleteAnswer(@PathVariable("id") long id) {
         MessageResponse ms = new MessageResponse();
-        try {
+        try{
             answerService.deleteAnswer(id);
         } catch (Exception ex) {
             ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
@@ -49,4 +49,6 @@ public class AnswerController {
         }
         return ms;
     }
+
+
 }

@@ -9,7 +9,6 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = "question")
 @Table(name = "answer")
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "answer_id"))

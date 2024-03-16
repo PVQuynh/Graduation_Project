@@ -18,7 +18,6 @@ public class AnswerServiceImpl implements AnswerService {
 
     private final AnswerRepository answerRepository;
 
-
     private final AnswerMapper answerMapper;
 
     @Override
@@ -64,4 +63,5 @@ public class AnswerServiceImpl implements AnswerService {
 
         answerRepository.deleteById(id);
     }
+
 }

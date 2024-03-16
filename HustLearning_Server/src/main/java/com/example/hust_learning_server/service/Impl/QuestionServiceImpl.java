@@ -81,7 +81,8 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public void deleteQuestionById(long id) { String email = EmailUtils.getCurrentUser();
+    public void deleteQuestionById(long id) {
+        String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
             throw new BusinessLogicException();
         }

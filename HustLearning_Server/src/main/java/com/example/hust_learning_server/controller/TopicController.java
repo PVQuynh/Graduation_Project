@@ -1,7 +1,7 @@
 package com.example.hust_learning_server.controller;
 
 import com.example.hust_learning_server.dto.PageDTO;
-import com.example.hust_learning_server.dto.request.SearchParamReq;
+import com.example.hust_learning_server.dto.request.SearchTopicParamReq;
 import com.example.hust_learning_server.dto.request.TopicReq;
 import com.example.hust_learning_server.dto.request.UpdateTopicReq;
 import com.example.hust_learning_server.dto.response.MessageResponse;
@@ -38,8 +38,8 @@ public class TopicController {
     }
 
     @PostMapping("/search")
-    public PageDTO<TopicRes> GetLists(@RequestBody SearchParamReq searchParamReq) {
-        return topicService.search(searchParamReq);
+    public PageDTO<TopicRes> GetLists(@RequestBody SearchTopicParamReq searchTopicParamReq) {
+        return topicService.search(searchTopicParamReq);
     }
 
     @PostMapping
