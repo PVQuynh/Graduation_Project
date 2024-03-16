@@ -6,16 +6,14 @@ import com.example.user_server.exception.BusinessLogicException;
 import com.example.user_server.mapper.impl.RoleMapper;
 import com.example.user_server.repository.RoleRepository;
 import com.example.user_server.service.RoleService;
-import com.example.user_server.utils.EmailUtils;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class RoleServiceimpl implements RoleService {
+public class RoleServiceImpl implements RoleService {
     private  final RoleRepository roleRepository;
     private final RoleMapper roleMapper;
 

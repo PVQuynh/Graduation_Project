@@ -1,7 +1,6 @@
 package com.example.user_server.service;
 
 import com.example.user_server.config.Keycloaks;
-
 import com.example.user_server.dto.request.ChangePasswordReq;
 import com.example.user_server.dto.request.RegisterReq;
 import com.example.user_server.entity.Role;
@@ -119,7 +118,6 @@ public class KeycloakService {
 
         realmResource.roles().create(role);
     }
-
 
     public void deleteUserByEmail(String email) {
 

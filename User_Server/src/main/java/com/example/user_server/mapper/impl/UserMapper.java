@@ -5,8 +5,8 @@ import com.example.user_server.entity.Role;
 import com.example.user_server.entity.User;
 import com.example.user_server.enum_constant.Gender;
 import com.example.user_server.mapper.Mapper;
-import com.example.user_server.repository.RoleRepository;
 
+import com.example.user_server.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.modelmapper.ModelMapper;

@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class RegisterController {
 
-    private final   KeycloakService keycloakService;
+    private final KeycloakService keycloakService;
 
     private final UserService userService;
 

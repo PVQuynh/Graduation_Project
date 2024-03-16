@@ -115,13 +115,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
             throw new BusinessLogicException();
         }
 
-        Vocabulary vocabulary = vocabularyRepository.findByContent(vocabularyReq.getContent()).orElse(null);
-
-        if (vocabulary != null) {
-            throw new AlreadyExistsException();
-        }
-
-        vocabulary = vocabularyMapper.toEntity(vocabularyReq);
+        Vocabulary vocabulary = vocabularyMapper.toEntity(vocabularyReq);
         vocabularyRepository.save(vocabulary);
     }
 
