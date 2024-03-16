@@ -2,7 +2,7 @@ package com.example.data_collection_server.controller;
 
 
 import com.example.data_collection_server.dto.request.DataDeleteReq;
-import com.example.data_collection_server.dto.response.MessagesResponse;
+import com.example.data_collection_server.dto.response.MessageResponse;
 import com.example.data_collection_server.service.UploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
@@ -20,26 +20,32 @@ public class UploadDataController {
    private final UploadService uploadService;
 
     @GetMapping("/all")
-    public List<String> getAllData() {
+    public MessageResponse getAllData() {
+        MessageResponse ms = new MessageResponse();
         try {
-            return uploadService.getAllFileInBucket();
+            ms.data = uploadService.getAllFileInBucket();
         } catch (Exception ex) {
-            return null;
+            ms.code = 500;
+            ms.message = ex.getMessage();
         }
+        return ms;
     }
 
     @GetMapping(path = "/buckets-name")
-    public List<String> bucketsList() {
+    public MessageResponse bucketsList() {
+        MessageResponse ms = new MessageResponse();
         try {
-            return uploadService.getAllBucket();
+            ms.data = uploadService.getAllBucket();
         } catch (Exception ex) {
-            return null;
+            ms.code = 500;
+            ms.message = ex.getMessage();
         }
+        return ms;
     }
 
     @GetMapping(path = "/download")
-    public MessagesResponse uploadFile(@RequestParam(value = "file") String file) throws IOException {
-        MessagesResponse ms = new MessagesResponse();
+    public MessageResponse uploadFile(@RequestParam(value = "file") String file) throws IOException {
+        MessageResponse ms = new MessageResponse();
         try {
             byte[] data = uploadService.getFile(file);
             ByteArrayResource resource = new ByteArrayResource(data);
@@ -57,8 +63,8 @@ public class UploadDataController {
     }
 
     @DeleteMapping
-    public MessagesResponse delateData(@RequestBody DataDeleteReq dataDeleteReq) {
-        MessagesResponse ms = new MessagesResponse();
+    public MessageResponse deleteData(@RequestBody DataDeleteReq dataDeleteReq) {
+        MessageResponse ms = new MessageResponse();
         try {
             if (!uploadService.deleteFileInBucket(dataDeleteReq.getFileName())) {
                 ms.code = 400;

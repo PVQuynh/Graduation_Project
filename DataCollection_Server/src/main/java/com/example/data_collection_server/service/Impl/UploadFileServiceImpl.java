@@ -68,6 +68,7 @@ public class UploadFileServiceImpl implements UploadService {
 
     @Override
     public byte[] getFile(String key) {
+
         try {
             InputStream stream = minioClient.getObject(
                 GetObjectArgs.builder()
