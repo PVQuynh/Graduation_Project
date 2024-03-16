@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO getCurrentUser() {
         String email = EmailUtils.getCurrentUser();
-        if (org.apache.commons.lang3.ObjectUtils.isEmpty(email)) {
+        if (ObjectUtils.isEmpty(email)) {
             throw new BusinessLogicException();
         }
 
@@ -127,11 +127,26 @@ public class UserServiceImpl implements UserService {
             throw new BusinessLogicException();
         }
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date birthDay = dateFormat.parse(updateUserReq.getBirthDay());
+        User user = userRepository.findByEmail(email).orElseThrow(BusinessLogicException::new);
+        if (updateUserReq.getName() != null) {
+            user.setName(updateUserReq.getName());
+        }
+        if (updateUserReq.getPhoneNumber() != null) {
+            user.setName(updateUserReq.getPhoneNumber());
+        }
+        if (updateUserReq.getAddress() != null) {
+            user.setName(updateUserReq.getAddress());
+        }
+        if (updateUserReq.getBirthDay() != null){
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date birthDay = dateFormat.parse(updateUserReq.getBirthDay());
+            user.setBirthDay(birthDay);
+        }
+        if (updateUserReq.getGender() != null) {
+            user.setGender(Gender.valueOf(updateUserReq.getGender()));
+        }
 
-        userRepository.updateUser(email, updateUserReq.getName(), updateUserReq.getPhoneNumber(),
-                updateUserReq.getAddress(), birthDay, Gender.valueOf(updateUserReq.getGender()));
+        userRepository.save(user);
     }
 
     @Override
@@ -187,7 +202,6 @@ public class UserServiceImpl implements UserService {
         }
 
         if (!predicates.isEmpty()) {
-
             criteriaQuery.where(predicates.toArray(new Predicate[0]));
         }
 

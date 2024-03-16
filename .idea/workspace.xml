@@ -4,83 +4,135 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5592bd12-57f9-436c-a0cb-f23e7892a75f" name="Changes" comment="fix login 21:30 15/3/24">
+    <list default="true" id="dba02908-b05a-40d3-a9fa-0e8f533ad69f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/GP_BE.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/GP-BE.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/service/impl/ContactServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/service/impl/ContactServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/mvnw" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/mvnw" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/mvnw.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/mvnw.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/LearningApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/HustLearningApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/config/JpaAuditingConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/config/JpaAuditingConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/config/WebmvcConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/config/WebmvcConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/constant/DataStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/constant/DataStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/controller/AnswerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/controller/AnswerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/controller/DataCollectionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/controller/DataCollectionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/controller/QuestionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/controller/QuestionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/controller/TopicController.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/controller/TopicController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/controller/VocabularyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/controller/VocabularyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/dto/KeycloaksInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/dto/KeycloaksInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/dto/PageDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/dto/PageDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/dto/request/AnswerReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/dto/request/AnswerReq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/dto/request/DataProvideReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/dto/request/DataProvideReq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/dto/request/DataRejectReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/dto/request/DataRejectReq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/dto/request/DataSearchForAdminParam.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/dto/request/DataSearchForAdminParam.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/dto/request/DataSearchForUserParam.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/dto/request/DataSearchForUserParam.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/dto/request/QuestionLimitReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/dto/request/QuestionLimitReq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/dto/request/QuestionReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/dto/request/QuestionReq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/dto/request/SearchParamReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/dto/request/SearchParamReq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/dto/request/TopicReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/dto/request/TopicReq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/dto/request/UpdateAnswerReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/dto/request/UpdateAnswerReq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/dto/request/UpdateDataReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/dto/request/UpdateDataReq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/dto/request/UpdateQuestionReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/dto/request/UpdateQuestionReq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/dto/request/UpdateTopicReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/dto/request/UpdateTopicReq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/dto/request/UpdateVocabularyReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/dto/request/UpdateVocabularyReq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/dto/request/VocabularyLimitReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/dto/request/VocabularyLimitReq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/dto/request/VocabularyReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/dto/request/VocabularyReq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/dto/response/AnswerRes.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/dto/response/AnswerRes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/dto/response/DataCollectionRes.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/dto/response/DataCollectionRes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/dto/response/MessageResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/dto/response/MessageResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/dto/response/QuestionRes.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/dto/response/QuestionRes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/dto/response/SearchDataRes.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/dto/response/SearchDataRes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/dto/response/TopicRes.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/dto/response/TopicRes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/dto/response/VocabularyRes.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/dto/response/VocabularyRes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/entity/Answer.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/entity/Answer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/entity/BaseEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/entity/BaseEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/entity/DataCollection.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/entity/DataCollection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/entity/Question.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/entity/Question.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/entity/Topic.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/entity/Topic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/entity/Vocabulary.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/entity/Vocabulary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/exception/AlreadyExistsException.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/exception/AlreadyExistsException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/exception/BusinessLogicException.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/exception/BusinessLogicException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/exception/ErrorResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/exception/ErrorResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/mapper/AnswerMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/mapper/AnswerMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/mapper/DataCollectionMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/mapper/DataCollectionMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/mapper/Impl/AnswerMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/mapper/Impl/AnswerMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/mapper/Impl/DataCollectionMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/mapper/Impl/DataCollectionMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/mapper/Impl/QuestionMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/mapper/Impl/QuestionMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/mapper/Impl/SearchDataMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/mapper/Impl/SearchDataMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/mapper/Impl/TopicMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/mapper/Impl/TopicMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/mapper/Impl/VocabularyMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/mapper/Impl/VocabularyMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/mapper/QuestionMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/mapper/QuestionMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/mapper/SearchDataMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/mapper/SearchDataMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/mapper/TopicMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/mapper/TopicMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/mapper/VocabMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/mapper/VocabMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/repository/AnswerRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/repository/AnswerRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/repository/DataCollectionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/repository/DataCollectionRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/repository/QuestionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/repository/QuestionRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/repository/TopicRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/repository/TopicRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/repository/VocabularyRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/repository/VocabularyRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/security/JWTAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/security/JWTAuthenticationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/security/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/security/WebSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/service/AnswerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/service/AnswerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/service/DataCollectionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/service/DataCollectionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/service/Impl/AnswerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/service/Impl/AnswerServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/service/Impl/DataCollectionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/service/Impl/DataCollectionServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/service/Impl/QuestionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/service/Impl/QuestionServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/service/Impl/TopicServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/service/Impl/TopicServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/service/Impl/VocabularyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/service/Impl/VocabularyServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/service/QuestionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/service/QuestionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/service/TopicService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/service/TopicService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/service/VocabularySerivce.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/service/VocabularySerivce.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/java/com/example/learning_server/utils/EmailUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/learning_server/utils/EmailUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learning_Server/src/test/java/com/example/learning_server/HustLearningApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/test/java/com/example/learning_server/HustLearningApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/FriendShipControlller.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/FriendShipController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/impl/RoleServiceimpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/impl/RoleServiceimpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/impl/UserServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="CompilerWorkspaceConfiguration">
-    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
-  </component>
-  <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: 5
-}</component>
-  <component name="ProjectId" id="2dJgmw0i9iKYXcMZOPbudzWCUgB" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 5
+}]]></component>
+  <component name="ProjectId" id="2dknf4FFeKQGPZK5CU2QhYSGkjX" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/ASUS/Desktop/GP-BE/Chat_Server/src/main/java/com/chat/chat_server/constant&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propCompiler&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="ReactorSettings">
-    <option name="notificationShown" value="true" />
-  </component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\ASUS\Desktop\GP-BE\Chat_Server\src\main\java\com\chat\chat_server\constant" />
-      <recent name="C:\Users\ASUS\Desktop\GP-BE\User_Server\src\main\java\com\example\user_server\constant" />
-      <recent name="C:\Users\ASUS\Desktop\GP-BE\Chat_Server\src\main\java\com\chat\websocket\mapper" />
-      <recent name="C:\Users\ASUS\Desktop\GP-BE\HustApp-Docker" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.example.user_server.utils" />
-      <recent name="com.example.learning_server.utils" />
-      <recent name="com.example.user_server.exception" />
-      <recent name="com.chat.chat_server.exception" />
-      <recent name="com.example.learning_server.exception" />
-    </key>
-  </component>
+}]]></component>
   <component name="RunDashboard">
     <option name="configurationTypes">
       <set>
@@ -88,7 +140,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.ChatApplication">
+  <component name="RunManager" selected="Spring Boot.EurekaApplication">
     <configuration name="ChatApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="chatserver" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.chat.chat_server.ChatApplication" />
@@ -97,7 +149,6 @@
       </method>
     </configuration>
     <configuration name="DataCollectionApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="datacollectionserver" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.data_collection_server.DataCollectionApplication" />
       <method v="2">
@@ -121,7 +172,7 @@
       </method>
     </configuration>
     <configuration name="LearningApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="learningserver" />
+      <module name="hustlearningserver" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.learning_server.LearningApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -134,413 +185,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <list>
-      <item itemvalue="Spring Boot.ChatApplication" />
-      <item itemvalue="Spring Boot.LearningApplication" />
-      <item itemvalue="Spring Boot.DataCollectionApplication" />
-      <item itemvalue="Spring Boot.EurekaApplication" />
-      <item itemvalue="Spring Boot.GatewayApplication" />
-      <item itemvalue="Spring Boot.UserApplication" />
-    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="5592bd12-57f9-436c-a0cb-f23e7892a75f" name="Changes" comment="" />
-      <created>1709731760824</created>
+      <changelist id="dba02908-b05a-40d3-a9fa-0e8f533ad69f" name="Changes" comment="" />
+      <created>1710561048022</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1709731760824</updated>
-      <workItem from="1709731763515" duration="6712000" />
-      <workItem from="1709781750700" duration="27964000" />
-      <workItem from="1709816210648" duration="33000" />
-      <workItem from="1709816270963" duration="10701000" />
-      <workItem from="1709864329429" duration="23913000" />
-      <workItem from="1709987918394" duration="14031000" />
-      <workItem from="1710034828399" duration="5009000" />
-      <workItem from="1710051340812" duration="3772000" />
-      <workItem from="1710058310218" duration="14451000" />
-      <workItem from="1710122745505" duration="25679000" />
-      <workItem from="1710157190841" duration="57000" />
-      <workItem from="1710157283885" duration="48000" />
-      <workItem from="1710158073740" duration="7380000" />
-      <workItem from="1710165722121" duration="3564000" />
-      <workItem from="1710169461426" duration="570000" />
-      <workItem from="1710214565572" duration="1460000" />
-      <workItem from="1710226883042" duration="3673000" />
-      <workItem from="1710238637328" duration="15713000" />
-      <workItem from="1710260000790" duration="615000" />
-      <workItem from="1710260750490" duration="508000" />
-      <workItem from="1710312814402" duration="9105000" />
-      <workItem from="1710334821448" duration="10179000" />
-      <workItem from="1710391666392" duration="13607000" />
-      <workItem from="1710406671509" duration="6690000" />
-      <workItem from="1710427783377" duration="7082000" />
-      <workItem from="1710464890166" duration="13636000" />
-      <workItem from="1710480917642" duration="2354000" />
-      <workItem from="1710498172540" duration="249000" />
-      <workItem from="1710509104638" duration="5531000" />
+      <updated>1710561048022</updated>
+      <workItem from="1710561050796" duration="389000" />
     </task>
-    <task id="LOCAL-00001" summary="20:43 6/3/24">
-      <option name="closed" value="true" />
-      <created>1709739809737</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1709739809737</updated>
-    </task>
-    <task id="LOCAL-00002" summary="23:08 7/3/24">
-      <option name="closed" value="true" />
-      <created>1709827747953</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1709827747954</updated>
-    </task>
-    <task id="LOCAL-00003" summary="start chatserver 8/3/24">
-      <option name="closed" value="true" />
-      <created>1709880346933</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1709880346933</updated>
-    </task>
-    <task id="LOCAL-00004" summary="chatserver 16:00 8/3/24">
-      <option name="closed" value="true" />
-      <created>1709888461937</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1709888461937</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Fix BaseEntity 16:00 8/3/24">
-      <option name="closed" value="true" />
-      <created>1709990849284</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1709990849284</updated>
-    </task>
-    <task id="LOCAL-00006" summary="chatserver 23:31 9/3/24">
-      <option name="closed" value="true" />
-      <created>1710001884729</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1710001884729</updated>
-    </task>
-    <task id="LOCAL-00007" summary="chatserver 10:03 10/3/24">
-      <option name="closed" value="true" />
-      <created>1710039804341</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1710039804341</updated>
-    </task>
-    <task id="LOCAL-00008" summary="complete chatserver 16:00 10/3/24">
-      <option name="closed" value="true" />
-      <created>1710061220526</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1710061220526</updated>
-    </task>
-    <task id="LOCAL-00009" summary="fix chatserver 21:00 10/3/24">
-      <option name="closed" value="true" />
-      <created>1710079424122</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1710079424123</updated>
-    </task>
-    <task id="LOCAL-00010" summary="fix chatserver 21:08 10/3/24">
-      <option name="closed" value="true" />
-      <created>1710079719095</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1710079719095</updated>
-    </task>
-    <task id="LOCAL-00011" summary="fix chatserver 21:23 10/3/24">
-      <option name="closed" value="true" />
-      <created>1710080624905</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1710080624905</updated>
-    </task>
-    <task id="LOCAL-00012" summary="docker-compose cs-dcs-us 11:55 11/3/24">
-      <option name="closed" value="true" />
-      <created>1710132978651</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1710132978651</updated>
-    </task>
-    <task id="LOCAL-00013" summary="user and chat 22:06 11/3/24">
-      <option name="closed" value="true" />
-      <created>1710169679665</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1710169679665</updated>
-    </task>
-    <task id="LOCAL-00014" summary="fix users/search 11:00 12/3/24">
-      <option name="closed" value="true" />
-      <created>1710216112226</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1710216112226</updated>
-    </task>
-    <task id="LOCAL-00015" summary="fix chat 18:50 12/3/24">
-      <option name="closed" value="true" />
-      <created>1710244261744</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1710244261744</updated>
-    </task>
-    <task id="LOCAL-00016" summary="learning 23:00 12/3/24">
-      <option name="closed" value="true" />
-      <created>1710259557934</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1710259557934</updated>
-    </task>
-    <task id="LOCAL-00017" summary="learning 23:07 12/3/24">
-      <option name="closed" value="true" />
-      <created>1710260588557</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1710260588557</updated>
-    </task>
-    <task id="LOCAL-00018" summary="learning 23:10 12/3/24">
-      <option name="closed" value="true" />
-      <created>1710261146516</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1710261146516</updated>
-    </task>
-    <task id="LOCAL-00019" summary="learning 16:20 13/3/24">
-      <option name="closed" value="true" />
-      <created>1710321677526</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1710321677526</updated>
-    </task>
-    <task id="LOCAL-00020" summary="fix chat 18:20 13/3/24">
-      <option name="closed" value="true" />
-      <created>1710337229366</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1710337229366</updated>
-    </task>
-    <task id="LOCAL-00021" summary="leaning 22:50 13/3/24">
-      <option name="closed" value="true" />
-      <created>1710344955903</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1710344955903</updated>
-    </task>
-    <task id="LOCAL-00022" summary="fix base entity 13:38 14/3/24">
-      <option name="closed" value="true" />
-      <created>1710398319423</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1710398319423</updated>
-    </task>
-    <task id="LOCAL-00023" summary="fix base entity 13:38 14/3/24">
-      <option name="closed" value="true" />
-      <created>1710402446424</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1710402446424</updated>
-    </task>
-    <task id="LOCAL-00024" summary="us-ls-cs_docker 15:00 14/3/24">
-      <option name="closed" value="true" />
-      <created>1710403233551</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1710403233552</updated>
-    </task>
-    <task id="LOCAL-00025" summary="done cs-ls-us 15:00 14/3/24">
-      <option name="closed" value="true" />
-      <created>1710405704595</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1710405704595</updated>
-    </task>
-    <task id="LOCAL-00026" summary="fix MessageResponse 16:45 14/3/24">
-      <option name="closed" value="true" />
-      <created>1710409563247</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1710409563247</updated>
-    </task>
-    <task id="LOCAL-00027" summary="fix cs-ls-us 22:30 14/3/24">
-      <option name="closed" value="true" />
-      <created>1710429887591</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1710429887591</updated>
-    </task>
-    <task id="LOCAL-00028" summary="fix get-current 23:30 14/3/24">
-      <option name="closed" value="true" />
-      <created>1710433331865</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1710433331865</updated>
-    </task>
-    <task id="LOCAL-00029" summary="fix save-message 23:30 14/3/24">
-      <option name="closed" value="true" />
-      <created>1710434484388</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1710434484388</updated>
-    </task>
-    <task id="LOCAL-00030" summary="fix http-status 23:30 14/3/24">
-      <option name="closed" value="true" />
-      <created>1710475927460</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1710475927460</updated>
-    </task>
-    <task id="LOCAL-00031" summary="fix http-status 11:21 15/3/24">
-      <option name="closed" value="true" />
-      <created>1710476537430</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1710476537430</updated>
-    </task>
-    <task id="LOCAL-00032" summary="fix http-status 11:21 15/3/24">
-      <option name="closed" value="true" />
-      <created>1710476580879</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1710476580879</updated>
-    </task>
-    <task id="LOCAL-00033" summary="UserController 11:21 15/3/24">
-      <option name="closed" value="true" />
-      <created>1710477357464</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1710477357464</updated>
-    </task>
-    <task id="LOCAL-00034" summary="cs-ls-us 11:45 15/3/24">
-      <option name="closed" value="true" />
-      <created>1710477955280</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1710477955280</updated>
-    </task>
-    <task id="LOCAL-00035" summary="fix limits-message 11:45 15/3/24">
-      <option name="closed" value="true" />
-      <created>1710482097921</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1710482097922</updated>
-    </task>
-    <task id="LOCAL-00036" summary="fix login 21:30 15/3/24">
-      <option name="closed" value="true" />
-      <created>1710513189404</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1710513189404</updated>
-    </task>
-    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="UnknownFeatures">
-    <option featureType="dependencySupport" implementationName="java:org.springframework.security:spring-security-core" />
-    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-core" />
-    <option featureType="dependencySupport" implementationName="java:jakarta.validation:jakarta.validation-api" />
-    <option featureType="dependencySupport" implementationName="java:io.projectreactor:reactor-core" />
-    <option featureType="dependencySupport" implementationName="java:org.springframework.data:spring-data-commons" />
-    <option featureType="dependencySupport" implementationName="executable:kubectl" />
-    <option featureType="dependencySupport" implementationName="java:org.springframework.cloud:spring-cloud-context" />
-    <option featureType="dependencySupport" implementationName="java:org.hibernate.validator:hibernate-validator" />
-    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-webmvc" />
-    <option featureType="dependencySupport" implementationName="java:org.projectlombok:lombok" />
-    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-websocket" />
-    <option featureType="dependencySupport" implementationName="executable:docker" />
-    <option featureType="dependencySupport" implementationName="java:jakarta.persistence:jakarta.persistence-api" />
-    <option featureType="dependencySupport" implementationName="java:jakarta.ws.rs:jakarta.ws.rs-api" />
-    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-messaging" />
-    <option featureType="dependencySupport" implementationName="java:org.springframework.boot:spring-boot" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix chatserver 21:23 10/3/24" />
-    <MESSAGE value="docker-compose cs-dcs-us 11:55 11/3/24" />
-    <MESSAGE value="user and chat 21:50 11/3/24" />
-    <MESSAGE value="user and chat 22:06 11/3/24" />
-    <MESSAGE value="fix users/search 11:00 12/3/24" />
-    <MESSAGE value="fix chat 18:50 12/3/24" />
-    <MESSAGE value="learning 23:00 12/3/24" />
-    <MESSAGE value="learning 23:07 12/3/24" />
-    <MESSAGE value="learning 23:10 12/3/24" />
-    <MESSAGE value="learning 16:20 13/3/24" />
-    <MESSAGE value="fix chat 18:20 13/3/24" />
-    <MESSAGE value="leaning 22:50 13/3/24" />
-    <MESSAGE value="fix base entity 13:38 14/3/24" />
-    <MESSAGE value="us-ls-cs_docker 15:00 14/3/24" />
-    <MESSAGE value="done cs-ls-us 15:00 14/3/24" />
-    <MESSAGE value="fix MessageResponse 16:45 14/3/24" />
-    <MESSAGE value="fix cs-ls-us 22:30 14/3/24" />
-    <MESSAGE value="fix get-current 23:30 14/3/24" />
-    <MESSAGE value="fix save-message 23:30 14/3/24" />
-    <MESSAGE value="fix http-status 23:30 14/3/24" />
-    <MESSAGE value="fix http-status 11:21 15/3/24" />
-    <MESSAGE value="UserController 11:21 15/3/24" />
-    <MESSAGE value="cs-ls-us 11:45 15/3/24" />
-    <MESSAGE value="fix limits-message 11:45 15/3/24" />
-    <MESSAGE value="fix login 21:30 15/3/24" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix login 21:30 15/3/24" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/impl/UserServiceImpl.java</url>
-          <line>248</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/friend-ship")
 @RequiredArgsConstructor
-public class FriendShipControlller {
+public class FriendShipController {
 
     private final AddFriendService addFriendService;
 

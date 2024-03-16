@@ -21,11 +21,6 @@ public class RoleServiceimpl implements RoleService {
 
     @Override
     public void create(Role role) {
-        String email = EmailUtils.getCurrentUser();
-        if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
-        }
-
         roleRepository.save(role);
     }
 

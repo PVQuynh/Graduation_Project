@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/GP-BE.iml" filepath="$PROJECT_DIR$/.idea/GP-BE.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Chat_Server/chatserver.iml" filepath="$PROJECT_DIR$/Chat_Server/chatserver.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/GP_BE.iml" filepath="$PROJECT_DIR$/.idea/GP_BE.iml" />
     </modules>
   </component>
 </project>
