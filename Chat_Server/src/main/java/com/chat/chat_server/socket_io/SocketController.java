@@ -55,8 +55,6 @@ public class SocketController {
 
         return (senderClient, messageReq, ackSender) -> {
             String conversationId = senderClient.getHandshakeData().getSingleUrlParam("conversationId");
-            System.out.println("onMessageReceived conversationId: " + conversationId);
-            System.out.println("onMessageReceived messageReq: " + messageReq);
 
             senderClient.getNamespace().getRoomOperations(conversationId).getClients().forEach(
                     x -> {

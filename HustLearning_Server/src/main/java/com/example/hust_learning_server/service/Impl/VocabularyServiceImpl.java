@@ -93,7 +93,6 @@ public class VocabularyServiceImpl implements VocabularySerivce {
         }
 
         if (!predicates.isEmpty()) {
-
             criteriaQuery.where(predicates.toArray(new Predicate[0]));
         }
 
