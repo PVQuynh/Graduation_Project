@@ -94,9 +94,11 @@ public class TopicServiceImpl implements TopicService {
         List<Predicate> predicates = new ArrayList<>();
 
         // Filter by text (if provided)
-        String searchText = "%" + searchTopicParamReq.text + "%";
-        Predicate contentLike = criteriaBuilder.like(root.get("content"), searchText);
-        predicates.add(contentLike);
+        if (!ObjectUtils.isEmpty(searchTopicParamReq.text)) {
+            String searchText = "%" + searchTopicParamReq.text + "%";
+            Predicate contentLike = criteriaBuilder.like(root.get("content"), searchText);
+            predicates.add(contentLike);
+        } else return null;
 
         // Filter by descending and orderBy (if provided)
         if (!ObjectUtils.isEmpty(searchTopicParamReq.ascending) && !ObjectUtils.isEmpty(searchTopicParamReq.orderBy)) {
@@ -108,18 +110,18 @@ public class TopicServiceImpl implements TopicService {
         }
 
         if (!predicates.isEmpty()) {
-
             criteriaQuery.where(predicates.toArray(new Predicate[0]));
         }
+
         TypedQuery<Topic> query = entityManager.createQuery(criteriaQuery);
         int totalRows = query.getResultList().size();
         List<Topic> results = query
             .setFirstResult((searchTopicParamReq.page - 1) * searchTopicParamReq.size) // Offset
             .setMaxResults(searchTopicParamReq.size) // Limit
             .getResultList();
-        PageDTO<TopicRes> userResPageDTO = new PageDTO<>(topicMapper.toDTOList(results), searchTopicParamReq.page, totalRows);
 
-        return userResPageDTO;
+        PageDTO<TopicRes> topicResPageDTO = new PageDTO<>(topicMapper.toDTOList(results), searchTopicParamReq.page, totalRows);
+        return topicResPageDTO;
     }
 
     @Override

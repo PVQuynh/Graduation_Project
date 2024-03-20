@@ -90,12 +90,14 @@ public class ContactServiceImpl implements ContactService {
         List<Predicate> predicates = new ArrayList<>();
 
         // Filter by text (if provided)
-        String searchText = "%" + contactSearchReq.text + "%";
-        Predicate nameLike = criteriaBuilder.like(root.get("name"), searchText);
-        Predicate emailLike = criteriaBuilder.like(root.get("email"), searchText);
-        Predicate validEmail = criteriaBuilder.notEqual(root.get("email"), email);
-        predicates.add(criteriaBuilder.or(nameLike, emailLike));
-        predicates.add(validEmail);
+        if (!ObjectUtils.isEmpty(contactSearchReq.text)) {
+            String searchText = "%" + contactSearchReq.text + "%";
+            Predicate nameLike = criteriaBuilder.like(root.get("name"), searchText);
+            Predicate emailLike = criteriaBuilder.like(root.get("email"), searchText);
+            Predicate validEmail = criteriaBuilder.notEqual(root.get("email"), email);
+            predicates.add(criteriaBuilder.or(nameLike, emailLike));
+            predicates.add(validEmail);
+        } else return null;
 
         // Filter by descending and orderBy (if provided)
         if (!ObjectUtils.isEmpty(contactSearchReq.ascending) && !ObjectUtils.isEmpty(contactSearchReq.orderBy)) {

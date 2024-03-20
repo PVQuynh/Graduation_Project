@@ -184,12 +184,14 @@ public class UserServiceImpl implements UserService {
         List<Predicate> predicates = new ArrayList<>();
 
         // Filter by text (if provided)
-        String searchText = "%" + userSearchReq.text + "%";
-        Predicate nameLike = criteriaBuilder.like(root.get("name"), searchText);
-        Predicate emailLike = criteriaBuilder.like(root.get("email"), searchText);
-        Predicate validEmail = criteriaBuilder.notEqual(root.get("email"), email);
-        predicates.add(criteriaBuilder.or(nameLike, emailLike));
-        predicates.add(validEmail);
+        if (!ObjectUtils.isEmpty(userSearchReq.text)) {
+            String searchText = "%" + userSearchReq.text + "%";
+            Predicate nameLike = criteriaBuilder.like(root.get("name"), searchText);
+            Predicate emailLike = criteriaBuilder.like(root.get("email"), searchText);
+            Predicate validEmail = criteriaBuilder.notEqual(root.get("email"), email);
+            predicates.add(criteriaBuilder.or(nameLike, emailLike));
+            predicates.add(validEmail);
+        } else return null;
 
         // Filter by descending and orderBy (if provided)
         if (!ObjectUtils.isEmpty(userSearchReq.ascending) && !ObjectUtils.isEmpty(

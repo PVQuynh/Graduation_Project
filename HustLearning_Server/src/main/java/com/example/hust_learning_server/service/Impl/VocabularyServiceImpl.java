@@ -65,6 +65,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
 
     @Override
     public PageDTO<VocabularyRes> search(SearchVocabularyParamReq searchVocabularyParamReq) {
+
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Vocabulary> criteriaQuery = criteriaBuilder.createQuery(Vocabulary.class);
         Root<Vocabulary> root = criteriaQuery.from(Vocabulary.class);
@@ -75,7 +76,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
             String searchText = "%" + searchVocabularyParamReq.text + "%";
             Predicate contentLike = criteriaBuilder.like(root.get("content"), searchText);
             predicates.add(contentLike);
-        }
+        } else return null;
 
         if (searchVocabularyParamReq.topicId !=0){
             Join<Vocabulary, Topic> topicJoin = root.join("topic");
@@ -102,9 +103,9 @@ public class VocabularyServiceImpl implements VocabularySerivce {
                 .setFirstResult((searchVocabularyParamReq.page - 1) * searchVocabularyParamReq.size) // Offset
                 .setMaxResults(searchVocabularyParamReq.size) // Limit
                 .getResultList();
-        PageDTO<VocabularyRes> userResPageDTO = new PageDTO<>(vocabularyMapper.toDTOList(results), searchVocabularyParamReq.page, totalRows);
 
-        return userResPageDTO;
+        PageDTO<VocabularyRes> vocabularyResPageDTO = new PageDTO<>(vocabularyMapper.toDTOList(results), searchVocabularyParamReq.page, totalRows);
+        return vocabularyResPageDTO;
     }
 
     @Override

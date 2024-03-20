@@ -165,7 +165,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             Predicate vocabLike = criteriaBuilder.like(criteriaBuilder.lower(vocabJoin.get("content")),
                     "%" + dataSearchForUserParam.vocabulary.toLowerCase() + "%");
             predicates.add(vocabLike);
-        }
+        } else return null;
 
         if (!ObjectUtils.isEmpty(dataSearchForUserParam.createdFrom)) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -249,7 +249,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             Predicate vocabLike = criteriaBuilder.like(criteriaBuilder.lower(vocabJoin.get("content")),
                     "%" + dataSearchForAdminParam.vocabulary.toLowerCase() + "%");
             predicates.add(vocabLike);
-        }
+        } else return null;
 
         if (!ObjectUtils.isEmpty(dataSearchForAdminParam.createdFrom)) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
