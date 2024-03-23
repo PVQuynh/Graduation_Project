@@ -33,7 +33,7 @@ import org.springframework.util.ObjectUtils;
 @RequiredArgsConstructor
 public class TopicServiceImpl implements TopicService {
 
-    @PersistenceContext(type = PersistenceContextType.EXTENDED)
+    @PersistenceContext(type = PersistenceContextType.TRANSACTION)
     private EntityManager entityManager;
 
     private  final TopicRepository topicRepository;

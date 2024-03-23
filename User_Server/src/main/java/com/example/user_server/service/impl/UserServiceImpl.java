@@ -45,7 +45,7 @@ import org.springframework.util.ObjectUtils;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    @PersistenceContext(type = PersistenceContextType.EXTENDED)
+    @PersistenceContext(type = PersistenceContextType.TRANSACTION)
     private EntityManager entityManager;
 
     private final KeycloakService keycloakService;

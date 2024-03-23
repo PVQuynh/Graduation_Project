@@ -20,7 +20,9 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+
 import java.util.ArrayList;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -34,12 +36,13 @@ import org.springframework.util.ObjectUtils;
 @RequiredArgsConstructor
 public class VocabularyServiceImpl implements VocabularySerivce {
 
-    @PersistenceContext(type = PersistenceContextType.EXTENDED)
+    @PersistenceContext(type = PersistenceContextType.TRANSACTION)
+//    @PersistenceContext(type = PersistenceContextType.EXTENDED)
     private EntityManager entityManager;
 
     private final VocabularyRepository vocabularyRepository;
 
-    private  final VocabularyMapperImpl vocabularyMapper;
+    private final VocabularyMapperImpl vocabularyMapper;
 
     @Override
     public List<VocabularyRes> getVocabulariesByTopicId(long topicId) {
@@ -55,7 +58,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
 
     @Override
     public List<VocabularyRes> vocabularyLimits(VocabularyLimitReq vocabularyLimitReq) {
-        Pageable pageable = PageRequest.of(vocabularyLimitReq.getPage()-1, vocabularyLimitReq.getSize());
+        Pageable pageable = PageRequest.of(vocabularyLimitReq.getPage() - 1, vocabularyLimitReq.getSize());
 
         List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesLimitByTopicId(vocabularyLimitReq.getTopicId(), pageable).orElseThrow(BusinessLogicException::new);
         if (vocabularies.isEmpty()) throw new BusinessLogicException();
@@ -65,7 +68,6 @@ public class VocabularyServiceImpl implements VocabularySerivce {
 
     @Override
     public PageDTO<VocabularyRes> search(SearchVocabularyParamReq searchVocabularyParamReq) {
-
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Vocabulary> criteriaQuery = criteriaBuilder.createQuery(Vocabulary.class);
         Root<Vocabulary> root = criteriaQuery.from(Vocabulary.class);
@@ -78,7 +80,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
             predicates.add(contentLike);
         } else return null;
 
-        if (searchVocabularyParamReq.topicId !=0){
+        if (searchVocabularyParamReq.topicId != 0) {
             Join<Vocabulary, Topic> topicJoin = root.join("topic");
             Predicate topicLike = criteriaBuilder.equal(topicJoin.get("id"), searchVocabularyParamReq.topicId);
             predicates.add(topicLike);
@@ -131,7 +133,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
         if (updateVocabularyReq.getContent() != null) {
             vocabulary.setContent(updateVocabularyReq.getContent());
         }
-        if (updateVocabularyReq.getImageLocation() !=null) {
+        if (updateVocabularyReq.getImageLocation() != null) {
             vocabulary.setImageLocation(updateVocabularyReq.getImageLocation());
         }
         if (updateVocabularyReq.getVideoLocation() != null) {
