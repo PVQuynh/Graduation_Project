@@ -18,12 +18,17 @@ public class GroupMemberController {
     private final GroupMemberService groupMemberService;
 
     @GetMapping("/{conversationId}")
-    public List<GroupMemberRes> getGroupMemberInConversation(@PathVariable("conversationId") long conversationId) {
+    public MessageResponse getGroupMemberInConversation(@PathVariable("conversationId") long conversationId) {
+        MessageResponse ms = new MessageResponse();
+
         try {
-            return groupMemberService.getGroupMembersByConversationId(conversationId);
+            ms.data = groupMemberService.getGroupMembersByConversationId(conversationId);
         } catch (Exception ex) {
-            return null;
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
         }
+
+        return ms;
     }
 
     @PostMapping

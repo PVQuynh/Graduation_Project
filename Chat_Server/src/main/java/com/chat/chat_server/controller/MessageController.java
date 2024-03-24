@@ -20,21 +20,31 @@ public class MessageController {
     private final MessageService messageService;
 
     @GetMapping("{conversationId}")
-    public List<MessageRes> getAllMessageConversation(@PathVariable int conversationId) {
+    public MessageResponse getAllMessageConversation(@PathVariable int conversationId) {
+        MessageResponse ms = new MessageResponse();
+
         try {
-            return messageService.getAllMessageConversation(conversationId);
+            ms.data = messageService.getAllMessageConversation(conversationId);
         } catch (Exception ex) {
-            return null;
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
         }
+
+        return ms;
     }
 
     @PostMapping("limits-conversation")
-    public List<MessageRes> getMessageLimits(@RequestBody MessageLimitReq messageLimitReq) {
+    public MessageResponse getMessageLimits(@RequestBody MessageLimitReq messageLimitReq) {
+        MessageResponse ms = new MessageResponse();
+
         try {
-            return messageService.messageLimits(messageLimitReq);
+            ms.data = messageService.messageLimits(messageLimitReq);
         } catch (Exception ex) {
-            return null;
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
         }
+
+        return ms;
     }
 
     @PutMapping

@@ -20,21 +20,31 @@ public class ConversationController {
     private final ConversationService conversationService;
 
     @GetMapping("/all-me")
-    public List<ConversationAndGrouAttachConvListRes> getMyListConversation() {
+    public MessageResponse getMyListConversation() {
+        MessageResponse ms = new MessageResponse();
+
         try {
-            return conversationService.getMyList();
+            ms.data = conversationService.getMyList();
         } catch (Exception ex) {
-            return null;
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
         }
+
+        return ms;
     }
 
     @GetMapping("/{contactId}")
-    public ConversationAndGrouAttachConvListRes getConversationByContactId(@PathVariable long contactId) {
+    public MessageResponse getConversationByContactId(@PathVariable long contactId) {
+        MessageResponse ms = new MessageResponse();
+
         try {
-            return conversationService.getByContactId(contactId);
+            ms.data = conversationService.getByContactId(contactId);
         } catch (Exception ex) {
-            return null;
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
         }
+
+        return ms;
     }
 
     @PostMapping

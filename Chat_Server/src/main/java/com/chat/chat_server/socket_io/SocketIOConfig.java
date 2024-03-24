@@ -16,9 +16,6 @@ public class SocketIOConfig {
         com.corundumstudio.socketio.Configuration config = new com.corundumstudio.socketio.Configuration();
         config.setPort(port);
         config.setOrigin("*");
-        config.setTransports(Transport.POLLING, Transport.WEBSOCKET);
-//        config.setOrigin("https://wetalk.ibme.edu.vn/service-chat");
-        config.setOrigin("http://202.191.56.11:8050");
         return new SocketIOServer(config);
     }
 

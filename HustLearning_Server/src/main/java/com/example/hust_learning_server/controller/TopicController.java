@@ -29,9 +29,8 @@ public class TopicController {
         try {
             ms.data = topicService.getAllTopic();
         } catch (Exception ex) {
-            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.code = HttpStatus.NOT_FOUND.value();
             ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
-            ;
         }
 
         return ms;

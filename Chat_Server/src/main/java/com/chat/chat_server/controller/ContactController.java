@@ -21,30 +21,45 @@ public class ContactController {
     private final ContactService contactService;
 
     @GetMapping("/me")
-    public ContactRes getMyContact() {
+    public MessageResponse getMyContact() {
+        MessageResponse ms = new MessageResponse();
+
         try {
-            return contactService.getMyContact();
+            ms.data = contactService.getMyContact();
         } catch (Exception ex) {
-            return null;
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
         }
+
+        return ms;
     }
 
     @GetMapping("/{id}")
-    public ContactRes getById(@PathVariable long id) {
+    public MessageResponse getById(@PathVariable long id) {
+        MessageResponse ms = new MessageResponse();
+
         try {
-            return contactService.getContactById(id);
+            ms.data = contactService.getContactById(id);
         } catch (Exception ex) {
-            return null;
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
         }
+
+        return ms;
     }
 
     @PostMapping("/find-by-email")
-    public ContactRes findByEmail(@RequestBody ContactByEmailReq contactByEmailReq) {
+    public MessageResponse findByEmail(@RequestBody ContactByEmailReq contactByEmailReq) {
+        MessageResponse ms = new MessageResponse();
+
         try {
-            return contactService.getByEmail(contactByEmailReq);
+            ms.data = contactService.getByEmail(contactByEmailReq);
         } catch (Exception ex) {
-            return null;
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
         }
+
+        return ms;
     }
 
     @PostMapping("/search")
