@@ -31,4 +31,6 @@ public class DataCollectionRes {
   private String editor;
 
   private long vocabularyId;
+
+  private String vocabularyContent;
 }

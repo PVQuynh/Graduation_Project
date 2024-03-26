@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -45,8 +46,7 @@ import org.springframework.util.ObjectUtils;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    @PersistenceContext(type = PersistenceContextType.TRANSACTION)
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     private final KeycloakService keycloakService;
 
@@ -132,10 +132,10 @@ public class UserServiceImpl implements UserService {
             user.setName(updateUserReq.getName());
         }
         if (updateUserReq.getPhoneNumber() != null) {
-            user.setName(updateUserReq.getPhoneNumber());
+            user.setPhoneNumber(updateUserReq.getPhoneNumber());
         }
         if (updateUserReq.getAddress() != null) {
-            user.setName(updateUserReq.getAddress());
+            user.setAddress(updateUserReq.getAddress());
         }
         if (updateUserReq.getBirthDay() != null){
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

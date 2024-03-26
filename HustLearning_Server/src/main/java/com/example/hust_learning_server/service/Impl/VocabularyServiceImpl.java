@@ -36,9 +36,7 @@ import org.springframework.util.ObjectUtils;
 @RequiredArgsConstructor
 public class VocabularyServiceImpl implements VocabularySerivce {
 
-    @PersistenceContext(type = PersistenceContextType.TRANSACTION)
-//    @PersistenceContext(type = PersistenceContextType.EXTENDED)
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     private final VocabularyRepository vocabularyRepository;
 
@@ -145,7 +143,12 @@ public class VocabularyServiceImpl implements VocabularySerivce {
 
     @Override
     public void deleteById(long id) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
 
+        vocabularyRepository.deleteById(id);
     }
 
 

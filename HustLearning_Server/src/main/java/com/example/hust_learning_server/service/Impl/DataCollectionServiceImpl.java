@@ -39,8 +39,7 @@ import org.springframework.util.ObjectUtils;
 @RequiredArgsConstructor
 public class DataCollectionServiceImpl implements DataCollectionService {
 
-    @PersistenceContext(type = PersistenceContextType.TRANSACTION)
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     private final DataCollectionRepository dataCollectionRepository;
 
