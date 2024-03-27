@@ -2,13 +2,12 @@ package com.example.hust_learning_server.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "data_collection")
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
