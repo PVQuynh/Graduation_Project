@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface VocabularySerivce {
 
+    List<VocabularyRes> getExactVocabularies(ExactVocabularyReq exactVocabularyReq);
+
     List<VocabularyRes> getVocabulariesByTopicId(long topicId);
 
     List<VocabularyRes> vocabularyLimits(VocabularyLimitReq vocabularyLimitReq);
@@ -15,6 +17,8 @@ public interface VocabularySerivce {
     PageDTO<VocabularyRes> search(SearchVocabularyParamReq searchVocabularyParamReq);
 
     void addVocabulary(VocabularyReq vocabulary);
+
+    void addVocabularyList(List<VocabularyReq> vocabularyReqList);
 
     void updateVocabulary(UpdateVocabularyReq updateVocabularyReq);
 

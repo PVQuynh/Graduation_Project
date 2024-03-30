@@ -43,6 +43,14 @@ public class VocabularyServiceImpl implements VocabularySerivce {
     private final VocabularyMapperImpl vocabularyMapper;
 
     @Override
+    public List<VocabularyRes> getExactVocabularies(ExactVocabularyReq exactVocabularyReq) {
+        List<Vocabulary> vocabularies = vocabularyRepository.findAllByContent(exactVocabularyReq.getContent()).orElseThrow(() -> new BusinessLogicException());
+        if (vocabularies.isEmpty()) throw new BusinessLogicException();
+
+        return vocabularyMapper.toDTOList(vocabularies);
+    }
+
+    @Override
     public List<VocabularyRes> getVocabulariesByTopicId(long topicId) {
         List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesByTopicId(topicId).orElseThrow(() -> new BusinessLogicException());
         if (vocabularies.isEmpty()) throw new BusinessLogicException();
@@ -117,6 +125,17 @@ public class VocabularyServiceImpl implements VocabularySerivce {
 
         Vocabulary vocabulary = vocabularyMapper.toEntity(vocabularyReq);
         vocabularyRepository.save(vocabulary);
+    }
+
+    @Override
+    public void addVocabularyList(List<VocabularyReq> vocabularyReqList) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
+        List<Vocabulary> vocabularyList = vocabularyMapper.toEntityList(vocabularyReqList);
+        vocabularyRepository.saveAll(vocabularyList);
     }
 
     @Override

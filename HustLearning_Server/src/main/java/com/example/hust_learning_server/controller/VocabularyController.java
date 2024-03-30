@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/vocabularies")
@@ -32,6 +34,18 @@ public class VocabularyController {
         return ms;
     }
 
+    @PostMapping ("/get-by-content")
+    public MessageResponse getExactVocabularies(@RequestBody ExactVocabularyReq exactVocabularyReq) {
+
+        MessageResponse ms = new MessageResponse();
+        try {
+            ms.data = vocabularyService.getExactVocabularies(exactVocabularyReq);
+        } catch (Exception ex) {
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
+        }
+        return ms;
+    }
 
     @PostMapping("/limits-topic")
     public MessageResponse getAllVocabularies(@RequestBody VocabularyLimitReq vocabularyLimitReq) {
@@ -56,6 +70,23 @@ public class VocabularyController {
         MessageResponse ms = new MessageResponse();
         try {
             vocabularyService.addVocabulary(vocabularyReq);
+        }
+//        catch (AlreadyExistsException ex) {
+//            ms.code = HttpStatus.CONFLICT.value();
+//            ms.message = HttpStatus.CONFLICT.getReasonPhrase(); // not fix
+//        }
+        catch (BusinessLogicException ex) {
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(); // not fix
+        }
+        return ms;
+    }
+
+    @PostMapping("/add-list")
+    public MessageResponse addVocabularyList(@RequestBody List<VocabularyReq> vocabularyReqList) {
+        MessageResponse ms = new MessageResponse();
+        try {
+            vocabularyService.addVocabularyList(vocabularyReqList);
         } catch (AlreadyExistsException ex) {
             ms.code = HttpStatus.CONFLICT.value();
             ms.message = HttpStatus.CONFLICT.getReasonPhrase(); // not fix
