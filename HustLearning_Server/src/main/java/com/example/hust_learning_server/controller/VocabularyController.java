@@ -8,6 +8,7 @@ import com.example.hust_learning_server.exception.AlreadyExistsException;
 import com.example.hust_learning_server.exception.BusinessLogicException;
 import com.example.hust_learning_server.service.VocabularySerivce;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,11 +22,21 @@ public class VocabularyController {
     private final VocabularySerivce vocabularyService;
 
     @GetMapping("/all")
-    public MessageResponse getAllVocabulary() {
+    public MessageResponse getAllVocabulary(@RequestParam(required = false) Long topicId, @RequestParam(required = false) String content) {
 
         MessageResponse ms = new MessageResponse();
         try {
-            ms.data = vocabularyService.getAllVocabulary();
+            if (topicId != null && content != null) {
+                ms.data = vocabularyService.getVocabularyByTopicIdAndContent(topicId, content);
+            }
+            else if (topicId != null && content == null) {
+                ms.data = vocabularyService.getVocabulariesByTopicId(topicId);
+            }
+            else if (topicId == null && content != null) {
+                ms.data = vocabularyService.getVocabulariesByContent(content);
+            } else {
+                ms.data = vocabularyService.getAllVocabulary();
+            }
         } catch (Exception ex) {
             ms.code = HttpStatus.NOT_FOUND.value();
             ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();

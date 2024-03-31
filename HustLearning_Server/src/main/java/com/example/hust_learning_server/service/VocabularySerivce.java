@@ -12,7 +12,11 @@ public interface VocabularySerivce {
 
     List<VocabularyRes> getExactVocabularies(ExactVocabularyReq exactVocabularyReq);
 
+    List<VocabularyRes> getVocabulariesByContent(String content);
+
     List<VocabularyRes> getVocabulariesByTopicId(long topicId);
+
+    List<VocabularyRes> getVocabularyByTopicIdAndContent(long topicId, String content);
 
     List<VocabularyRes> vocabularyLimits(VocabularyLimitReq vocabularyLimitReq);
 

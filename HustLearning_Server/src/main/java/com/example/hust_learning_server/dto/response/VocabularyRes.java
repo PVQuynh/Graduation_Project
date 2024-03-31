@@ -19,6 +19,8 @@ public class VocabularyRes {
 
     private  String videoLocation;
 
-    private  long topicId;
+    private long topicId;
+
+    private String topicContent;
 
 }

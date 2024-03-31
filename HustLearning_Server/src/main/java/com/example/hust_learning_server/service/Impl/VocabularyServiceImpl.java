@@ -58,8 +58,24 @@ public class VocabularyServiceImpl implements VocabularySerivce {
     }
 
     @Override
+    public List<VocabularyRes> getVocabulariesByContent(String content) {
+        List<Vocabulary> vocabularies = vocabularyRepository.findAllByContent(content).orElseThrow(() -> new BusinessLogicException());
+        if (vocabularies.isEmpty()) throw new BusinessLogicException();
+
+        return vocabularyMapper.toDTOList(vocabularies);
+    }
+
+    @Override
     public List<VocabularyRes> getVocabulariesByTopicId(long topicId) {
         List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesByTopicId(topicId).orElseThrow(() -> new BusinessLogicException());
+        if (vocabularies.isEmpty()) throw new BusinessLogicException();
+
+        return vocabularyMapper.toDTOList(vocabularies);
+    }
+
+    @Override
+    public List<VocabularyRes> getVocabularyByTopicIdAndContent(long topicId, String content) {
+        List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesByTopicIdAndContent(topicId, content).orElseThrow(() -> new BusinessLogicException());
         if (vocabularies.isEmpty()) throw new BusinessLogicException();
 
         return vocabularyMapper.toDTOList(vocabularies);
