@@ -20,9 +20,22 @@ public class VocabularyController {
 
     private final VocabularySerivce vocabularyService;
 
+    @GetMapping("/all")
+    public MessageResponse getAllVocabulary() {
+
+        MessageResponse ms = new MessageResponse();
+        try {
+            ms.data = vocabularyService.getAllVocabulary();
+        } catch (Exception ex) {
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
+        }
+        return ms;
+    }
+
 
     @GetMapping("/{topicId}")
-    public MessageResponse getAllVocabularies(@PathVariable("topicId") long topicId) {
+    public MessageResponse getAllVocabulariesByTopicId(@PathVariable("topicId") long topicId) {
 
         MessageResponse ms = new MessageResponse();
         try {

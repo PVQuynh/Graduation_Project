@@ -43,6 +43,13 @@ public class VocabularyServiceImpl implements VocabularySerivce {
     private final VocabularyMapperImpl vocabularyMapper;
 
     @Override
+    public List<VocabularyRes> getAllVocabulary() {
+        List<Vocabulary> vocabularies = vocabularyRepository.findAll();
+
+        return vocabularyMapper.toDTOList(vocabularies);
+    }
+
+    @Override
     public List<VocabularyRes> getExactVocabularies(ExactVocabularyReq exactVocabularyReq) {
         List<Vocabulary> vocabularies = vocabularyRepository.findAllByContent(exactVocabularyReq.getContent()).orElseThrow(() -> new BusinessLogicException());
         if (vocabularies.isEmpty()) throw new BusinessLogicException();

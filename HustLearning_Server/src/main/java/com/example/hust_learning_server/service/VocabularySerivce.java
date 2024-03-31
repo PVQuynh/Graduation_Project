@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface VocabularySerivce {
 
+    List<VocabularyRes> getAllVocabulary();
+
     List<VocabularyRes> getExactVocabularies(ExactVocabularyReq exactVocabularyReq);
 
     List<VocabularyRes> getVocabulariesByTopicId(long topicId);
