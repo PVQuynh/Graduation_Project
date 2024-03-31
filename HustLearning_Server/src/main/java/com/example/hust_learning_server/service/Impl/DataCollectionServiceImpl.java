@@ -15,8 +15,6 @@ import com.example.hust_learning_server.repository.VocabularyRepository;
 import com.example.hust_learning_server.service.DataCollectionService;
 import com.example.hust_learning_server.utils.EmailUtils;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.PersistenceContextType;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -292,39 +290,44 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     }
 
     @Override
-    public void approve(long id) {
-        String email = EmailUtils.getCurrentUser();
-        if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
-        }
-
-        DataCollection dataCollection = dataCollectionRepository.findById(id).orElseThrow(() -> new BusinessLogicException());
-
-        if (dataCollection.getStatus() == DataStatus.APPROVED) {
-            throw new BusinessLogicException();
-        }
-
-        dataCollection.setStatus(DataStatus.APPROVED);
-        dataCollection.setAdminEmail(email);
-
-        dataCollectionRepository.save(dataCollection);
-    }
-
-    @Override
-    public void reject(DataRejectReq dataRejectReq) {
+    public void approve(DataReq dataReq) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
             throw new BusinessLogicException();
         }
 
         DataCollection dataCollection = dataCollectionRepository.findById(
-                dataRejectReq.dataCollectionId).orElseThrow(() -> new BusinessLogicException());
+                dataReq.dataCollectionId).orElseThrow(() -> new BusinessLogicException());
+
+        if (dataCollection.getStatus() == DataStatus.APPROVED) {
+            throw new BusinessLogicException();
+        }
+
+        dataCollection.setAdminEmail(email);
+        dataCollection.setStatus(DataStatus.APPROVED);
+        dataCollection.setScore(dataReq.score);
+        dataCollection.setFeedBack(dataReq.feedBack);
+        dataCollectionRepository.save(dataCollection);
+    }
+
+    @Override
+    public void reject(DataReq dataReq) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
+        DataCollection dataCollection = dataCollectionRepository.findById(
+                dataReq.dataCollectionId).orElseThrow(() -> new BusinessLogicException());
+
         if (dataCollection.getStatus() == DataStatus.REJECTED) {
             throw new BusinessLogicException();
         }
-        dataCollection.setStatus(DataStatus.REJECTED);
+
         dataCollection.setAdminEmail(email);
-        dataCollection.setFeedBack(dataRejectReq.feedBack);
+        dataCollection.setStatus(DataStatus.REJECTED);
+        dataCollection.setScore(dataReq.score);
+        dataCollection.setFeedBack(dataReq.feedBack);
         dataCollectionRepository.save(dataCollection);
     }
 

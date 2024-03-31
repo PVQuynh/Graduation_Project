@@ -6,7 +6,7 @@ import com.example.hust_learning_server.entity.Vocabulary;
 
 import java.util.List;
 
-public interface VocabMapper {
+public interface VocabularyMapper {
 
     Vocabulary toEntity(VocabularyReq dto);
 

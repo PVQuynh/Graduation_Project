@@ -33,9 +33,9 @@ public interface DataCollectionService {
     PageDTO<SearchDataRes> searchDataCollectionForAdmin(DataSearchForAdminParam dataSearchForAdminParam)
             throws ParseException;
 
-    void approve(long dataCollectionId);
+    void approve(DataReq dataReq);
 
-    void reject(DataRejectReq dataRejectReq);
+    void reject(DataReq dataReq);
 
     void delete(long id);
 

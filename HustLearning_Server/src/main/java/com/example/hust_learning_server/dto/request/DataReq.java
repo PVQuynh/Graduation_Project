@@ -5,18 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
-@Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class VocabularyReq {
+@Data
+@Builder
+public class DataReq {
 
-    private String content;
+    public long dataCollectionId;
 
-    private List<VocabularyMediumReq> vocabularyMediumReqs;
+    public float score;
 
-    private  long topicId;
-
+    public String feedBack;
 }

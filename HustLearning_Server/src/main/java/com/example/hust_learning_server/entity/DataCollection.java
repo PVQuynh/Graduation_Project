@@ -2,6 +2,8 @@ package com.example.hust_learning_server.entity;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 
 @Getter
@@ -22,6 +24,8 @@ public class DataCollection extends BaseEntity {
     private String adminEmail;
 
     private int status;
+
+    private float score;
 
     private String feedBack;
 

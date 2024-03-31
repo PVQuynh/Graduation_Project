@@ -9,7 +9,6 @@ import com.chat.chat_server.entity.Contact;
 import com.chat.chat_server.entity.GroupMember;
 import com.chat.chat_server.entity.Message;
 import com.chat.chat_server.exception.BusinessLogicException;
-import com.chat.chat_server.mapper.impl.MessageMapper;
 import com.chat.chat_server.repository.MessageRepository;
 import com.chat.chat_server.service.ContactService;
 import com.chat.chat_server.service.GroupMemberService;
@@ -32,8 +31,6 @@ import org.springframework.stereotype.Service;
 public class MessageServiceImpl implements MessageService {
 
     private final MessageRepository messageRepository;
-
-    private final MessageMapper messageMapper;
 
     private final ContactService contactService;
 

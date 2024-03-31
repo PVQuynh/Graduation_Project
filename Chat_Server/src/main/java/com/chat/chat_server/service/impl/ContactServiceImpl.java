@@ -31,8 +31,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ContactServiceImpl implements ContactService {
 
-    @PersistenceContext(type = PersistenceContextType.TRANSACTION)
-    private EntityManager entityManager;
+//    @PersistenceContext(type = PersistenceContextType.TRANSACTION)
+    private final EntityManager entityManager;
 
     private final ContactRepository contactRepository;
 

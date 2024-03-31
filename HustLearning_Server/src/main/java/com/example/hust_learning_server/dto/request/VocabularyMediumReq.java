@@ -5,11 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
 @Builder
-public class DataRejectReq {
-    public long dataCollectionId;
-    public String feedBack;
+@AllArgsConstructor
+@NoArgsConstructor
+public class VocabularyMediumReq {
+
+    private String imageLocation;
+
+    private String videoLocation;
+
+    private boolean primary;
+
 }

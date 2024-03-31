@@ -19,6 +19,7 @@ public class DataSearchForAdminParam {
   public String createdFrom;
   public String createdTo;
   public int status;
+  public float score;
   public String topic;
   public String vocabulary;
 

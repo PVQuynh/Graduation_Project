@@ -43,11 +43,11 @@ public class QuestionMapperImpl implements QuestionMapper {
     @Override
     public QuestionRes toDTO(Question entity) {
         ModelMapper modelMapper = new ModelMapper();
+        QuestionRes questionRes = modelMapper.map(entity, QuestionRes.class);
 
         List<Answer> answers = entity.getAnswers();
         List<AnswerRes> answerResList = anwserMapper.toDTOList(answers);
 
-        QuestionRes questionRes = modelMapper.map(entity, QuestionRes.class);
         questionRes.setQuestionId(entity.getId());
         questionRes.setAnswerResList(answerResList);
         questionRes.setTopicId(entity.getTopic().getId());

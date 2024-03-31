@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,7 +33,7 @@ public class AddFriendServiceImpl implements AddFriendService {
         }
 
         List<FriendShip> friendShipList = friendShipRepository.findSendingList(email)
-                .orElseThrow(() -> new BusinessLogicException());
+                .orElseThrow(BusinessLogicException::new);
         if (friendShipList.isEmpty()) throw new BusinessLogicException();
 
         List<User> users = friendShipList.stream()

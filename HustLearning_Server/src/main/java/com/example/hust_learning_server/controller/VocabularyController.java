@@ -94,12 +94,7 @@ public class VocabularyController {
         MessageResponse ms = new MessageResponse();
         try {
             vocabularyService.addVocabulary(vocabularyReq);
-        }
-//        catch (AlreadyExistsException ex) {
-//            ms.code = HttpStatus.CONFLICT.value();
-//            ms.message = HttpStatus.CONFLICT.getReasonPhrase(); // not fix
-//        }
-        catch (BusinessLogicException ex) {
+        } catch (BusinessLogicException ex) {
             ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
             ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(); // not fix
         }

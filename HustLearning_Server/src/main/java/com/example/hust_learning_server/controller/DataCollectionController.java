@@ -123,11 +123,11 @@ public class DataCollectionController {
 
     }
 
-    @PostMapping("/approve/{id}")
-    public MessageResponse approveData(@PathVariable long id) {
+    @PostMapping("/approve")
+    public MessageResponse approveData(@RequestBody DataReq dataReq) {
         MessageResponse ms = new MessageResponse();
         try {
-            dataCollectionService.approve(id);
+            dataCollectionService.approve(dataReq);
         } catch (Exception e) {
             ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
             ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
@@ -136,10 +136,10 @@ public class DataCollectionController {
     }
 
     @PostMapping("/reject")
-    public MessageResponse rejectData(@RequestBody DataRejectReq dataRejectReq){
+    public MessageResponse rejectData(@RequestBody DataReq dataReq){
         MessageResponse ms = new MessageResponse();
         try {
-            dataCollectionService.reject(dataRejectReq);
+            dataCollectionService.reject(dataReq);
         }
         catch (Exception exception) {
             ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();

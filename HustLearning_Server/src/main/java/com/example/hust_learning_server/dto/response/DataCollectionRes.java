@@ -22,6 +22,8 @@ public class DataCollectionRes {
 
   private int status;
 
+  private float score;
+
   private String feedBack;
 
   private Date created;

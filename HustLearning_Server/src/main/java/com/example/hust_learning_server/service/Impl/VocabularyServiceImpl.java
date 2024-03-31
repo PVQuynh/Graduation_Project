@@ -81,10 +81,6 @@ public class VocabularyServiceImpl implements VocabularySerivce {
         return vocabularyMapper.toDTOList(vocabularies);
     }
 
-    public Vocabulary getVocabulary(long id) {
-        return vocabularyRepository.findById(id).orElseThrow(BusinessLogicException::new);
-    }
-
     @Override
     public List<VocabularyRes> vocabularyLimits(VocabularyLimitReq vocabularyLimitReq) {
         Pageable pageable = PageRequest.of(vocabularyLimitReq.getPage() - 1, vocabularyLimitReq.getSize());
@@ -169,16 +165,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
         }
 
         Vocabulary vocabulary = vocabularyRepository.findById(updateVocabularyReq.getVocabularyId()).orElseThrow(BusinessLogicException::new);
-
-        if (updateVocabularyReq.getContent() != null) {
-            vocabulary.setContent(updateVocabularyReq.getContent());
-        }
-        if (updateVocabularyReq.getImageLocation() != null) {
-            vocabulary.setImageLocation(updateVocabularyReq.getImageLocation());
-        }
-        if (updateVocabularyReq.getVideoLocation() != null) {
-            vocabulary.setVideoLocation(updateVocabularyReq.getVideoLocation());
-        }
+        vocabulary.setContent(updateVocabularyReq.getContent());
 
         vocabularyRepository.save(vocabulary);
     }

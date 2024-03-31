@@ -21,4 +21,5 @@ public class DataSearchForUserParam {
   public String createdFrom;
   public String createdTo;
   public int status;
+  public float score;
 }

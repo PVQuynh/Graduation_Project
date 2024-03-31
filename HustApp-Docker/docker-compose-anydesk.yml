@@ -2,7 +2,7 @@ services:
 
   userservice:
     container_name: userserver
-    image: quynhpv/userserver:s35
+    image: quynhpv/userserver:s38
     ports:
       - 8080:8080
     depends_on:
@@ -25,7 +25,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://hustappdb:3306/hustappuser?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
-      
+
       SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379
 
@@ -98,13 +98,13 @@ services:
       MINIO_ACCESS_NAME: root
       MINIO_ACCESS_SECRET: Tuyen18072001
       MINIO_URL: http://172.17.0.1:9001
-      
+
       SERVICE_HOST: http://172.17.0.1:9001
       SERVER_IP: https://wetalk.ibme.edu.vn/upload
-      
+
       SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE: 100MB
       SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE: 100MB
-      
+
       SPRING_DATASOURCE_URL: jdbc:mysql://hustappdb:3306/hustappuser?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
@@ -114,7 +114,7 @@ services:
 
   hustlearningservice:
     container_name: hustlearningserver
-    image: quynhpv/hustlearningserver:s36
+    image: quynhpv/hustlearningserver:s45
     ports:
       - 8060:8060
     depends_on:
@@ -124,18 +124,18 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://hustappdb:3306/hustappuser?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
-      
+
       EUREKA_INSTANCE_PREFERIPADDRESS: true
       EUREKA_CLIENT_REGISTERWITHEUREKA: true
       EUREKA_CLIENT_FETCHREGISTRY: true
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
-      
+
     networks:
       - hustapp
 
   chatservice:
     container_name: chatserver
-    image: quynhpv/chatserver:s35
+    image: quynhpv/chatserver:s48
     ports:
       - 8050:8050
       - 8055:8055 # Socket IO Port
