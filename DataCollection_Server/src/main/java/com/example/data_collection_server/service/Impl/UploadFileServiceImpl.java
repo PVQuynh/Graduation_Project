@@ -16,7 +16,6 @@ import io.minio.messages.Bucket;
 import io.minio.messages.Item;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -26,12 +25,11 @@ import org.springframework.stereotype.Service;
 @Data
 public class UploadFileServiceImpl implements UploadService {
 
-    private final  MinioClient minioClient;
+    private final MinioClient minioClient;
     private final ApplicationEventPublisher publisher;
     private final GetPreSignedUrlUtils getPreSignedUrlUtils;
 
-    @Value("${minio.bucket.name}")
-    String defaultBucketName;
+    String defaultBucketName = "hust-app";
 
     @Value("${minio.default.folder}")
     String defaultBaseFolder;
@@ -67,28 +65,6 @@ public class UploadFileServiceImpl implements UploadService {
     }
 
     @Override
-    public byte[] getFile(String key) {
-
-        try {
-            InputStream stream = minioClient.getObject(
-                GetObjectArgs.builder()
-                    .bucket(defaultBucketName)
-                    .object(defaultBaseFolder + "/" + key)
-                    .build());
-            // Read data from stream
-
-            byte[] content = IOUtils.toByteArray(stream);
-            stream.close();
-
-            return content;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    @Override
     public List<String> getAllBucket() {
         try {
             return minioClient.listBuckets().stream().map(Bucket::name)
@@ -98,44 +74,4 @@ public class UploadFileServiceImpl implements UploadService {
         }
     }
 
-    @Override
-    public List<String> getAllFileInBucket() {
-
-        try {
-            Iterable<Result<Item>> results = minioClient.listObjects(
-                    ListObjectsArgs.builder().bucket(defaultBucketName).build());
-
-            List<String> filesName = new ArrayList<>();
-            for (Result<Item> result : results) {
-                Item item = result.get();
-                String fileName = item.objectName();
-                filesName.add(fileName);
-            }
-
-            return filesName;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-           return null;
-        }
-    }
-
-    @Override
-    public boolean deleteFileInBucket(String fileName) {
-        try {
-            boolean isObisObjectExists = minioClient.statObject(
-                    StatObjectArgs.builder().bucket(defaultBucketName).object(fileName).build()
-            ) != null;
-
-            if (isObisObjectExists) {
-                minioClient.removeObject(
-                        RemoveObjectArgs.builder().bucket(defaultBucketName).object(fileName).build());
-                return true;
-            }
-
-            return false;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
 }
