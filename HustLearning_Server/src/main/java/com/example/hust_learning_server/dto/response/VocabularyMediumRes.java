@@ -17,7 +17,7 @@ public class VocabularyMediumRes {
 
     private String videoLocation;
 
-    private boolean primary;
+    private boolean isPrimary;
 
     private long vocabularyId;
 

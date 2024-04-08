@@ -15,6 +15,6 @@ public class VocabularyMediumReq {
 
     private String videoLocation;
 
-    private boolean primary;
+    private boolean isPrimary;
 
 }

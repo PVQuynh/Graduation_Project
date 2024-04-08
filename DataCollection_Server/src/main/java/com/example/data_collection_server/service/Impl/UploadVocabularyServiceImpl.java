@@ -3,7 +3,9 @@ package com.example.data_collection_server.service.Impl;
 
 import com.example.data_collection_server.dto.response.VocabularyRes;
 import com.example.data_collection_server.service.UploadVocabularyService;
+import com.example.data_collection_server.utils.ClassifyMedia;
 import com.example.data_collection_server.utils.GetPreSignedUrlUtils;
+import com.example.data_collection_server.utils.MergeVocabularyRes;
 import io.minio.*;
 import io.minio.http.Method;
 import io.minio.messages.Item;
@@ -13,11 +15,15 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -58,10 +64,23 @@ public class UploadVocabularyServiceImpl implements UploadVocabularyService {
                         .expiry(7, TimeUnit.DAYS)
                         .build());
 
-            return getPreSignedUrlUtils.getPreSignedUrl(url);
+            return ClassifyMedia.addFieldsForVocabulary(name, getPreSignedUrlUtils.getPreSignedUrl(url));
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+
+    @Override
+    public List<VocabularyRes> uploadFileList(List<MultipartFile> files) throws IOException {
+        List<VocabularyRes> vocabularyResList = new LinkedList<>();
+
+        for (MultipartFile file :
+                files) {
+            vocabularyResList.add(uploadFile(file.getOriginalFilename(), file.getBytes()));
+        }
+
+        // Merge cac file co noi dung giong nhau
+        return MergeVocabularyRes.mergeVocabularies(vocabularyResList);
     }
 
     @Override
