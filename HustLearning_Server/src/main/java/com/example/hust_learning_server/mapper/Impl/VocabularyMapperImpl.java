@@ -30,6 +30,7 @@ public class VocabularyMapperImpl implements VocabularyMapper {
 
         List<VocabularyMediumReq> vocabularyReqs = dto.getVocabularyMediumReqs();
         List<VocabularyMedium> vocabularyMedia = vocabularyMediumMapper.toEntityList(vocabularyReqs);
+
         vocabularyMedia.forEach(vocabularyMedium -> vocabularyMedium.setVocabulary(vocabulary));
         vocabulary.setVocabularyMedia(vocabularyMedia);
 
@@ -48,6 +49,7 @@ public class VocabularyMapperImpl implements VocabularyMapper {
         List<VocabularyMediumRes> vocabularyMediumResList = vocabularyMediumMapper.toDTOList(vocabularyMedia);
 
         vocabularyRes.setVocabularyMediumRes(vocabularyMediumResList);
+
         vocabularyRes.setTopicId(entity.getTopic().getId());
         vocabularyRes.setTopicContent(entity.getTopic().getContent());
 

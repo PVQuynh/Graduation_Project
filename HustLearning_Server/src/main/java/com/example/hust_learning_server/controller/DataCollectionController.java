@@ -31,6 +31,21 @@ public class DataCollectionController {
         return ms;
     }
 
+    @GetMapping("/options-list-me")
+    public MessageResponse getOptionsListMe(
+            @RequestParam(required = true) int status
+    ){
+        MessageResponse ms = new MessageResponse();
+        try {
+            ms.data = dataCollectionService.getOptionsListMe(status);
+        } catch (Exception e) {
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
+        }
+        return ms;
+    }
+
+
     @GetMapping("/pending-list-me")
     public MessageResponse getPendingMe(){
         MessageResponse ms = new MessageResponse();
@@ -76,6 +91,30 @@ public class DataCollectionController {
 
     }
 
+    @GetMapping ("/search-for-me/v2")
+    public MessageResponse getDataForUser_v2(
+           @RequestParam(defaultValue = "1", required = true) int page,
+           @RequestParam(defaultValue = "10", required = true) int size,
+           @RequestParam(required = false) String topic,
+           @RequestParam(required = true) String vocabulary,
+           @RequestParam(required = false) boolean ascending,
+           @RequestParam(required = false) String orderBy,
+           @RequestParam(required = false) String createdFrom,
+           @RequestParam(required = false) String createdTo,
+           @RequestParam(required = false) int status,
+           @RequestParam(required = false) float score
+    ) throws ParseException {
+        MessageResponse ms = new MessageResponse();
+        try {
+            ms.data = dataCollectionService.searchDataCollectionForUser_v2(page, size, topic, vocabulary, ascending, orderBy, createdFrom, createdTo, status, score);
+        } catch (Exception e) {
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
+        }
+        return ms;
+
+    }
+
     @PostMapping
     public MessageResponse sendData(@RequestBody DataProvideReq dataProvideReq) {
         MessageResponse ms = new MessageResponse();
@@ -102,6 +141,20 @@ public class DataCollectionController {
 
 
     // Admin
+    @GetMapping("/options-list-admin")
+    public MessageResponse getOptionsListAdmin(
+            @RequestParam(required = true) int status
+    ){
+        MessageResponse ms = new MessageResponse();
+        try {
+            ms.data = dataCollectionService.getOptionsListAdmin(status);
+        } catch (Exception e) {
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
+        }
+        return ms;
+    }
+
     @GetMapping("/pending-list-admin")
     public MessageResponse getPendingAdmin(){
 
@@ -120,6 +173,31 @@ public class DataCollectionController {
         throws ParseException {
 
         return dataCollectionService.searchDataCollectionForAdmin(dataSearchForAdminParam);
+
+    }
+
+    @GetMapping ("/search-for-admin/v2")
+    public MessageResponse getDataForAdmin_v2(
+            @RequestParam(defaultValue = "1", required = true) int page,
+            @RequestParam(defaultValue = "10", required = true) int size,
+            @RequestParam(required = true) String volunteerEmail,
+            @RequestParam(required = false) String topic,
+            @RequestParam(required = true) String vocabulary,
+            @RequestParam(required = false) boolean ascending,
+            @RequestParam(required = false) String orderBy,
+            @RequestParam(required = false) String createdFrom,
+            @RequestParam(required = false) String createdTo,
+            @RequestParam(required = false) int status,
+            @RequestParam(required = false) float score
+    ) throws ParseException {
+        MessageResponse ms = new MessageResponse();
+        try {
+            ms.data = dataCollectionService.searchDataCollectionForAdmin_v2(page, size, volunteerEmail, topic, vocabulary, ascending, orderBy, createdFrom, createdTo, status, score);
+        } catch (Exception e) {
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
+        }
+        return ms;
 
     }
 

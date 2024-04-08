@@ -28,11 +28,9 @@ public class VocabularyController {
         try {
             if (topicId != null && content != null) {
                 ms.data = vocabularyService.getVocabularyByTopicIdAndContent(topicId, content);
-            }
-            else if (topicId != null && content == null) {
+            } else if (topicId != null && content == null) {
                 ms.data = vocabularyService.getVocabulariesByTopicId(topicId);
-            }
-            else if (topicId == null && content != null) {
+            } else if (topicId == null && content != null) {
                 ms.data = vocabularyService.getVocabulariesByContent(content);
             } else {
                 ms.data = vocabularyService.getAllVocabulary();
@@ -58,12 +56,27 @@ public class VocabularyController {
         return ms;
     }
 
-    @PostMapping ("/get-by-content")
+    @PostMapping("/get-by-content")
     public MessageResponse getExactVocabularies(@RequestBody ExactVocabularyReq exactVocabularyReq) {
 
         MessageResponse ms = new MessageResponse();
         try {
             ms.data = vocabularyService.getExactVocabularies(exactVocabularyReq);
+        } catch (Exception ex) {
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
+        }
+        return ms;
+    }
+
+    @GetMapping("/get-by-content/v2")
+    public MessageResponse getExactVocabularies(
+            @RequestParam(required = true) String content
+    ) {
+
+        MessageResponse ms = new MessageResponse();
+        try {
+            ms.data = vocabularyService.getVocabulariesByContent(content);
         } catch (Exception ex) {
             ms.code = HttpStatus.NOT_FOUND.value();
             ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
@@ -84,9 +97,46 @@ public class VocabularyController {
         return ms;
     }
 
+    @GetMapping("/limits-topic/v2")
+    public MessageResponse getVocabulariesLimits(
+            @RequestParam(defaultValue = "1", required = true) int page,
+            @RequestParam(defaultValue = "10", required = true) int size,
+            @RequestParam(required = true) long topicId
+    ){
+
+        MessageResponse ms = new MessageResponse();
+        try {
+            ms.data = vocabularyService.vocabularyLimitsTopic(page, size, topicId);
+        } catch (Exception ex) {
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
+        }
+        return ms;
+    }
+
     @PostMapping("/search")
-    public PageDTO<VocabularyRes> getLists(@RequestBody SearchVocabularyParamReq searchVocabularyParamReq) {
+    public PageDTO<VocabularyRes> getList(@RequestBody SearchVocabularyParamReq searchVocabularyParamReq) {
         return vocabularyService.search(searchVocabularyParamReq);
+    }
+
+    @GetMapping("/search/v2")
+    public MessageResponse getList_v2(
+            @RequestParam(defaultValue = "1", required = true) int page,
+            @RequestParam(defaultValue = "10", required = true) int size,
+            @RequestParam(required = true) String text,
+            @RequestParam(required = false) boolean ascending,
+            @RequestParam(required = false) String orderBy,
+            @RequestParam(required = false) long topicId
+
+            ) {
+        MessageResponse ms = new MessageResponse();
+        try {
+            ms.data = vocabularyService.search_v2(page, size, text, ascending, orderBy, topicId);
+        } catch (Exception ex) {
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
+        }
+        return ms;
     }
 
     @PostMapping

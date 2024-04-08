@@ -12,6 +12,8 @@ public interface MessageService {
 
   List<MessageRes> messageLimits(MessageLimitReq messageLimitReq);
 
+  List<MessageRes> messageLimits_v2(int page, int size, int conversationId);
+
   void saveMessage(long conversationId,MessageReq messageReq);
 
   void setSeenForMessageByContactId(long conversationId, long contactId);
@@ -19,4 +21,5 @@ public interface MessageService {
   void updateMessage(UpdateMessageReq updateMessageReq);
 
   void deleteMessage(long id);
+
 }

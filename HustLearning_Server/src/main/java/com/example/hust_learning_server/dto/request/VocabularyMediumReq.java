@@ -1,9 +1,6 @@
 package com.example.hust_learning_server.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Builder
@@ -15,6 +12,8 @@ public class VocabularyMediumReq {
 
     private String videoLocation;
 
-    private boolean isPrimary;
+    private boolean isPrimary = false;
+
+    private long vocabularyId;
 
 }

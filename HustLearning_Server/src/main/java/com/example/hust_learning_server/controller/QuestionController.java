@@ -43,6 +43,22 @@ public class QuestionController {
         return ms;
     }
 
+    @GetMapping("/limits-topic/v2")
+    public MessageResponse questionLimits_v2(
+            @RequestParam(defaultValue = "1", required = true) int page,
+            @RequestParam(defaultValue = "10", required = true) int size,
+            @RequestParam(required = true) long topicId
+    ) {
+        MessageResponse ms = new MessageResponse();
+        try {
+            ms.data = questionService.questionLimits_v2(page, size, topicId);
+        } catch (Exception ex) {
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
+        }
+        return ms;
+    }
+
     @PostMapping
     public MessageResponse addQuestion(@RequestBody QuestionReq questionReq) {
         MessageResponse ms = new MessageResponse();

@@ -7,6 +7,7 @@ import com.example.hust_learning_server.entity.VocabularyMedium;
 import java.util.List;
 
 public interface VocabularyMediumMapper {
+
     VocabularyMedium toEntity(VocabularyMediumReq dto);
 
     VocabularyMediumRes toDTO(VocabularyMedium entity);

@@ -63,6 +63,18 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
+    public ContactRes getByEmail_v2(String yourEmail) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
+        Contact contact = contactRepository.findByEmail(yourEmail).orElseThrow(BusinessLogicException::new);
+
+        return new ContactRes(contact);
+    }
+
+    @Override
     public ContactRes getMyContact() {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
@@ -122,6 +134,56 @@ public class ContactServiceImpl implements ContactService {
 
         PageDTO<ContactRes> contactResPageDTO = new PageDTO<>(contactMapper.toDTOList(results),
                 contactSearchReq.page, totalRows);
+
+        return contactResPageDTO;
+    }
+
+    @Override
+    public PageDTO<ContactRes> search_v2(int page, int size, String text, boolean ascending, String orderBy) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Contact> criteriaQuery = criteriaBuilder.createQuery(Contact.class);
+
+        Root<Contact> root = criteriaQuery.from(Contact.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        // Filter by text (if provided)
+        if (!ObjectUtils.isEmpty(text)) {
+            String searchText = "%" + text + "%";
+            Predicate nameLike = criteriaBuilder.like(root.get("name"), searchText);
+            Predicate emailLike = criteriaBuilder.like(root.get("email"), searchText);
+            Predicate validEmail = criteriaBuilder.notEqual(root.get("email"), email);
+            predicates.add(criteriaBuilder.or(nameLike, emailLike));
+            predicates.add(validEmail);
+        } else return null;
+
+        // Filter by descending and orderBy (if provided)
+        if (!ObjectUtils.isEmpty(ascending) && !ObjectUtils.isEmpty(orderBy)) {
+            if (ascending) {
+                criteriaQuery.orderBy(criteriaBuilder.asc(root.get(orderBy)));
+            } else {
+                criteriaQuery.orderBy(criteriaBuilder.desc(root.get(orderBy)));
+            }
+        }
+
+        if (!predicates.isEmpty()) {
+            criteriaQuery.where(predicates.toArray(new Predicate[0]));
+        }
+
+        TypedQuery<Contact> query = entityManager.createQuery(criteriaQuery);
+        int totalRows = query.getResultList().size();
+
+        List<Contact> results = query
+                .setFirstResult((page - 1) * size) // Offset
+                .setMaxResults(size) // Limit
+                .getResultList();
+
+        PageDTO<ContactRes> contactResPageDTO = new PageDTO<>(contactMapper.toDTOList(results), page, totalRows);
 
         return contactResPageDTO;
     }

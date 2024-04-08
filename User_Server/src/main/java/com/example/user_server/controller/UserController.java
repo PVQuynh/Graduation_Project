@@ -24,6 +24,20 @@ public class UserController {
         }
     }
 
+    @GetMapping("/me/v2")
+    public MessageResponse getUserInFor_v2() {
+        MessageResponse ms = new MessageResponse();
+
+        try {
+            ms.data = userService.getCurrentUser();
+        } catch (Exception ex) {
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
+        }
+
+        return ms;
+    }
+
     @GetMapping("/{id}")
     public MessageResponse getById(@PathVariable long id) {
         MessageResponse ms = new MessageResponse();
@@ -41,6 +55,26 @@ public class UserController {
     @PostMapping("/search")
     public PageDTO<UserDTO> GetLists(@RequestBody UserSearchReq userSearchReq) {
         return userService.search(userSearchReq);
+    }
+
+    @GetMapping("/search/v2")
+    public MessageResponse getList_v2(
+            @RequestParam(required = true) String text,
+            @RequestParam(defaultValue = "1", required = true) int page,
+            @RequestParam(defaultValue = "10", required = true) int size,
+            @RequestParam(required = false) boolean ascending,
+            @RequestParam(required = false) String orderBy
+    ) {
+        MessageResponse ms = new MessageResponse();
+
+        try {
+            ms.data = userService.search_v2(page, size, text, ascending, orderBy);
+        } catch (Exception ex) {
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
+        }
+
+        return ms;
     }
 
     @PutMapping

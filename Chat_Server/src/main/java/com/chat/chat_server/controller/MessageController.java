@@ -19,7 +19,7 @@ public class MessageController {
 
     private final MessageService messageService;
 
-    @GetMapping("{conversationId}")
+    @GetMapping("/{conversationId}")
     public MessageResponse getAllMessageConversation(@PathVariable int conversationId) {
         MessageResponse ms = new MessageResponse();
 
@@ -33,12 +33,30 @@ public class MessageController {
         return ms;
     }
 
-    @PostMapping("limits-conversation")
+    @PostMapping("/limits-conversation")
     public MessageResponse getMessageLimits(@RequestBody MessageLimitReq messageLimitReq) {
         MessageResponse ms = new MessageResponse();
 
         try {
             ms.data = messageService.messageLimits(messageLimitReq);
+        } catch (Exception ex) {
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
+        }
+
+        return ms;
+    }
+
+    @GetMapping("/limits-conversation/v2")
+    public MessageResponse getMessageLimits_v2(
+            @RequestParam(defaultValue = "1" ,required = true) int page,
+            @RequestParam(defaultValue = "10", required = true) int size,
+            @RequestParam(required = true) int conversationId
+    ) {
+        MessageResponse ms = new MessageResponse();
+
+        try {
+            ms.data = messageService.messageLimits_v2(page, size, conversationId);
         } catch (Exception ex) {
             ms.code = HttpStatus.NOT_FOUND.value();
             ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
@@ -59,14 +77,14 @@ public class MessageController {
         return ms;
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public MessageResponse deleteMessage(@PathVariable long id) {
         MessageResponse ms = new MessageResponse();
         try {
             messageService.deleteMessage(id);
         } catch (Exception ex) {
-            ms.message = ex.getMessage();
-            ms.code = 5000;
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
         }
         return ms;
     }

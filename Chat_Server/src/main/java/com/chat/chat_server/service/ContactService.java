@@ -14,9 +14,13 @@ public interface ContactService{
 
     ContactRes getByEmail(ContactByEmailReq contactByEmailReq);
 
+    ContactRes getByEmail_v2(String email);
+
     ContactRes getMyContact();
 
     PageDTO<ContactRes> search(ContactSearchReq contactSearchReq);
+
+    PageDTO<ContactRes> search_v2(int page, int size, String text, boolean ascending, String orderBy);
 
     void saveContact(ContactReq contactReq);
 

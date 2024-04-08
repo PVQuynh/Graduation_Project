@@ -132,6 +132,54 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
+    public List<MessageRes> messageLimits_v2(int page, int size, int conversationId) {
+        String email = EmailUtils.getCurrentUser();
+        if (org.springframework.util.ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
+        Pageable pageable = PageRequest.of(page-1, size);
+
+        List<MessageRes> messageResList = new ArrayList<>();
+        List<Message> messageList = messageRepository.findMessageLimitsByConversationId(conversationId, pageable);
+        if (messageList.isEmpty()) throw new BusinessLogicException();
+
+
+        if (ObjectUtils.isNotEmpty(messageList)) {
+            messageResList = messageList.stream().map(message -> {
+                GroupMember groupMember = message.getGroupMember();
+                MessageRes messageRes = new MessageRes();
+
+                if (ObjectUtils.isNotEmpty(groupMember)) {
+                    Contact contact = contactService.findById(groupMember.getContact().getId());
+
+                    messageRes = MessageRes.builder()
+                            .messageId(message.getId())
+                            .content(message.getContent())
+                            .messageType(message.getMessageType())
+                            .mediaLocation(message.getMediaLocation())
+                            .status(message.getStatus())
+                            .created(message.getCreated())
+                            .conversationId(groupMember.getConversation().getId())
+                            .contactId(contact.getId())
+                            .build();
+
+                    // Update Group Member
+                    groupMember.setLastActivity(LocalDateTime.now());
+                    groupMemberService.save(groupMember);
+
+                    // Update
+//                    message.setStatus(MessageStatus.SEEN);
+                    messageRepository.save(message);
+                }
+
+                return messageRes;
+            }).collect(Collectors.toList());
+        }
+        return messageResList;
+    }
+
+    @Override
     public void saveMessage(long conversationId, MessageReq messageReq) {
         GroupMember groupMember = groupMemberService.findByContactIdAndConversationId(messageReq.getContactId(), conversationId);
         if (ObjectUtils.isNotEmpty(groupMember)) {

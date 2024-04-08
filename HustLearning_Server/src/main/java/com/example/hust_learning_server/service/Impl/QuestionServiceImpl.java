@@ -45,6 +45,16 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    public List<QuestionRes> questionLimits_v2(int page, int size, long topicId) {
+        Pageable pageable = PageRequest.of(page -1, size);
+
+        List<Question> questions = questionRepository.findQuestionLimitsByTopicId(topicId, pageable).orElseThrow(BusinessLogicException::new);
+        if (questions.isEmpty()) throw new BusinessLogicException();
+
+        return questionMapper.toDTOList(questions);
+    }
+
+    @Override
     public void addQuestion(QuestionReq questionReq) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {

@@ -222,6 +222,55 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public PageDTO<UserDTO> search_v2(int page, int size, String text, boolean ascending, String orderBy) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
+
+        Root<User> root = criteriaQuery.from(User.class);
+        List<Predicate> predicates = new ArrayList<>();
+
+        // Filter by text (if provided)
+        if (!ObjectUtils.isEmpty(text)) {
+            String searchText = "%" +text + "%";
+            Predicate nameLike = criteriaBuilder.like(root.get("name"), searchText);
+            Predicate emailLike = criteriaBuilder.like(root.get("email"), searchText);
+            Predicate validEmail = criteriaBuilder.notEqual(root.get("email"), email);
+            predicates.add(criteriaBuilder.or(nameLike, emailLike));
+            predicates.add(validEmail);
+        } else return null;
+
+        // Filter by descending and orderBy (if provided)
+        if (!ObjectUtils.isEmpty(ascending) && !ObjectUtils.isEmpty(orderBy)) {
+            if (ascending) {
+                criteriaQuery.orderBy(criteriaBuilder.asc(root.get(orderBy)));
+            } else {
+                criteriaQuery.orderBy(criteriaBuilder.desc(root.get(orderBy)));
+            }
+        }
+
+        if (!predicates.isEmpty()) {
+            criteriaQuery.where(predicates.toArray(new Predicate[0]));
+        }
+
+        TypedQuery<User> query = entityManager.createQuery(criteriaQuery);
+        int totalRows = query.getResultList().size();
+
+        List<User> results = query
+                .setFirstResult((page - 1) * size) // Offset
+                .setMaxResults(size) // Limit
+                .getResultList();
+
+        PageDTO<UserDTO> userResPageDTO = new PageDTO<>(userMapper.toDTOList(results), page, totalRows);
+
+        return userResPageDTO;
+    }
+
+    @Override
     public UserDetailDTO getUserById(long userId) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {

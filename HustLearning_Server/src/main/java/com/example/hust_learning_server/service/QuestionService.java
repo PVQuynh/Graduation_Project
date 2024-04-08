@@ -13,11 +13,12 @@ public interface QuestionService {
 
     List<QuestionRes> questionLimits(QuestionLimitReq questionLimitReq);
 
+    List<QuestionRes> questionLimits_v2(int page, int size, long topicId);
+
     void addQuestion(QuestionReq question);
 
     void updateQuestion(UpdateQuestionReq updateQuestionReq);
 
     void deleteQuestionById(long id);
-
 
 }

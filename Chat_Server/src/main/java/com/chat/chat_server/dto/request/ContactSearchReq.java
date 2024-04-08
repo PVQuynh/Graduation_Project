@@ -5,6 +5,5 @@ public class ContactSearchReq {
     public  int size =10;
     public String text;
     public  boolean ascending = false;
-
     public String orderBy;
 }

@@ -92,6 +92,16 @@ public class VocabularyServiceImpl implements VocabularySerivce {
     }
 
     @Override
+    public List<VocabularyRes> vocabularyLimitsTopic(int page, int size, long topicId) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+        List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesLimitByTopicId(topicId, pageable).orElseThrow(BusinessLogicException::new);
+        if (vocabularies.isEmpty()) throw new BusinessLogicException();
+
+        return vocabularyMapper.toDTOList(vocabularies);
+    }
+
+    @Override
     public PageDTO<VocabularyRes> search(SearchVocabularyParamReq searchVocabularyParamReq) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Vocabulary> criteriaQuery = criteriaBuilder.createQuery(Vocabulary.class);
@@ -132,6 +142,51 @@ public class VocabularyServiceImpl implements VocabularySerivce {
                 .getResultList();
 
         PageDTO<VocabularyRes> vocabularyResPageDTO = new PageDTO<>(vocabularyMapper.toDTOList(results), searchVocabularyParamReq.page, totalRows);
+        return vocabularyResPageDTO;
+    }
+
+
+    @Override
+    public PageDTO<VocabularyRes> search_v2(int page, int size, String text, boolean ascending, String orderBy, long topicId) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Vocabulary> criteriaQuery = criteriaBuilder.createQuery(Vocabulary.class);
+        Root<Vocabulary> root = criteriaQuery.from(Vocabulary.class);
+        List<Predicate> predicates = new ArrayList<>();
+
+        // Filter by text (if provided)
+        if (!ObjectUtils.isEmpty(text)) {
+            String searchText = "%" + text + "%";
+            Predicate contentLike = criteriaBuilder.like(root.get("content"), searchText);
+            predicates.add(contentLike);
+        } else return null;
+
+        if (topicId != 0) {
+            Join<Vocabulary, Topic> topicJoin = root.join("topic");
+            Predicate topicLike = criteriaBuilder.equal(topicJoin.get("id"), topicId);
+            predicates.add(topicLike);
+        }
+
+        // Filter by descending and orderBy (if provided)
+        if (!ObjectUtils.isEmpty(ascending) && !ObjectUtils.isEmpty(orderBy)) {
+            if (ascending) {
+                criteriaQuery.orderBy(criteriaBuilder.asc(root.get(orderBy)));
+            } else {
+                criteriaQuery.orderBy(criteriaBuilder.desc(root.get(orderBy)));
+            }
+        }
+
+        if (!predicates.isEmpty()) {
+            criteriaQuery.where(predicates.toArray(new Predicate[0]));
+        }
+
+        TypedQuery<Vocabulary> query = entityManager.createQuery(criteriaQuery);
+        int totalRows = query.getResultList().size();
+        List<Vocabulary> results = query
+                .setFirstResult((page - 1) * size) // Offset
+                .setMaxResults(size) // Limit
+                .getResultList();
+
+        PageDTO<VocabularyRes> vocabularyResPageDTO = new PageDTO<>(vocabularyMapper.toDTOList(results), page, totalRows);
         return vocabularyResPageDTO;
     }
 

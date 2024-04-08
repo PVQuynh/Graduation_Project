@@ -19,4 +19,8 @@ public interface TopicService {
     void deleteTopicById(long id);
 
     PageDTO<TopicRes> search(SearchTopicParamReq searchTopicParamReq);
+
+    PageDTO<TopicRes> search_v2(int page, int size, String text, boolean ascending, String orderBy);
+
+
 }

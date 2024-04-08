@@ -62,9 +62,46 @@ public class ContactController {
         return ms;
     }
 
+    @GetMapping("/find-by-email/v2")
+    public MessageResponse findByEmail_v2(@RequestParam(required = true) String email) {
+        MessageResponse ms = new MessageResponse();
+
+        try {
+            ms.data = contactService.getByEmail_v2(email);
+        } catch (Exception ex) {
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
+        }
+
+        return ms;
+    }
+
+
     @PostMapping("/search")
     public PageDTO<ContactRes> getList(@RequestBody ContactSearchReq contactSearchReq) {
         return contactService.search(contactSearchReq);
+    }
+
+    @GetMapping("/search/v2")
+    public MessageResponse getList_v2(
+          @RequestParam(defaultValue = "1", required = true) int page,
+          @RequestParam(defaultValue = "10", required = true) int size,
+          @RequestParam(required = true) String text,
+          @RequestParam(required = false) boolean ascending,
+          @RequestParam(required = false) String orderBy
+
+
+    ) {
+        MessageResponse ms = new MessageResponse();
+
+        try {
+            ms.data = contactService.search_v2(page, size, text, ascending, orderBy);
+        } catch (Exception ex) {
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
+        }
+
+        return ms;
     }
 
     @PostMapping

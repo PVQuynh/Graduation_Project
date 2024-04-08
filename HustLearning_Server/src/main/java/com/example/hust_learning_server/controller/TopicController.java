@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("topics")
 public class TopicController {
     private final TopicService topicService;
-    private final TopicMapperImpl topicMapper;
 
     @GetMapping("/all")
     public MessageResponse getAllTopic() {
@@ -37,8 +36,28 @@ public class TopicController {
     }
 
     @PostMapping("/search")
-    public PageDTO<TopicRes> GetLists(@RequestBody SearchTopicParamReq searchTopicParamReq) {
+    public PageDTO<TopicRes> getList(@RequestBody SearchTopicParamReq searchTopicParamReq) {
         return topicService.search(searchTopicParamReq);
+    }
+
+    @GetMapping("/search/v2")
+    public MessageResponse getList_v2(
+            @RequestParam(defaultValue = "1", required = true) int page,
+            @RequestParam(defaultValue = "10", required = true) int size,
+            @RequestParam(required = true) String text,
+            @RequestParam(required = false) boolean ascending,
+            @RequestParam(required = false) String orderBy
+    ) {
+        MessageResponse ms = new MessageResponse();
+
+        try {
+            ms.data = topicService.search_v2(page, size, text, ascending, orderBy);;
+        } catch (Exception ex) {
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
+        }
+
+        return ms;
     }
 
     @PostMapping

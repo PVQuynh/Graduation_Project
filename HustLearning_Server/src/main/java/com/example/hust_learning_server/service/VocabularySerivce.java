@@ -20,7 +20,11 @@ public interface VocabularySerivce {
 
     List<VocabularyRes> vocabularyLimits(VocabularyLimitReq vocabularyLimitReq);
 
+    List<VocabularyRes> vocabularyLimitsTopic(int page, int size, long topicId);
+
     PageDTO<VocabularyRes> search(SearchVocabularyParamReq searchVocabularyParamReq);
+
+    PageDTO<VocabularyRes> search_v2(int page, int size, String text, boolean ascending, String orderBy, long topicId);
 
     void addVocabulary(VocabularyReq vocabulary);
 

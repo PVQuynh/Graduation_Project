@@ -126,6 +126,44 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
+    public PageDTO<TopicRes> search_v2(int page, int size, String text, boolean ascending, String orderBy) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Topic> criteriaQuery = criteriaBuilder.createQuery(Topic.class);
+        Root<Topic> root = criteriaQuery.from(Topic.class);
+        List<Predicate> predicates = new ArrayList<>();
+
+        // Filter by text (if provided)
+        if (!ObjectUtils.isEmpty(text)) {
+            String searchText = "%" + text + "%";
+            Predicate contentLike = criteriaBuilder.like(root.get("content"), searchText);
+            predicates.add(contentLike);
+        } else return null;
+
+        // Filter by descending and orderBy (if provided)
+        if (!ObjectUtils.isEmpty(ascending) && !ObjectUtils.isEmpty(orderBy)) {
+            if (ascending) {
+                criteriaQuery.orderBy(criteriaBuilder.asc(root.get(orderBy)));
+            } else {
+                criteriaQuery.orderBy(criteriaBuilder.desc(root.get(orderBy)));
+            }
+        }
+
+        if (!predicates.isEmpty()) {
+            criteriaQuery.where(predicates.toArray(new Predicate[0]));
+        }
+
+        TypedQuery<Topic> query = entityManager.createQuery(criteriaQuery);
+        int totalRows = query.getResultList().size();
+        List<Topic> results = query
+                .setFirstResult((page - 1) * size) // Offset
+                .setMaxResults(size) // Limit
+                .getResultList();
+
+        PageDTO<TopicRes> topicResPageDTO = new PageDTO<>(topicMapper.toDTOList(results), page, totalRows);
+        return topicResPageDTO;
+    }
+
+    @Override
     public void deleteTopicById(long id) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
