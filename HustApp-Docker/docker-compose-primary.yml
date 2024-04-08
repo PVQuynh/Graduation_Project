@@ -2,7 +2,7 @@ services:
 
   userservice:
     container_name: userserver
-    image: quynhpv/userserver:s3
+    image: quynhpv/userserver:s42
     ports:
       - 8080:8080
     depends_on:
@@ -10,11 +10,11 @@ services:
       - eurekaserver
       - redis
     environment:
-      KEYCLOAK_CREDENTIALS_SECRET: QlUWO8Zr0AqmbdXOqUIxPT0aj9L5t2Gx
+      KEYCLOAK_CREDENTIALS_SECRET: o6hKN3PkOk9f8FeMX8xyTTnKhZwABExd
       KEYCLOAK_REALM: master
       KEYCLOAK_AUTH_SERVER_URL:  http://172.17.0.1:7080
       KEYCLOAK_SSL_REQUIRED: none
-      KEYCLOAK_RESOURCE: Hust-App
+      KEYCLOAK_RESOURCE: HustApp
       KEYCLOAK_USE_RESOURCE_ROLE_MAPPINGS: true
       KEYCLOAK_BEARER_ONLY: true
       KEYCLOAK_CORS: true
@@ -86,13 +86,12 @@ services:
 
   datacollectionservice:
     container_name: datacollectionserver
-    image: quynhpv/datacollectionserver:s3
+    image: quynhpv/datacollectionserver:s6
     ports:
       - 8090:8090
     depends_on:
       - minio
       - hustappdb
-      - eurekaserver
     environment:
       MINIO_BUCKET_NAME: hust-app
       MINIO_DEFAULT_FOLDER: /
@@ -114,28 +113,35 @@ services:
       EUREKA_CLIENT_REGISTERWITHEUREKA: true
       EUREKA_CLIENT_FETCHREGISTRY: true
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+
     networks:
       - hustapp
 
 
   hustlearningservice:
     container_name: hustlearningserver
-    image: tuyenhaitan/hustlearningserver:s28
+    image: quynhpv/hustlearningserver:s46
     ports:
       - 8060:8060
     depends_on:
       - hustappdb
+      - eurekaserver
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://hustappdb:3306/hustappuser?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
+
+      EUREKA_INSTANCE_PREFERIPADDRESS: true
+      EUREKA_CLIENT_REGISTERWITHEUREKA: true
+      EUREKA_CLIENT_FETCHREGISTRY: true
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+
     networks:
       - hustapp
 
-
   chatservice:
     container_name: chatserver
-    image: quynhpv/chatserver:s1
+    image: quynhpv/chatserver:s49
     ports:
       - 8050:8050
       - 8055:8055 # Socket IO Port
@@ -146,6 +152,8 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://hustappdb:3306/hustappuser?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
+
+      SOCKET_SERVER_PORT: 8055 # Cấu hình cổng của Socket.IO server
 
       EUREKA_INSTANCE_PREFERIPADDRESS: true
       EUREKA_CLIENT_REGISTERWITHEUREKA: true

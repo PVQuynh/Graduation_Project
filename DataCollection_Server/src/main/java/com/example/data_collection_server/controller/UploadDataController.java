@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/upload-datas")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class UploadDataController {
    private final UploadService uploadService;
