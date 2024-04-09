@@ -16,5 +16,7 @@ public interface UploadVocabularyService {
 
     List<String> getAllFile();
 
+    List<VocabularyRes> getAllFileLocation();
+
     boolean deleteFile(String fileName);
 }

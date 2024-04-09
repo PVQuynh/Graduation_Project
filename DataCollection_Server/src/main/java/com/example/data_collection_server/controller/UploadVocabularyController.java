@@ -22,11 +22,23 @@ import java.util.List;
 public class UploadVocabularyController {
    private final UploadVocabularyService uploadVocabularyService;
 
-    @GetMapping("/all")
+    @GetMapping("/all-file-name")
     public MessageResponse getAllData() {
         MessageResponse ms = new MessageResponse();
         try {
             ms.data = uploadVocabularyService.getAllFile();
+        } catch (Exception ex) {
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
+        }
+        return ms;
+    }
+
+    @GetMapping("/all-file-location")
+    public MessageResponse getAllFleLocation() {
+        MessageResponse ms = new MessageResponse();
+        try {
+            ms.data = uploadVocabularyService.getAllFileLocation();
         } catch (Exception ex) {
             ms.code = HttpStatus.NOT_FOUND.value();
             ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();

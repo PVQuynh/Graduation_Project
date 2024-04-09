@@ -37,6 +37,8 @@ public class ContactMapper implements Mapper<Contact, ContactRes> {
 
     @Override
     public List<Contact> toEntityList(List<ContactRes> dtoList) {
-        return null;
+        return dtoList.stream()
+                .map(contactRes -> toEntity(contactRes))
+                .collect(Collectors.toList());
     }
 }

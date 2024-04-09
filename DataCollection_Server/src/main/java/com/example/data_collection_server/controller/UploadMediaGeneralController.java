@@ -21,7 +21,7 @@ import java.util.List;
 public class UploadMediaGeneralController {
    private final UploadMediaGeneralService uploadMediaGeneralService;
 
-    @GetMapping("/all")
+    @GetMapping("/all-file-name")
     public MessageResponse getAllData() {
         MessageResponse ms = new MessageResponse();
         try {

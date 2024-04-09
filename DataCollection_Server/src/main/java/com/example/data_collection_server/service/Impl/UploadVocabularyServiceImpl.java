@@ -109,6 +109,7 @@ public class UploadVocabularyServiceImpl implements UploadVocabularyService {
     public List<String> getAllFile() {
 
         try {
+
             Iterable<Result<Item>> results = minioClient.listObjects(
                     ListObjectsArgs.builder().bucket(dataCollectionBucketName).build());
 
@@ -116,6 +117,7 @@ public class UploadVocabularyServiceImpl implements UploadVocabularyService {
             for (Result<Item> result : results) {
                 Item item = result.get();
                 String fileName = item.objectName();
+
                 filesName.add(fileName);
             }
 
@@ -123,6 +125,37 @@ public class UploadVocabularyServiceImpl implements UploadVocabularyService {
         } catch (Exception ex) {
             ex.printStackTrace();
            return null;
+        }
+    }
+
+    @Override
+    public List<VocabularyRes> getAllFileLocation() {
+
+        try {
+
+            Iterable<Result<Item>> results = minioClient.listObjects(
+                    ListObjectsArgs.builder().bucket(dataCollectionBucketName).build());
+
+            List<VocabularyRes> vocabularyResList = new LinkedList<>();
+            for (Result<Item> result : results) {
+                Item item = result.get();
+                String fileName = item.objectName();
+
+                String url = minioClient.getPresignedObjectUrl(
+                                GetPresignedObjectUrlArgs.builder()
+                                        .method(Method.GET)
+                                        .bucket(dataCollectionBucketName)
+                                        .object(defaultBaseFolder + fileName)
+                                        .expiry(7, TimeUnit.DAYS)
+                                        .build());
+
+                vocabularyResList.add(ClassifyMedia.addFieldsForVocabulary(fileName, getPreSignedUrlUtils.getPreSignedUrl(url)));
+            }
+
+            return vocabularyResList;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
         }
     }
 

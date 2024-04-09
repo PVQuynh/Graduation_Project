@@ -19,7 +19,7 @@ import java.io.IOException;
 public class UploadTopicController {
    private final UploadTopicService uploadTopicService;
 
-    @GetMapping("/all")
+    @GetMapping("/all-file-name")
     public MessageResponse getAllData() {
         MessageResponse ms = new MessageResponse();
         try {

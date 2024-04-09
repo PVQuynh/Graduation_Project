@@ -20,7 +20,7 @@ import java.io.IOException;
 public class UploadQuestionController {
    private final UploadQuestionService uploadQuestionService;
 
-    @GetMapping("/all")
+    @GetMapping("/all-file-name")
     public MessageResponse getAllData() {
         MessageResponse ms = new MessageResponse();
         try {
