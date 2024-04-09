@@ -29,7 +29,7 @@ public class ClassifyMedia {
 
     public static String classifyMedia(String fileName) {
         // Phan mo rong cua tep
-        final String[] IMAGE_EXTENSIONS = { "jpg", "jpeg", "png", "gif" };
+        final String[] IMAGE_EXTENSIONS = { "jpg", "jpeg", "png", "gif", "webp" };
         final String[] VIDEO_EXTENSIONS = { "mp4", "avi", "mov", "wmv" };
         final String[] AUDIO_EXTENSIONS = { "mp3", "wav", "aac", "flac" };
 
