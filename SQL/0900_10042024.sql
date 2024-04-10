@@ -95,7 +95,7 @@ CREATE TABLE `conversation` (
   `conversation_name` varchar(255) DEFAULT NULL,
   `conversation_type` enum('GROUP','SINGLE') DEFAULT NULL,
   PRIMARY KEY (`conversation_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,7 +104,7 @@ CREATE TABLE `conversation` (
 
 LOCK TABLES `conversation` WRITE;
 /*!40000 ALTER TABLE `conversation` DISABLE KEYS */;
-INSERT INTO `conversation` VALUES (1,'phamquynhltbn12@gmail.com','2024-04-08 10:18:31.698000','phamquynhltbn12@gmail.com','2024-04-08 10:18:31.698000','phamquynhltbn12@gmail.com_phamquynhltbn12@gmail.com','SINGLE'),(2,'truong8dt@gmail.com','2024-04-08 12:22:56.898000','truong8dt@gmail.com','2024-04-08 12:22:56.898000','truong8dt@gmail.com_truong8dt@gmail.com','SINGLE'),(3,'doanhtv2759@gmail.com','2024-04-08 15:27:59.658000','doanhtv2759@gmail.com','2024-04-08 15:27:59.658000','doanhtv2759@gmail.com_doanhtv2759@gmail.com','SINGLE');
+INSERT INTO `conversation` VALUES (1,'phamquynhltbn12@gmail.com','2024-04-08 10:18:31.698000','phamquynhltbn12@gmail.com','2024-04-08 10:18:31.698000','phamquynhltbn12@gmail.com_phamquynhltbn12@gmail.com','SINGLE'),(2,'truong8dt@gmail.com','2024-04-08 12:22:56.898000','truong8dt@gmail.com','2024-04-08 12:22:56.898000','truong8dt@gmail.com_truong8dt@gmail.com','SINGLE'),(3,'doanhtv2759@gmail.com','2024-04-08 15:27:59.658000','doanhtv2759@gmail.com','2024-04-08 15:27:59.658000','doanhtv2759@gmail.com_doanhtv2759@gmail.com','SINGLE'),(4,'hoangquanghuy@gmail.com','2024-04-10 01:56:46.426000','hoangquanghuy@gmail.com','2024-04-10 01:56:46.426000','hoangquanghuy@gmail.com_hoangquanghuy@gmail.com','SINGLE'),(5,'hoangquanghuy@gmail.com','2024-04-10 01:57:08.324000','hoangquanghuy@gmail.com','2024-04-10 01:57:08.324000','hoangquanghuy@gmail.com_hoangquanghuy@gmail.com','SINGLE');
 /*!40000 ALTER TABLE `conversation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -170,7 +170,7 @@ CREATE TABLE `friend_ship` (
 
 LOCK TABLES `friend_ship` WRITE;
 /*!40000 ALTER TABLE `friend_ship` DISABLE KEYS */;
-INSERT INTO `friend_ship` VALUES ('quynh171217@gmail.com','2024-04-08 10:17:58.613000','10:18, 08/04/2024','2024-04-08 10:18:26.492000',200,3,1),('doanhtv2759@gmail.com','2024-04-08 14:29:26.896000','15:20, 08/04/2024','2024-04-08 15:20:00.682000',200,6,1),('quynh171217@gmail.com','2024-04-08 10:17:50.353000','10:17, 08/04/2024','2024-04-08 10:17:50.353000',100,3,2),('doanhtv2759@gmail.com','2024-04-08 15:17:40.961000','4/8/24, 3:17 PM','2024-04-08 15:17:40.961000',100,6,2),('doanhtv2759@gmail.com','2024-04-08 15:17:41.518000','4/8/24, 3:17 PM','2024-04-08 15:17:41.518000',100,6,3),('truongnguyenduc935@gmail.com','2024-04-08 12:22:44.824000','12:22, 08/04/2024','2024-04-08 12:22:50.765000',200,5,4);
+INSERT INTO `friend_ship` VALUES ('quynh171217@gmail.com','2024-04-08 10:17:58.613000','10:18, 08/04/2024','2024-04-08 10:18:26.492000',200,3,1),('doanhtv2759@gmail.com','2024-04-08 14:29:26.896000','15:20, 08/04/2024','2024-04-08 15:20:00.682000',200,6,1),('hoangquanghuy@gmail.com','2024-04-10 01:56:31.500000','01:57, 10/04/2024','2024-04-10 01:57:32.503000',200,7,1),('quynh171217@gmail.com','2024-04-08 10:17:50.353000','01:57, 10/04/2024','2024-04-10 01:57:57.417000',200,3,2),('doanhtv2759@gmail.com','2024-04-08 15:17:40.961000','01:57, 10/04/2024','2024-04-10 01:57:52.244000',200,6,2),('hoangquanghuy@gmail.com','2024-04-10 01:56:36.779000','01:57, 10/04/2024','2024-04-10 01:57:54.676000',200,7,2),('doanhtv2759@gmail.com','2024-04-08 15:17:41.518000','4/8/24, 3:17 PM','2024-04-08 15:17:41.518000',100,6,3),('hoangquanghuy@gmail.com','2024-04-10 01:56:41.690000','01:56, 10/04/2024','2024-04-10 01:56:41.690000',100,7,3),('truongnguyenduc935@gmail.com','2024-04-08 12:22:44.824000','12:22, 08/04/2024','2024-04-08 12:22:50.765000',200,5,4);
 /*!40000 ALTER TABLE `friend_ship` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -196,7 +196,7 @@ CREATE TABLE `group_member` (
   KEY `FKh9ojh95jsbqa9k94mk9sjs64k` (`conversation_id`),
   CONSTRAINT `FKh9ojh95jsbqa9k94mk9sjs64k` FOREIGN KEY (`conversation_id`) REFERENCES `conversation` (`conversation_id`),
   CONSTRAINT `FKqbnnx666uxh38dff4uanvgw88` FOREIGN KEY (`contact_id`) REFERENCES `contact` (`contact_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -205,7 +205,7 @@ CREATE TABLE `group_member` (
 
 LOCK TABLES `group_member` WRITE;
 /*!40000 ALTER TABLE `group_member` DISABLE KEYS */;
-INSERT INTO `group_member` VALUES (1,'phamquynhltbn12@gmail.com','2024-04-08 10:18:31.706000','phamquynhltbn12@gmail.com','2024-04-08 10:18:31.706000',_binary '\0',NULL,1,1),(2,'phamquynhltbn12@gmail.com','2024-04-08 10:18:31.710000','phamquynhltbn12@gmail.com','2024-04-08 10:18:31.710000',_binary '\0',NULL,3,1),(3,'truong8dt@gmail.com','2024-04-08 12:22:56.900000','truong8dt@gmail.com','2024-04-08 12:22:56.900000',_binary '\0',NULL,4,2),(4,'truong8dt@gmail.com','2024-04-08 12:22:56.902000','truong8dt@gmail.com','2024-04-08 12:22:56.902000',_binary '\0',NULL,5,2),(5,'doanhtv2759@gmail.com','2024-04-08 15:27:59.668000','doanhtv2759@gmail.com','2024-04-09 09:37:19.837000',_binary '\0','2024-04-09 09:37:19.836964',6,3),(6,'doanhtv2759@gmail.com','2024-04-08 15:27:59.671000','doanhtv2759@gmail.com','2024-04-08 15:27:59.671000',_binary '\0',NULL,1,3);
+INSERT INTO `group_member` VALUES (1,'phamquynhltbn12@gmail.com','2024-04-08 10:18:31.706000','phamquynhltbn12@gmail.com','2024-04-08 10:18:31.706000',_binary '\0',NULL,1,1),(2,'phamquynhltbn12@gmail.com','2024-04-08 10:18:31.710000','phamquynhltbn12@gmail.com','2024-04-08 10:18:31.710000',_binary '\0',NULL,3,1),(3,'truong8dt@gmail.com','2024-04-08 12:22:56.900000','truong8dt@gmail.com','2024-04-08 12:22:56.900000',_binary '\0',NULL,4,2),(4,'truong8dt@gmail.com','2024-04-08 12:22:56.902000','truong8dt@gmail.com','2024-04-08 12:22:56.902000',_binary '\0',NULL,5,2),(5,'doanhtv2759@gmail.com','2024-04-08 15:27:59.668000','phamquynhltbn12@gmail.com','2024-04-10 01:52:37.559000',_binary '\0','2024-04-10 01:52:37.522347',6,3),(6,'doanhtv2759@gmail.com','2024-04-08 15:27:59.671000','doanhtv2759@gmail.com','2024-04-08 15:27:59.671000',_binary '\0',NULL,1,3),(7,'hoangquanghuy@gmail.com','2024-04-10 01:56:46.442000','hoangquanghuy@gmail.com','2024-04-10 01:56:46.442000',_binary '\0',NULL,7,4),(8,'hoangquanghuy@gmail.com','2024-04-10 01:56:46.444000','hoangquanghuy@gmail.com','2024-04-10 01:56:46.444000',_binary '\0',NULL,1,4),(9,'hoangquanghuy@gmail.com','2024-04-10 01:57:08.326000','hoangquanghuy@gmail.com','2024-04-10 01:57:08.326000',_binary '\0',NULL,7,5),(10,'hoangquanghuy@gmail.com','2024-04-10 01:57:08.328000','hoangquanghuy@gmail.com','2024-04-10 01:57:08.328000',_binary '\0',NULL,2,5);
 /*!40000 ALTER TABLE `group_member` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -328,7 +328,7 @@ CREATE TABLE `topic` (
 
 LOCK TABLES `topic` WRITE;
 /*!40000 ALTER TABLE `topic` DISABLE KEYS */;
-INSERT INTO `topic` VALUES (1,'phamquynhltbn12@gmail.com','2024-04-08 10:07:06.775000','phamquynhltbn12@gmail.com','2024-04-08 10:07:06.775000','Tất cả',NULL,NULL),(2,'phamquynhltbn12@gmail.com','2024-04-08 10:21:27.689000','phamquynhltbn12@gmail.com','2024-04-08 10:21:27.689000','Động vật',NULL,NULL);
+INSERT INTO `topic` VALUES (1,'phamquynhltbn12@gmail.com','2024-04-08 10:07:06.775000','phamquynhltbn12@gmail.com','2024-04-08 10:07:06.775000','Chủ đề chưa xác định',NULL,NULL),(2,'phamquynhltbn12@gmail.com','2024-04-08 10:21:27.689000','phamquynhltbn12@gmail.com','2024-04-08 10:21:27.689000','Động vật',NULL,NULL);
 /*!40000 ALTER TABLE `topic` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -445,4 +445,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-10  8:42:49
+-- Dump completed on 2024-04-10  8:59:23
