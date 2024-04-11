@@ -22,6 +22,11 @@ public interface VocabularyRepository extends JpaRepository<Vocabulary, Long> {
     @Query("select v from Vocabulary v where v.topic.id = :topicId order by v.content asc")
     Optional<List<Vocabulary>> findVocabulariesLimitByTopicId(@Param("topicId") long topicId, Pageable pageable);
 
-
     Optional<Vocabulary> findByContent(String content);
+
+    Optional<Vocabulary> findByContentAndTopicId(String content, long topicId);
+
+    List<Vocabulary> findAllByContentAndTopicId(String content, long topicId);
+
+    List<Vocabulary> findAllByTopicId(long id);
 }

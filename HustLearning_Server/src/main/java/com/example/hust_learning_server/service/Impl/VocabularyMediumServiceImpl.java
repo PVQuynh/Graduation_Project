@@ -13,6 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class VocabularyMediumServiceImpl implements VocabularyMediumService{
@@ -28,9 +31,39 @@ public class VocabularyMediumServiceImpl implements VocabularyMediumService{
         if (ObjectUtils.isEmpty(email)) {
             throw new BusinessLogicException();
         }
-
         VocabularyMedium vocabularyMedium = vocabularyMediumMapper.toEntity(vocabularyMediumReq);
-        vocabularyMediumRepository.save(vocabularyMedium);
+        if (vocabularyMedium.isPrimary()) {
+            List<VocabularyMedium> vocabularyMediumList = vocabularyMediumRepository.findAllByVocabularyId(vocabularyMedium.getId());
+            for (VocabularyMedium medium : vocabularyMediumList) {
+                medium.setPrimary(false);
+            }
+            vocabularyMediumList.add(vocabularyMedium);
+            vocabularyMediumRepository.saveAll(vocabularyMediumList);
+        } else {
+            vocabularyMediumRepository.save(vocabularyMedium);
+        }
+    }
+
+    @Override
+    public void addVocabularyMediumList(List<VocabularyMediumReq> vocabularyMediumReqList) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
+        List<VocabularyMedium> vocabularyMediumList = vocabularyMediumMapper.toEntityList(vocabularyMediumReqList);
+        for (VocabularyMedium medium: vocabularyMediumList) {
+            if (medium.isPrimary()) {
+                List<VocabularyMedium> vocabularyMediumListByVocabId = vocabularyMediumRepository.findAllByVocabularyId(medium.getId());
+                for (VocabularyMedium medium1 : vocabularyMediumListByVocabId) {
+                    medium1.setPrimary(false);
+                }
+                vocabularyMediumListByVocabId.add(medium);
+                vocabularyMediumRepository.saveAll(vocabularyMediumListByVocabId);
+            } else {
+                vocabularyMediumRepository.save(medium);
+            }
+        }
     }
 
     @Override
@@ -41,11 +74,20 @@ public class VocabularyMediumServiceImpl implements VocabularyMediumService{
         }
 
         VocabularyMedium vocabularyMedium = vocabularyMediumRepository.findById(updateVocabularyMediumReq.getVocabularyMediumId()).orElseThrow(BusinessLogicException::new);
-        if (updateVocabularyMediumReq.getImageLocation() != null) vocabularyMedium.setImageLocation(updateVocabularyMediumReq.getImageLocation());
-        if (updateVocabularyMediumReq.getVideoLocation() != null) vocabularyMedium.setVideoLocation(updateVocabularyMediumReq.getVideoLocation());
-        vocabularyMedium.setPrimary(updateVocabularyMediumReq.isPrimary());
+        if (updateVocabularyMediumReq.isPrimary()) {
+            List<VocabularyMedium> vocabularyMediumList = vocabularyMediumRepository.findAllByVocabularyId(updateVocabularyMediumReq.getVocabularyMediumId());
+            for (VocabularyMedium medium : vocabularyMediumList) {
+                medium.setPrimary(false);
+            }
+            vocabularyMediumList.add(vocabularyMedium);
+            vocabularyMediumRepository.saveAll(vocabularyMediumList);
+        } else {
+            if (updateVocabularyMediumReq.getImageLocation() != null) vocabularyMedium.setImageLocation(updateVocabularyMediumReq.getImageLocation());
+            if (updateVocabularyMediumReq.getVideoLocation() != null) vocabularyMedium.setVideoLocation(updateVocabularyMediumReq.getVideoLocation());
+            vocabularyMediumRepository.save(vocabularyMedium);
+        }
 
-        vocabularyMediumRepository.save(vocabularyMedium);
+
     }
 
     @Override

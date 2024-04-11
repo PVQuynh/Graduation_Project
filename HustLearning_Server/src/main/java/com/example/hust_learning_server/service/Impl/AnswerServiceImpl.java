@@ -61,7 +61,9 @@ public class AnswerServiceImpl implements AnswerService {
             throw new BusinessLogicException();
         }
 
-        answerRepository.deleteById(id);
+        Answer answer = answerRepository.findById(id).orElse(null);
+        assert answer != null;
+        answerRepository.delete(answer);
     }
 
 }

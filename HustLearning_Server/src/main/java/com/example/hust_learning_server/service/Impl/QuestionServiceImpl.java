@@ -4,9 +4,11 @@ import com.example.hust_learning_server.dto.request.QuestionReq;
 import com.example.hust_learning_server.dto.request.QuestionLimitReq;
 import com.example.hust_learning_server.dto.request.UpdateQuestionReq;
 import com.example.hust_learning_server.dto.response.QuestionRes;
+import com.example.hust_learning_server.entity.Answer;
 import com.example.hust_learning_server.entity.Question;
 import com.example.hust_learning_server.exception.BusinessLogicException;
 import com.example.hust_learning_server.mapper.QuestionMapper;
+import com.example.hust_learning_server.repository.AnswerRepository;
 import com.example.hust_learning_server.repository.QuestionRepository;
 import com.example.hust_learning_server.service.QuestionService;
 import com.example.hust_learning_server.utils.EmailUtils;
@@ -23,7 +25,7 @@ import java.util.List;
 public class QuestionServiceImpl implements QuestionService {
 
     private final QuestionRepository questionRepository;
-
+    private final AnswerRepository answerRepository;
     private final QuestionMapper questionMapper;
 
     @Override
@@ -36,7 +38,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<QuestionRes> questionLimits(QuestionLimitReq questionLimitReq) {
-        Pageable pageable = PageRequest.of(questionLimitReq.getPage()-1, questionLimitReq.getSize());
+        Pageable pageable = PageRequest.of(questionLimitReq.getPage() - 1, questionLimitReq.getSize());
 
         List<Question> questions = questionRepository.findQuestionLimitsByTopicId(questionLimitReq.getTopicId(), pageable).orElseThrow(BusinessLogicException::new);
         if (questions.isEmpty()) throw new BusinessLogicException();
@@ -46,7 +48,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<QuestionRes> questionLimits_v2(int page, int size, long topicId) {
-        Pageable pageable = PageRequest.of(page -1, size);
+        Pageable pageable = PageRequest.of(page - 1, size);
 
         List<Question> questions = questionRepository.findQuestionLimitsByTopicId(topicId, pageable).orElseThrow(BusinessLogicException::new);
         if (questions.isEmpty()) throw new BusinessLogicException();
@@ -74,16 +76,16 @@ public class QuestionServiceImpl implements QuestionService {
 
         Question question = questionRepository.findById(updateQuestionReq.getQuestionId()).orElseThrow(BusinessLogicException::new);
 
-        if (question.getContent()!=null) {
+        if (question.getContent() != null) {
             question.setContent(updateQuestionReq.getContent());
         }
-        if (question.getExplanation()!=null) {
+        if (question.getExplanation() != null) {
             question.setExplanation(updateQuestionReq.getExplanation());
         }
-        if (question.getImageLocation()!=null) {
+        if (question.getImageLocation() != null) {
             question.setImageLocation(updateQuestionReq.getImageLocation());
         }
-        if (question.getVideoLocation()!=null) {
+        if (question.getVideoLocation() != null) {
             question.setVideoLocation(updateQuestionReq.getVideoLocation());
         }
 
@@ -97,9 +99,11 @@ public class QuestionServiceImpl implements QuestionService {
             throw new BusinessLogicException();
         }
 
+        List<Answer> answerList = answerRepository.findAllByQuestionId(id);
+        if (!answerList.isEmpty())  answerRepository.deleteAll(answerList);
+
         questionRepository.deleteById(id);
     }
-
 
 
 }

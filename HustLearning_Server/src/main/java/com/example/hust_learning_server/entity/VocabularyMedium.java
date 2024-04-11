@@ -21,7 +21,7 @@ public class VocabularyMedium extends BaseEntity{
 
     private boolean isPrimary;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="vocabulary_id")
     private Vocabulary vocabulary;
 }

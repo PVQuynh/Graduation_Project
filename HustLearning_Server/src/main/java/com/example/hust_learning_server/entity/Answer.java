@@ -20,7 +20,7 @@ public class Answer extends BaseEntity {
 
     private boolean isCorrect;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
     private Question question;
 

@@ -3,11 +3,13 @@ package com.example.hust_learning_server.service.Impl;
 import com.example.hust_learning_server.dto.PageDTO;
 import com.example.hust_learning_server.dto.request.*;
 import com.example.hust_learning_server.dto.response.VocabularyRes;
-import com.example.hust_learning_server.entity.Topic;
-import com.example.hust_learning_server.entity.Vocabulary;
+import com.example.hust_learning_server.entity.*;
 import com.example.hust_learning_server.exception.AlreadyExistsException;
 import com.example.hust_learning_server.exception.BusinessLogicException;
 import com.example.hust_learning_server.mapper.Impl.VocabularyMapperImpl;
+import com.example.hust_learning_server.repository.DataCollectionRepository;
+import com.example.hust_learning_server.repository.TopicRepository;
+import com.example.hust_learning_server.repository.VocabularyMediumRepository;
 import com.example.hust_learning_server.repository.VocabularyRepository;
 import com.example.hust_learning_server.service.VocabularySerivce;
 import com.example.hust_learning_server.utils.EmailUtils;
@@ -28,7 +30,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.util.ObjectUtils;
 
@@ -37,9 +42,10 @@ import org.springframework.util.ObjectUtils;
 public class VocabularyServiceImpl implements VocabularySerivce {
 
     private final EntityManager entityManager;
-
     private final VocabularyRepository vocabularyRepository;
-
+    private final VocabularyMediumRepository vocabularyMediumRepository;
+    private final DataCollectionRepository dataCollectionRepository;
+    private final TopicRepository topicRepository;
     private final VocabularyMapperImpl vocabularyMapper;
 
     @Override
@@ -197,8 +203,64 @@ public class VocabularyServiceImpl implements VocabularySerivce {
             throw new BusinessLogicException();
         }
 
-        Vocabulary vocabulary = vocabularyMapper.toEntity(vocabularyReq);
-        vocabularyRepository.save(vocabulary);
+        Optional<Vocabulary> existingVocabulary = vocabularyRepository.findByContentAndTopicId(vocabularyReq.getContent(), vocabularyReq.getTopicId());
+
+        // tu da ton tai khong luu
+        if (!existingVocabulary.isPresent()) {
+            Vocabulary vocabulary = vocabularyMapper.toEntity(vocabularyReq);
+
+            // neu co primary la true
+            List<VocabularyMedium> vocabularyMediumList = vocabulary.getVocabularyMedia();
+            for (VocabularyMedium vocabularyMedium : vocabularyMediumList) {
+                if (vocabularyMedium.isPrimary()) {
+                    List<VocabularyMedium> vocabularyMediumListByVocabId = vocabularyMediumRepository.findAllByVocabularyId(vocabularyMedium.getId());
+                    for (VocabularyMedium vocabularyMedium1: vocabularyMediumListByVocabId) {
+                        vocabularyMedium1.setPrimary(false);
+                    }
+                    vocabularyMediumRepository.saveAll(vocabularyMediumListByVocabId);
+                }
+            }
+
+            vocabularyRepository.save(vocabulary);
+        } else {
+            throw new AlreadyExistsException();
+        }
+    }
+
+    @Override
+    public void addVocabularyToNewTopic(AddVocabularyToNewTopic addVocabularyToNewTopic) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
+        Optional<Vocabulary> vocabularyWillAddedOptional = vocabularyRepository.findById(addVocabularyToNewTopic.getId());
+
+        // luu tu da co tu topic nay sang topic khac
+        if (vocabularyWillAddedOptional.isPresent()) {
+            Vocabulary vocabularyWillAdded = vocabularyWillAddedOptional.get();
+
+            // kiem tra topic them vao da ton tai tu nay chua
+            Optional<Vocabulary> existingVocabularyInTopic = vocabularyRepository.findByContentAndTopicId(vocabularyWillAddedOptional.get().getContent(), addVocabularyToNewTopic.getTopicId());
+            if (!existingVocabularyInTopic.isPresent()) {
+                vocabularyWillAdded.setTopic(topicRepository.findById(addVocabularyToNewTopic.getTopicId()).orElseThrow(BusinessLogicException::new));
+
+                // copy toan bo VocabularyMedium cua tu hien tai vao tu moi duoc tao ra
+                // note: tranh luu lai chinh no se khong tao ra duoc medium hoac tu moi
+                List<VocabularyMedium> vocabularyMediumListPresent = existingVocabularyInTopic.get().getVocabularyMedia();
+
+
+
+                Vocabulary vocabularyAdded = Vocabulary.builder()
+
+
+                        .build();
+
+                vocabularyRepository.save(vocabularyAdded);
+            } else {
+                throw new AlreadyExistsException();
+            }
+        }
     }
 
     @Override
@@ -207,10 +269,34 @@ public class VocabularyServiceImpl implements VocabularySerivce {
         if (ObjectUtils.isEmpty(email)) {
             throw new BusinessLogicException();
         }
-
         List<Vocabulary> vocabularyList = vocabularyMapper.toEntityList(vocabularyReqList);
-        vocabularyRepository.saveAll(vocabularyList);
+
+        List<Vocabulary> nonOverlappingVocabularyList  = new ArrayList<>();
+        for (Vocabulary vocabulary : vocabularyList) {
+            // Kiểm tra xem từ vựng đã tồn tại trong cơ sở dữ liệu hay chưa
+            Optional<Vocabulary> existingVocabulary = vocabularyRepository.findByContentAndTopicId(vocabulary.getContent(), vocabulary.getTopic().getId());
+
+            // Nếu từ vựng không tồn tại, thêm vào danh sách không trùng lặp
+            if (!existingVocabulary.isPresent()) {
+                // check tu them vao co primary la true khong
+                List<VocabularyMedium> vocabularyMediumList = vocabulary.getVocabularyMedia();
+                for (VocabularyMedium vocabularyMedium : vocabularyMediumList) {
+                    if (vocabularyMedium.isPrimary()) {
+                        List<VocabularyMedium> vocabularyMediumListByVocabId = vocabularyMediumRepository.findAllByVocabularyId(vocabularyMedium.getId());
+                        for (VocabularyMedium vocabularyMedium1: vocabularyMediumListByVocabId) {
+                            vocabularyMedium1.setPrimary(false);
+                        }
+                        vocabularyMediumRepository.saveAll(vocabularyMediumListByVocabId);
+                    }
+                }
+
+                nonOverlappingVocabularyList.add(vocabulary);
+            }
+        }
+
+        vocabularyRepository.saveAll(nonOverlappingVocabularyList);
     }
+
 
     @Override
     public void updateVocabulary(UpdateVocabularyReq updateVocabularyReq) {
@@ -232,8 +318,18 @@ public class VocabularyServiceImpl implements VocabularySerivce {
             throw new BusinessLogicException();
         }
 
+        List<VocabularyMedium> vocabularyMediumList = vocabularyMediumRepository.findAllByVocabularyId(id);
+        if (!vocabularyMediumList.isEmpty()) {
+            vocabularyMediumRepository.deleteAll(vocabularyMediumList);
+        }
+
+        List<DataCollection> dataCollectionList = dataCollectionRepository.findAllByVocabularyId(id);
+        if (!dataCollectionList.isEmpty()) {
+            for (DataCollection dataCollection: dataCollectionList) dataCollection.setVocabulary(null);
+            dataCollectionRepository.saveAll(dataCollectionList);
+        }
+
         vocabularyRepository.deleteById(id);
     }
-
 
 }

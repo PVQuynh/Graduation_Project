@@ -19,4 +19,6 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     @Query("select q from Question q where q.topic.id = :topicId")
     Optional<List<Question>>searchQuestionsByTopicId(@Param("topicId") long topicId, Pageable pageable);
+
+    List<Question> findAllByTopicId(long id);
 }

@@ -6,11 +6,15 @@ import com.example.hust_learning_server.dto.request.SearchTopicParamReq;
 import com.example.hust_learning_server.dto.request.TopicReq;
 import com.example.hust_learning_server.dto.request.UpdateTopicReq;
 import com.example.hust_learning_server.dto.response.TopicRes;
+import com.example.hust_learning_server.entity.Question;
 import com.example.hust_learning_server.entity.Topic;
+import com.example.hust_learning_server.entity.Vocabulary;
 import com.example.hust_learning_server.exception.AlreadyExistsException;
 import com.example.hust_learning_server.exception.BusinessLogicException;
 import com.example.hust_learning_server.mapper.Impl.TopicMapperImpl;
+import com.example.hust_learning_server.repository.QuestionRepository;
 import com.example.hust_learning_server.repository.TopicRepository;
+import com.example.hust_learning_server.repository.VocabularyRepository;
 import com.example.hust_learning_server.service.TopicService;
 import com.example.hust_learning_server.utils.EmailUtils;
 import jakarta.persistence.EntityManager;
@@ -21,11 +25,14 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+
 import java.util.ArrayList;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.util.ObjectUtils;
 
@@ -37,8 +44,10 @@ public class TopicServiceImpl implements TopicService {
 //    private EntityManager entityManager;
 
     private final EntityManager entityManager;
-    private  final TopicRepository topicRepository;
-    private  final TopicMapperImpl topicMapper;
+    private final TopicRepository topicRepository;
+    private final QuestionRepository questionRepository;
+    private final VocabularyRepository vocabularyRepository;
+    private final TopicMapperImpl topicMapper;
 
     @Override
     public List<TopicRes> getAllTopic() {
@@ -55,12 +64,12 @@ public class TopicServiceImpl implements TopicService {
             throw new BusinessLogicException();
         }
 
-        Topic topic = topicRepository.findByContent(topicReq.getContent()).orElse(null);
-        if (topic != null){
-           throw new AlreadyExistsException();
+        Optional<Topic> existingTopic = topicRepository.findByContent(topicReq.getContent());
+        if (existingTopic.isPresent()) {
+            throw new AlreadyExistsException();
         }
 
-        topic = topicMapper.toEntity(topicReq);
+        Topic topic = topicMapper.toEntity(topicReq);
         topicRepository.save(topic);
     }
 
@@ -117,9 +126,9 @@ public class TopicServiceImpl implements TopicService {
         TypedQuery<Topic> query = entityManager.createQuery(criteriaQuery);
         int totalRows = query.getResultList().size();
         List<Topic> results = query
-            .setFirstResult((searchTopicParamReq.page - 1) * searchTopicParamReq.size) // Offset
-            .setMaxResults(searchTopicParamReq.size) // Limit
-            .getResultList();
+                .setFirstResult((searchTopicParamReq.page - 1) * searchTopicParamReq.size) // Offset
+                .setMaxResults(searchTopicParamReq.size) // Limit
+                .getResultList();
 
         PageDTO<TopicRes> topicResPageDTO = new PageDTO<>(topicMapper.toDTOList(results), searchTopicParamReq.page, totalRows);
         return topicResPageDTO;
@@ -168,6 +177,17 @@ public class TopicServiceImpl implements TopicService {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
             throw new BusinessLogicException();
+        }
+        List<Question> questionList = questionRepository.findAllByTopicId(id);
+        if (!questionList.isEmpty()) {
+            for (Question question : questionList) question.setTopic(null);
+            questionRepository.saveAll(questionList);
+        }
+
+        List<Vocabulary> vocabularyList = vocabularyRepository.findAllByTopicId(id);
+        if (!vocabularyList.isEmpty()) {
+            for (Vocabulary vocabulary : vocabularyList) vocabulary.setTopic(null);
+            vocabularyRepository.saveAll(vocabularyList);
         }
 
         topicRepository.deleteById(id);

@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/vocabulary-media")
@@ -21,6 +23,18 @@ public class VocabularyMediumController {
         MessageResponse ms = new MessageResponse();
         try {
             vocabularyMediumService.addVocabularyMedium(vocabularyMediumReq);
+        } catch (BusinessLogicException ex) {
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
+        }
+        return ms;
+    }
+
+    @PostMapping("/add-list")
+    public MessageResponse addVocabularyMediumList(@RequestBody List<VocabularyMediumReq> vocabularyMediumReqList) {
+        MessageResponse ms = new MessageResponse();
+        try {
+            vocabularyMediumService.addVocabularyMediumList(vocabularyMediumReqList);
         } catch (BusinessLogicException ex) {
             ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
             ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();

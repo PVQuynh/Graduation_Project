@@ -1,6 +1,8 @@
 package com.example.hust_learning_server.config;
 
 import java.util.Optional;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
@@ -27,5 +29,4 @@ public class JpaAuditingConfig {
             return Optional.empty();
         }
     }
-
 }

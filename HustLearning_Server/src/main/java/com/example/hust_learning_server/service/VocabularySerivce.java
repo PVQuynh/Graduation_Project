@@ -28,6 +28,8 @@ public interface VocabularySerivce {
 
     void addVocabulary(VocabularyReq vocabulary);
 
+    void addVocabularyToNewTopic(AddVocabularyToNewTopic addVocabularyToNewTopic);
+
     void addVocabularyList(List<VocabularyReq> vocabularyReqList);
 
     void updateVocabulary(UpdateVocabularyReq updateVocabularyReq);

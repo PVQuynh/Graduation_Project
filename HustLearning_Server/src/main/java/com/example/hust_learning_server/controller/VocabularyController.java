@@ -144,6 +144,24 @@ public class VocabularyController {
         MessageResponse ms = new MessageResponse();
         try {
             vocabularyService.addVocabulary(vocabularyReq);
+        }  catch (AlreadyExistsException ex) {
+            ms.code = HttpStatus.CONFLICT.value();
+            ms.message = HttpStatus.CONFLICT.getReasonPhrase(); // not fix
+        }catch (BusinessLogicException ex) {
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(); // not fix
+        }
+        return ms;
+    }
+
+    @PostMapping("/add-new-topic")
+    public MessageResponse addVocabularyToNewTopic(@RequestBody AddVocabularyToNewTopic addVocabularyToNewTopic) {
+        MessageResponse ms = new MessageResponse();
+        try {
+            vocabularyService.addVocabularyToNewTopic(addVocabularyToNewTopic);
+        } catch (AlreadyExistsException ex) {
+            ms.code = HttpStatus.CONFLICT.value();
+            ms.message = HttpStatus.CONFLICT.getReasonPhrase(); // not fix
         } catch (BusinessLogicException ex) {
             ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
             ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(); // not fix
@@ -156,9 +174,6 @@ public class VocabularyController {
         MessageResponse ms = new MessageResponse();
         try {
             vocabularyService.addVocabularyList(vocabularyReqList);
-        } catch (AlreadyExistsException ex) {
-            ms.code = HttpStatus.CONFLICT.value();
-            ms.message = HttpStatus.CONFLICT.getReasonPhrase(); // not fix
         } catch (BusinessLogicException ex) {
             ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
             ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(); // not fix
@@ -186,7 +201,7 @@ public class VocabularyController {
             vocabularyService.deleteById(id);
         } catch (Exception ex) {
             ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
-            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
+            ms.message = ex.getMessage();
         }
         return ms;
     }

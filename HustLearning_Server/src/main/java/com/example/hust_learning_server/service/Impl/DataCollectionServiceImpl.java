@@ -41,7 +41,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
     private final DataCollectionRepository dataCollectionRepository;
 
-    private final VocabularyRepository vocabRepository;
+    private final VocabularyRepository vocabularyRepository;
 
     private final DataCollectionMapper dataCollectionMapper;
 
@@ -49,7 +49,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
     @Override
     public void sendData(DataProvideReq dataProvideReq) {
-        Vocabulary vocabulary = vocabRepository.findById(dataProvideReq.getVocabularyId())
+        Vocabulary vocabulary = vocabularyRepository.findById(dataProvideReq.getVocabularyId())
                 .orElseThrow(BusinessLogicException::new);
 
         DataCollection dataCollection = DataCollection.builder()
@@ -74,7 +74,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             dataCollection.setDataLocation(updateDataReq.getDataLocation());
         }
         if (updateDataReq.getVocabularyId() != 0) {
-            Vocabulary vocabulary = vocabRepository.findById(updateDataReq.getVocabularyId()).orElseThrow(BusinessLogicException::new);
+            Vocabulary vocabulary = vocabularyRepository.findById(updateDataReq.getVocabularyId()).orElseThrow(BusinessLogicException::new);
             dataCollection.setVocabulary(vocabulary);
         }
 

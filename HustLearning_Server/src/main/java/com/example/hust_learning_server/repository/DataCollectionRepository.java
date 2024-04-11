@@ -41,4 +41,5 @@ public interface DataCollectionRepository extends JpaRepository<DataCollection, 
     @Query("select data from DataCollection data where data.status=300 order by data.created desc")
     Optional<List<DataCollection>> getRejectAdmin(@Param("email") String email);
 
+    List<DataCollection> findAllByVocabularyId(long id);
 }

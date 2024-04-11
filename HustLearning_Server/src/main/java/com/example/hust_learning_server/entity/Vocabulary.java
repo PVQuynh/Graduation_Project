@@ -7,6 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "vocabulary")
@@ -21,6 +22,12 @@ public class Vocabulary extends BaseEntity{
             fetch = FetchType.EAGER,
             cascade = {CascadeType.ALL})
     private List<VocabularyMedium> vocabularyMedia;
+
+    @OneToMany(
+            mappedBy = "vocabulary",
+            fetch = FetchType.EAGER,
+            cascade = {CascadeType.ALL})
+    private List<DataCollection> dataCollections;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="topic_id")
