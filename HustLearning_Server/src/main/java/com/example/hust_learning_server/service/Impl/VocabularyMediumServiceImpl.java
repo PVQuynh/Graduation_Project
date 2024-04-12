@@ -54,6 +54,8 @@ public class VocabularyMediumServiceImpl implements VocabularyMediumService {
         }
 
         List<VocabularyMedium> vocabularyMediumList = vocabularyMediumMapper.toEntityList(vocabularyMediumReqList);
+
+        // neu la primary thi chuyen toan bo con lai ve false
         for (VocabularyMedium medium : vocabularyMediumList) {
             if (medium.isPrimary()) {
                 List<VocabularyMedium> vocabularyMediumListByVocabId = vocabularyMediumRepository.findAllByVocabularyId(medium.getVocabulary().getId());
@@ -62,10 +64,10 @@ public class VocabularyMediumServiceImpl implements VocabularyMediumService {
                 }
                 vocabularyMediumListByVocabId.add(medium);
                 vocabularyMediumRepository.saveAll(vocabularyMediumListByVocabId);
-            } else {
-                vocabularyMediumRepository.save(medium);
             }
         }
+
+        vocabularyMediumRepository.saveAll(vocabularyMediumList);
     }
 
     @Override

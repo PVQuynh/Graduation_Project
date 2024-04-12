@@ -27,6 +27,7 @@ public class VocabularyMapperImpl implements VocabularyMapper {
     public Vocabulary toEntity(VocabularyReq dto) {
         ModelMapper modelMapper = new ModelMapper();
         Vocabulary vocabulary = modelMapper.map(dto, Vocabulary.class);
+        vocabulary.setId(0);
 
         List<VocabularyMediumReq> vocabularyReqs = dto.getVocabularyMediumReqs();
         List<VocabularyMedium> vocabularyMedia = vocabularyMediumMapper.toEntityList(vocabularyReqs);
@@ -34,7 +35,7 @@ public class VocabularyMapperImpl implements VocabularyMapper {
         vocabularyMedia.forEach(vocabularyMedium -> vocabularyMedium.setVocabulary(vocabulary));
         vocabulary.setVocabularyMedia(vocabularyMedia);
 
-        Topic topic = topicRepository.findById(dto.getTopicId()).get();
+        Topic topic = topicRepository.findById(dto.getTopicId()).orElse(null);
         vocabulary.setTopic(topic);
 
         return vocabulary;

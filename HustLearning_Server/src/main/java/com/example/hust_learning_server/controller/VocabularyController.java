@@ -201,7 +201,7 @@ public class VocabularyController {
             vocabularyService.deleteById(id);
         } catch (Exception ex) {
             ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
-            ms.message = ex.getMessage();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
         }
         return ms;
     }

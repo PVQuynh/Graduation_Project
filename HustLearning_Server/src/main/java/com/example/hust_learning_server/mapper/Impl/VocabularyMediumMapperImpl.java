@@ -24,6 +24,7 @@ public class VocabularyMediumMapperImpl implements VocabularyMediumMapper {
     public VocabularyMedium toEntity(VocabularyMediumReq dto) {
         ModelMapper modelMapper = new ModelMapper();
         VocabularyMedium vocabularyMedium = modelMapper.map(dto, VocabularyMedium.class);
+        vocabularyMedium.setId(0);
 
         Vocabulary vocabulary = vocabularyRepository.findById(dto.getVocabularyId()).orElse(null);
         vocabularyMedium.setVocabulary(vocabulary);

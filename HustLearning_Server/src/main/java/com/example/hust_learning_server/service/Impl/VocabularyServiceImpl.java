@@ -28,6 +28,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -271,15 +272,18 @@ public class VocabularyServiceImpl implements VocabularySerivce {
         if (ObjectUtils.isEmpty(email)) {
             throw new BusinessLogicException();
         }
+
         List<Vocabulary> vocabularyList = vocabularyMapper.toEntityList(vocabularyReqList);
 
         List<Vocabulary> nonOverlappingVocabularyList = new ArrayList<>();
         for (Vocabulary vocabulary : vocabularyList) {
-            // Kiểm tra xem từ vựng đã tồn tại trong cơ sở dữ liệu hay chưa
+            // Kiểm tra xem từ vựng đã tồn tại trong topic chua
             Optional<Vocabulary> existingVocabulary = vocabularyRepository.findByContentAndTopicId(vocabulary.getContent(), vocabulary.getTopic().getId());
 
             // Nếu từ vựng không tồn tại, thêm vào danh sách không trùng lặp
             if (existingVocabulary.isEmpty()) {
+                nonOverlappingVocabularyList.add(vocabulary);
+
                 // check tu them vao co primary la true khong
                 List<VocabularyMedium> vocabularyMediumList = vocabulary.getVocabularyMedia();
                 for (VocabularyMedium vocabularyMedium : vocabularyMediumList) {
@@ -291,8 +295,6 @@ public class VocabularyServiceImpl implements VocabularySerivce {
                         vocabularyMediumRepository.saveAll(vocabularyMediumListByVocabId);
                     }
                 }
-
-                nonOverlappingVocabularyList.add(vocabulary);
             }
         }
 

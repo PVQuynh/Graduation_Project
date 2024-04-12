@@ -35,7 +35,7 @@ public class QuestionMapperImpl implements QuestionMapper {
         question.setAnswers(answers);
 
         long topicId = dto.getTopicId();
-        question.setTopic(topicRepository.findById(topicId).get());
+        question.setTopic(topicRepository.findById(topicId).orElse(null));
 
         return question;
     }
