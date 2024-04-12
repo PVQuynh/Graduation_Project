@@ -19,17 +19,17 @@ public class Vocabulary extends BaseEntity{
 
     @OneToMany(
             mappedBy = "vocabulary",
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             cascade = {CascadeType.ALL})
     private List<VocabularyMedium> vocabularyMedia;
 
     @OneToMany(
             mappedBy = "vocabulary",
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             cascade = {CascadeType.ALL})
     private List<DataCollection> dataCollections;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="topic_id")
     private Topic topic;
 }

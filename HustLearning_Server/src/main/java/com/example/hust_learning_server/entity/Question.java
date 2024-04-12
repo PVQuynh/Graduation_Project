@@ -26,10 +26,10 @@ public class Question extends BaseEntity {
 
     @OneToMany(mappedBy = "question",
             cascade = {CascadeType.ALL},
-            fetch = FetchType.EAGER)
+            fetch = FetchType.LAZY)
     private List<Answer> answers;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "topic_id")
     private Topic topic;
 

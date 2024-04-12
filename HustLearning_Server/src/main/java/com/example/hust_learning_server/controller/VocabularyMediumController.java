@@ -1,5 +1,6 @@
 package com.example.hust_learning_server.controller;
 
+import com.example.hust_learning_server.dto.request.SetPrimaryForVocabularyMedium;
 import com.example.hust_learning_server.dto.request.UpdateVocabularyMediumReq;
 import com.example.hust_learning_server.dto.request.VocabularyMediumReq;
 import com.example.hust_learning_server.dto.request.VocabularyReq;
@@ -47,6 +48,18 @@ public class VocabularyMediumController {
         MessageResponse ms = new MessageResponse();
         try {
             vocabularyMediumService.updateVocabularyMedium(updateVocabularyMediumReq);
+        } catch (BusinessLogicException ex) {
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
+        }
+        return ms;
+    }
+
+    @PutMapping("/set-primary")
+    public MessageResponse setPrimaryForVocabularyMedium(@RequestBody SetPrimaryForVocabularyMedium setPrimaryForVocabularyMedium) {
+        MessageResponse ms = new MessageResponse();
+        try {
+            vocabularyMediumService.setPrimaryForVocabularyMedium(setPrimaryForVocabularyMedium);
         } catch (BusinessLogicException ex) {
             ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
             ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();

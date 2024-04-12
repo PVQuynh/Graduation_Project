@@ -12,6 +12,8 @@ public interface VocabularyMediumService {
 
     void updateVocabularyMedium(UpdateVocabularyMediumReq updateVocabularyMediumReq);
 
+    void setPrimaryForVocabularyMedium(SetPrimaryForVocabularyMedium setPrimaryForVocabularyMedium);
+
     void deleteById(long id);
 
 }
