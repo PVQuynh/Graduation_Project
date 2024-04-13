@@ -12,6 +12,7 @@ import com.example.hust_learning_server.repository.TopicRepository;
 import com.example.hust_learning_server.repository.VocabularyMediumRepository;
 import com.example.hust_learning_server.repository.VocabularyRepository;
 import com.example.hust_learning_server.service.VocabularySerivce;
+import com.example.hust_learning_server.utils.AvoidRepetition;
 import com.example.hust_learning_server.utils.EmailUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -201,7 +202,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
         Optional<Vocabulary> existingVocabulary = vocabularyRepository.findByContentAndTopicId(vocabularyReq.getContent(), vocabularyReq.getTopicId());
 
         // tu da ton tai khong luu
-        if (!existingVocabulary.isPresent()) {
+        if (existingVocabulary.isEmpty()) {
             Vocabulary vocabulary = vocabularyMapper.toEntity(vocabularyReq);
 
             // neu co primary la true
@@ -273,8 +274,10 @@ public class VocabularyServiceImpl implements VocabularySerivce {
             throw new BusinessLogicException();
         }
 
-        List<Vocabulary> vocabularyList = vocabularyMapper.toEntityList(vocabularyReqList);
+        // xu ly dau vao, ko bi lap lai content
+        List<Vocabulary> vocabularyList = AvoidRepetition.avoidRepeatingVocabularyContent(vocabularyMapper.toEntityList(vocabularyReqList));
 
+        // xu ly phia db, tranh bi chong lan tu
         List<Vocabulary> nonOverlappingVocabularyList = new ArrayList<>();
         for (Vocabulary vocabulary : vocabularyList) {
             // Kiểm tra xem từ vựng đã tồn tại trong topic chua

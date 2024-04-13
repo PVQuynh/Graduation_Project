@@ -70,31 +70,36 @@ public class VocabularyMediumServiceImpl implements VocabularyMediumService {
         vocabularyMediumRepository.saveAll(vocabularyMediumList);
     }
 
-    @Override
+     @Override
     public void updateVocabularyMedium(UpdateVocabularyMediumReq updateVocabularyMediumReq) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
             throw new BusinessLogicException();
         }
 
+        // lay ra tu db de update
         VocabularyMedium vocabularyMedium = vocabularyMediumRepository.findById(updateVocabularyMediumReq.getVocabularyMediumId()).orElseThrow(BusinessLogicException::new);
 
-        // neu là true thi set toan bo con lai la false
+        // neu update là true thi set toan bo con lai la false
         if (updateVocabularyMediumReq.isPrimary()) {
             List<VocabularyMedium> vocabularyMediumList = vocabularyMediumRepository.findAllByVocabularyId(vocabularyMedium.getVocabulary().getId());
             for (VocabularyMedium medium : vocabularyMediumList) {
                 medium.setPrimary(false);
             }
-            vocabularyMediumList.add(vocabularyMedium);
+
+            // set primary cho medium va update
+            vocabularyMedium.setPrimary(true);
+            vocabularyMedium.setImageLocation(updateVocabularyMediumReq.getImageLocation());
+            vocabularyMedium.setVideoLocation(updateVocabularyMediumReq.getVideoLocation());
             vocabularyMediumRepository.saveAll(vocabularyMediumList);
         } else {
             if (updateVocabularyMediumReq.getImageLocation() != null)
                 vocabularyMedium.setImageLocation(updateVocabularyMediumReq.getImageLocation());
             if (updateVocabularyMediumReq.getVideoLocation() != null)
                 vocabularyMedium.setVideoLocation(updateVocabularyMediumReq.getVideoLocation());
+            vocabularyMedium.setPrimary(false);
+            vocabularyMediumRepository.save(vocabularyMedium);
         }
-
-        vocabularyMediumRepository.save(vocabularyMedium);
     }
 
     @Override

@@ -27,6 +27,18 @@ public class Vocabulary extends BaseEntity{
             mappedBy = "vocabulary",
             fetch = FetchType.LAZY,
             cascade = {CascadeType.ALL})
+    private List<VocabularyImage> vocabularyImages;
+
+    @OneToMany(
+            mappedBy = "vocabulary",
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.ALL})
+    private List<VocabularyVideo> vocabularyVideos;
+
+    @OneToMany(
+            mappedBy = "vocabulary",
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.ALL})
     private List<DataCollection> dataCollections;
 
     @ManyToOne(fetch = FetchType.LAZY)
