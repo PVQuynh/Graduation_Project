@@ -7,10 +7,7 @@ import com.example.hust_learning_server.entity.*;
 import com.example.hust_learning_server.exception.AlreadyExistsException;
 import com.example.hust_learning_server.exception.BusinessLogicException;
 import com.example.hust_learning_server.mapper.Impl.VocabularyMapperImpl;
-import com.example.hust_learning_server.repository.DataCollectionRepository;
-import com.example.hust_learning_server.repository.TopicRepository;
-import com.example.hust_learning_server.repository.VocabularyMediumRepository;
-import com.example.hust_learning_server.repository.VocabularyRepository;
+import com.example.hust_learning_server.repository.*;
 import com.example.hust_learning_server.service.VocabularySerivce;
 import com.example.hust_learning_server.utils.AvoidRepetition;
 import com.example.hust_learning_server.utils.EmailUtils;
@@ -41,7 +38,10 @@ public class VocabularyServiceImpl implements VocabularySerivce {
 
     private final EntityManager entityManager;
     private final VocabularyRepository vocabularyRepository;
-    private final VocabularyMediumRepository vocabularyMediumRepository;
+    private final VocabularyImageRepository vocabularyImageRepository;
+    private final VocabularyVideoRepository vocabularyVideoRepository;
+
+
     private final DataCollectionRepository dataCollectionRepository;
     private final TopicRepository topicRepository;
     private final VocabularyMapperImpl vocabularyMapper;
@@ -205,15 +205,29 @@ public class VocabularyServiceImpl implements VocabularySerivce {
         if (existingVocabulary.isEmpty()) {
             Vocabulary vocabulary = vocabularyMapper.toEntity(vocabularyReq);
 
-            // neu co primary la true
-            List<VocabularyMedium> vocabularyMediumList = vocabulary.getVocabularyMedia();
-            for (VocabularyMedium vocabularyMedium : vocabularyMediumList) {
-                if (vocabularyMedium.isPrimary()) {
-                    List<VocabularyMedium> vocabularyMediumListByVocabId = vocabularyMediumRepository.findAllByVocabularyId(vocabularyMedium.getId());
-                    for (VocabularyMedium vocabularyMedium1 : vocabularyMediumListByVocabId) {
-                        vocabularyMedium1.setPrimary(false);
+            // neu co image primary la true
+            List<VocabularyImage> vocabularyImageList = vocabulary.getVocabularyImages();
+            for (VocabularyImage image : vocabularyImageList) {
+                // neu la true thi thay doi toan bo con lai ve false
+                if (image.isPrimary()) {
+                    List<VocabularyImage> vocabularyImageListByVocabId = vocabularyImageRepository.findAllByVocabularyId(image.getId());
+                    for (VocabularyImage vocabularyImage : vocabularyImageListByVocabId) {
+                        vocabularyImage.setPrimary(false);
                     }
-                    vocabularyMediumRepository.saveAll(vocabularyMediumListByVocabId);
+                    vocabularyImageRepository.saveAll(vocabularyImageListByVocabId);
+                }
+            }
+
+            // neu co video primary la true
+            List<VocabularyVideo> vocabularyVideoList = vocabulary.getVocabularyVideos();
+            for (VocabularyVideo video : vocabularyVideoList) {
+                // neu la true thi thay doi toan bo con lai ve false
+                if (video.isPrimary()) {
+                    List<VocabularyVideo> vocabularyVideoListByVocabId = vocabularyVideoRepository.findAllByVocabularyId(video.getId());
+                    for (VocabularyVideo vocabularyVideo : vocabularyVideoListByVocabId) {
+                        vocabularyVideo.setPrimary(false);
+                    }
+                    vocabularyVideoRepository.saveAll(vocabularyVideoListByVocabId);
                 }
             }
 
@@ -234,27 +248,40 @@ public class VocabularyServiceImpl implements VocabularySerivce {
         Vocabulary vocabularyPresent = vocabularyRepository.findById(addVocabularyToNewTopic.getId()).orElseThrow(BusinessLogicException::new);
         Topic topicWillAdd = topicRepository.findById(addVocabularyToNewTopic.getTopicId()).orElseThrow(BusinessLogicException::new);
 
-        // luu tu da co from topic nay to topic khac
-        Optional<Vocabulary> existingVocabularyInTopicOptional = vocabularyRepository.findByContentAndTopicId(vocabularyPresent.getContent(), addVocabularyToNewTopic.getTopicId());
         // kiem tra topic them vao da ton tai tu nay chua, khong ton tai thi moi them vao
+        Optional<Vocabulary> existingVocabularyInTopicOptional = vocabularyRepository.findByContentAndTopicId(vocabularyPresent.getContent(), addVocabularyToNewTopic.getTopicId());
         if (existingVocabularyInTopicOptional.isEmpty()) {
-            // copy toan bo VocabularyMedium cua tu hien tai vao tu moi duoc tao ra
-            // note: tranh luu lai chinh no se khong tao ra duoc medium hoac tu moi
-            List<VocabularyMedium> vocabularyMediumListPresent = vocabularyPresent.getVocabularyMedia();
-            List<VocabularyMedium> vocabularyMediumListWillAdd = new ArrayList<>();
-            for (VocabularyMedium vocabularyMediumPresent : vocabularyMediumListPresent) {
-                VocabularyMedium vocabularyMediumCopy = VocabularyMedium.builder()
-                        .imageLocation(vocabularyMediumPresent.getImageLocation())
-                        .videoLocation(vocabularyMediumPresent.getVideoLocation())
-                        .isPrimary(vocabularyMediumPresent.isPrimary())
+
+            // copy toan bo VocabularyImage cua tu hien tai vao tu moi duoc tao ra
+            // note: tranh luu lai chinh no se khong tao ra duoc image hoac tu moi
+            List<VocabularyImage> vocabularyImageListPresent = vocabularyPresent.getVocabularyImages();
+            List<VocabularyImage> vocabularyImageListWillAdd = new ArrayList<>();
+            for (VocabularyImage vocabularyImagePresent : vocabularyImageListPresent) {
+                VocabularyImage vocabularyImageCopy = VocabularyImage.builder()
+                        .imageLocation(vocabularyImagePresent.getImageLocation())
+                        .isPrimary(vocabularyImagePresent.isPrimary())
                         .build();
 
-                vocabularyMediumListWillAdd.add(vocabularyMediumCopy);
+                vocabularyImageListWillAdd.add(vocabularyImageCopy);
+            }
+
+            // copy toan bo video cua tu hien tai vao tu moi duoc tao ra
+            // note: tranh luu lai chinh no se khong tao ra duoc video hoac tu moi
+            List<VocabularyVideo> vocabularyVideoListPresent = vocabularyPresent.getVocabularyVideos();
+            List<VocabularyVideo> vocabularyVideoListWillAdd = new ArrayList<>();
+            for (VocabularyVideo vocabularyVideoPresent : vocabularyVideoListPresent) {
+                VocabularyVideo vocabularyVideoCopy = VocabularyVideo.builder()
+                        .videoLocation(vocabularyVideoPresent.getVideoLocation())
+                        .isPrimary(vocabularyVideoPresent.isPrimary())
+                        .build();
+
+                vocabularyVideoListWillAdd.add(vocabularyVideoCopy);
             }
 
             Vocabulary vocabularyAdded = Vocabulary.builder()
                     .content(vocabularyPresent.getContent())
-                    .vocabularyMedia(vocabularyMediumListWillAdd)
+                    .vocabularyImages(vocabularyImageListWillAdd)
+                    .vocabularyVideos(vocabularyVideoListWillAdd)
                     .topic(topicWillAdd)
                     .build();
 
@@ -287,15 +314,29 @@ public class VocabularyServiceImpl implements VocabularySerivce {
             if (existingVocabulary.isEmpty()) {
                 nonOverlappingVocabularyList.add(vocabulary);
 
-                // check tu them vao co primary la true khong
-                List<VocabularyMedium> vocabularyMediumList = vocabulary.getVocabularyMedia();
-                for (VocabularyMedium vocabularyMedium : vocabularyMediumList) {
-                    if (vocabularyMedium.isPrimary()) {
-                        List<VocabularyMedium> vocabularyMediumListByVocabId = vocabularyMediumRepository.findAllByVocabularyId(vocabularyMedium.getVocabulary().getId());
-                        for (VocabularyMedium vocabularyMedium1 : vocabularyMediumListByVocabId) {
-                            vocabularyMedium1.setPrimary(false);
+                // neu co image primary la true
+                List<VocabularyImage> vocabularyImageList = vocabulary.getVocabularyImages();
+                for (VocabularyImage image : vocabularyImageList) {
+                    // neu la true thi thay doi toan bo con lai ve false
+                    if (image.isPrimary()) {
+                        List<VocabularyImage> vocabularyImageListByVocabId = vocabularyImageRepository.findAllByVocabularyId(image.getId());
+                        for (VocabularyImage vocabularyImage : vocabularyImageListByVocabId) {
+                            vocabularyImage.setPrimary(false);
                         }
-                        vocabularyMediumRepository.saveAll(vocabularyMediumListByVocabId);
+                        vocabularyImageRepository.saveAll(vocabularyImageListByVocabId);
+                    }
+                }
+
+                // neu co video primary la true
+                List<VocabularyVideo> vocabularyVideoList = vocabulary.getVocabularyVideos();
+                for (VocabularyVideo video : vocabularyVideoList) {
+                    // neu la true thi thay doi toan bo con lai ve false
+                    if (video.isPrimary()) {
+                        List<VocabularyVideo> vocabularyVideoListByVocabId = vocabularyVideoRepository.findAllByVocabularyId(video.getId());
+                        for (VocabularyVideo vocabularyVideo : vocabularyVideoListByVocabId) {
+                            vocabularyVideo.setPrimary(false);
+                        }
+                        vocabularyVideoRepository.saveAll(vocabularyVideoListByVocabId);
                     }
                 }
             }
@@ -325,9 +366,9 @@ public class VocabularyServiceImpl implements VocabularySerivce {
             throw new BusinessLogicException();
         }
 
-        List<VocabularyMedium> vocabularyMediumList = vocabularyMediumRepository.findAllByVocabularyId(id);
-        if (!vocabularyMediumList.isEmpty()) {
-            vocabularyMediumRepository.deleteAll(vocabularyMediumList);
+        List<VocabularyImage> vocabularyImageList = vocabularyImageRepository.findAllByVocabularyId(id);
+        if (!vocabularyImageList.isEmpty()) {
+            vocabularyImageRepository.deleteAll(vocabularyImageList);
         }
 
         List<DataCollection> dataCollectionList = dataCollectionRepository.findAllByVocabularyId(id);

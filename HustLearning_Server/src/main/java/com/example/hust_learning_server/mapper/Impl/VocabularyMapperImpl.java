@@ -1,14 +1,18 @@
 package com.example.hust_learning_server.mapper.Impl;
 
-import com.example.hust_learning_server.dto.request.VocabularyMediumReq;
+import com.example.hust_learning_server.dto.request.VocabularyImageReq;
 import com.example.hust_learning_server.dto.request.VocabularyReq;
-import com.example.hust_learning_server.dto.response.VocabularyMediumRes;
+import com.example.hust_learning_server.dto.request.VocabularyVideoReq;
+import com.example.hust_learning_server.dto.response.VocabularyImageRes;
 import com.example.hust_learning_server.dto.response.VocabularyRes;
+import com.example.hust_learning_server.dto.response.VocabularyVideoRes;
 import com.example.hust_learning_server.entity.Topic;
 import com.example.hust_learning_server.entity.Vocabulary;
-import com.example.hust_learning_server.entity.VocabularyMedium;
+import com.example.hust_learning_server.entity.VocabularyImage;
+import com.example.hust_learning_server.entity.VocabularyVideo;
 import com.example.hust_learning_server.mapper.VocabularyMapper;
-import com.example.hust_learning_server.mapper.VocabularyMediumMapper;
+import com.example.hust_learning_server.mapper.VocabularyImageMapper;
+import com.example.hust_learning_server.mapper.VocabularyVideoMapper;
 import com.example.hust_learning_server.repository.TopicRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -21,7 +25,8 @@ import java.util.stream.Collectors;
 public class VocabularyMapperImpl implements VocabularyMapper {
 
     private final TopicRepository topicRepository;
-    private final VocabularyMediumMapper vocabularyMediumMapper;
+    private final VocabularyImageMapper vocabularyImageMapper;
+    private final VocabularyVideoMapper vocabularyVideoMapper;
 
     @Override
     public Vocabulary toEntity(VocabularyReq dto) {
@@ -29,12 +34,19 @@ public class VocabularyMapperImpl implements VocabularyMapper {
         Vocabulary vocabulary = modelMapper.map(dto, Vocabulary.class);
         vocabulary.setId(0);
 
-        List<VocabularyMediumReq> vocabularyReqs = dto.getVocabularyMediumReqs();
-        List<VocabularyMedium> vocabularyMedia = vocabularyMediumMapper.toEntityList(vocabularyReqs);
+        // set image
+        List<VocabularyImageReq> vocabularyImageListReqs = dto.getVocabularyImageReqs();
+        List<VocabularyImage> vocabularyImageList = vocabularyImageMapper.toEntityList(vocabularyImageListReqs);
+        vocabularyImageList.forEach(vocabularyImage -> vocabularyImage.setVocabulary(vocabulary));
+        vocabulary.setVocabularyImages(vocabularyImageList);
+        
+        // set video
+        List<VocabularyVideoReq> vocabularyVideoListReqs = dto.getVocabularyVideoReqs();
+        List<VocabularyVideo> vocabularyVideoList = vocabularyVideoMapper.toEntityList(vocabularyVideoListReqs);
+        vocabularyVideoList.forEach(vocabularyVideo -> vocabularyVideo.setVocabulary(vocabulary));
+        vocabulary.setVocabularyVideos(vocabularyVideoList);
 
-        vocabularyMedia.forEach(vocabularyMedium -> vocabularyMedium.setVocabulary(vocabulary));
-        vocabulary.setVocabularyMedia(vocabularyMedia);
-
+        // set topic
         Topic topic = topicRepository.findById(dto.getTopicId()).orElse(null);
         vocabulary.setTopic(topic);
 
@@ -46,11 +58,17 @@ public class VocabularyMapperImpl implements VocabularyMapper {
         ModelMapper modelMapper = new ModelMapper();
         VocabularyRes vocabularyRes = modelMapper.map(entity, VocabularyRes.class);
 
-        List<VocabularyMedium> vocabularyMedia = entity.getVocabularyMedia();
-        List<VocabularyMediumRes> vocabularyMediumResList = vocabularyMediumMapper.toDTOList(vocabularyMedia);
+        // set image
+        List<VocabularyImage> vocabularyImageList = entity.getVocabularyImages();
+        List<VocabularyImageRes> vocabularyImageResList = vocabularyImageMapper.toDTOList(vocabularyImageList);
+        vocabularyRes.setVocabularyImageResList(vocabularyImageResList);
 
-        vocabularyRes.setVocabularyMediumRes(vocabularyMediumResList);
+        // set video
+        List<VocabularyVideo> vocabularyVideoList = entity.getVocabularyVideos();
+        List<VocabularyVideoRes> vocabularyVideoResList = vocabularyVideoMapper.toDTOList(vocabularyVideoList);
+        vocabularyRes.setVocabularyVideoResList(vocabularyVideoResList);
 
+        // set topic
         vocabularyRes.setTopicId(entity.getTopic().getId());
         vocabularyRes.setTopicContent(entity.getTopic().getContent());
 

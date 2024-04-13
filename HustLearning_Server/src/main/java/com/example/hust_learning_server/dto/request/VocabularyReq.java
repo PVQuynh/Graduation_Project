@@ -15,7 +15,9 @@ public class VocabularyReq {
 
     private String content;
 
-    private List<VocabularyMediumReq> vocabularyMediumReqs;
+    private List<VocabularyImageReq> vocabularyImageReqs;
+
+    private List<VocabularyVideoReq> vocabularyVideoReqs;
 
     private  long topicId;
 

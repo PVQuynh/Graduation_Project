@@ -1,5 +1,7 @@
 package com.example.hust_learning_server.dto.response;
 
+import com.example.hust_learning_server.dto.request.VocabularyImageReq;
+import com.example.hust_learning_server.dto.request.VocabularyVideoReq;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +19,9 @@ public class VocabularyRes {
 
     private String content;
 
-    private List<VocabularyMediumRes> vocabularyMediumRes;
+    private List<VocabularyImageRes> vocabularyImageResList;
+
+    private List<VocabularyVideoRes> vocabularyVideoResList;
 
     private long topicId;
 
