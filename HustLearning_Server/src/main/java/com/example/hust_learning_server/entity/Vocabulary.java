@@ -21,12 +21,6 @@ public class Vocabulary extends BaseEntity{
             mappedBy = "vocabulary",
             fetch = FetchType.LAZY,
             cascade = {CascadeType.ALL})
-    private List<VocabularyMedium> vocabularyMedia;
-
-    @OneToMany(
-            mappedBy = "vocabulary",
-            fetch = FetchType.LAZY,
-            cascade = {CascadeType.ALL})
     private List<VocabularyImage> vocabularyImages;
 
     @OneToMany(
