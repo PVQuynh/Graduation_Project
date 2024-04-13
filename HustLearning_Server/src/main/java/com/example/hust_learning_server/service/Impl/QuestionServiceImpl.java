@@ -6,10 +6,12 @@ import com.example.hust_learning_server.dto.request.UpdateQuestionReq;
 import com.example.hust_learning_server.dto.response.QuestionRes;
 import com.example.hust_learning_server.entity.Answer;
 import com.example.hust_learning_server.entity.Question;
+import com.example.hust_learning_server.entity.Topic;
 import com.example.hust_learning_server.exception.BusinessLogicException;
 import com.example.hust_learning_server.mapper.QuestionMapper;
 import com.example.hust_learning_server.repository.AnswerRepository;
 import com.example.hust_learning_server.repository.QuestionRepository;
+import com.example.hust_learning_server.repository.TopicRepository;
 import com.example.hust_learning_server.service.QuestionService;
 import com.example.hust_learning_server.utils.EmailUtils;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     private final QuestionRepository questionRepository;
     private final AnswerRepository answerRepository;
+    private final TopicRepository topicRepository;
     private final QuestionMapper questionMapper;
 
     @Override
@@ -62,6 +65,9 @@ public class QuestionServiceImpl implements QuestionService {
         if (ObjectUtils.isEmpty(email)) {
             throw new BusinessLogicException();
         }
+
+        // check có topic dung ko
+        Topic topic = topicRepository.findById(questionReq.getTopicId()).orElseThrow(BusinessLogicException::new);
 
         Question question = questionMapper.toEntity(questionReq);
         questionRepository.save(question);

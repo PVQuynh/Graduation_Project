@@ -3,11 +3,13 @@ package com.example.hust_learning_server.service.Impl;
 import com.example.hust_learning_server.dto.request.SetPrimaryForVocabularyImage;
 import com.example.hust_learning_server.dto.request.UpdateVocabularyImageReq;
 import com.example.hust_learning_server.dto.request.VocabularyImageReq;
+import com.example.hust_learning_server.entity.Vocabulary;
 import com.example.hust_learning_server.entity.VocabularyImage;
 import com.example.hust_learning_server.exception.AlreadyExistsException;
 import com.example.hust_learning_server.exception.BusinessLogicException;
 import com.example.hust_learning_server.mapper.VocabularyImageMapper;
 import com.example.hust_learning_server.repository.VocabularyImageRepository;
+import com.example.hust_learning_server.repository.VocabularyRepository;
 import com.example.hust_learning_server.service.VocabularyImageService;
 import com.example.hust_learning_server.utils.AvoidRepetition;
 import com.example.hust_learning_server.utils.EmailUtils;
@@ -16,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +26,7 @@ import java.util.Optional;
 public class VocabularyImageServiceImpl implements VocabularyImageService {
 
     private final VocabularyImageRepository vocabularyImageRepository;
-
+    private final VocabularyRepository vocabularyRepository;
     private final VocabularyImageMapper vocabularyImageMapper;
 
 
@@ -35,8 +36,11 @@ public class VocabularyImageServiceImpl implements VocabularyImageService {
         if (ObjectUtils.isEmpty(email)) {
             throw new BusinessLogicException();
         }
-        Optional<VocabularyImage> existingVocabularyImage = vocabularyImageRepository.findByImageLocationAndVocabularyId(vocabularyImageReq.getImageLocation(), vocabularyImageReq.getVocabularyId());
+        // check vocabulary id
+        Vocabulary vocabulary = vocabularyRepository.findById(vocabularyImageReq.getVocabularyId()).orElseThrow(BusinessLogicException::new);
 
+        // image da ton tai ko luu
+        Optional<VocabularyImage> existingVocabularyImage = vocabularyImageRepository.findByImageLocationAndVocabularyId(vocabularyImageReq.getImageLocation(), vocabularyImageReq.getVocabularyId());
         if (existingVocabularyImage.isEmpty()) {
             VocabularyImage vocabularyImage = vocabularyImageMapper.toEntity(vocabularyImageReq);
 
@@ -68,20 +72,23 @@ public class VocabularyImageServiceImpl implements VocabularyImageService {
         // xu ly db, avoid tranh  bi chong lan tu
         List<VocabularyImage> nonOverlappingVocabularyList = new ArrayList<>();
         for (VocabularyImage image: vocabularyImageList) {
-            Optional<VocabularyImage> existingVocabularyImage = vocabularyImageRepository.findByImageLocationAndVocabularyId(image.getImageLocation(), image.getVocabulary().getId());
+            // check vocabulary dung ko
+            if (image.getVocabulary().getId() != 0)  {
+                Optional<VocabularyImage> existingVocabularyImage = vocabularyImageRepository.findByImageLocationAndVocabularyId(image.getImageLocation(), image.getVocabulary().getId());
 
-            // ko ton tai thi bat dau them vao
-            if (existingVocabularyImage.isEmpty()) {
-                nonOverlappingVocabularyList.add(image);
+                // ko ton tai thi bat dau them vao
+                if (existingVocabularyImage.isEmpty()) {
+                    nonOverlappingVocabularyList.add(image);
 
-                // neu la primary thi chuyen toan bo con lai ve false
-                if (image.isPrimary()) {
-                    List<VocabularyImage> vocabularyImageListByVocabId = vocabularyImageRepository.findAllByVocabularyId(image.getVocabulary().getId());
-                    for (VocabularyImage image1 : vocabularyImageListByVocabId) {
-                        image1.setPrimary(false);
+                    // neu la primary thi chuyen toan bo con lai ve false
+                    if (image.isPrimary()) {
+                        List<VocabularyImage> vocabularyImageListByVocabId = vocabularyImageRepository.findAllByVocabularyId(image.getVocabulary().getId());
+                        for (VocabularyImage image1 : vocabularyImageListByVocabId) {
+                            image1.setPrimary(false);
+                        }
+                        vocabularyImageListByVocabId.add(image);
+                        vocabularyImageRepository.saveAll(vocabularyImageListByVocabId);
                     }
-                    vocabularyImageListByVocabId.add(image);
-                    vocabularyImageRepository.saveAll(vocabularyImageListByVocabId);
                 }
             }
         }

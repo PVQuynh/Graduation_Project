@@ -55,7 +55,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
 
     @Override
     public List<VocabularyRes> getExactVocabularies(ExactVocabularyReq exactVocabularyReq) {
-        List<Vocabulary> vocabularies = vocabularyRepository.findAllByContent(exactVocabularyReq.getContent()).orElseThrow(() -> new BusinessLogicException());
+        List<Vocabulary> vocabularies = vocabularyRepository.findAllByContent(exactVocabularyReq.getContent()).orElseThrow(BusinessLogicException::new);
         if (vocabularies.isEmpty()) throw new BusinessLogicException();
 
         return vocabularyMapper.toDTOList(vocabularies);
@@ -63,7 +63,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
 
     @Override
     public List<VocabularyRes> getVocabulariesByContent(String content) {
-        List<Vocabulary> vocabularies = vocabularyRepository.findAllByContent(content).orElseThrow(() -> new BusinessLogicException());
+        List<Vocabulary> vocabularies = vocabularyRepository.findAllByContent(content).orElseThrow(BusinessLogicException::new);
         if (vocabularies.isEmpty()) throw new BusinessLogicException();
 
         return vocabularyMapper.toDTOList(vocabularies);
@@ -71,7 +71,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
 
     @Override
     public List<VocabularyRes> getVocabulariesByTopicId(long topicId) {
-        List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesByTopicId(topicId).orElseThrow(() -> new BusinessLogicException());
+        List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesByTopicId(topicId).orElseThrow(BusinessLogicException::new);
         if (vocabularies.isEmpty()) throw new BusinessLogicException();
 
         return vocabularyMapper.toDTOList(vocabularies);
@@ -199,9 +199,11 @@ public class VocabularyServiceImpl implements VocabularySerivce {
             throw new BusinessLogicException();
         }
 
-        Optional<Vocabulary> existingVocabulary = vocabularyRepository.findByContentAndTopicId(vocabularyReq.getContent(), vocabularyReq.getTopicId());
+        // check có topic dung ko
+        Topic topic = topicRepository.findById(vocabularyReq.getTopicId()).orElseThrow(BusinessLogicException::new);
 
         // tu da ton tai khong luu
+        Optional<Vocabulary> existingVocabulary = vocabularyRepository.findByContentAndTopicId(vocabularyReq.getContent(), vocabularyReq.getTopicId());
         if (existingVocabulary.isEmpty()) {
             Vocabulary vocabulary = vocabularyMapper.toEntity(vocabularyReq);
 
@@ -243,6 +245,9 @@ public class VocabularyServiceImpl implements VocabularySerivce {
         if (ObjectUtils.isEmpty(email)) {
             throw new BusinessLogicException();
         }
+
+        // check có topic dung ko
+        Topic topic = topicRepository.findById(addVocabularyToNewTopic.getTopicId()).orElseThrow(BusinessLogicException::new);
 
         // lay ra tu o chu de hien tai
         Vocabulary vocabularyPresent = vocabularyRepository.findById(addVocabularyToNewTopic.getId()).orElseThrow(BusinessLogicException::new);
@@ -307,36 +312,39 @@ public class VocabularyServiceImpl implements VocabularySerivce {
         // xu ly phia db, tranh bi chong lan tu
         List<Vocabulary> nonOverlappingVocabularyList = new ArrayList<>();
         for (Vocabulary vocabulary : vocabularyList) {
-            // Kiểm tra xem từ vựng đã tồn tại trong topic chua
-            Optional<Vocabulary> existingVocabulary = vocabularyRepository.findByContentAndTopicId(vocabulary.getContent(), vocabulary.getTopic().getId());
+            // check có topic dung ko
+            if (vocabulary.getTopic().getId() != 0) {
+                // Kiểm tra xem từ vựng đã tồn tại trong topic chua
+                Optional<Vocabulary> existingVocabulary = vocabularyRepository.findByContentAndTopicId(vocabulary.getContent(), vocabulary.getTopic().getId());
 
-            // Nếu từ vựng không tồn tại, thêm vào danh sách không trùng lặp
-            if (existingVocabulary.isEmpty()) {
-                nonOverlappingVocabularyList.add(vocabulary);
+                // Nếu từ vựng không tồn tại, thêm vào danh sách không trùng lặp
+                if (existingVocabulary.isEmpty()) {
+                    nonOverlappingVocabularyList.add(vocabulary);
 
-                // neu co image primary la true
-                List<VocabularyImage> vocabularyImageList = vocabulary.getVocabularyImages();
-                for (VocabularyImage image : vocabularyImageList) {
-                    // neu la true thi thay doi toan bo con lai ve false
-                    if (image.isPrimary()) {
-                        List<VocabularyImage> vocabularyImageListByVocabId = vocabularyImageRepository.findAllByVocabularyId(image.getId());
-                        for (VocabularyImage vocabularyImage : vocabularyImageListByVocabId) {
-                            vocabularyImage.setPrimary(false);
+                    // neu co image primary la true
+                    List<VocabularyImage> vocabularyImageList = vocabulary.getVocabularyImages();
+                    for (VocabularyImage image : vocabularyImageList) {
+                        // neu la true thi thay doi toan bo con lai ve false
+                        if (image.isPrimary()) {
+                            List<VocabularyImage> vocabularyImageListByVocabId = vocabularyImageRepository.findAllByVocabularyId(image.getId());
+                            for (VocabularyImage vocabularyImage : vocabularyImageListByVocabId) {
+                                vocabularyImage.setPrimary(false);
+                            }
+                            vocabularyImageRepository.saveAll(vocabularyImageListByVocabId);
                         }
-                        vocabularyImageRepository.saveAll(vocabularyImageListByVocabId);
                     }
-                }
 
-                // neu co video primary la true
-                List<VocabularyVideo> vocabularyVideoList = vocabulary.getVocabularyVideos();
-                for (VocabularyVideo video : vocabularyVideoList) {
-                    // neu la true thi thay doi toan bo con lai ve false
-                    if (video.isPrimary()) {
-                        List<VocabularyVideo> vocabularyVideoListByVocabId = vocabularyVideoRepository.findAllByVocabularyId(video.getId());
-                        for (VocabularyVideo vocabularyVideo : vocabularyVideoListByVocabId) {
-                            vocabularyVideo.setPrimary(false);
+                    // neu co video primary la true
+                    List<VocabularyVideo> vocabularyVideoList = vocabulary.getVocabularyVideos();
+                    for (VocabularyVideo video : vocabularyVideoList) {
+                        // neu la true thi thay doi toan bo con lai ve false
+                        if (video.isPrimary()) {
+                            List<VocabularyVideo> vocabularyVideoListByVocabId = vocabularyVideoRepository.findAllByVocabularyId(video.getId());
+                            for (VocabularyVideo vocabularyVideo : vocabularyVideoListByVocabId) {
+                                vocabularyVideo.setPrimary(false);
+                            }
+                            vocabularyVideoRepository.saveAll(vocabularyVideoListByVocabId);
                         }
-                        vocabularyVideoRepository.saveAll(vocabularyVideoListByVocabId);
                     }
                 }
             }

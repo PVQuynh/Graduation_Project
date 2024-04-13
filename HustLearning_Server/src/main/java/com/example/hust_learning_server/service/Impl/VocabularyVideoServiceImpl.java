@@ -3,11 +3,13 @@ package com.example.hust_learning_server.service.Impl;
 import com.example.hust_learning_server.dto.request.SetPrimaryForVocabularyVideo;
 import com.example.hust_learning_server.dto.request.UpdateVocabularyVideoReq;
 import com.example.hust_learning_server.dto.request.VocabularyVideoReq;
+import com.example.hust_learning_server.entity.Vocabulary;
 import com.example.hust_learning_server.entity.VocabularyVideo;
 import com.example.hust_learning_server.exception.AlreadyExistsException;
 import com.example.hust_learning_server.exception.BusinessLogicException;
 import com.example.hust_learning_server.mapper.VocabularyVideoMapper;
 import com.example.hust_learning_server.repository.VocabularyVideoRepository;
+import com.example.hust_learning_server.repository.VocabularyRepository;
 import com.example.hust_learning_server.service.VocabularyVideoService;
 import com.example.hust_learning_server.utils.AvoidRepetition;
 import com.example.hust_learning_server.utils.EmailUtils;
@@ -24,7 +26,7 @@ import java.util.Optional;
 public class VocabularyVideoServiceImpl implements VocabularyVideoService {
 
     private final VocabularyVideoRepository vocabularyVideoRepository;
-
+    private final VocabularyRepository vocabularyRepository;
     private final VocabularyVideoMapper vocabularyVideoMapper;
 
 
@@ -34,8 +36,11 @@ public class VocabularyVideoServiceImpl implements VocabularyVideoService {
         if (ObjectUtils.isEmpty(email)) {
             throw new BusinessLogicException();
         }
+        // check vocabulary id
+        Vocabulary vocabulary = vocabularyRepository.findById(vocabularyVideoReq.getVocabularyId()).orElseThrow(BusinessLogicException::new);
+        
+        // video da ton tai ko luu
         Optional<VocabularyVideo> existingVocabularyVideo = vocabularyVideoRepository.findByVideoLocationAndVocabularyId(vocabularyVideoReq.getVideoLocation(), vocabularyVideoReq.getVocabularyId());
-
         if (existingVocabularyVideo.isEmpty()) {
             VocabularyVideo vocabularyVideo = vocabularyVideoMapper.toEntity(vocabularyVideoReq);
 
@@ -67,20 +72,23 @@ public class VocabularyVideoServiceImpl implements VocabularyVideoService {
         // xu ly db, avoid tranh  bi chong lan tu
         List<VocabularyVideo> nonOverlappingVocabularyList = new ArrayList<>();
         for (VocabularyVideo video: vocabularyVideoList) {
-            Optional<VocabularyVideo> existingVocabularyVideo = vocabularyVideoRepository.findByVideoLocationAndVocabularyId(video.getVideoLocation(), video.getVocabulary().getId());
+            // check vocabulary dung ko
+            if (video.getVocabulary().getId() != 0)  {
+                Optional<VocabularyVideo> existingVocabularyVideo = vocabularyVideoRepository.findByVideoLocationAndVocabularyId(video.getVideoLocation(), video.getVocabulary().getId());
 
-            // ko ton tai thi bat dau them vao
-            if (existingVocabularyVideo.isEmpty()) {
-                nonOverlappingVocabularyList.add(video);
+                // ko ton tai thi bat dau them vao
+                if (existingVocabularyVideo.isEmpty()) {
+                    nonOverlappingVocabularyList.add(video);
 
-                // neu la primary thi chuyen toan bo con lai ve false
-                if (video.isPrimary()) {
-                    List<VocabularyVideo> vocabularyVideoListByVocabId = vocabularyVideoRepository.findAllByVocabularyId(video.getVocabulary().getId());
-                    for (VocabularyVideo video1 : vocabularyVideoListByVocabId) {
-                        video1.setPrimary(false);
+                    // neu la primary thi chuyen toan bo con lai ve false
+                    if (video.isPrimary()) {
+                        List<VocabularyVideo> vocabularyVideoListByVocabId = vocabularyVideoRepository.findAllByVocabularyId(video.getVocabulary().getId());
+                        for (VocabularyVideo video1 : vocabularyVideoListByVocabId) {
+                            video1.setPrimary(false);
+                        }
+                        vocabularyVideoListByVocabId.add(video);
+                        vocabularyVideoRepository.saveAll(vocabularyVideoListByVocabId);
                     }
-                    vocabularyVideoListByVocabId.add(video);
-                    vocabularyVideoRepository.saveAll(vocabularyVideoListByVocabId);
                 }
             }
         }
