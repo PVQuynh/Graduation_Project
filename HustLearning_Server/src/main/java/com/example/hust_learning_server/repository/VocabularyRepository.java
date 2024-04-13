@@ -29,4 +29,5 @@ public interface VocabularyRepository extends JpaRepository<Vocabulary, Long> {
     List<Vocabulary> findAllByContentAndTopicId(String content, long topicId);
 
     List<Vocabulary> findAllByTopicId(long id);
+
 }

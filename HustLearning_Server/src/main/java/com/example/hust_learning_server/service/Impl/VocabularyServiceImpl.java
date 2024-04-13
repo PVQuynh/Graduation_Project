@@ -256,6 +256,12 @@ public class VocabularyServiceImpl implements VocabularySerivce {
         // kiem tra topic them vao da ton tai tu nay chua, khong ton tai thi moi them vao
         Optional<Vocabulary> existingVocabularyInTopicOptional = vocabularyRepository.findByContentAndTopicId(vocabularyPresent.getContent(), addVocabularyToNewTopic.getTopicId());
         if (existingVocabularyInTopicOptional.isEmpty()) {
+            // them moi vao db
+            Vocabulary vocabularyWillAdd = Vocabulary.builder()
+                    .content(vocabularyPresent.getContent())
+                    .topic(topicWillAdd)
+                    .build();
+            Vocabulary vocabularyAdded = vocabularyRepository.save(vocabularyWillAdd);
 
             // copy toan bo VocabularyImage cua tu hien tai vao tu moi duoc tao ra
             // note: tranh luu lai chinh no se khong tao ra duoc image hoac tu moi
@@ -265,6 +271,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
                 VocabularyImage vocabularyImageCopy = VocabularyImage.builder()
                         .imageLocation(vocabularyImagePresent.getImageLocation())
                         .isPrimary(vocabularyImagePresent.isPrimary())
+                        .vocabulary(vocabularyAdded)
                         .build();
 
                 vocabularyImageListWillAdd.add(vocabularyImageCopy);
@@ -278,22 +285,22 @@ public class VocabularyServiceImpl implements VocabularySerivce {
                 VocabularyVideo vocabularyVideoCopy = VocabularyVideo.builder()
                         .videoLocation(vocabularyVideoPresent.getVideoLocation())
                         .isPrimary(vocabularyVideoPresent.isPrimary())
+                        .vocabulary(vocabularyAdded)
                         .build();
 
                 vocabularyVideoListWillAdd.add(vocabularyVideoCopy);
             }
 
-            Vocabulary vocabularyAdded = Vocabulary.builder()
-                    .content(vocabularyPresent.getContent())
-                    .vocabularyImages(vocabularyImageListWillAdd)
-                    .vocabularyVideos(vocabularyVideoListWillAdd)
-                    .topic(topicWillAdd)
-                    .build();
-
-            vocabularyRepository.save(vocabularyAdded);
+            // them cac image/video from cu -> moi
+            vocabularyImageRepository.saveAll(vocabularyImageListWillAdd);
+            vocabularyVideoRepository.saveAll(vocabularyVideoListWillAdd);
 
             // neu chu de la 1 thi xoa tu do di
-            if (vocabularyPresent.getTopic().getId() == 1) vocabularyRepository.deleteById(addVocabularyToNewTopic.getId());
+            if (vocabularyPresent.getTopic().getId() == 1) {
+                vocabularyImageRepository.deleteAllByVocabularyId(addVocabularyToNewTopic.getId());
+                vocabularyVideoRepository.deleteAllByVocabularyId(addVocabularyToNewTopic.getId());
+                vocabularyRepository.deleteById(addVocabularyToNewTopic.getId());
+            }
         } else {
             throw new AlreadyExistsException();
         }
