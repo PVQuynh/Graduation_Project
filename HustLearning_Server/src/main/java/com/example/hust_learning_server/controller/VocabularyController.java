@@ -21,6 +21,19 @@ public class VocabularyController {
 
     private final VocabularySerivce vocabularyService;
 
+    @GetMapping("/get-by-id/{id}")
+    public MessageResponse getVocabularyById(@PathVariable("id") long id) {
+
+        MessageResponse ms = new MessageResponse();
+        try {
+            ms.data = vocabularyService.getById(id);
+        } catch (Exception ex) {
+            ms.code = HttpStatus.NOT_FOUND.value();
+            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
+        }
+        return ms;
+    }
+
     @GetMapping("/all")
     public MessageResponse getAllVocabulary(@RequestParam(required = false) Long topicId, @RequestParam(required = false) String content) {
 
@@ -162,6 +175,18 @@ public class VocabularyController {
         } catch (AlreadyExistsException ex) {
             ms.code = HttpStatus.CONFLICT.value();
             ms.message = HttpStatus.CONFLICT.getReasonPhrase(); // not fix
+        } catch (BusinessLogicException ex) {
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(); // not fix
+        }
+        return ms;
+    }
+
+    @PostMapping("/add-vocab-list-to-new-topic")
+    public MessageResponse addVocabularyListToNewTopic(@RequestBody List<AddVocabularyToNewTopic> addVocabularyToNewTopicList) {
+        MessageResponse ms = new MessageResponse();
+        try {
+            vocabularyService.addVocabularyListToNewTopic(addVocabularyToNewTopicList);
         } catch (BusinessLogicException ex) {
             ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
             ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(); // not fix

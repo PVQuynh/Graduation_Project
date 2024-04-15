@@ -37,14 +37,21 @@ import org.springframework.util.ObjectUtils;
 public class VocabularyServiceImpl implements VocabularySerivce {
 
     private final EntityManager entityManager;
+
     private final VocabularyRepository vocabularyRepository;
     private final VocabularyImageRepository vocabularyImageRepository;
     private final VocabularyVideoRepository vocabularyVideoRepository;
 
-
     private final DataCollectionRepository dataCollectionRepository;
     private final TopicRepository topicRepository;
     private final VocabularyMapperImpl vocabularyMapper;
+
+    @Override
+    public VocabularyRes getById(long id) {
+        Vocabulary vocabulary = vocabularyRepository.findById(id).orElseThrow(BusinessLogicException::new);
+
+        return vocabularyMapper.toDTO(vocabulary);
+    }
 
     @Override
     public List<VocabularyRes> getAllVocabulary() {
@@ -247,11 +254,10 @@ public class VocabularyServiceImpl implements VocabularySerivce {
         }
 
         // check có topic dung ko
-        Topic topic = topicRepository.findById(addVocabularyToNewTopic.getTopicId()).orElseThrow(BusinessLogicException::new);
+        Topic topicWillAdd = topicRepository.findById(addVocabularyToNewTopic.getTopicId()).orElseThrow(BusinessLogicException::new);
 
         // lay ra tu o chu de hien tai
         Vocabulary vocabularyPresent = vocabularyRepository.findById(addVocabularyToNewTopic.getId()).orElseThrow(BusinessLogicException::new);
-        Topic topicWillAdd = topicRepository.findById(addVocabularyToNewTopic.getTopicId()).orElseThrow(BusinessLogicException::new);
 
         // kiem tra topic them vao da ton tai tu nay chua, khong ton tai thi moi them vao
         Optional<Vocabulary> existingVocabularyInTopicOptional = vocabularyRepository.findByContentAndTopicId(vocabularyPresent.getContent(), addVocabularyToNewTopic.getTopicId());
@@ -303,6 +309,76 @@ public class VocabularyServiceImpl implements VocabularySerivce {
             }
         } else {
             throw new AlreadyExistsException();
+        }
+    }
+
+    @Override
+    public void addVocabularyListToNewTopic(List<AddVocabularyToNewTopic> addVocabularyToNewTopicList) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+
+        // duyet qua tung tu de xu lý
+        for (AddVocabularyToNewTopic addVocabularyToNewTopic : addVocabularyToNewTopicList) {
+            // check có topic và vocab dung ko, neu ko thi chuyen den tu khac
+            Optional<Topic> topicWillAddOptional = topicRepository.findById(addVocabularyToNewTopic.getTopicId());
+            Optional<Vocabulary> vocabularyPresentOptional = vocabularyRepository.findById(addVocabularyToNewTopic.getId());
+            if (topicWillAddOptional.isPresent() && vocabularyPresentOptional.isPresent()) {
+                // lay ra tu hien tai và chu de muon them vao
+                Vocabulary vocabularyPresent = vocabularyPresentOptional.get();
+                Topic topicWillAdd = topicWillAddOptional.get();
+
+                // kiem tra topic them vao da ton tai tu nay chua, khong ton tai thi moi them vao
+                Optional<Vocabulary> existingVocabularyInTopicOptional = vocabularyRepository.findByContentAndTopicId(vocabularyPresent.getContent(), addVocabularyToNewTopic.getTopicId());
+                if (existingVocabularyInTopicOptional.isEmpty()) {
+                    // them moi vao db
+                    Vocabulary vocabularyWillAdd = Vocabulary.builder()
+                            .content(vocabularyPresent.getContent())
+                            .topic(topicWillAdd)
+                            .build();
+                    Vocabulary vocabularyAdded = vocabularyRepository.save(vocabularyWillAdd);
+
+                    // copy toan bo VocabularyImage cua tu hien tai vao tu moi duoc tao ra
+                    // note: tranh luu lai chinh no se khong tao ra duoc image hoac tu moi
+                    List<VocabularyImage> vocabularyImageListPresent = vocabularyPresent.getVocabularyImages();
+                    List<VocabularyImage> vocabularyImageListWillAdd = new ArrayList<>();
+                    for (VocabularyImage vocabularyImagePresent : vocabularyImageListPresent) {
+                        VocabularyImage vocabularyImageCopy = VocabularyImage.builder()
+                                .imageLocation(vocabularyImagePresent.getImageLocation())
+                                .isPrimary(vocabularyImagePresent.isPrimary())
+                                .vocabulary(vocabularyAdded)
+                                .build();
+
+                        vocabularyImageListWillAdd.add(vocabularyImageCopy);
+                    }
+
+                    // copy toan bo video cua tu hien tai vao tu moi duoc tao ra
+                    // note: tranh luu lai chinh no se khong tao ra duoc video hoac tu moi
+                    List<VocabularyVideo> vocabularyVideoListPresent = vocabularyPresent.getVocabularyVideos();
+                    List<VocabularyVideo> vocabularyVideoListWillAdd = new ArrayList<>();
+                    for (VocabularyVideo vocabularyVideoPresent : vocabularyVideoListPresent) {
+                        VocabularyVideo vocabularyVideoCopy = VocabularyVideo.builder()
+                                .videoLocation(vocabularyVideoPresent.getVideoLocation())
+                                .isPrimary(vocabularyVideoPresent.isPrimary())
+                                .vocabulary(vocabularyAdded)
+                                .build();
+
+                        vocabularyVideoListWillAdd.add(vocabularyVideoCopy);
+                    }
+
+                    // them cac image/video from cu -> moi
+                    vocabularyImageRepository.saveAll(vocabularyImageListWillAdd);
+                    vocabularyVideoRepository.saveAll(vocabularyVideoListWillAdd);
+
+                    // neu chu de la 1 thi xoa tu do di
+                    if (vocabularyPresent.getTopic().getId() == 1) {
+                        vocabularyImageRepository.deleteAllByVocabularyId(addVocabularyToNewTopic.getId());
+                        vocabularyVideoRepository.deleteAllByVocabularyId(addVocabularyToNewTopic.getId());
+                        vocabularyRepository.deleteById(addVocabularyToNewTopic.getId());
+                    }
+                }
+            }
         }
     }
 

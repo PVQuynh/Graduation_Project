@@ -7,6 +7,7 @@ import com.example.hust_learning_server.dto.response.VocabularyRes;
 import java.util.List;
 
 public interface VocabularySerivce {
+    VocabularyRes getById(long id);
 
     List<VocabularyRes> getAllVocabulary();
 
@@ -29,6 +30,8 @@ public interface VocabularySerivce {
     void addVocabulary(VocabularyReq vocabulary);
 
     void addVocabularyToNewTopic(AddVocabularyToNewTopic addVocabularyToNewTopic);
+
+    void addVocabularyListToNewTopic(List<AddVocabularyToNewTopic> addVocabularyToNewTopicList);
 
     void addVocabularyList(List<VocabularyReq> vocabularyReqList);
 
