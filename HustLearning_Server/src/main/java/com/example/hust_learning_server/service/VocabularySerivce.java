@@ -17,7 +17,9 @@ public interface VocabularySerivce {
 
     List<VocabularyRes> getVocabulariesByTopicId(long topicId);
 
-    List<VocabularyRes> getVocabularyByTopicIdAndContent(long topicId, String content);
+    List<VocabularyRes> getVocabularyBySearchContent(String content);
+
+    List<VocabularyRes> getVocabularyByTopicIdAndSearchContent(long topicId, String content);
 
     List<VocabularyRes> vocabularyLimits(VocabularyLimitReq vocabularyLimitReq);
 
@@ -32,6 +34,8 @@ public interface VocabularySerivce {
     void addVocabularyToNewTopic(AddVocabularyToNewTopic addVocabularyToNewTopic);
 
     void addVocabularyListToNewTopic(List<AddVocabularyToNewTopic> addVocabularyToNewTopicList);
+
+    void addVocabularyListToNewTopic_v2(AddVocabularyListToNewTopic addVocabularyListToNewTopic);
 
     void addVocabularyList(List<VocabularyReq> vocabularyReqList);
 

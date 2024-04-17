@@ -4,11 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dba02908-b05a-40d3-a9fa-0e8f533ad69f" name="Changes" comment="fix @Data 26/3/24">
-      <change afterPath="$PROJECT_DIR$/SQL/0900_15042024.sql" afterDir="false" />
+    <list default="true" id="dba02908-b05a-40d3-a9fa-0e8f533ad69f" name="Changes" comment="add vocab list to new topic">
+      <change afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/dto/request/SaveMessageReq.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/dto/request/AddVocabularyListToNewTopic.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SQL/0900_17042024.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SQL/2300_16042024.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataCollection_Server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/DataCollection_Server/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataCollection_Server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/DataCollection_Server/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/controller/MessageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/controller/MessageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/repository/MessageRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/repository/MessageRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/socket_io/SocketController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/socket_io/SocketController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/socket_io/SocketIOConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/socket_io/SocketIOConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/socket_io/StartupConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/socket_io/StartupConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HustLearning_Server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/controller/VocabularyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/controller/VocabularyController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/VocabularyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/VocabularyServiceImpl.java" afterDir="false" />
@@ -72,6 +79,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.ChatApplication.executor": "Run",
     "Spring Boot.DataCollectionApplication.executor": "Run",
     "Spring Boot.EurekaApplication.executor": "Run",
     "Spring Boot.GatewayApplication.executor": "Run",
@@ -104,11 +112,11 @@
       <recent name="C:\Users\ASUS\Desktop\GP_BE\User_Server\src\main\java\com\example\user_server\service\impl" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.chat.chat_server.dto.request" />
+      <recent name="com.example.hust_learning_server.dto.request" />
       <recent name="com.example.hust_learning_server.service.Impl" />
       <recent name="com.example.hust_learning_server.controller" />
-      <recent name="com.example.hust_learning_server.dto.request" />
       <recent name="com.example.hust_learning_server.service" />
-      <recent name="com.example.hust_learning_server.repository" />
     </key>
   </component>
   <component name="RunAnythingCache">
@@ -126,7 +134,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.HustLearningApplication">
+  <component name="RunManager" selected="Spring Boot.ChatApplication">
     <configuration name="ChatApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="chatserver" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.chat.chat_server.ChatApplication" />
@@ -247,7 +255,9 @@
       <workItem from="1712937270438" duration="4211000" />
       <workItem from="1712972186123" duration="20617000" />
       <workItem from="1713004044422" duration="3388000" />
-      <workItem from="1713146071204" duration="5238000" />
+      <workItem from="1713146071204" duration="6073000" />
+      <workItem from="1713249534623" duration="10268000" />
+      <workItem from="1713318161639" duration="5975000" />
     </task>
     <task id="LOCAL-00001" summary="fix servers 16/3/24">
       <option name="closed" value="true" />
@@ -353,7 +363,15 @@
       <option name="project" value="LOCAL" />
       <updated>1711507524673</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="add vocab list to new topic">
+      <option name="closed" value="true" />
+      <created>1713151365250</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1713151365250</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -385,6 +403,7 @@
     <MESSAGE value="Change MessageResponse 24/3/24" />
     <MESSAGE value="add vocabContent 26/3/24" />
     <MESSAGE value="fix @Data 26/3/24" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix @Data 26/3/24" />
+    <MESSAGE value="add vocab list to new topic" />
+    <option name="LAST_COMMIT_MESSAGE" value="add vocab list to new topic" />
   </component>
 </project>

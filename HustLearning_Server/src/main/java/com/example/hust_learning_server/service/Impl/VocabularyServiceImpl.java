@@ -85,11 +85,65 @@ public class VocabularyServiceImpl implements VocabularySerivce {
     }
 
     @Override
-    public List<VocabularyRes> getVocabularyByTopicIdAndContent(long topicId, String content) {
-        List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesByTopicIdAndContent(topicId, content).orElseThrow(() -> new BusinessLogicException());
-        if (vocabularies.isEmpty()) throw new BusinessLogicException();
+    public List<VocabularyRes> getVocabularyBySearchContent(String content) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Vocabulary> criteriaQuery = criteriaBuilder.createQuery(Vocabulary.class);
+        Root<Vocabulary> root = criteriaQuery.from(Vocabulary.class);
+        List<Predicate> predicates = new ArrayList<>();
 
-        return vocabularyMapper.toDTOList(vocabularies);
+        // Filter by text (if provided)
+        if (!ObjectUtils.isEmpty(content)) {
+            String searchText = "%" + content + "%";
+            Predicate contentLike = criteriaBuilder.like(root.get("content"), searchText);
+            predicates.add(contentLike);
+        };
+
+        if (!predicates.isEmpty()) {
+            criteriaQuery.where(predicates.toArray(new Predicate[0]));
+        }
+
+        TypedQuery<Vocabulary> query = entityManager.createQuery(criteriaQuery);
+        List<Vocabulary> results = query
+                .setFirstResult(0) // Offset
+                .setMaxResults(Integer.MAX_VALUE) // Limit
+                .getResultList();
+
+        List<VocabularyRes> vocabularyResList = vocabularyMapper.toDTOList(results);
+        return vocabularyResList;
+    }
+
+    @Override
+    public List<VocabularyRes> getVocabularyByTopicIdAndSearchContent(long topicId, String content) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Vocabulary> criteriaQuery = criteriaBuilder.createQuery(Vocabulary.class);
+        Root<Vocabulary> root = criteriaQuery.from(Vocabulary.class);
+        List<Predicate> predicates = new ArrayList<>();
+
+        // Filter by text (if provided)
+        if (!ObjectUtils.isEmpty(content)) {
+            String searchText = "%" + content + "%";
+            Predicate contentLike = criteriaBuilder.like(root.get("content"), searchText);
+            predicates.add(contentLike);
+        };
+
+        if (topicId != 0) {
+            Join<Vocabulary, Topic> topicJoin = root.join("topic");
+            Predicate topicLike = criteriaBuilder.equal(topicJoin.get("id"), topicId);
+            predicates.add(topicLike);
+        }
+
+        if (!predicates.isEmpty()) {
+            criteriaQuery.where(predicates.toArray(new Predicate[0]));
+        }
+
+        TypedQuery<Vocabulary> query = entityManager.createQuery(criteriaQuery);
+        List<Vocabulary> results = query
+                .setFirstResult(0) // Offset
+                .setMaxResults(Integer.MAX_VALUE) // Limit
+                .getResultList();
+
+        List<VocabularyRes> vocabularyResList = vocabularyMapper.toDTOList(results);
+        return vocabularyResList;
     }
 
     @Override
@@ -110,6 +164,8 @@ public class VocabularyServiceImpl implements VocabularySerivce {
         if (vocabularies.isEmpty()) throw new BusinessLogicException();
 
         return vocabularyMapper.toDTOList(vocabularies);
+
+
     }
 
     @Override
@@ -376,6 +432,79 @@ public class VocabularyServiceImpl implements VocabularySerivce {
                         vocabularyImageRepository.deleteAllByVocabularyId(addVocabularyToNewTopic.getId());
                         vocabularyVideoRepository.deleteAllByVocabularyId(addVocabularyToNewTopic.getId());
                         vocabularyRepository.deleteById(addVocabularyToNewTopic.getId());
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void addVocabularyListToNewTopic_v2(AddVocabularyListToNewTopic addVocabularyListToNewTopic) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new BusinessLogicException();
+        }
+        // check có topic dung ko, neu ko thi chuyen den tu khac
+        Optional<Topic> topicWillAddOptional = topicRepository.findById(addVocabularyListToNewTopic.getTopicId());
+        if (topicWillAddOptional.isPresent()) {
+            Topic topicWillAdd = topicWillAddOptional.get();
+
+            // duyet qua tung tu de xu lý
+            for (Long id : addVocabularyListToNewTopic.getIds()) {
+                // check có topic và vocab dung ko, neu ko thi chuyen den tu khac
+                Optional<Vocabulary> vocabularyPresentOptional = vocabularyRepository.findById(id);
+                if (vocabularyPresentOptional.isPresent()) {
+                    // lay ra tu hien tai và chu de muon them vao
+                    Vocabulary vocabularyPresent = vocabularyPresentOptional.get();
+
+                    // kiem tra topic them vao da ton tai tu nay chua, khong ton tai thi moi them vao
+                    Optional<Vocabulary> existingVocabularyInTopicOptional = vocabularyRepository.findByContentAndTopicId(vocabularyPresent.getContent(), addVocabularyListToNewTopic.getTopicId());
+                    if (existingVocabularyInTopicOptional.isEmpty()) {
+                        // them moi vao db
+                        Vocabulary vocabularyWillAdd = Vocabulary.builder()
+                                .content(vocabularyPresent.getContent())
+                                .topic(topicWillAdd)
+                                .build();
+                        Vocabulary vocabularyAdded = vocabularyRepository.save(vocabularyWillAdd);
+
+                        // copy toan bo VocabularyImage cua tu hien tai vao tu moi duoc tao ra
+                        // note: tranh luu lai chinh no se khong tao ra duoc image hoac tu moi
+                        List<VocabularyImage> vocabularyImageListPresent = vocabularyPresent.getVocabularyImages();
+                        List<VocabularyImage> vocabularyImageListWillAdd = new ArrayList<>();
+                        for (VocabularyImage vocabularyImagePresent : vocabularyImageListPresent) {
+                            VocabularyImage vocabularyImageCopy = VocabularyImage.builder()
+                                    .imageLocation(vocabularyImagePresent.getImageLocation())
+                                    .isPrimary(vocabularyImagePresent.isPrimary())
+                                    .vocabulary(vocabularyAdded)
+                                    .build();
+
+                            vocabularyImageListWillAdd.add(vocabularyImageCopy);
+                        }
+
+                        // copy toan bo video cua tu hien tai vao tu moi duoc tao ra
+                        // note: tranh luu lai chinh no se khong tao ra duoc video hoac tu moi
+                        List<VocabularyVideo> vocabularyVideoListPresent = vocabularyPresent.getVocabularyVideos();
+                        List<VocabularyVideo> vocabularyVideoListWillAdd = new ArrayList<>();
+                        for (VocabularyVideo vocabularyVideoPresent : vocabularyVideoListPresent) {
+                            VocabularyVideo vocabularyVideoCopy = VocabularyVideo.builder()
+                                    .videoLocation(vocabularyVideoPresent.getVideoLocation())
+                                    .isPrimary(vocabularyVideoPresent.isPrimary())
+                                    .vocabulary(vocabularyAdded)
+                                    .build();
+
+                            vocabularyVideoListWillAdd.add(vocabularyVideoCopy);
+                        }
+
+                        // them cac image/video from cu -> moi
+                        vocabularyImageRepository.saveAll(vocabularyImageListWillAdd);
+                        vocabularyVideoRepository.saveAll(vocabularyVideoListWillAdd);
+
+                        // neu chu de la 1 thi xoa tu do di
+                        if (vocabularyPresent.getTopic().getId() == 1) {
+                            vocabularyImageRepository.deleteAllByVocabularyId(id);
+                            vocabularyVideoRepository.deleteAllByVocabularyId(id);
+                            vocabularyRepository.deleteById(id);
+                        }
                     }
                 }
             }

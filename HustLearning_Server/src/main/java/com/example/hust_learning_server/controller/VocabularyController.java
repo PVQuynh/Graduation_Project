@@ -39,12 +39,12 @@ public class VocabularyController {
 
         MessageResponse ms = new MessageResponse();
         try {
-            if (topicId != null && content != null) {
-                ms.data = vocabularyService.getVocabularyByTopicIdAndContent(topicId, content);
-            } else if (topicId != null && content == null) {
+            if (topicId != null && content == null) {
                 ms.data = vocabularyService.getVocabulariesByTopicId(topicId);
-            } else if (topicId == null && content != null) {
-                ms.data = vocabularyService.getVocabulariesByContent(content);
+            } else if (topicId != null && content != null) {
+                ms.data = vocabularyService.getVocabularyByTopicIdAndSearchContent(topicId, content);
+            } else if (content != null) {
+                ms.data = vocabularyService.getVocabularyBySearchContent(content);
             } else {
                 ms.data = vocabularyService.getAllVocabulary();
             }
@@ -187,6 +187,18 @@ public class VocabularyController {
         MessageResponse ms = new MessageResponse();
         try {
             vocabularyService.addVocabularyListToNewTopic(addVocabularyToNewTopicList);
+        } catch (BusinessLogicException ex) {
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(); // not fix
+        }
+        return ms;
+    }
+
+    @PostMapping("/add-vocab-list-to-new-topic/v2")
+    public MessageResponse addVocabularyListToNewTopic_v2(@RequestBody AddVocabularyListToNewTopic addVocabularyListToNewTopic) {
+        MessageResponse ms = new MessageResponse();
+        try {
+            vocabularyService.addVocabularyListToNewTopic_v2(addVocabularyListToNewTopic);
         } catch (BusinessLogicException ex) {
             ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
             ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(); // not fix

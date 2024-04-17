@@ -1,6 +1,8 @@
 package com.chat.chat_server.controller;
 
 import com.chat.chat_server.dto.request.MessageLimitReq;
+import com.chat.chat_server.dto.request.MessageReq;
+import com.chat.chat_server.dto.request.SaveMessageReq;
 import com.chat.chat_server.dto.request.UpdateMessageReq;
 import com.chat.chat_server.dto.response.MessageRes;
 import com.chat.chat_server.dto.response.MessageResponse;
@@ -62,6 +64,19 @@ public class MessageController {
             ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
         }
 
+        return ms;
+    }
+
+
+    @PostMapping
+    public MessageResponse saveMessage(@RequestBody SaveMessageReq saveMessageReq) {
+        MessageResponse ms = new MessageResponse();
+        try {
+            messageService.saveMessage(saveMessageReq.getConversationId(), saveMessageReq.getMessageReq());
+        } catch (Exception ex) {
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
+        }
         return ms;
     }
 
