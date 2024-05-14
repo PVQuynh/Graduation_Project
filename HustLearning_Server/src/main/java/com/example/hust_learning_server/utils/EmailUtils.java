@@ -16,6 +16,6 @@ public class EmailUtils {
             }
         }
 
-        return null;
+        return "";
     }
 }

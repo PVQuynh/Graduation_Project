@@ -5,6 +5,7 @@ import com.example.hust_learning_server.dto.request.UpdateAnswerReq;
 import com.example.hust_learning_server.dto.response.MessageResponse;
 import com.example.hust_learning_server.service.AnswerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/answers")
 @RequiredArgsConstructor
 public class AnswerController {
-    private final AnswerService answerService;
+
+    @Autowired
+    private AnswerService answerService;
 
     @PostMapping
     public MessageResponse addAnswer(@RequestBody AnswerReq answerReq) {

@@ -1,0 +1,31 @@
+# Server port
+server:
+  port: 8060
+spring:
+  # Server name
+  application:
+    name: learningserver
+#   My SQL
+  datasource:
+    url: jdbc:mysql://localhost:3307/hustappuser
+    username: root
+    password: Hust20232
+#    url: jdbc:mysql://localhost:3306/hustappuser
+#    username: hust
+#    password: hust
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: true
+
+# config eureka
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8070/eureka/

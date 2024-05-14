@@ -48,11 +48,20 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
+
+<!--        mysql-->
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
         </dependency>
+
+<!--        postgre-sql-->
+<!--        <dependency>-->
+<!--            <groupId>com.h2database</groupId>-->
+<!--            <artifactId>h2</artifactId>-->
+<!--            <scope>runtime</scope>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.springdoc</groupId>
@@ -127,7 +136,7 @@
                 <version>3.3.2</version>
                 <configuration>
                     <to>
-                        <image>quynhpv/${project.artifactId}:s56</image>
+                        <image>quynhpv/${project.artifactId}:s57</image>
                     </to>
                 </configuration>
             </plugin>

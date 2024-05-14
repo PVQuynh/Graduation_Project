@@ -9,10 +9,19 @@ import java.util.List;
 import java.util.Optional;
 
 public interface FriendShipRepository extends JpaRepository<FriendShip, Long> {
+//    @Query(value = """
+//            select * from friend_ship fs
+//            inner join user us on us.user_id = fs.send_friend_id
+//            inner join user ua on ua.user_id = fs.accept_friend_id
+//            where (us.email = :email and ua.user_id = :id)
+//            or (us.user_id = :id and ua.email= :email);
+//            """
+//            , nativeQuery = true)
     @Query("select fs from FriendShip fs where (fs.sendFriend.email=:email and fs.acceptFriend.id=:id) or (fs.sendFriend.id=:id and fs.acceptFriend.email=:email)")
     Optional<FriendShip> findFriendShipByEmailAndId(@Param("email") String email, @Param("id") long id);
 
-    @Query("select fs from FriendShip  fs where fs.acceptFriend.email=:acceptedFriend and fs.sendFriend.id=:sendingUserId and fs.status=:status")
+    @Query("select fs from FriendShip  fs " +
+            "where fs.acceptFriend.email=:acceptedFriend and fs.sendFriend.id=:sendingUserId and fs.status=:status")
     Optional<FriendShip> findByAcceptedEmailAndSendingUserIdAndStatus(@Param("acceptedFriend") String acceptedFriend, @Param("sendingUserId") long sendingUserId, @Param("status") int status);
 
     @Query("select fs from FriendShip fs where fs.acceptFriend.email=:acceptEmail and fs.status =100")

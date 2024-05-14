@@ -15,7 +15,7 @@ public interface VocabularyImageRepository extends JpaRepository<VocabularyImage
 
     Optional<VocabularyImage> findByImageLocationAndVocabularyId(String imageLocation, long vocabularyId);
 
-//    @Modifying
+    @Modifying
     @Transactional
     void deleteAllByVocabularyId(long vocabularyId);
 }
