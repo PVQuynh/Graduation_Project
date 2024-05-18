@@ -16,6 +16,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.TimeUnit;
@@ -74,6 +75,7 @@ public class RegisterController {
         return res;
     }
 
+    @Transactional
     @PostMapping("/validate-otp")
     public ResponseEntity<MessageResponse> validateOtp(@RequestBody @Valid ConfirmOTP confirmOTP) {
         final String SUCCESS = "Register Successfully!";
@@ -100,15 +102,15 @@ public class RegisterController {
                         }
                         redisTemplate.opsForHash().getOperations().delete(email);
                     } catch (Exception e) {
-                        ms.code = HttpStatus.NOT_FOUND.value();
-                        ms.message = "Expired to opt code";
+                        ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+                        ms.message = e.getMessage();
                         res = ResponseEntity
                                 .status(ms.code)
                                 .body(ms);
                     }
                 } else {
                     ms.code = HttpStatus.UNAUTHORIZED.value();
-                    ms.message = FAIL;
+                    ms.message = "Expired to opt code";
                     res = ResponseEntity
                             .status(ms.code)
                             .body(ms);

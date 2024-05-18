@@ -4,13 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dba02908-b05a-40d3-a9fa-0e8f533ad69f" name="Changes" comment="cập nhật mật khẩu mysql">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/6c6bbabe-9aa5-4a79-b91e-7f78cbccf9a5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/6c6bbabe-9aa5-4a79-b91e-7f78cbccf9a5.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8a6a0fba-2461-4733-83a8-946bcf064c09.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/8a6a0fba-2461-4733-83a8-946bcf064c09.xml" afterDir="false" />
+    <list default="true" id="dba02908-b05a-40d3-a9fa-0e8f533ad69f" name="Changes" comment="expired opt code">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/User_Server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/FriendShipController.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/FriendShipController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/RegisterController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/RoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/RoleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/UserController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,7 +75,7 @@
     "Spring Boot.EurekaApplication.executor": "Run",
     "Spring Boot.GatewayApplication.executor": "Run",
     "Spring Boot.HustLearningApplication.executor": "Run",
-    "Spring Boot.UserApplication.executor": "Run",
+    "Spring Boot.UserApplication.executor": "Debug",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
@@ -258,7 +258,8 @@
       <workItem from="1715001011901" duration="108000" />
       <workItem from="1715144350989" duration="877000" />
       <workItem from="1715697461322" duration="1687000" />
-      <workItem from="1715828873977" duration="3801000" />
+      <workItem from="1715828873977" duration="4218000" />
+      <workItem from="1716003418422" duration="2719000" />
     </task>
     <task id="LOCAL-00001" summary="fix servers 16/3/24">
       <option name="closed" value="true" />
@@ -380,7 +381,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715698460297</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="expired opt code">
+      <option name="closed" value="true" />
+      <created>1715833125299</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1715833125299</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -426,6 +435,68 @@
     <MESSAGE value="fix @Data 26/3/24" />
     <MESSAGE value="add vocab list to new topic" />
     <MESSAGE value="cập nhật mật khẩu mysql" />
-    <option name="LAST_COMMIT_MESSAGE" value="cập nhật mật khẩu mysql" />
+    <MESSAGE value="expired opt code" />
+    <option name="LAST_COMMIT_MESSAGE" value="expired opt code" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/RegisterController.java</url>
+          <line>43</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/RegisterController.java</url>
+          <line>50</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/RegisterController.java</url>
+          <line>56</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/RegisterController.java</url>
+          <line>59</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/RegisterController.java</url>
+          <line>60</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/RegisterController.java</url>
+          <line>61</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/RegisterController.java</url>
+          <line>62</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/RegisterController.java</url>
+          <line>64</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/RegisterController.java</url>
+          <line>125</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/RegisterController.java</url>
+          <line>131</line>
+          <option name="timeStamp" value="26" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/RegisterController.java</url>
+          <line>118</line>
+          <option name="timeStamp" value="29" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
