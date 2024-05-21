@@ -12,7 +12,7 @@ public interface AddFriendService {
 
     List<UserDTO> getFriendList();
 
-    boolean addFriend(long userId);
+    void addFriend(long userId);
 
     void acceptFriend(long userId);
 

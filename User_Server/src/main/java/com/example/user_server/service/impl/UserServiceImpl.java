@@ -13,7 +13,10 @@ import com.example.user_server.entity.FriendShip;
 import com.example.user_server.entity.Role;
 import com.example.user_server.entity.User;
 import com.example.user_server.enum_constant.Gender;
+import com.example.user_server.exception.BadRequestException;
 import com.example.user_server.exception.BusinessLogicException;
+import com.example.user_server.exception.ResourceNotFoundException;
+import com.example.user_server.exception.UnAuthorizedException;
 import com.example.user_server.mapper.impl.UserMapper;
 import com.example.user_server.repository.FriendShipRepository;
 import com.example.user_server.repository.RoleRepository;
@@ -40,6 +43,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 @Service
@@ -61,6 +65,7 @@ public class UserServiceImpl implements UserService {
     private final FriendShipRepository friendShipRepository;
 
 
+    @Transactional
     @Override
     public User create(RegisterReq registerReq) {
         ContactClientReq contactRequest = new ContactClientReq(registerReq.getName(),
@@ -99,35 +104,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(long Id) {
-        var userOptional = userRepository.findById(Id);
-
-        if (userOptional.isPresent()) {
-            return userOptional.get();
-        }
-
-        return null;
+        return userRepository.findById(Id).orElse(null);
     }
 
     @Override
     public UserDTO getCurrentUser() {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
-
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException());
-
+        User user = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
         return userMapper.toDTO(user);
     }
 
+    @Transactional
     @Override
     public void updateUser(UpdateUserReq updateUserReq) throws ParseException {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
 
-        User user = userRepository.findByEmail(email).orElseThrow(BusinessLogicException::new);
+        User user = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
         if (updateUserReq.getName() != null) {
             user.setName(updateUserReq.getName());
         }
@@ -137,7 +135,7 @@ public class UserServiceImpl implements UserService {
         if (updateUserReq.getAddress() != null) {
             user.setAddress(updateUserReq.getAddress());
         }
-        if (updateUserReq.getBirthDay() != null){
+        if (updateUserReq.getBirthDay() != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date birthDay = dateFormat.parse(updateUserReq.getBirthDay());
             user.setBirthDay(birthDay);
@@ -149,24 +147,21 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    @Transactional
     @Override
-    public boolean changePassword(ChangePasswordReq changePasswordReq) {
+    public void changePassword(ChangePasswordReq changePasswordReq) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
-
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException());
-
+        User user = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
         if (user.getPassword().equals(changePasswordReq.getOldPassword())) {
             user.setPassword(changePasswordReq.getNewPassword());
             userRepository.save(user);
             keycloakService.changePassword(changePasswordReq);
-
-            return true;
+        } else {
+            throw new BadRequestException();
         }
-
-        return false;
     }
 
 
@@ -174,7 +169,7 @@ public class UserServiceImpl implements UserService {
     public PageDTO<UserDTO> search(UserSearchReq userSearchReq) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
@@ -222,10 +217,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public PageDTO<UserDTO> search_v2(int page, int size, String text, boolean ascending, String orderBy) {
+    public PageDTO<UserDTO> searchV2(int page, int size, String text, boolean ascending, String orderBy) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
@@ -236,7 +231,7 @@ public class UserServiceImpl implements UserService {
 
         // Filter by text (if provided)
         if (!ObjectUtils.isEmpty(text)) {
-            String searchText = "%" +text + "%";
+            String searchText = "%" + text + "%";
             Predicate nameLike = criteriaBuilder.like(root.get("name"), searchText);
             Predicate emailLike = criteriaBuilder.like(root.get("email"), searchText);
             Predicate validEmail = criteriaBuilder.notEqual(root.get("email"), email);
@@ -274,16 +269,15 @@ public class UserServiceImpl implements UserService {
     public UserDetailDTO getUserById(long userId) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
 
-        User user = userRepository.findById(userId).orElseThrow(() -> new BusinessLogicException());
+        User user = userRepository.findById(userId).orElseThrow(ResourceNotFoundException::new);
 
         UserDTO userDTO = userMapper.toDTO(user);
         UserDetailDTO userDetailDTO = new UserDetailDTO(userDTO);
 
-        User currentUser = userRepository.findByEmail(email)
-                .orElseThrow(() -> new BusinessLogicException());
+        User currentUser = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
 
         if (currentUser.getRole().getCode().equals("USER")) {
             FriendShip friendShip = friendShipRepository.checkFriendStatus(currentUser.getId(),
@@ -296,11 +290,12 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Transactional
     @Override
     public void uploadAvatar(UploadAvatarReq uploadAvatarReq) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
 
         UploadAvatarClientReq uploadAvatarClientReq = UploadAvatarClientReq
@@ -312,12 +307,10 @@ public class UserServiceImpl implements UserService {
         MessageResponse ms = chatFeignClient.uploadAvatar(uploadAvatarClientReq);
 
         if (ms.code == 200) {
-            User user = userRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException());
+            User user = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
             user.setAvatarLocation(uploadAvatarReq.getAvatarLocation());
             userRepository.save(user);
         }
 
     }
-
-
 }

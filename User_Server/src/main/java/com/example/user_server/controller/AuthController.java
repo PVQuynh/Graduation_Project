@@ -46,7 +46,7 @@ public class AuthController {
             return new AuthenticationResponse(accessToken,refreshToken);
         }
         catch (Exception e) {
-            throw  new UnAuthorizedException(e.getMessage());
+            throw new UnAuthorizedException();
         }
 }
 

@@ -14,40 +14,21 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/roles")
 @RequiredArgsConstructor
 public class RoleController {
-    private  final KeycloakService keycloakService;
-    private  final RoleService roleService;
+    private final KeycloakService keycloakService;
+    private final RoleService roleService;
 
     @GetMapping("/all")
-    public  ResponseEntity<MessageResponse> getRoles(){
+    public ResponseEntity<MessageResponse> getRoles() {
         MessageResponse ms = new MessageResponse();
-        ResponseEntity<MessageResponse> res = ResponseEntity.ok(ms);
-        try {
-            ms.data = roleService.getAllRole();
-        } catch (Exception ex) {
-            ms.code = HttpStatus.NOT_FOUND.value();
-            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
-            res = ResponseEntity
-                    .status(ms.code)
-                    .body(ms);
-        }
-        return res;
+        ms.data = roleService.getAllRole();
+        return ResponseEntity.ok(ms);
     }
 
     @PostMapping
-    public  ResponseEntity<MessageResponse> createRole(@RequestBody Role role) {
-        MessageResponse ms = new MessageResponse();
-        ResponseEntity<MessageResponse> res = ResponseEntity.ok(ms);
-        try {
-            keycloakService.createRole(role);
-            roleService.create(role);
-        } catch (Exception ex) {
-            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
-            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
-            res = ResponseEntity
-                    .status(ms.code)
-                    .body(ms);
-        }
-        return res;
+    public ResponseEntity<MessageResponse> createRole(@RequestBody Role role) {
+        keycloakService.createRole(role);
+        roleService.create(role);
+        return ResponseEntity.ok(new MessageResponse());
     }
 
 }

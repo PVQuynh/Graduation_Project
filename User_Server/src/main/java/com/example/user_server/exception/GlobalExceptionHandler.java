@@ -16,8 +16,11 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(BindException.class)
+    /**
+     * @return HttpStatus - 400
+     */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = BindException.class)
     public String handleBindException(BindException ex) {
         Map<String, String> errors = ex.getFieldErrors()
                 .stream()
@@ -34,15 +37,23 @@ public class GlobalExceptionHandler {
 
     }
 
-    @ExceptionHandler({EmailNotFoundException.class})
+    /**
+     * @return HttpStatus - 404
+     */
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(value = EmailNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleEmailNotFoundException(EmailNotFoundException ex) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setCode(HttpStatus.BAD_REQUEST.value());
         errorResponse.setDescription(ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
-
     }
-    @ExceptionHandler({UnAuthorizedException.class})
+
+    /**
+     * @return HttpStatus - 401
+     */
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(value = UnAuthorizedException.class)
     public ResponseEntity<ErrorResponse> handleUnAuthorizedException(UnAuthorizedException ex) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setCode(HttpStatus.UNAUTHORIZED.value());
@@ -51,7 +62,11 @@ public class GlobalExceptionHandler {
 
     }
 
-    @ExceptionHandler({RefreshTokenFailedException.class})
+    /**
+     * @return HttpStatus - 401
+     */
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(value = RefreshTokenFailedException.class)
     public ResponseEntity<ErrorResponse> handleRefreshTokenFailedException(RefreshTokenFailedException ex) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setCode(HttpStatus.UNAUTHORIZED.value());
@@ -60,21 +75,68 @@ public class GlobalExceptionHandler {
 
     }
 
-    @ExceptionHandler({BusinessLogicException.class})
+    /**
+     * @return HttpStatus - 400
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = BusinessLogicException.class)
     public ResponseEntity<ErrorResponse> handleBusinessLogicException(BusinessLogicException ex) {
         ErrorResponse errorResponse = new ErrorResponse();
-        errorResponse.setCode(4000);
+        errorResponse.setCode(HttpStatus.BAD_REQUEST.value());
         errorResponse.setDescription(ex.getMessage());
-        return ResponseEntity.status(4000).body(errorResponse);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 
     }
 
-    @ExceptionHandler({Exception.class})
-    public ResponseEntity<ErrorResponse> Exception(Exception e) {
+    /**
+     * @return HttpStatus - 400
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = BadRequestException.class)
+    public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException ex) {
         ErrorResponse errorResponse = new ErrorResponse();
-        errorResponse.setCode(500);
+        errorResponse.setCode(HttpStatus.BAD_REQUEST.value());
+        errorResponse.setDescription(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+
+    }
+
+    /**
+     * @return HttpStatus - 404
+     */
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(value = ResourceNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleResourceNotFoundException(ResourceNotFoundException ex) {
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setCode(HttpStatus.BAD_REQUEST.value());
+        errorResponse.setDescription(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+
+    }
+
+    /**
+     * @return HttpStatus - 409
+     */
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(value = ConflictException.class)
+    public ResponseEntity<ErrorResponse> handleConflictException(ConflictException ex) {
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setCode(HttpStatus.CONFLICT.value());
+        errorResponse.setDescription(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+
+    }
+
+    /**
+     * @return HttpStatus - 500
+     */
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(value = Exception.class)
+    public ResponseEntity<ErrorResponse> exception(Exception e) {
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
         errorResponse.setDescription(e.getMessage());
-        return ResponseEntity.status(500).body(errorResponse);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
 
     }
 

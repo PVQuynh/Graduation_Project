@@ -24,11 +24,11 @@ public interface UserService {
 
     void updateUser(UpdateUserReq updateUserReq) throws ParseException;
 
-    boolean changePassword(ChangePasswordReq changePasswordReq);
+    void changePassword(ChangePasswordReq changePasswordReq);
 
     PageDTO<UserDTO> search(UserSearchReq userSearchReq);
 
-    PageDTO<UserDTO> search_v2(int page, int size, String text, boolean ascending, String orderBy);
+    PageDTO<UserDTO> searchV2(int page, int size, String text, boolean ascending, String orderBy);
 
     UserDetailDTO getUserById(long userId);
 
