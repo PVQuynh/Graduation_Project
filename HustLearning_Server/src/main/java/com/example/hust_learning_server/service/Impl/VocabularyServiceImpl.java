@@ -4,8 +4,9 @@ import com.example.hust_learning_server.dto.PageDTO;
 import com.example.hust_learning_server.dto.request.*;
 import com.example.hust_learning_server.dto.response.VocabularyRes;
 import com.example.hust_learning_server.entity.*;
-import com.example.hust_learning_server.exception.AlreadyExistsException;
-import com.example.hust_learning_server.exception.BusinessLogicException;
+import com.example.hust_learning_server.exception.ConflictException;
+import com.example.hust_learning_server.exception.ResourceNotFoundException;
+import com.example.hust_learning_server.exception.UnAuthorizedException;
 import com.example.hust_learning_server.mapper.Impl.VocabularyMapperImpl;
 import com.example.hust_learning_server.repository.*;
 import com.example.hust_learning_server.service.VocabularySerivce;
@@ -26,7 +27,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,7 +48,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
 
     @Override
     public VocabularyRes getById(long id) {
-        Vocabulary vocabulary = vocabularyRepository.findById(id).orElseThrow(BusinessLogicException::new);
+        Vocabulary vocabulary = vocabularyRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
 
         return vocabularyMapper.toDTO(vocabulary);
     }
@@ -62,24 +62,24 @@ public class VocabularyServiceImpl implements VocabularySerivce {
 
     @Override
     public List<VocabularyRes> getExactVocabularies(ExactVocabularyReq exactVocabularyReq) {
-        List<Vocabulary> vocabularies = vocabularyRepository.findAllByContent(exactVocabularyReq.getContent()).orElseThrow(BusinessLogicException::new);
-        if (vocabularies.isEmpty()) throw new BusinessLogicException();
+        List<Vocabulary> vocabularies = vocabularyRepository.findAllByContent(exactVocabularyReq.getContent()).orElseThrow(ResourceNotFoundException::new);
+        if (vocabularies.isEmpty()) throw new ResourceNotFoundException();
 
         return vocabularyMapper.toDTOList(vocabularies);
     }
 
     @Override
     public List<VocabularyRes> getVocabulariesByContent(String content) {
-        List<Vocabulary> vocabularies = vocabularyRepository.findAllByContent(content).orElseThrow(BusinessLogicException::new);
-        if (vocabularies.isEmpty()) throw new BusinessLogicException();
+        List<Vocabulary> vocabularies = vocabularyRepository.findAllByContent(content).orElseThrow(ResourceNotFoundException::new);
+        if (vocabularies.isEmpty()) throw new ResourceNotFoundException();
 
         return vocabularyMapper.toDTOList(vocabularies);
     }
 
     @Override
     public List<VocabularyRes> getVocabulariesByTopicId(long topicId) {
-        List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesByTopicId(topicId).orElseThrow(BusinessLogicException::new);
-        if (vocabularies.isEmpty()) throw new BusinessLogicException();
+        List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesByTopicId(topicId).orElseThrow(ResourceNotFoundException::new);
+        if (vocabularies.isEmpty()) throw new ResourceNotFoundException();
 
         return vocabularyMapper.toDTOList(vocabularies);
     }
@@ -96,7 +96,8 @@ public class VocabularyServiceImpl implements VocabularySerivce {
             String searchText = "%" + content + "%";
             Predicate contentLike = criteriaBuilder.like(root.get("content"), searchText);
             predicates.add(contentLike);
-        };
+        }
+        ;
 
         if (!predicates.isEmpty()) {
             criteriaQuery.where(predicates.toArray(new Predicate[0]));
@@ -124,7 +125,8 @@ public class VocabularyServiceImpl implements VocabularySerivce {
             String searchText = "%" + content + "%";
             Predicate contentLike = criteriaBuilder.like(root.get("content"), searchText);
             predicates.add(contentLike);
-        };
+        }
+        ;
 
         if (topicId != 0) {
             Join<Vocabulary, Topic> topicJoin = root.join("topic");
@@ -150,8 +152,8 @@ public class VocabularyServiceImpl implements VocabularySerivce {
     public List<VocabularyRes> vocabularyLimits(VocabularyLimitReq vocabularyLimitReq) {
         Pageable pageable = PageRequest.of(vocabularyLimitReq.getPage() - 1, vocabularyLimitReq.getSize());
 
-        List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesLimitByTopicId(vocabularyLimitReq.getTopicId(), pageable).orElseThrow(BusinessLogicException::new);
-        if (vocabularies.isEmpty()) throw new BusinessLogicException();
+        List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesLimitByTopicId(vocabularyLimitReq.getTopicId(), pageable).orElseThrow(ResourceNotFoundException::new);
+        if (vocabularies.isEmpty()) throw new ResourceNotFoundException();
 
         return vocabularyMapper.toDTOList(vocabularies);
     }
@@ -160,8 +162,8 @@ public class VocabularyServiceImpl implements VocabularySerivce {
     public List<VocabularyRes> vocabularyLimitsTopic(int page, int size, long topicId) {
         Pageable pageable = PageRequest.of(page - 1, size);
 
-        List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesLimitByTopicId(topicId, pageable).orElseThrow(BusinessLogicException::new);
-        if (vocabularies.isEmpty()) throw new BusinessLogicException();
+        List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesLimitByTopicId(topicId, pageable).orElseThrow(ResourceNotFoundException::new);
+        if (vocabularies.isEmpty()) throw new ResourceNotFoundException();
 
         return vocabularyMapper.toDTOList(vocabularies);
 
@@ -259,11 +261,11 @@ public class VocabularyServiceImpl implements VocabularySerivce {
     public void addVocabulary(VocabularyReq vocabularyReq) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
 
         // check có topic dung ko
-        Topic topic = topicRepository.findById(vocabularyReq.getTopicId()).orElseThrow(BusinessLogicException::new);
+        Topic topic = topicRepository.findById(vocabularyReq.getTopicId()).orElseThrow(ResourceNotFoundException::new);
 
         // tu da ton tai khong luu
         Optional<Vocabulary> existingVocabulary = vocabularyRepository.findByContentAndTopicId(vocabularyReq.getContent(), vocabularyReq.getTopicId());
@@ -298,7 +300,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
 
             vocabularyRepository.save(vocabulary);
         } else {
-            throw new AlreadyExistsException();
+            throw new ConflictException();
         }
     }
 
@@ -306,14 +308,14 @@ public class VocabularyServiceImpl implements VocabularySerivce {
     public void addVocabularyToNewTopic(AddVocabularyToNewTopic addVocabularyToNewTopic) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
 
         // check có topic dung ko
-        Topic topicWillAdd = topicRepository.findById(addVocabularyToNewTopic.getTopicId()).orElseThrow(BusinessLogicException::new);
+        Topic topicWillAdd = topicRepository.findById(addVocabularyToNewTopic.getTopicId()).orElseThrow(ResourceNotFoundException::new);
 
         // lay ra tu o chu de hien tai
-        Vocabulary vocabularyPresent = vocabularyRepository.findById(addVocabularyToNewTopic.getId()).orElseThrow(BusinessLogicException::new);
+        Vocabulary vocabularyPresent = vocabularyRepository.findById(addVocabularyToNewTopic.getId()).orElseThrow(ResourceNotFoundException::new);
 
         // kiem tra topic them vao da ton tai tu nay chua, khong ton tai thi moi them vao
         Optional<Vocabulary> existingVocabularyInTopicOptional = vocabularyRepository.findByContentAndTopicId(vocabularyPresent.getContent(), addVocabularyToNewTopic.getTopicId());
@@ -321,6 +323,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
             // them moi vao db
             Vocabulary vocabularyWillAdd = Vocabulary.builder()
                     .content(vocabularyPresent.getContent())
+                    .note(vocabularyPresent.getNote())
                     .topic(topicWillAdd)
                     .build();
             Vocabulary vocabularyAdded = vocabularyRepository.save(vocabularyWillAdd);
@@ -364,7 +367,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
                 vocabularyRepository.deleteById(addVocabularyToNewTopic.getId());
             }
         } else {
-            throw new AlreadyExistsException();
+            throw new ConflictException();
         }
     }
 
@@ -372,7 +375,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
     public void addVocabularyListToNewTopic(List<AddVocabularyToNewTopic> addVocabularyToNewTopicList) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
 
         // duyet qua tung tu de xu lý
@@ -391,6 +394,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
                     // them moi vao db
                     Vocabulary vocabularyWillAdd = Vocabulary.builder()
                             .content(vocabularyPresent.getContent())
+                            .note(vocabularyPresent.getNote())
                             .topic(topicWillAdd)
                             .build();
                     Vocabulary vocabularyAdded = vocabularyRepository.save(vocabularyWillAdd);
@@ -442,7 +446,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
     public void addVocabularyListToNewTopic_v2(AddVocabularyListToNewTopic addVocabularyListToNewTopic) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
         // check có topic dung ko, neu ko thi chuyen den tu khac
         Optional<Topic> topicWillAddOptional = topicRepository.findById(addVocabularyListToNewTopic.getTopicId());
@@ -463,6 +467,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
                         // them moi vao db
                         Vocabulary vocabularyWillAdd = Vocabulary.builder()
                                 .content(vocabularyPresent.getContent())
+                                .note(vocabularyPresent.getNote())
                                 .topic(topicWillAdd)
                                 .build();
                         Vocabulary vocabularyAdded = vocabularyRepository.save(vocabularyWillAdd);
@@ -511,11 +516,12 @@ public class VocabularyServiceImpl implements VocabularySerivce {
         }
     }
 
+
     @Override
     public void addVocabularyList(List<VocabularyReq> vocabularyReqList) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
 
         // xu ly dau vao, ko bi lap lai content
@@ -570,11 +576,16 @@ public class VocabularyServiceImpl implements VocabularySerivce {
     public void updateVocabulary(UpdateVocabularyReq updateVocabularyReq) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
 
-        Vocabulary vocabulary = vocabularyRepository.findById(updateVocabularyReq.getVocabularyId()).orElseThrow(BusinessLogicException::new);
-        vocabulary.setContent(updateVocabularyReq.getContent());
+        Vocabulary vocabulary = vocabularyRepository.findById(updateVocabularyReq.getVocabularyId()).orElseThrow(ResourceNotFoundException::new);
+        if (updateVocabularyReq.getContent()!=null) {
+            vocabulary.setContent(updateVocabularyReq.getContent());
+        }
+        if (updateVocabularyReq.getNote() != null) {
+            vocabulary.setNote(updateVocabularyReq.getNote());
+        }
 
         vocabularyRepository.save(vocabulary);
     }
@@ -583,7 +594,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
     public void deleteById(long id) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
 
         List<VocabularyImage> vocabularyImageList = vocabularyImageRepository.findAllByVocabularyId(id);

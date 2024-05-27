@@ -3,7 +3,8 @@ package com.example.hust_learning_server.service.Impl;
 import com.example.hust_learning_server.dto.request.AnswerReq;
 import com.example.hust_learning_server.dto.request.UpdateAnswerReq;
 import com.example.hust_learning_server.entity.Answer;
-import com.example.hust_learning_server.exception.BusinessLogicException;
+import com.example.hust_learning_server.exception.ResourceNotFoundException;
+import com.example.hust_learning_server.exception.UnAuthorizedException;
 import com.example.hust_learning_server.mapper.AnswerMapper;
 import com.example.hust_learning_server.repository.AnswerRepository;
 import com.example.hust_learning_server.service.AnswerService;
@@ -24,7 +25,7 @@ public class AnswerServiceImpl implements AnswerService {
     public void addAnswer(AnswerReq answerReq) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
 
         Answer answer = answerMapper.toEntity(answerReq);
@@ -35,10 +36,10 @@ public class AnswerServiceImpl implements AnswerService {
     public void updateAnswer(UpdateAnswerReq updateAnswerReq) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
 
-        Answer answer = answerRepository.findById(updateAnswerReq.getAnswerId()).orElseThrow(BusinessLogicException::new);
+        Answer answer = answerRepository.findById(updateAnswerReq.getAnswerId()).orElseThrow(ResourceNotFoundException::new);
 
         if (updateAnswerReq.getContent() != null) {
             answer.setContent(updateAnswerReq.getContent());
@@ -58,7 +59,7 @@ public class AnswerServiceImpl implements AnswerService {
     public void deleteAnswer(long id) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
 
         Answer answer = answerRepository.findById(id).orElse(null);

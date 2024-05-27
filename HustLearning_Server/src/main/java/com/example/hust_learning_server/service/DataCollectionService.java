@@ -27,6 +27,9 @@ public interface DataCollectionService {
 
     PageDTO<SearchDataRes> searchDataCollectionForUser_v2(int page, int size, String topic, String vocabulary, boolean ascending, String orderBy, String createdFrom, String createdTo, int status, float score) throws ParseException;
 
+    PageDTO<SearchDataRes> searchDataCollectionForUserV3(DataSearchForUserParamV3 dataSearchForUserParam)
+            throws ParseException;
+
     void sendData(DataProvideReq dataProvideReq);
 
     void updateData(UpdateDataReq updateDataReq);

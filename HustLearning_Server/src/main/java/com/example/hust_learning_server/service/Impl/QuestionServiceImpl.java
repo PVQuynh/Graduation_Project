@@ -7,7 +7,8 @@ import com.example.hust_learning_server.dto.response.QuestionRes;
 import com.example.hust_learning_server.entity.Answer;
 import com.example.hust_learning_server.entity.Question;
 import com.example.hust_learning_server.entity.Topic;
-import com.example.hust_learning_server.exception.BusinessLogicException;
+import com.example.hust_learning_server.exception.ResourceNotFoundException;
+import com.example.hust_learning_server.exception.UnAuthorizedException;
 import com.example.hust_learning_server.mapper.QuestionMapper;
 import com.example.hust_learning_server.repository.AnswerRepository;
 import com.example.hust_learning_server.repository.QuestionRepository;
@@ -33,29 +34,21 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<QuestionRes> getQuestionsByTopicId(long topicId) {
-        List<Question> questions = questionRepository.findQuestionsByTopicId(topicId).orElseThrow(BusinessLogicException::new);
-        if (questions.isEmpty()) throw new BusinessLogicException();
-
+        List<Question> questions = questionRepository.findQuestionsByTopicId(topicId).orElseThrow(ResourceNotFoundException::new);
         return questionMapper.toDTOList(questions);
     }
 
     @Override
     public List<QuestionRes> questionLimits(QuestionLimitReq questionLimitReq) {
         Pageable pageable = PageRequest.of(questionLimitReq.getPage() - 1, questionLimitReq.getSize());
-
-        List<Question> questions = questionRepository.findQuestionLimitsByTopicId(questionLimitReq.getTopicId(), pageable).orElseThrow(BusinessLogicException::new);
-        if (questions.isEmpty()) throw new BusinessLogicException();
-
+        List<Question> questions = questionRepository.findQuestionLimitsByTopicId(questionLimitReq.getTopicId(), pageable).orElseThrow(ResourceNotFoundException::new);
         return questionMapper.toDTOList(questions);
     }
 
     @Override
     public List<QuestionRes> questionLimits_v2(int page, int size, long topicId) {
         Pageable pageable = PageRequest.of(page - 1, size);
-
-        List<Question> questions = questionRepository.findQuestionLimitsByTopicId(topicId, pageable).orElseThrow(BusinessLogicException::new);
-        if (questions.isEmpty()) throw new BusinessLogicException();
-
+        List<Question> questions = questionRepository.findQuestionLimitsByTopicId(topicId, pageable).orElseThrow(ResourceNotFoundException::new);
         return questionMapper.toDTOList(questions);
     }
 
@@ -63,11 +56,11 @@ public class QuestionServiceImpl implements QuestionService {
     public void addQuestion(QuestionReq questionReq) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
 
         // check có topic dung ko
-        Topic topic = topicRepository.findById(questionReq.getTopicId()).orElseThrow(BusinessLogicException::new);
+        Topic topic = topicRepository.findById(questionReq.getTopicId()).orElseThrow(ResourceNotFoundException::new);
 
         Question question = questionMapper.toEntity(questionReq);
         questionRepository.save(question);
@@ -77,11 +70,9 @@ public class QuestionServiceImpl implements QuestionService {
     public void updateQuestion(UpdateQuestionReq updateQuestionReq) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
-
-        Question question = questionRepository.findById(updateQuestionReq.getQuestionId()).orElseThrow(BusinessLogicException::new);
-
+        Question question = questionRepository.findById(updateQuestionReq.getQuestionId()).orElseThrow(ResourceNotFoundException::new);
         if (question.getContent() != null) {
             question.setContent(updateQuestionReq.getContent());
         }
@@ -94,7 +85,6 @@ public class QuestionServiceImpl implements QuestionService {
         if (question.getVideoLocation() != null) {
             question.setVideoLocation(updateQuestionReq.getVideoLocation());
         }
-
         questionRepository.save(question);
     }
 
@@ -102,12 +92,10 @@ public class QuestionServiceImpl implements QuestionService {
     public void deleteQuestionById(long id) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
-
         List<Answer> answerList = answerRepository.findAllByQuestionId(id);
         if (!answerList.isEmpty())  answerRepository.deleteAll(answerList);
-
         questionRepository.deleteById(id);
     }
 

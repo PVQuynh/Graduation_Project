@@ -6,13 +6,10 @@ import com.example.hust_learning_server.dto.request.TopicReq;
 import com.example.hust_learning_server.dto.request.UpdateTopicReq;
 import com.example.hust_learning_server.dto.response.MessageResponse;
 import com.example.hust_learning_server.dto.response.TopicRes;
-import com.example.hust_learning_server.exception.AlreadyExistsException;
-import com.example.hust_learning_server.exception.BusinessLogicException;
-import com.example.hust_learning_server.mapper.Impl.TopicMapperImpl;
 import com.example.hust_learning_server.service.TopicService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,17 +19,24 @@ public class TopicController {
     private final TopicService topicService;
 
     @GetMapping("/all")
-    public MessageResponse getAllTopic() {
+    public ResponseEntity<MessageResponse> getAllTopic() {
         MessageResponse ms = new MessageResponse();
+        ms.data = topicService.getAllTopics();
+        return ResponseEntity.ok(ms);
+    }
 
-        try {
-            ms.data = topicService.getAllTopic();
-        } catch (Exception ex) {
-            ms.code = HttpStatus.NOT_FOUND.value();
-            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
-        }
+    @GetMapping("/all-common/{classRoomId}")
+    public ResponseEntity<MessageResponse> getAllCommonTopic(@PathVariable long classRoomId) {
+        MessageResponse ms = new MessageResponse();
+        ms.data = topicService.getAllCommonTopics(classRoomId);
+        return ResponseEntity.ok(ms);
+    }
 
-        return ms;
+    @GetMapping("/all-private/{classRoomId}")
+    public ResponseEntity<MessageResponse> getAllPrivateTopic(@PathVariable long classRoomId) {
+        MessageResponse ms = new MessageResponse();
+        ms.data = topicService.getAllPrivateTopics(classRoomId);
+        return ResponseEntity.ok(ms);
     }
 
     @PostMapping("/search")
@@ -41,7 +45,7 @@ public class TopicController {
     }
 
     @GetMapping("/search/v2")
-    public MessageResponse getList_v2(
+    public ResponseEntity<MessageResponse> getList_v2(
             @RequestParam(defaultValue = "1", required = true) int page,
             @RequestParam(defaultValue = "10", required = true) int size,
             @RequestParam(required = true) String text,
@@ -49,60 +53,31 @@ public class TopicController {
             @RequestParam(required = false) String orderBy
     ) {
         MessageResponse ms = new MessageResponse();
-
-        try {
-            ms.data = topicService.search_v2(page, size, text, ascending, orderBy);;
-        } catch (Exception ex) {
-            ms.code = HttpStatus.NOT_FOUND.value();
-            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
-        }
-
-        return ms;
+        ms.data = topicService.searchV2(page, size, text, ascending, orderBy);
+        return ResponseEntity.ok(ms);
     }
 
     @PostMapping
-    public MessageResponse addTopic(@RequestBody @Valid TopicReq topicReq) {
+    public ResponseEntity<MessageResponse> addTopic(@RequestBody TopicReq topicReq) {
         MessageResponse ms = new MessageResponse();
+        topicService.addTopic(topicReq);
+        return ResponseEntity.ok(ms);
 
-        try {
-            topicService.addTopic(topicReq);
-        } catch (AlreadyExistsException ex) {
-            ms.code = HttpStatus.CONFLICT.value();
-            ms.message = HttpStatus.CONFLICT.getReasonPhrase(); // not fix
-        } catch (BusinessLogicException ex) {
-            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
-            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(); // not fix
-        }
-
-        return ms;
     }
 
     @PutMapping
-    public MessageResponse updateTopic(@RequestBody UpdateTopicReq updateTopicReq) {
+    public ResponseEntity<MessageResponse> updateTopic(@RequestBody UpdateTopicReq updateTopicReq) {
         MessageResponse ms = new MessageResponse();
+        topicService.updateTopic(updateTopicReq);
+        return ResponseEntity.ok(ms);
 
-        try {
-            topicService.updateTopic(updateTopicReq);
-        } catch (Exception ex) {
-            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
-            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
-        }
-
-        return ms;
     }
 
     @DeleteMapping("/{id}")
-    public MessageResponse deleteTopic(@PathVariable("id") long id) {
+    public ResponseEntity<MessageResponse> deleteTopic(@PathVariable("id") long id) {
         MessageResponse ms = new MessageResponse();
-
-        try {
-            topicService.deleteTopicById(id);
-        } catch (Exception ex) {
-            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
-            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
-        }
-
-        return ms;
+        topicService.deleteTopicById(id);
+        return ResponseEntity.ok(ms);
     }
 
 }

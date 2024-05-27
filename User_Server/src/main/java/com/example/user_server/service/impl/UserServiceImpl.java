@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
             user.setName(registerReq.getName());
             user.setEmail(registerReq.getEmail());
             user.setPassword(registerReq.getPassword());
-            Role role = roleRepository.findByCode(registerReq.getRole()).orElse(null);
+            Role role = roleRepository.findByCode(registerReq.getRole()).orElseThrow(ResourceNotFoundException::new);
             user.setRole(role);
 
             return userRepository.save(user);

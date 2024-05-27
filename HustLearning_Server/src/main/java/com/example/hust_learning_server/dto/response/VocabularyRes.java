@@ -19,6 +19,8 @@ public class VocabularyRes {
 
     private String content;
 
+    private String note;
+
     private List<VocabularyImageRes> vocabularyImageResList;
 
     private List<VocabularyVideoRes> vocabularyVideoResList;

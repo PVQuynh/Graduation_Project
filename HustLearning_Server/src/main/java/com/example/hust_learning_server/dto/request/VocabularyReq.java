@@ -15,6 +15,8 @@ public class VocabularyReq {
 
     private String content;
 
+    private String note;
+
     private List<VocabularyImageReq> vocabularyImageReqs;
 
     private List<VocabularyVideoReq> vocabularyVideoReqs;

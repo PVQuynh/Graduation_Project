@@ -19,4 +19,6 @@ public class UpdateTopicReq {
 
     private  String videoLocation;
 
+    private boolean isPrivate;
+
 }

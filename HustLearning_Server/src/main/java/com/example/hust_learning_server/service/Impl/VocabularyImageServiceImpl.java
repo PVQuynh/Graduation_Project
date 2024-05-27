@@ -5,8 +5,9 @@ import com.example.hust_learning_server.dto.request.UpdateVocabularyImageReq;
 import com.example.hust_learning_server.dto.request.VocabularyImageReq;
 import com.example.hust_learning_server.entity.Vocabulary;
 import com.example.hust_learning_server.entity.VocabularyImage;
-import com.example.hust_learning_server.exception.AlreadyExistsException;
-import com.example.hust_learning_server.exception.BusinessLogicException;
+import com.example.hust_learning_server.exception.ConflictException;
+import com.example.hust_learning_server.exception.ResourceNotFoundException;
+import com.example.hust_learning_server.exception.UnAuthorizedException;
 import com.example.hust_learning_server.mapper.VocabularyImageMapper;
 import com.example.hust_learning_server.repository.VocabularyImageRepository;
 import com.example.hust_learning_server.repository.VocabularyRepository;
@@ -34,10 +35,10 @@ public class VocabularyImageServiceImpl implements VocabularyImageService {
     public void addVocabularyImage(VocabularyImageReq vocabularyImageReq) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
         // check vocabulary id
-        Vocabulary vocabulary = vocabularyRepository.findById(vocabularyImageReq.getVocabularyId()).orElseThrow(BusinessLogicException::new);
+        Vocabulary vocabulary = vocabularyRepository.findById(vocabularyImageReq.getVocabularyId()).orElseThrow(ResourceNotFoundException::new);
 
         // image da ton tai ko luu
         Optional<VocabularyImage> existingVocabularyImage = vocabularyImageRepository.findByImageLocationAndVocabularyId(vocabularyImageReq.getImageLocation(), vocabularyImageReq.getVocabularyId());
@@ -55,7 +56,7 @@ public class VocabularyImageServiceImpl implements VocabularyImageService {
                 vocabularyImageRepository.save(vocabularyImage);
             }
         } else {
-            throw new AlreadyExistsException();
+            throw new ConflictException();
         }
     }
 
@@ -63,7 +64,7 @@ public class VocabularyImageServiceImpl implements VocabularyImageService {
     public void addVocabularyImageList(List<VocabularyImageReq> vocabularyImageReqList) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
 
         // xu ly dau vao, ko bi lap location
@@ -96,16 +97,15 @@ public class VocabularyImageServiceImpl implements VocabularyImageService {
         vocabularyImageRepository.saveAll(nonOverlappingVocabularyList);
     }
 
-
     @Override
     public void updateVocabularyImage(UpdateVocabularyImageReq updateVocabularyImageReq) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
 
         // lay ra tu db de update
-        VocabularyImage vocabularyImage = vocabularyImageRepository.findById(updateVocabularyImageReq.getVocabularyImageId()).orElseThrow(BusinessLogicException::new);
+        VocabularyImage vocabularyImage = vocabularyImageRepository.findById(updateVocabularyImageReq.getVocabularyImageId()).orElseThrow(ResourceNotFoundException::new);
 
         // neu update là true thi set toan bo con lai la false
         if (updateVocabularyImageReq.isPrimary()) {
@@ -130,10 +130,10 @@ public class VocabularyImageServiceImpl implements VocabularyImageService {
     public void setPrimaryForVocabularyImage(SetPrimaryForVocabularyImage setPrimaryForVocabularyImage) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
 
-        VocabularyImage vocabularyImage = vocabularyImageRepository.findById(setPrimaryForVocabularyImage.getVocabularyImageId()).orElseThrow(BusinessLogicException::new);
+        VocabularyImage vocabularyImage = vocabularyImageRepository.findById(setPrimaryForVocabularyImage.getVocabularyImageId()).orElseThrow(ResourceNotFoundException::new);
 
         if (setPrimaryForVocabularyImage.isPrimary()) {
             List<VocabularyImage> vocabularyImageList = vocabularyImageRepository.findAllByVocabularyId(vocabularyImage.getVocabulary().getId());
@@ -153,7 +153,7 @@ public class VocabularyImageServiceImpl implements VocabularyImageService {
     public void deleteById(long id) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
 
         vocabularyImageRepository.deleteById(id);

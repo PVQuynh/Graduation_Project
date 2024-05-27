@@ -5,10 +5,11 @@ import com.example.hust_learning_server.dto.request.*;
 import com.example.hust_learning_server.dto.response.MessageResponse;
 import com.example.hust_learning_server.dto.response.SearchDataRes;
 import com.example.hust_learning_server.service.DataCollectionService;
+
 import java.text.ParseException;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,164 +21,108 @@ public class DataCollectionController {
 
     // User
     @GetMapping("/all-me")
-    public MessageResponse getAllMe(){
+    public ResponseEntity<MessageResponse> getAllMe() {
         MessageResponse ms = new MessageResponse();
-        try {
-            ms.data = dataCollectionService.getAllMe();
-        } catch (Exception e) {
-            ms.code = HttpStatus.NOT_FOUND.value();
-            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
-        }
-        return ms;
+        ms.data = dataCollectionService.getAllMe();
+        return ResponseEntity.ok(ms);
     }
 
     @GetMapping("/options-list-me")
-    public MessageResponse getOptionsListMe(
+    public ResponseEntity<MessageResponse> getOptionsListMe(
             @RequestParam(required = true) int status
-    ){
+    ) {
         MessageResponse ms = new MessageResponse();
-        try {
-            ms.data = dataCollectionService.getOptionsListMe(status);
-        } catch (Exception e) {
-            ms.code = HttpStatus.NOT_FOUND.value();
-            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
-        }
-        return ms;
+        ms.data = dataCollectionService.getOptionsListMe(status);
+        return ResponseEntity.ok(ms);
     }
 
 
     @GetMapping("/pending-list-me")
-    public MessageResponse getPendingMe(){
+    public ResponseEntity<MessageResponse> getPendingMe() {
         MessageResponse ms = new MessageResponse();
-        try {
-            ms.data = dataCollectionService.getPendingMe();
-        } catch (Exception e) {
-            ms.code = HttpStatus.NOT_FOUND.value();
-            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
-        }
-        return ms;
+        ms.data = dataCollectionService.getPendingMe();
+        return ResponseEntity.ok(ms);
     }
 
     @GetMapping("/approved-list-me")
-    public MessageResponse getApprovedMe(){
+    public ResponseEntity<MessageResponse> getApprovedMe() {
         MessageResponse ms = new MessageResponse();
-        try {
-            ms.data = dataCollectionService.getApprovedMe();
-        } catch (Exception e) {
-            ms.code = HttpStatus.NOT_FOUND.value();
-            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
-        }
-        return ms;
+        ms.data = dataCollectionService.getApprovedMe();
+        return ResponseEntity.ok(ms);
     }
 
     @GetMapping("/reject-list-me")
-    public MessageResponse getRejectMe(){
-
+    public ResponseEntity<MessageResponse> getRejectMe() {
         MessageResponse ms = new MessageResponse();
-        try {
-            ms.data = dataCollectionService.getRejectMe();
-        } catch (Exception e) {
-            ms.code = HttpStatus.NOT_FOUND.value();
-            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
-        }
-        return ms;
+        ms.data = dataCollectionService.getRejectMe();
+        return ResponseEntity.ok(ms);
     }
 
-    @PostMapping ("/search-for-me")
-    public PageDTO<SearchDataRes> getDataForUser(@RequestBody DataSearchForUserParam dataSearchForUserParam)
+    @PostMapping("/search-for-me")
+    public PageDTO<SearchDataRes> getDataForUser(@RequestBody DataSearchForUserParamV3 dataSearchForUserParam)
             throws ParseException {
-
-        return dataCollectionService.searchDataCollectionForUser(dataSearchForUserParam);
-
+        return dataCollectionService.searchDataCollectionForUserV3(dataSearchForUserParam);
     }
 
-    @GetMapping ("/search-for-me/v2")
-    public MessageResponse getDataForUser_v2(
-           @RequestParam(defaultValue = "1", required = true) int page,
-           @RequestParam(defaultValue = "10", required = true) int size,
-           @RequestParam(required = false) String topic,
-           @RequestParam(required = true) String vocabulary,
-           @RequestParam(required = false) boolean ascending,
-           @RequestParam(required = false) String orderBy,
-           @RequestParam(required = false) String createdFrom,
-           @RequestParam(required = false) String createdTo,
-           @RequestParam(required = false) int status,
-           @RequestParam(required = false) float score
+    @GetMapping("/search-for-me/v2")
+    public ResponseEntity<MessageResponse> getDataForUser_v2(
+            @RequestParam(defaultValue = "1", required = true) int page,
+            @RequestParam(defaultValue = "10", required = true) int size,
+            @RequestParam(required = false) String topic,
+            @RequestParam(required = true) String vocabulary,
+            @RequestParam(required = false) boolean ascending,
+            @RequestParam(required = false) String orderBy,
+            @RequestParam(required = false) String createdFrom,
+            @RequestParam(required = false) String createdTo,
+            @RequestParam(required = false) int status,
+            @RequestParam(required = false) float score
     ) throws ParseException {
         MessageResponse ms = new MessageResponse();
-        try {
-            ms.data = dataCollectionService.searchDataCollectionForUser_v2(page, size, topic, vocabulary, ascending, orderBy, createdFrom, createdTo, status, score);
-        } catch (Exception e) {
-            ms.code = HttpStatus.NOT_FOUND.value();
-            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
-        }
-        return ms;
+        ms.data = dataCollectionService.searchDataCollectionForUser_v2(page, size, topic, vocabulary, ascending, orderBy, createdFrom, createdTo, status, score);
+        return ResponseEntity.ok(ms);
 
     }
 
     @PostMapping
-    public MessageResponse sendData(@RequestBody DataProvideReq dataProvideReq) {
+    public ResponseEntity<MessageResponse> sendData(@RequestBody DataProvideReq dataProvideReq) {
         MessageResponse ms = new MessageResponse();
-        try {
-            dataCollectionService.sendData(dataProvideReq);
-        } catch (Exception e) {
-            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
-            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
-        }
-        return ms;
+        dataCollectionService.sendData(dataProvideReq);
+        return ResponseEntity.ok(ms);
     }
 
     @PutMapping
-    public MessageResponse updateData(@RequestBody UpdateDataReq updateDataReq) {
+    public ResponseEntity<MessageResponse> updateData(@RequestBody UpdateDataReq updateDataReq) {
         MessageResponse ms = new MessageResponse();
-        try {
-            dataCollectionService.updateData(updateDataReq);
-        } catch (Exception e) {
-            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
-            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
-        }
-        return ms;
+        dataCollectionService.updateData(updateDataReq);
+        return ResponseEntity.ok(ms);
     }
 
 
     // Admin
     @GetMapping("/options-list-admin")
-    public MessageResponse getOptionsListAdmin(
+    public ResponseEntity<MessageResponse> getOptionsListAdmin(
             @RequestParam(required = true) int status
-    ){
+    ) {
         MessageResponse ms = new MessageResponse();
-        try {
-            ms.data = dataCollectionService.getOptionsListAdmin(status);
-        } catch (Exception e) {
-            ms.code = HttpStatus.NOT_FOUND.value();
-            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
-        }
-        return ms;
+        ms.data = dataCollectionService.getOptionsListAdmin(status);
+        return ResponseEntity.ok(ms);
     }
 
     @GetMapping("/pending-list-admin")
-    public MessageResponse getPendingAdmin(){
-
+    public ResponseEntity<MessageResponse> getPendingAdmin() {
         MessageResponse ms = new MessageResponse();
-        try {
-            ms.data = dataCollectionService.getPendingAdmin();
-        } catch (Exception e) {
-            ms.code = HttpStatus.NOT_FOUND.value();
-            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
-        }
-        return ms;
+        ms.data = dataCollectionService.getPendingAdmin();
+        return ResponseEntity.ok(ms);
     }
 
-    @PostMapping ("/search-for-admin")
+    @PostMapping("/search-for-admin")
     public PageDTO<SearchDataRes> getDataForAdmin(@RequestBody DataSearchForAdminParam dataSearchForAdminParam)
-        throws ParseException {
-
+            throws ParseException {
         return dataCollectionService.searchDataCollectionForAdmin(dataSearchForAdminParam);
-
     }
 
-    @GetMapping ("/search-for-admin/v2")
-    public MessageResponse getDataForAdmin_v2(
+    @GetMapping("/search-for-admin/v2")
+    public ResponseEntity<MessageResponse> getDataForAdmin_v2(
             @RequestParam(defaultValue = "1", required = true) int page,
             @RequestParam(defaultValue = "10", required = true) int size,
             @RequestParam(required = true) String volunteerEmail,
@@ -191,52 +136,30 @@ public class DataCollectionController {
             @RequestParam(required = false) float score
     ) throws ParseException {
         MessageResponse ms = new MessageResponse();
-        try {
-            ms.data = dataCollectionService.searchDataCollectionForAdmin_v2(page, size, volunteerEmail, topic, vocabulary, ascending, orderBy, createdFrom, createdTo, status, score);
-        } catch (Exception e) {
-            ms.code = HttpStatus.NOT_FOUND.value();
-            ms.message = HttpStatus.NOT_FOUND.getReasonPhrase();
-        }
-        return ms;
+        ms.data = dataCollectionService.searchDataCollectionForAdmin_v2(page, size, volunteerEmail, topic, vocabulary, ascending, orderBy, createdFrom, createdTo, status, score);
+        return ResponseEntity.ok(ms);
 
     }
 
     @PostMapping("/approve")
-    public MessageResponse approveData(@RequestBody DataReq dataReq) {
+    public ResponseEntity<MessageResponse> approveData(@RequestBody DataReq dataReq) {
         MessageResponse ms = new MessageResponse();
-        try {
-            dataCollectionService.approve(dataReq);
-        } catch (Exception e) {
-            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
-            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
-        }
-        return ms;
+        dataCollectionService.approve(dataReq);
+        return ResponseEntity.ok(ms);
     }
 
     @PostMapping("/reject")
-    public MessageResponse rejectData(@RequestBody DataReq dataReq){
+    public ResponseEntity<MessageResponse> rejectData(@RequestBody DataReq dataReq) {
         MessageResponse ms = new MessageResponse();
-        try {
-            dataCollectionService.reject(dataReq);
-        }
-        catch (Exception exception) {
-            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
-            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
-        }
-        return ms;
+        dataCollectionService.reject(dataReq);
+        return ResponseEntity.ok(ms);
     }
 
     @DeleteMapping("/{id}")
-    public MessageResponse deleteData(@PathVariable long id){
+    public ResponseEntity<MessageResponse> deleteData(@PathVariable long id) {
         MessageResponse ms = new MessageResponse();
-        try {
-            dataCollectionService.delete(id);
-        }
-        catch (Exception exception) {
-            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
-            ms.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
-        }
-        return ms;
+        dataCollectionService.delete(id);
+        return ResponseEntity.ok(ms);
     }
 
 }

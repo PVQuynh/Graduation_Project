@@ -10,7 +10,11 @@ import java.util.List;
 
 public interface TopicService {
 
-    List<TopicRes> getAllTopic();
+    List<TopicRes> getAllTopics();
+
+    List<TopicRes> getAllCommonTopics(long classRoomId);
+
+    List<TopicRes> getAllPrivateTopics(long classRoomId);
 
     void addTopic(TopicReq topicReq);
 
@@ -20,7 +24,7 @@ public interface TopicService {
 
     PageDTO<TopicRes> search(SearchTopicParamReq searchTopicParamReq);
 
-    PageDTO<TopicRes> search_v2(int page, int size, String text, boolean ascending, String orderBy);
+    PageDTO<TopicRes> searchV2(int page, int size, String text, boolean ascending, String orderBy);
 
 
 }

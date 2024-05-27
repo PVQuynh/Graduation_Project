@@ -17,4 +17,8 @@ public class TopicReq {
 
     private  String videoLocation;
 
+    private boolean isPrivate;
+
+    private long classRoomId;
+
 }

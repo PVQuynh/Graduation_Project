@@ -9,8 +9,9 @@ import com.example.hust_learning_server.dto.response.TopicRes;
 import com.example.hust_learning_server.entity.Question;
 import com.example.hust_learning_server.entity.Topic;
 import com.example.hust_learning_server.entity.Vocabulary;
-import com.example.hust_learning_server.exception.AlreadyExistsException;
-import com.example.hust_learning_server.exception.BusinessLogicException;
+import com.example.hust_learning_server.exception.ConflictException;
+import com.example.hust_learning_server.exception.ResourceNotFoundException;
+import com.example.hust_learning_server.exception.UnAuthorizedException;
 import com.example.hust_learning_server.mapper.Impl.TopicMapperImpl;
 import com.example.hust_learning_server.repository.QuestionRepository;
 import com.example.hust_learning_server.repository.TopicRepository;
@@ -18,13 +19,8 @@ import com.example.hust_learning_server.repository.VocabularyRepository;
 import com.example.hust_learning_server.service.TopicService;
 import com.example.hust_learning_server.utils.EmailUtils;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.PersistenceContextType;
 import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 
 import java.util.ArrayList;
 
@@ -34,6 +30,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 @Service
@@ -50,37 +47,54 @@ public class TopicServiceImpl implements TopicService {
     private final TopicMapperImpl topicMapper;
 
     @Override
-    public List<TopicRes> getAllTopic() {
-        List<Topic> topics = topicRepository.findAll();
-        if (topics.isEmpty()) throw new BusinessLogicException();
-
+    public List<TopicRes> getAllTopics() {
+        List<Topic> topics = topicRepository.findAllCommonTopic();
+        if (topics.isEmpty()) throw new ResourceNotFoundException();
         return topicMapper.toDTOList(topics);
     }
 
     @Override
+    public List<TopicRes> getAllCommonTopics(long classRoomId) {
+        List<Topic> topics = topicRepository.findAllCommonTopicByClassRoomId(classRoomId);
+        if (topics.isEmpty()) throw new ResourceNotFoundException();
+        return topicMapper.toDTOList(topics);
+    }
+
+    @Override
+    public List<TopicRes> getAllPrivateTopics(long classRoomId) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new UnAuthorizedException();
+        }
+        List<Topic> topics = topicRepository.findAllPrivateTopicByClassRoomId(classRoomId,email);
+        if (topics.isEmpty()) throw new ResourceNotFoundException();
+        return topicMapper.toDTOList(topics);
+    }
+
+    @Transactional
+    @Override
     public void addTopic(TopicReq topicReq) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
-
         Optional<Topic> existingTopic = topicRepository.findByContent(topicReq.getContent());
         if (existingTopic.isPresent()) {
-            throw new AlreadyExistsException();
+            throw new ConflictException();
         }
-
         Topic topic = topicMapper.toEntity(topicReq);
         topicRepository.save(topic);
     }
 
+    @Transactional
     @Override
     public void updateTopic(UpdateTopicReq updateTopicReq) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
 
-        Topic topic = topicRepository.findById(updateTopicReq.getTopicId()).orElseThrow(BusinessLogicException::new);
+        Topic topic = topicRepository.findById(updateTopicReq.getTopicId()).orElseThrow(ResourceNotFoundException::new);
 
         if (updateTopicReq.getContent() != null) {
             topic.setContent(updateTopicReq.getContent());
@@ -91,13 +105,13 @@ public class TopicServiceImpl implements TopicService {
         if (updateTopicReq.getVideoLocation() != null) {
             topic.setVideoLocation(updateTopicReq.getVideoLocation());
         }
+        topic.setPrivate(updateTopicReq.isPrivate());
 
         topicRepository.save(topic);
     }
 
     @Override
     public PageDTO<TopicRes> search(SearchTopicParamReq searchTopicParamReq) {
-
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Topic> criteriaQuery = criteriaBuilder.createQuery(Topic.class);
         Root<Topic> root = criteriaQuery.from(Topic.class);
@@ -109,6 +123,10 @@ public class TopicServiceImpl implements TopicService {
             Predicate contentLike = criteriaBuilder.like(root.get("content"), searchText);
             predicates.add(contentLike);
         } else return null;
+
+        // common
+        Predicate isPrivate = criteriaBuilder.equal(root.get("isPrivate"), false);
+        predicates.add(isPrivate);
 
         // Filter by descending and orderBy (if provided)
         if (!ObjectUtils.isEmpty(searchTopicParamReq.ascending) && !ObjectUtils.isEmpty(searchTopicParamReq.orderBy)) {
@@ -135,7 +153,7 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public PageDTO<TopicRes> search_v2(int page, int size, String text, boolean ascending, String orderBy) {
+    public PageDTO<TopicRes> searchV2(int page, int size, String text, boolean ascending, String orderBy) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Topic> criteriaQuery = criteriaBuilder.createQuery(Topic.class);
         Root<Topic> root = criteriaQuery.from(Topic.class);
@@ -147,6 +165,10 @@ public class TopicServiceImpl implements TopicService {
             Predicate contentLike = criteriaBuilder.like(root.get("content"), searchText);
             predicates.add(contentLike);
         } else return null;
+
+        // common
+        Predicate isPrivate = criteriaBuilder.equal(root.get("isPrivate"), false);
+        predicates.add(isPrivate);
 
         // Filter by descending and orderBy (if provided)
         if (!ObjectUtils.isEmpty(ascending) && !ObjectUtils.isEmpty(orderBy)) {
@@ -172,11 +194,12 @@ public class TopicServiceImpl implements TopicService {
         return topicResPageDTO;
     }
 
+    @Transactional
     @Override
     public void deleteTopicById(long id) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
         List<Question> questionList = questionRepository.findAllByTopicId(id);
         if (!questionList.isEmpty()) {

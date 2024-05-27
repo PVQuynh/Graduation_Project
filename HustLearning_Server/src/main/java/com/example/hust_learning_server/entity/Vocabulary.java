@@ -17,6 +17,8 @@ public class Vocabulary extends BaseEntity{
 
     private String content;
 
+    private String note;
+
     @OneToMany(
             mappedBy = "vocabulary",
             fetch = FetchType.LAZY,

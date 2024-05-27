@@ -21,6 +21,8 @@ public class Topic extends BaseEntity{
 
     private  String videoLocation;
 
+    private boolean isPrivate;
+
     @OneToMany(mappedBy = "topic",
             fetch = FetchType.LAZY,
             cascade = {CascadeType.ALL})
@@ -30,5 +32,9 @@ public class Topic extends BaseEntity{
             fetch = FetchType.LAZY,
             cascade = {CascadeType.ALL})
     private List<Question> questions;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="class_room_id")
+    private ClassRoom classRoom;
 
 }

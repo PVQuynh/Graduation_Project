@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class DataSearchForUserParam {
+public class DataSearchForUserParamV3 {
   public  int page =1 ;
   public  int size =10;
-  public String topic;
-  public String vocabulary;
+  public long topicId;
+  public long vocabularyId;
   public  boolean ascending = false;
   public String orderBy;
   public String createdFrom;

@@ -17,5 +17,7 @@ public class UpdateVocabularyReq {
 
     private String content;
 
+    private String note;
+
 //    private List<VocabularyMediumReq> vocabularyMediumReqs;
 }

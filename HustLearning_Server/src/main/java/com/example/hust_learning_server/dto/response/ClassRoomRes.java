@@ -9,16 +9,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TopicRes {
+public class ClassRoomRes {
 
-    private long topicId;
+    private long classRoomId;
 
     private String content;
 
     private String imageLocation;
-
-    private  String videoLocation;
-
-    private long classRoomId;
 
 }

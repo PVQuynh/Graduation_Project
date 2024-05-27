@@ -5,8 +5,9 @@ import com.example.hust_learning_server.dto.request.UpdateVocabularyVideoReq;
 import com.example.hust_learning_server.dto.request.VocabularyVideoReq;
 import com.example.hust_learning_server.entity.Vocabulary;
 import com.example.hust_learning_server.entity.VocabularyVideo;
-import com.example.hust_learning_server.exception.AlreadyExistsException;
-import com.example.hust_learning_server.exception.BusinessLogicException;
+import com.example.hust_learning_server.exception.ConflictException;
+import com.example.hust_learning_server.exception.ResourceNotFoundException;
+import com.example.hust_learning_server.exception.UnAuthorizedException;
 import com.example.hust_learning_server.mapper.VocabularyVideoMapper;
 import com.example.hust_learning_server.repository.VocabularyVideoRepository;
 import com.example.hust_learning_server.repository.VocabularyRepository;
@@ -29,15 +30,14 @@ public class VocabularyVideoServiceImpl implements VocabularyVideoService {
     private final VocabularyRepository vocabularyRepository;
     private final VocabularyVideoMapper vocabularyVideoMapper;
 
-
     @Override
     public void addVocabularyVideo(VocabularyVideoReq vocabularyVideoReq) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
         // check vocabulary id
-        Vocabulary vocabulary = vocabularyRepository.findById(vocabularyVideoReq.getVocabularyId()).orElseThrow(BusinessLogicException::new);
+        Vocabulary vocabulary = vocabularyRepository.findById(vocabularyVideoReq.getVocabularyId()).orElseThrow(ResourceNotFoundException::new);
         
         // video da ton tai ko luu
         Optional<VocabularyVideo> existingVocabularyVideo = vocabularyVideoRepository.findByVideoLocationAndVocabularyId(vocabularyVideoReq.getVideoLocation(), vocabularyVideoReq.getVocabularyId());
@@ -55,7 +55,7 @@ public class VocabularyVideoServiceImpl implements VocabularyVideoService {
                 vocabularyVideoRepository.save(vocabularyVideo);
             }
         } else {
-            throw new AlreadyExistsException();
+            throw new ConflictException();
         }
     }
 
@@ -63,7 +63,7 @@ public class VocabularyVideoServiceImpl implements VocabularyVideoService {
     public void addVocabularyVideoList(List<VocabularyVideoReq> vocabularyVideoReqList) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
 
         // xu ly dau vao, ko bi lap location
@@ -96,16 +96,15 @@ public class VocabularyVideoServiceImpl implements VocabularyVideoService {
         vocabularyVideoRepository.saveAll(nonOverlappingVocabularyList);
     }
 
-
     @Override
     public void updateVocabularyVideo(UpdateVocabularyVideoReq updateVocabularyVideoReq) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
 
         // lay ra tu db de update
-        VocabularyVideo vocabularyVideo = vocabularyVideoRepository.findById(updateVocabularyVideoReq.getVocabularyVideoId()).orElseThrow(BusinessLogicException::new);
+        VocabularyVideo vocabularyVideo = vocabularyVideoRepository.findById(updateVocabularyVideoReq.getVocabularyVideoId()).orElseThrow(ResourceNotFoundException::new);
 
         // neu update là true thi set toan bo con lai la false
         if (updateVocabularyVideoReq.isPrimary()) {
@@ -130,10 +129,10 @@ public class VocabularyVideoServiceImpl implements VocabularyVideoService {
     public void setPrimaryForVocabularyVideo(SetPrimaryForVocabularyVideo setPrimaryForVocabularyVideo) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
 
-        VocabularyVideo vocabularyVideo = vocabularyVideoRepository.findById(setPrimaryForVocabularyVideo.getVocabularyVideoId()).orElseThrow(BusinessLogicException::new);
+        VocabularyVideo vocabularyVideo = vocabularyVideoRepository.findById(setPrimaryForVocabularyVideo.getVocabularyVideoId()).orElseThrow(ResourceNotFoundException::new);
 
         if (setPrimaryForVocabularyVideo.isPrimary()) {
             List<VocabularyVideo> vocabularyVideoList = vocabularyVideoRepository.findAllByVocabularyId(vocabularyVideo.getVocabulary().getId());
@@ -153,7 +152,7 @@ public class VocabularyVideoServiceImpl implements VocabularyVideoService {
     public void deleteById(long id) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
-            throw new BusinessLogicException();
+            throw new UnAuthorizedException();
         }
 
         vocabularyVideoRepository.deleteById(id);

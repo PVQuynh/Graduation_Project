@@ -1,4 +1,4 @@
-package com.example.hust_learning_server.dto.response;
+package com.example.hust_learning_server.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,16 +9,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TopicRes {
+public class UpdateClassRoomReq {
 
-    private long topicId;
+    private long classRoomId;
 
     private String content;
 
     private String imageLocation;
-
-    private  String videoLocation;
-
-    private long classRoomId;
 
 }
