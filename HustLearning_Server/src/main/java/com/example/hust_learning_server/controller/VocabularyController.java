@@ -26,14 +26,18 @@ public class VocabularyController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<MessageResponse> getAllVocabulary(@RequestParam(required = false) Long topicId, @RequestParam(required = false) String content) {
+    public ResponseEntity<MessageResponse> getAllVocabulary(
+        @RequestParam(required = false) Long topicId,
+        @RequestParam(required = false) String content,
+        @RequestParam(required = false) String vocabularyType
+    ) {
         MessageResponse ms = new MessageResponse();
-        if (topicId != null && content == null) {
-            ms.data = vocabularyService.getVocabulariesByTopicId(topicId);
-        } else if (topicId != null && content != null) {
-            ms.data = vocabularyService.getVocabularyByTopicIdAndSearchContent(topicId, content);
-        } else if (content != null) {
-            ms.data = vocabularyService.getVocabularyBySearchContent(content);
+        if (topicId != null) {
+            if (content == null) {
+                ms.data = vocabularyService.getVocabulariesByTopicId(topicId);
+            } else {
+                ms.data = vocabularyService.getVocabularyByTopicIdAndContentAndVocabularyType(topicId, content, vocabularyType);
+            }
         } else {
             ms.data = vocabularyService.getAllVocabulary();
         }
@@ -57,7 +61,7 @@ public class VocabularyController {
 
     @GetMapping("/get-by-content/v2")
     public ResponseEntity<MessageResponse> getExactVocabularies(
-            @RequestParam(required = true) String content
+        @RequestParam(required = true) String content
     ) {
         MessageResponse ms = new MessageResponse();
         ms.data = vocabularyService.getVocabulariesByContent(content);
@@ -73,9 +77,9 @@ public class VocabularyController {
 
     @GetMapping("/limits-topic/v2")
     public ResponseEntity<MessageResponse> getVocabulariesLimits(
-            @RequestParam(defaultValue = "1", required = true) int page,
-            @RequestParam(defaultValue = "10", required = true) int size,
-            @RequestParam(required = true) long topicId
+        @RequestParam(defaultValue = "1", required = true) int page,
+        @RequestParam(defaultValue = "10", required = true) int size,
+        @RequestParam(required = true) long topicId
     ) {
         MessageResponse ms = new MessageResponse();
         ms.data = vocabularyService.vocabularyLimitsTopic(page, size, topicId);
@@ -89,12 +93,12 @@ public class VocabularyController {
 
     @GetMapping("/search/v2")
     public ResponseEntity<MessageResponse> getList_v2(
-            @RequestParam(defaultValue = "1", required = true) int page,
-            @RequestParam(defaultValue = "10", required = true) int size,
-            @RequestParam(required = true) String text,
-            @RequestParam(required = false) boolean ascending,
-            @RequestParam(required = false) String orderBy,
-            @RequestParam(required = false) long topicId
+        @RequestParam(defaultValue = "1", required = true) int page,
+        @RequestParam(defaultValue = "10", required = true) int size,
+        @RequestParam(required = true) String text,
+        @RequestParam(required = false) boolean ascending,
+        @RequestParam(required = false) String orderBy,
+        @RequestParam(required = false) long topicId
 
     ) {
         MessageResponse ms = new MessageResponse();

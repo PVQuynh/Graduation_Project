@@ -19,7 +19,7 @@ public interface VocabularySerivce {
 
     List<VocabularyRes> getVocabularyBySearchContent(String content);
 
-    List<VocabularyRes> getVocabularyByTopicIdAndSearchContent(long topicId, String content);
+    List<VocabularyRes> getVocabularyByTopicIdAndContentAndVocabularyType(Long topicId, String content, String vocabularyType);
 
     List<VocabularyRes> vocabularyLimits(VocabularyLimitReq vocabularyLimitReq);
 
