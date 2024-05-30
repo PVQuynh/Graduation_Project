@@ -19,6 +19,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
@@ -69,8 +70,8 @@ public class VocabularyMapperImpl implements VocabularyMapper {
         vocabularyRes.setVocabularyVideoResList(vocabularyVideoResList);
 
         // set topic
-        vocabularyRes.setTopicId(entity.getTopic().getId());
-        vocabularyRes.setTopicContent(entity.getTopic().getContent());
+        vocabularyRes.setTopicId(Objects.nonNull(entity.getTopic()) ? entity.getTopic().getId() : 0);
+        vocabularyRes.setTopicContent(Objects.nonNull(entity.getTopic()) ? entity.getTopic().getContent() : null);
 
         return vocabularyRes;
     }
@@ -78,14 +79,14 @@ public class VocabularyMapperImpl implements VocabularyMapper {
     @Override
     public List<VocabularyRes> toDTOList(List<Vocabulary> entityList) {
         return entityList.stream()
-                .map(entity->toDTO(entity))
+                .map(this::toDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<Vocabulary> toEntityList(List<VocabularyReq> dtoList) {
         return dtoList.stream()
-                .map(dto->toEntity(dto))
+                .map(this::toEntity)
                 .collect(Collectors.toList());
     }
 

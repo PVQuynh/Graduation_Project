@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
@@ -32,7 +33,12 @@ public class TopicMapperImpl implements TopicMapper {
     public TopicRes toDTO(Topic entity) {
         ModelMapper modelMapper = new ModelMapper();
         TopicRes topicRes = modelMapper.map(entity, TopicRes.class);
-        topicRes.setClassRoomId(entity.getClassRoom().getId());
+
+        if (Objects.nonNull(entity.getClassRoom())) {
+            long classRoomId = entity.getClassRoom().getId();
+            topicRes.setClassRoomId(classRoomId);
+        }
+
         return topicRes;
     }
 

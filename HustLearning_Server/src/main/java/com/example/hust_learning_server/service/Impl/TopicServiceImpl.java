@@ -194,7 +194,6 @@ public class TopicServiceImpl implements TopicService {
         return topicResPageDTO;
     }
 
-    @Transactional
     @Override
     public void deleteTopicById(long id) {
         String email = EmailUtils.getCurrentUser();

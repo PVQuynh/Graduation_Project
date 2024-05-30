@@ -16,5 +16,6 @@ public interface VocabularyVideoRepository extends JpaRepository<VocabularyVideo
     Optional<VocabularyVideo> findByVideoLocationAndVocabularyId(String videoLocation, long vocabularyId);
 
     @Transactional
+    @Modifying
     void deleteAllByVocabularyId(long vocabularyId);
 }

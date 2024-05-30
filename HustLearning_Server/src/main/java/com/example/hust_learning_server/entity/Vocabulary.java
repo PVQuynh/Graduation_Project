@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import com.example.hust_learning_server.constant.enum_constant.VocabularyType;
 
 @Getter
 @Setter
@@ -18,6 +19,9 @@ public class Vocabulary extends BaseEntity{
     private String content;
 
     private String note;
+
+    @Enumerated(EnumType.STRING)
+    private VocabularyType vocabularyType;
 
     @OneToMany(
             mappedBy = "vocabulary",
