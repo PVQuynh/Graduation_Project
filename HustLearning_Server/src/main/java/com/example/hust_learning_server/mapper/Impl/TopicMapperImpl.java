@@ -35,8 +35,8 @@ public class TopicMapperImpl implements TopicMapper {
         TopicRes topicRes = modelMapper.map(entity, TopicRes.class);
 
         if (Objects.nonNull(entity.getClassRoom())) {
-            long classRoomId = entity.getClassRoom().getId();
-            topicRes.setClassRoomId(classRoomId);
+            topicRes.setClassRoomId(entity.getClassRoom().getId());
+            topicRes.setClassRoomContent(entity.getClassRoom().getContent());
         }
 
         return topicRes;

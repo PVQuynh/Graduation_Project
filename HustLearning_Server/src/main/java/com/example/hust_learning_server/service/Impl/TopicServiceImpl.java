@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,16 +49,22 @@ public class TopicServiceImpl implements TopicService {
     private final TopicMapperImpl topicMapper;
 
     @Override
-    public List<TopicRes> getAllTopics() {
-        List<Topic> topics = topicRepository.findAllCommonTopic();
-        if (topics.isEmpty()) throw new ResourceNotFoundException();
+    public List<TopicRes> getAllTopics(Long classRoomId) {
+        List<Topic> topics;
+        if (classRoomId == null) {
+            topics = topicRepository.findAll();
+            if (topics.isEmpty()) return null;
+        } else {
+            topics = topicRepository.findAllTopicByClassRoomId(classRoomId);
+            if (topics.isEmpty()) return null;
+        }
         return topicMapper.toDTOList(topics);
     }
 
     @Override
     public List<TopicRes> getAllCommonTopics(long classRoomId) {
         List<Topic> topics = topicRepository.findAllCommonTopicByClassRoomId(classRoomId);
-        if (topics.isEmpty()) throw new ResourceNotFoundException();
+        if (topics.isEmpty()) return null;
         return topicMapper.toDTOList(topics);
     }
 
@@ -67,7 +75,7 @@ public class TopicServiceImpl implements TopicService {
             throw new UnAuthorizedException();
         }
         List<Topic> topics = topicRepository.findAllPrivateTopicByClassRoomId(classRoomId,email);
-        if (topics.isEmpty()) throw new ResourceNotFoundException();
+        if (topics.isEmpty()) return null;
         return topicMapper.toDTOList(topics);
     }
 
@@ -93,9 +101,7 @@ public class TopicServiceImpl implements TopicService {
         if (ObjectUtils.isEmpty(email)) {
             throw new UnAuthorizedException();
         }
-
         Topic topic = topicRepository.findById(updateTopicReq.getTopicId()).orElseThrow(ResourceNotFoundException::new);
-
         if (updateTopicReq.getContent() != null) {
             topic.setContent(updateTopicReq.getContent());
         }
@@ -106,7 +112,6 @@ public class TopicServiceImpl implements TopicService {
             topic.setVideoLocation(updateTopicReq.getVideoLocation());
         }
         topic.setPrivate(updateTopicReq.isPrivate());
-
         topicRepository.save(topic);
     }
 

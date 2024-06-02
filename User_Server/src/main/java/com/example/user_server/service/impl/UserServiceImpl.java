@@ -113,8 +113,8 @@ public class UserServiceImpl implements UserService {
         if (ObjectUtils.isEmpty(email)) {
             throw new UnAuthorizedException();
         }
-        User user = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
-        return userMapper.toDTO(user);
+        UserDTO userDTO = userRepository.findByEmail(email).map(userMapper::toDTO).orElse(null);
+        return userDTO;
     }
 
     @Transactional
@@ -271,14 +271,10 @@ public class UserServiceImpl implements UserService {
         if (ObjectUtils.isEmpty(email)) {
             throw new UnAuthorizedException();
         }
-
         User user = userRepository.findById(userId).orElseThrow(ResourceNotFoundException::new);
-
         UserDTO userDTO = userMapper.toDTO(user);
         UserDetailDTO userDetailDTO = new UserDetailDTO(userDTO);
-
         User currentUser = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
-
         if (currentUser.getRole().getCode().equals("USER")) {
             FriendShip friendShip = friendShipRepository.checkFriendStatus(currentUser.getId(),
                             userDetailDTO.getUserId())

@@ -14,8 +14,6 @@ import com.example.hust_learning_server.service.VocabularySerivce;
 import com.example.hust_learning_server.utils.AvoidRepetition;
 import com.example.hust_learning_server.utils.EmailUtils;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -26,13 +24,12 @@ import jakarta.persistence.criteria.Root;
 import java.util.ArrayList;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.util.ObjectUtils;
@@ -53,46 +50,45 @@ public class VocabularyServiceImpl implements VocabularySerivce {
 
     @Override
     public VocabularyRes getById(long id) {
-        Vocabulary vocabulary = vocabularyRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
-
-        return vocabularyMapper.toDTO(vocabulary);
+        VocabularyRes vocabularyRes = vocabularyRepository.findById(id)
+            .map(vocabularyMapper::toDTO)
+            .orElse(null);
+        return vocabularyRes;
     }
 
     @Override
     public List<VocabularyRes> getAllVocabulary() {
         List<Vocabulary> vocabularies = vocabularyRepository.findAll();
-
+        if (vocabularies.isEmpty()) {
+            return null;
+        }
         return vocabularyMapper.toDTOList(vocabularies);
     }
 
     @Override
     public List<VocabularyRes> getExactVocabularies(ExactVocabularyReq exactVocabularyReq) {
-        List<Vocabulary> vocabularies = vocabularyRepository.findAllByContent(exactVocabularyReq.getContent())
-            .orElseThrow(ResourceNotFoundException::new);
+        List<Vocabulary> vocabularies = vocabularyRepository.findAllByContent(exactVocabularyReq.getContent());
         if (vocabularies.isEmpty()) {
-            throw new ResourceNotFoundException();
+            return null;
         }
-
         return vocabularyMapper.toDTOList(vocabularies);
     }
 
     @Override
     public List<VocabularyRes> getVocabulariesByContent(String content) {
-        List<Vocabulary> vocabularies = vocabularyRepository.findAllByContent(content).orElseThrow(ResourceNotFoundException::new);
+        List<Vocabulary> vocabularies = vocabularyRepository.findAllByContent(content);
         if (vocabularies.isEmpty()) {
-            throw new ResourceNotFoundException();
+            return null;
         }
-
         return vocabularyMapper.toDTOList(vocabularies);
     }
 
     @Override
     public List<VocabularyRes> getVocabulariesByTopicId(long topicId) {
-        List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesByTopicId(topicId).orElseThrow(ResourceNotFoundException::new);
+        List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesByTopicId(topicId);
         if (vocabularies.isEmpty()) {
-            throw new ResourceNotFoundException();
+            return null;
         }
-
         return vocabularyMapper.toDTOList(vocabularies);
     }
 
@@ -139,13 +135,10 @@ public class VocabularyServiceImpl implements VocabularySerivce {
     @Override
     public List<VocabularyRes> vocabularyLimits(VocabularyLimitReq vocabularyLimitReq) {
         Pageable pageable = PageRequest.of(vocabularyLimitReq.getPage() - 1, vocabularyLimitReq.getSize());
-
-        List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesLimitByTopicId(vocabularyLimitReq.getTopicId(), pageable)
-            .orElseThrow(ResourceNotFoundException::new);
+        List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesLimitByTopicId(vocabularyLimitReq.getTopicId(), pageable);
         if (vocabularies.isEmpty()) {
-            throw new ResourceNotFoundException();
+            return null;
         }
-
         return vocabularyMapper.toDTOList(vocabularies);
     }
 
@@ -153,15 +146,11 @@ public class VocabularyServiceImpl implements VocabularySerivce {
     public List<VocabularyRes> vocabularyLimitsTopic(int page, int size, long topicId) {
         Pageable pageable = PageRequest.of(page - 1, size);
 
-        List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesLimitByTopicId(topicId, pageable)
-            .orElseThrow(ResourceNotFoundException::new);
+        List<Vocabulary> vocabularies = vocabularyRepository.findVocabulariesLimitByTopicId(topicId, pageable);
         if (vocabularies.isEmpty()) {
-            throw new ResourceNotFoundException();
+            return null;
         }
-
         return vocabularyMapper.toDTOList(vocabularies);
-
-
     }
 
     @Override
@@ -223,8 +212,6 @@ public class VocabularyServiceImpl implements VocabularySerivce {
             String searchText = "%" + text + "%";
             Predicate contentLike = criteriaBuilder.like(root.get("content"), searchText);
             predicates.add(contentLike);
-        } else {
-            return null;
         }
 
         if (topicId != 0) {

@@ -12,8 +12,8 @@ public interface TopicRepository extends JpaRepository<Topic, Long> {
 
     Optional<Topic> findByContent(String content);
 
-    @Query("select topic from Topic topic where topic.isPrivate = false")
-    List<Topic> findAllCommonTopic();
+    @Query("select topic from Topic topic where topic.classRoom.id = :classRoomId")
+    List<Topic> findAllTopicByClassRoomId(@Param("classRoomId") long classRoomId);
 
     @Query("select topic from Topic topic where topic.classRoom.id = :classRoomId and topic.isPrivate = false")
     List<Topic> findAllCommonTopicByClassRoomId(@Param("classRoomId") long classRoomId);

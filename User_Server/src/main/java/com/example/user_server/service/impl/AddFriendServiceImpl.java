@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -35,10 +36,8 @@ public class AddFriendServiceImpl implements AddFriendService {
         if (ObjectUtils.isEmpty(email)) {
             throw new UnAuthorizedException();
         }
-
-        List<FriendShip> friendShipList = friendShipRepository.findSendingList(email)
-                .orElse(null);
-        if (ObjectUtils.isEmpty(friendShipList)) return null;
+        List<FriendShip> friendShipList = friendShipRepository.findSendingList(email);
+        if (ObjectUtils.isEmpty(friendShipList)) return null;;
         List<User> users = friendShipList.stream()
                 .map(FriendShip::getAcceptFriend)
                 .collect(Collectors.toList());
@@ -51,9 +50,8 @@ public class AddFriendServiceImpl implements AddFriendService {
         if (ObjectUtils.isEmpty(email)) {
             throw new UnAuthorizedException();
         }
-        List<FriendShip> friendShipList = friendShipRepository.findRequestList(email)
-                .orElse(null);
-        if (ObjectUtils.isEmpty(friendShipList)) return null;
+        List<FriendShip> friendShipList = friendShipRepository.findRequestList(email);
+        if (ObjectUtils.isEmpty(friendShipList)) return null;;
         List<User> users = friendShipList.stream()
                 .map(FriendShip::getSendFriend)
                 .collect(Collectors.toList());
@@ -66,9 +64,8 @@ public class AddFriendServiceImpl implements AddFriendService {
         if (ObjectUtils.isEmpty(email)) {
             throw new UnAuthorizedException();
         }
-        List<FriendShip> friendShipList = friendShipRepository.findAllFriend(email)
-                .orElse(null);
-        if (ObjectUtils.isEmpty(friendShipList)) return null;
+        List<FriendShip> friendShipList = friendShipRepository.findAllFriend(email);
+        if (ObjectUtils.isEmpty(friendShipList)) return null;;
         List<User> users = friendShipList.stream()
                 .map(friendShip -> {
                     if (friendShip.getAcceptFriend().getEmail().equals(email)) {
@@ -86,16 +83,13 @@ public class AddFriendServiceImpl implements AddFriendService {
         if (ObjectUtils.isEmpty(email)) {
             throw new UnAuthorizedException();
         }
-
         User sendUser = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
-
         // Lấy ra danh sách đã gửi lời mời cho mình
-        List<FriendShip> friendShipList = friendShipRepository.findSendingListByUserId(userId)
-                .orElseThrow(ResourceNotFoundException::new);
+        List<FriendShip> friendShipList = friendShipRepository.findSendingListByUserId(userId);
+        if (friendShipList.isEmpty()) throw new ResourceNotFoundException();
         List<User> sendingUsers = friendShipList.stream()
                 .map(FriendShip::getAcceptFriend)
                 .toList();
-
         if ((sendUser.getId() != userId) && (!sendingUsers.contains(sendUser))) {
             User acceptUser = userRepository.findById(userId).orElseThrow(ResourceNotFoundException::new);
             FriendShip friendShip = FriendShip.builder()
@@ -113,7 +107,6 @@ public class AddFriendServiceImpl implements AddFriendService {
             friendShipRepository.save(friendShip);
             return;
         }
-
         throw new ConflictException();
     }
 
@@ -124,7 +117,6 @@ public class AddFriendServiceImpl implements AddFriendService {
         if (ObjectUtils.isEmpty(email)) {
             throw new UnAuthorizedException();
         }
-
         FriendShip friendShip = friendShipRepository.findByAcceptedEmailAndSendingUserIdAndStatus(email, userId, FriendShipStatus.WAITING_ACCEPT)
                 .orElseThrow(ResourceNotFoundException::new);
         friendShip.setStatus(FriendShipStatus.FRIEND);

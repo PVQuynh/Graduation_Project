@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface TopicService {
 
-    List<TopicRes> getAllTopics();
+    List<TopicRes> getAllTopics(Long classRoomId);
 
     List<TopicRes> getAllCommonTopics(long classRoomId);
 

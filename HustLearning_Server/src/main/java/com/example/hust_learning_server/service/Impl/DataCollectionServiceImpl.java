@@ -27,6 +27,7 @@ import jakarta.persistence.criteria.Root;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -89,7 +90,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if (ObjectUtils.isEmpty(email)) {
             throw new UnAuthorizedException();
         }
-        List<DataCollection> dataCollections = dataCollectionRepository.getAllMe(email).orElseThrow(ResourceNotFoundException::new);
+        List<DataCollection> dataCollections = dataCollectionRepository.getAllMe(email);
+        if (dataCollections.isEmpty()) return null;
         return dataCollectionMapper.toDTOList(dataCollections);
 
     }
@@ -100,7 +102,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if (ObjectUtils.isEmpty(email)) {
             throw new UnAuthorizedException();
         }
-        List<DataCollection> dataCollections = dataCollectionRepository.getOptionsList(email, status).orElseThrow(ResourceNotFoundException::new);
+        List<DataCollection> dataCollections = dataCollectionRepository.getOptionsList(email, status);
+        if (dataCollections.isEmpty()) return null;
         return dataCollectionMapper.toDTOList(dataCollections);
     }
 
@@ -110,7 +113,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if (ObjectUtils.isEmpty(email)) {
             throw new UnAuthorizedException();
         }
-        List<DataCollection> dataCollections = dataCollectionRepository.getPendingMe(email).orElseThrow(ResourceNotFoundException::new);
+        List<DataCollection> dataCollections = dataCollectionRepository.getPendingMe(email);
+        if (dataCollections.isEmpty()) return null;
         return dataCollectionMapper.toDTOList(dataCollections);
     }
 
@@ -120,7 +124,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if (ObjectUtils.isEmpty(email)) {
             throw new UnAuthorizedException();
         }
-        List<DataCollection> dataCollections = dataCollectionRepository.getApprovedMe(email).orElseThrow(ResourceNotFoundException::new);
+        List<DataCollection> dataCollections = dataCollectionRepository.getApprovedMe(email);
+        if (dataCollections.isEmpty()) return null;
         return dataCollectionMapper.toDTOList(dataCollections);
     }
 
@@ -130,7 +135,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if (ObjectUtils.isEmpty(email)) {
             throw new UnAuthorizedException();
         }
-        List<DataCollection> dataCollections = dataCollectionRepository.getRejectMe(email).orElseThrow(ResourceNotFoundException::new);
+        List<DataCollection> dataCollections = dataCollectionRepository.getRejectMe(email);
+        if (dataCollections.isEmpty()) return null;
         return dataCollectionMapper.toDTOList(dataCollections);
     }
 
@@ -369,7 +375,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             throw new UnAuthorizedException();
         }
 
-        List<DataCollection> dataCollectionList = dataCollectionRepository.getOptionsListAdmin(status).orElseThrow(ResourceNotFoundException::new);
+        List<DataCollection> dataCollectionList = dataCollectionRepository.getOptionsListAdmin(status);
+        if (dataCollectionList.isEmpty()) return null;
         return dataCollectionMapper.toDTOList(dataCollectionList);
     }
 
@@ -379,7 +386,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if (ObjectUtils.isEmpty(email)) {
             throw new UnAuthorizedException();
         }
-        List<DataCollection> dataCollectionList = dataCollectionRepository.getPendingAdmin().orElseThrow(ResourceNotFoundException::new);
+        List<DataCollection> dataCollectionList = dataCollectionRepository.getPendingAdmin();
+        if (dataCollectionList.isEmpty()) return null;
         return dataCollectionMapper.toDTOList(dataCollectionList);
     }
 

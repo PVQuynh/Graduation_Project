@@ -18,9 +18,11 @@ public class TopicController {
     private final TopicService topicService;
 
     @GetMapping("/all")
-    public ResponseEntity<MessageResponse> getAllTopic() {
+    public ResponseEntity<MessageResponse> getAllTopic(
+        @RequestParam(required = false) Long classRoomId
+    ) {
         MessageResponse ms = new MessageResponse();
-        ms.data = topicService.getAllTopics();
+        ms.data = topicService.getAllTopics(classRoomId);
         return ResponseEntity.ok(ms);
     }
 

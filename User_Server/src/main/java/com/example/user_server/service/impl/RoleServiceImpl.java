@@ -9,6 +9,7 @@ import com.example.user_server.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -25,8 +26,9 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<RoleDTO> getAllRole() {
         List<Role> roles = roleRepository.findAll();
-        if (roles.isEmpty()) throw new BusinessLogicException();
-
-        return roleMapper.toDTOList(roles);
+        List<RoleDTO> roleDTOS = roleRepository.findAll().stream()
+            .map(roleMapper::toDTO)
+            .toList();
+        return roleDTOS;
     }
 }

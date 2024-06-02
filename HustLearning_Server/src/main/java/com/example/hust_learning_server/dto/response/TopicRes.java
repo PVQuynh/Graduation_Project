@@ -21,4 +21,6 @@ public class TopicRes {
 
     private long classRoomId;
 
+    private String classRoomContent;
+
 }

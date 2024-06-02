@@ -21,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -34,21 +35,24 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<QuestionRes> getQuestionsByTopicId(long topicId) {
-        List<Question> questions = questionRepository.findQuestionsByTopicId(topicId).orElseThrow(ResourceNotFoundException::new);
+        List<Question> questions = questionRepository.findQuestionsByTopicId(topicId);
+        if (questions.isEmpty()) return null;
         return questionMapper.toDTOList(questions);
     }
 
     @Override
     public List<QuestionRes> questionLimits(QuestionLimitReq questionLimitReq) {
         Pageable pageable = PageRequest.of(questionLimitReq.getPage() - 1, questionLimitReq.getSize());
-        List<Question> questions = questionRepository.findQuestionLimitsByTopicId(questionLimitReq.getTopicId(), pageable).orElseThrow(ResourceNotFoundException::new);
+        List<Question> questions = questionRepository.findQuestionLimitsByTopicId(questionLimitReq.getTopicId(), pageable);
+        if (questions.isEmpty()) return null;
         return questionMapper.toDTOList(questions);
     }
 
     @Override
     public List<QuestionRes> questionLimits_v2(int page, int size, long topicId) {
         Pageable pageable = PageRequest.of(page - 1, size);
-        List<Question> questions = questionRepository.findQuestionLimitsByTopicId(topicId, pageable).orElseThrow(ResourceNotFoundException::new);
+        List<Question> questions = questionRepository.findQuestionLimitsByTopicId(topicId, pageable);
+        if (questions.isEmpty()) return null;
         return questionMapper.toDTOList(questions);
     }
 

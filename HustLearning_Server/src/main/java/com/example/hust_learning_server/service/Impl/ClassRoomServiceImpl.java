@@ -18,6 +18,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -30,6 +31,7 @@ public class ClassRoomServiceImpl implements ClassRoomService {
     @Override
     public List<ClassRoomRes> getAllClassRoom() {
         List<ClassRoom> classRooms = classRoomRepository.findAll();
+        if (classRooms.isEmpty()) return Collections.emptyList();
         List<ClassRoomRes> classRoomResList = classRooms.stream()
                 .map(c -> {
                     ClassRoomRes res = new ClassRoomRes();

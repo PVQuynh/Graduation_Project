@@ -11,16 +11,16 @@ import java.util.Optional;
 
 public interface VocabularyRepository extends JpaRepository<Vocabulary, Long> {
 
-    Optional<List<Vocabulary>> findAllByContent(String content);
+    List<Vocabulary> findAllByContent(String content);
 
     @Query("select v from Vocabulary v where v.topic.id = :topicId order by v.content asc")
-    Optional<List<Vocabulary>> findVocabulariesByTopicId(@Param("topicId") long topicId);
+    List<Vocabulary> findVocabulariesByTopicId(@Param("topicId") long topicId);
 
     @Query("select v from Vocabulary v where v.topic.id = :topicId and v.content =:content order by v.content asc")
-    Optional<List<Vocabulary>> findVocabulariesByTopicIdAndContent(@Param("topicId") long topicId, @Param("content") String content);
+    List<Vocabulary> findVocabulariesByTopicIdAndContent(@Param("topicId") long topicId, @Param("content") String content);
 
     @Query("select v from Vocabulary v where v.topic.id = :topicId order by v.content asc")
-    Optional<List<Vocabulary>> findVocabulariesLimitByTopicId(@Param("topicId") long topicId, Pageable pageable);
+    List<Vocabulary> findVocabulariesLimitByTopicId(@Param("topicId") long topicId, Pageable pageable);
 
     Optional<Vocabulary> findByContent(String content);
 
