@@ -7,7 +7,6 @@ import com.example.hust_learning_server.dto.request.UpdateTopicReq;
 import com.example.hust_learning_server.dto.response.MessageResponse;
 import com.example.hust_learning_server.dto.response.TopicRes;
 import com.example.hust_learning_server.service.TopicService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +23,7 @@ public class TopicController {
         ms.data = topicService.getAllTopics();
         return ResponseEntity.ok(ms);
     }
+
 
     @GetMapping("/all-common/{classRoomId}")
     public ResponseEntity<MessageResponse> getAllCommonTopic(@PathVariable long classRoomId) {

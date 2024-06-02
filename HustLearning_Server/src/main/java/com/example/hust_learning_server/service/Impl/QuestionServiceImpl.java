@@ -58,12 +58,25 @@ public class QuestionServiceImpl implements QuestionService {
         if (ObjectUtils.isEmpty(email)) {
             throw new UnAuthorizedException();
         }
-
         // check có topic dung ko
         Topic topic = topicRepository.findById(questionReq.getTopicId()).orElseThrow(ResourceNotFoundException::new);
 
         Question question = questionMapper.toEntity(questionReq);
         questionRepository.save(question);
+    }
+
+    @Override
+    public void addListQuestions(List<QuestionReq> questionReqList) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new UnAuthorizedException();
+        }
+        for(QuestionReq questionReq : questionReqList) {
+            // check có topic dung ko
+            Topic topic = topicRepository.findById(questionReq.getTopicId()).orElseThrow(ResourceNotFoundException::new);
+            Question question = questionMapper.toEntity(questionReq);
+            questionRepository.save(question);
+        }
     }
 
     @Override

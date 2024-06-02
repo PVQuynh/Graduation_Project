@@ -28,15 +28,33 @@ public class VocabularyController {
     @GetMapping("/all")
     public ResponseEntity<MessageResponse> getAllVocabulary(
         @RequestParam(required = false) Long topicId,
-        @RequestParam(required = false) String content,
-        @RequestParam(required = false) String vocabularyType
+        @RequestParam(required = false) String content
     ) {
         MessageResponse ms = new MessageResponse();
         if (topicId != null) {
             if (content == null) {
                 ms.data = vocabularyService.getVocabulariesByTopicId(topicId);
             } else {
-                ms.data = vocabularyService.getVocabularyByTopicIdAndContentAndVocabularyType(topicId, content, vocabularyType);
+                ms.data = vocabularyService.getVocabularyByTopicIdAndVocabularyTypeAndSearchContent(topicId, null, content);
+            }
+        } else {
+            ms.data = vocabularyService.getAllVocabulary();
+        }
+        return ResponseEntity.ok(ms);
+    }
+
+    @GetMapping("/all/v2")
+    public ResponseEntity<MessageResponse> getAllVocabularyV2(
+        @RequestParam(required = false) Long topicId,
+        @RequestParam(required = false) String vocabularyType,
+        @RequestParam(required = false) String content
+    ) {
+        MessageResponse ms = new MessageResponse();
+        if (topicId != null) {
+            if (vocabularyType == null) {
+                ms.data = vocabularyService.getVocabulariesByTopicId(topicId);
+            } else {
+                ms.data = vocabularyService.getVocabularyByTopicIdAndVocabularyTypeAndSearchContent(topicId, vocabularyType, content);
             }
         } else {
             ms.data = vocabularyService.getAllVocabulary();
@@ -102,7 +120,7 @@ public class VocabularyController {
 
     ) {
         MessageResponse ms = new MessageResponse();
-        ms.data = vocabularyService.search_v2(page, size, text, ascending, orderBy, topicId);
+        ms.data = vocabularyService.searchV2(page, size, text, ascending, orderBy, topicId);
         return ResponseEntity.ok(ms);
     }
 

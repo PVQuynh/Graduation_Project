@@ -32,6 +32,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.util.ObjectUtils;
@@ -96,59 +97,29 @@ public class VocabularyServiceImpl implements VocabularySerivce {
     }
 
     @Override
-    public List<VocabularyRes> getVocabularyBySearchContent(String content) {
+    public List<VocabularyRes> getVocabularyByTopicIdAndVocabularyTypeAndSearchContent(Long topicId, String vocabularyType, String content) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Vocabulary> criteriaQuery = criteriaBuilder.createQuery(Vocabulary.class);
         Root<Vocabulary> root = criteriaQuery.from(Vocabulary.class);
         List<Predicate> predicates = new ArrayList<>();
 
-        // Filter by text (if provided)
-        if (!ObjectUtils.isEmpty(content)) {
-            String searchText = "%" + content + "%";
-            Predicate contentLike = criteriaBuilder.like(root.get("content"), searchText);
-            predicates.add(contentLike);
-        }
-        ;
-
-        if (!predicates.isEmpty()) {
-            criteriaQuery.where(predicates.toArray(new Predicate[0]));
-        }
-
-        TypedQuery<Vocabulary> query = entityManager.createQuery(criteriaQuery);
-        List<Vocabulary> results = query
-            .setFirstResult(0) // Offset
-            .setMaxResults(Integer.MAX_VALUE) // Limit
-            .getResultList();
-
-        List<VocabularyRes> vocabularyResList = vocabularyMapper.toDTOList(results);
-        return vocabularyResList;
-    }
-
-    @Override
-    public List<VocabularyRes> getVocabularyByTopicIdAndContentAndVocabularyType(Long topicId, String content, String vocabularyType) {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Vocabulary> criteriaQuery = criteriaBuilder.createQuery(Vocabulary.class);
-        Root<Vocabulary> root = criteriaQuery.from(Vocabulary.class);
-        List<Predicate> predicates = new ArrayList<>();
-
-        if (topicId != 0) {
+        if (topicId > 0) {
             Join<Vocabulary, Topic> topicJoin = root.join("topic");
             Predicate topicLike = criteriaBuilder.equal(topicJoin.get("id"), topicId);
             predicates.add(topicLike);
         }
 
-        // Filter by text (if provided)
-        if (!ObjectUtils.isEmpty(content)) {
-            String searchText = "%" + content + "%";
-            Predicate contentLike = criteriaBuilder.like(root.get("content"), searchText);
-            predicates.add(contentLike);
-        }
-
-        if (StringUtils.isNoneBlank(vocabularyType)) {
+        if (!ObjectUtils.isEmpty(vocabularyType)) {
             VocabularyType enumType = VocabularyType.valueOf(vocabularyType); // Convert string to enum
-            Predicate contentLike = criteriaBuilder.equal(root.get("vocabularyType"), enumType);
-            predicates.add(contentLike);
-            predicates.add(contentLike);
+            Predicate enumTypeLike = criteriaBuilder.equal(root.get("vocabularyType"), enumType);
+            predicates.add(enumTypeLike);
+
+            // Filter by text (if provided)
+            if (!ObjectUtils.isEmpty(content)) {
+                String searchText = "%" + content + "%";
+                Predicate contentLike = criteriaBuilder.like(root.get("content"), searchText);
+                predicates.add(contentLike);
+            }
         }
 
         if (!predicates.isEmpty()) {
@@ -241,7 +212,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
 
 
     @Override
-    public PageDTO<VocabularyRes> search_v2(int page, int size, String text, boolean ascending, String orderBy, long topicId) {
+    public PageDTO<VocabularyRes> searchV2(int page, int size, String text, boolean ascending, String orderBy, long topicId) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Vocabulary> criteriaQuery = criteriaBuilder.createQuery(Vocabulary.class);
         Root<Vocabulary> root = criteriaQuery.from(Vocabulary.class);

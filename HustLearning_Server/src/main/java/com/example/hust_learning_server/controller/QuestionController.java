@@ -1,6 +1,7 @@
 package com.example.hust_learning_server.controller;
 
 
+import java.util.List;
 import com.example.hust_learning_server.dto.request.QuestionReq;
 import com.example.hust_learning_server.dto.request.QuestionLimitReq;
 import com.example.hust_learning_server.dto.request.UpdateQuestionReq;
@@ -50,7 +51,13 @@ public class QuestionController {
         MessageResponse ms = new MessageResponse();
         questionService.addQuestion(questionReq);
         return ResponseEntity.ok(ms);
+    }
 
+    @PostMapping("/add-list")
+    public ResponseEntity<MessageResponse> addListQuestions(@RequestBody List<QuestionReq> questionReqList) {
+        MessageResponse ms = new MessageResponse();
+        questionService.addListQuestions(questionReqList);
+        return ResponseEntity.ok(ms);
     }
 
     @PutMapping

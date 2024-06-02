@@ -17,6 +17,8 @@ public interface QuestionService {
 
     void addQuestion(QuestionReq question);
 
+    void addListQuestions(List<QuestionReq> questionReqList);
+
     void updateQuestion(UpdateQuestionReq updateQuestionReq);
 
     void deleteQuestionById(long id);

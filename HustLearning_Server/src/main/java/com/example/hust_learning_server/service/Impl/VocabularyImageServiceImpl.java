@@ -132,9 +132,7 @@ public class VocabularyImageServiceImpl implements VocabularyImageService {
         if (ObjectUtils.isEmpty(email)) {
             throw new UnAuthorizedException();
         }
-
         VocabularyImage vocabularyImage = vocabularyImageRepository.findById(setPrimaryForVocabularyImage.getVocabularyImageId()).orElseThrow(ResourceNotFoundException::new);
-
         if (setPrimaryForVocabularyImage.isPrimary()) {
             List<VocabularyImage> vocabularyImageList = vocabularyImageRepository.findAllByVocabularyId(vocabularyImage.getVocabulary().getId());
             for (VocabularyImage image : vocabularyImageList) {
@@ -142,7 +140,6 @@ public class VocabularyImageServiceImpl implements VocabularyImageService {
             }
             vocabularyImageList.add(vocabularyImage);
             vocabularyImageRepository.saveAll(vocabularyImageList);
-
             // luu
             vocabularyImage.setPrimary(true);
             vocabularyImageRepository.save(vocabularyImage);

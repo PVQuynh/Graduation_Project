@@ -17,9 +17,7 @@ public interface VocabularySerivce {
 
     List<VocabularyRes> getVocabulariesByTopicId(long topicId);
 
-    List<VocabularyRes> getVocabularyBySearchContent(String content);
-
-    List<VocabularyRes> getVocabularyByTopicIdAndContentAndVocabularyType(Long topicId, String content, String vocabularyType);
+    List<VocabularyRes> getVocabularyByTopicIdAndVocabularyTypeAndSearchContent(Long topicId, String vocabularyType, String content);
 
     List<VocabularyRes> vocabularyLimits(VocabularyLimitReq vocabularyLimitReq);
 
@@ -27,7 +25,7 @@ public interface VocabularySerivce {
 
     PageDTO<VocabularyRes> search(SearchVocabularyParamReq searchVocabularyParamReq);
 
-    PageDTO<VocabularyRes> search_v2(int page, int size, String text, boolean ascending, String orderBy, long topicId);
+    PageDTO<VocabularyRes> searchV2(int page, int size, String text, boolean ascending, String orderBy, long topicId);
 
     void addVocabulary(VocabularyReq vocabulary);
 
