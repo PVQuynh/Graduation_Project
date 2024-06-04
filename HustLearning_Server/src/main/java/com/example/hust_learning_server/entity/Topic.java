@@ -33,6 +33,11 @@ public class Topic extends BaseEntity{
             cascade = {CascadeType.ALL})
     private List<Question> questions;
 
+    @OneToMany(mappedBy = "topic",
+        fetch = FetchType.LAZY,
+        cascade = {CascadeType.ALL})
+    private List<Exam> exams;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="class_room_id")
     private ClassRoom classRoom;

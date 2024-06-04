@@ -7,12 +7,12 @@ spring:
     name: learningserver
 #   My SQL
   datasource:
-    url: jdbc:mysql://localhost:3307/hustappuser
-    username: root
-    password: Hust20232
-#    url: jdbc:mysql://localhost:3306/hustappuser
-#    username: hust
-#    password: hust
+#    url: jdbc:mysql://localhost:3307/hustappuser
+#    username: root
+#    password: Hust20232
+    url: jdbc:mysql://localhost:3306/hustappuser
+    username: hust
+    password: hust
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:

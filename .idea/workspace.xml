@@ -4,28 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dba02908-b05a-40d3-a9fa-0e8f533ad69f" name="Changes" comment="api thêm list câu hỏi">
+    <list default="true" id="dba02908-b05a-40d3-a9fa-0e8f533ad69f" name="Changes" comment="update du lieu tra ve">
+      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/constant/enum_constant/Gender.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/controller/ExamController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/dto/request/AddExamsForUserReq.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/dto/request/ExamReq.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/dto/response/ExamRes.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/dto/response/ExamResForUser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/entity/Exam.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/entity/QuestionExamMapping.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/entity/Role.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/entity/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/entity/UserExamMapping.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/repository/ExamRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/repository/QuestionExamMappingRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/repository/UserExamMappingRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/repository/UserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/ExamService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/ExamServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/controller/TopicController.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/controller/TopicController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/dto/request/TopicReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/dto/request/TopicReq.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/dto/response/TopicRes.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/dto/response/TopicRes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/mapper/Impl/TopicMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/mapper/Impl/TopicMapperImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/repository/DataCollectionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/repository/DataCollectionRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/repository/QuestionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/repository/QuestionRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/entity/Topic.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/entity/Topic.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/repository/TopicRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/repository/TopicRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/repository/VocabularyRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/repository/VocabularyRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/ClassRoomServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/ClassRoomServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/DataCollectionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/DataCollectionServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/QuestionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/QuestionServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/TopicServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/TopicServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/VocabularyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/VocabularyServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/TopicService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/TopicService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/repository/FriendShipRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/repository/FriendShipRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/impl/AddFriendServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/impl/AddFriendServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/impl/RoleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/impl/RoleServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/impl/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +35,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -107,7 +108,7 @@
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/ASUS/Desktop/gp_be/HustLearning_Server/src/main/java/com/example/hust_learning_server",
+    "last_opened_file_path": "C:/Users/ASUS/Desktop/gp_be/HustLearning_Server/src/main/java/com/example/hust_learning_server/entity",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -127,16 +128,17 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\ASUS\Desktop\gp_be\HustLearning_Server\src\main\java\com\example\hust_learning_server\entity" />
       <recent name="C:\Users\ASUS\Desktop\gp_be\HustLearning_Server\src\main\java\com\example\hust_learning_server" />
       <recent name="C:\Users\ASUS\Desktop\GP_BE\HustApp-Docker" />
       <recent name="C:\Users\ASUS\Desktop\GP_BE\User_Server\src\main\java\com\example\user_server\service\impl" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.example.hust_learning_server.constant.enum_constant" />
-      <recent name="com.example.hust_learning_server.entity" />
+      <recent name="com.example.hust_learning_server.dto.response" />
       <recent name="com.example.hust_learning_server.dto.request" />
       <recent name="com.example.hust_learning_server.repository" />
-      <recent name="com.example.hust_learning_server.dto.response" />
+      <recent name="com.example.hust_learning_server.entity" />
+      <recent name="com.example.hust_learning_server.service.Impl" />
     </key>
   </component>
   <component name="RunAnythingCache">
@@ -297,7 +299,8 @@
       <workItem from="1717055437522" duration="3013000" />
       <workItem from="1717131107374" duration="186000" />
       <workItem from="1717302394462" duration="11955000" />
-      <workItem from="1717319169374" duration="6047000" />
+      <workItem from="1717319169374" duration="6280000" />
+      <workItem from="1717504484531" duration="13734000" />
     </task>
     <task id="LOCAL-00001" summary="fix servers 16/3/24">
       <option name="closed" value="true" />
@@ -483,7 +486,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717314558206</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="update du lieu tra ve">
+      <option name="closed" value="true" />
+      <created>1717325444657</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1717325444657</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -536,6 +547,14 @@
     <MESSAGE value="Phân loại từ, câu đoạn ở Entity" />
     <MESSAGE value="Phân loại từ, câu, đoạn ở controller" />
     <MESSAGE value="api thêm list câu hỏi" />
-    <option name="LAST_COMMIT_MESSAGE" value="api thêm list câu hỏi" />
+    <MESSAGE value="update du lieu tra ve" />
+    <option name="LAST_COMMIT_MESSAGE" value="update du lieu tra ve" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="SpringBootApplicationConfigurationType">
+        <watch expression="questionRepository.findAllById(examReq.getQuestionIds())" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
