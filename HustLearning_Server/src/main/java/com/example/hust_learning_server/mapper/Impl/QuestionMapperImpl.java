@@ -15,6 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
@@ -50,7 +51,7 @@ public class QuestionMapperImpl implements QuestionMapper {
 
         questionRes.setQuestionId(entity.getId());
         questionRes.setAnswerResList(answerResList);
-        questionRes.setTopicId(entity.getTopic().getId());
+        questionRes.setTopicId(Objects.isNull(entity.getTopic()) ? 0 : entity.getTopic().getId());
 
         return questionRes;
     }

@@ -11,6 +11,8 @@ public interface QuestionService {
 
     List<QuestionRes> getQuestionsByTopicId(long topicId);
 
+    List<QuestionRes> getQuestionsByExamId(long examId);
+
     List<QuestionRes> questionLimits(QuestionLimitReq questionLimitReq);
 
     List<QuestionRes> questionLimits_v2(int page, int size, long topicId);

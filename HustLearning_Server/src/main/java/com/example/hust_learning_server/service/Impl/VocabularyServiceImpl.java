@@ -611,4 +611,26 @@ public class VocabularyServiceImpl implements VocabularySerivce {
         vocabularyRepository.deleteById(id);
     }
 
+    @Override
+    public void deleteAllById(DeleteVocabulariesReq deleteVocabulariesReq) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new UnAuthorizedException();
+        }
+        for (Long vocabularyId: deleteVocabulariesReq.getVocabularyIds()) {
+            List<VocabularyImage> vocabularyImageList = vocabularyImageRepository.findAllByVocabularyId(vocabularyId);
+            if (!vocabularyImageList.isEmpty()) {
+                vocabularyImageRepository.deleteAll(vocabularyImageList);
+            }
+            List<DataCollection> dataCollectionList = dataCollectionRepository.findAllByVocabularyId(vocabularyId);
+            if (!dataCollectionList.isEmpty()) {
+                for (DataCollection dataCollection : dataCollectionList) {
+                    dataCollection.setVocabulary(null);
+                }
+                dataCollectionRepository.saveAll(dataCollectionList);
+            }
+        }
+        vocabularyRepository.deleteAllById(deleteVocabulariesReq.getVocabularyIds());
+    }
+
 }

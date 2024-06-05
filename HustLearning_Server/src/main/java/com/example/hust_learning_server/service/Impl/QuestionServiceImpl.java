@@ -6,11 +6,13 @@ import com.example.hust_learning_server.dto.request.UpdateQuestionReq;
 import com.example.hust_learning_server.dto.response.QuestionRes;
 import com.example.hust_learning_server.entity.Answer;
 import com.example.hust_learning_server.entity.Question;
+import com.example.hust_learning_server.entity.QuestionExamMapping;
 import com.example.hust_learning_server.entity.Topic;
 import com.example.hust_learning_server.exception.ResourceNotFoundException;
 import com.example.hust_learning_server.exception.UnAuthorizedException;
 import com.example.hust_learning_server.mapper.QuestionMapper;
 import com.example.hust_learning_server.repository.AnswerRepository;
+import com.example.hust_learning_server.repository.QuestionExamMappingRepository;
 import com.example.hust_learning_server.repository.QuestionRepository;
 import com.example.hust_learning_server.repository.TopicRepository;
 import com.example.hust_learning_server.service.QuestionService;
@@ -21,8 +23,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -32,11 +35,25 @@ public class QuestionServiceImpl implements QuestionService {
     private final AnswerRepository answerRepository;
     private final TopicRepository topicRepository;
     private final QuestionMapper questionMapper;
+    private final QuestionExamMappingRepository questionExamMappingRepository;
 
     @Override
     public List<QuestionRes> getQuestionsByTopicId(long topicId) {
         List<Question> questions = questionRepository.findQuestionsByTopicId(topicId);
         if (questions.isEmpty()) return null;
+        return questionMapper.toDTOList(questions);
+    }
+
+    @Override
+    public List<QuestionRes> getQuestionsByExamId(long examId) {
+        List<QuestionExamMapping> questionExamMappings = questionExamMappingRepository.findAllByExamId(examId);
+        if (questionExamMappings.isEmpty()) return null;
+        List<Question> questions = new ArrayList<>();
+        for (QuestionExamMapping questionExamMapping : questionExamMappings) {
+            Question question = questionRepository.findById(questionExamMapping.getQuestionId()).orElse(null);
+            if (Objects.isNull(question)) continue;
+            questions.add(question);
+        }
         return questionMapper.toDTOList(questions);
     }
 

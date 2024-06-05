@@ -41,4 +41,5 @@ public interface VocabularySerivce {
 
     void deleteById(long id);
 
+    void deleteAllById(DeleteVocabulariesReq deleteVocabulariesReq);
 }

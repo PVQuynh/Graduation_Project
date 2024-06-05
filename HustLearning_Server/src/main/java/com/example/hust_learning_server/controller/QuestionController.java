@@ -19,9 +19,17 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @GetMapping("/{topicId}")
-    public ResponseEntity<MessageResponse> getAllQuestion(@PathVariable("topicId") long topicId) {
+    public ResponseEntity<MessageResponse> getAllQuestions(@PathVariable("topicId") long topicId) {
         MessageResponse ms = new MessageResponse();
         ms.data = questionService.getQuestionsByTopicId(topicId);
+        return ResponseEntity.ok(ms);
+
+    }
+
+    @GetMapping("/question-of-exam/{examId}")
+    public ResponseEntity<MessageResponse> getAllQuestionsOfExam(@PathVariable("examId") long examId) {
+        MessageResponse ms = new MessageResponse();
+        ms.data = questionService.getQuestionsByExamId(examId);
         return ResponseEntity.ok(ms);
 
     }

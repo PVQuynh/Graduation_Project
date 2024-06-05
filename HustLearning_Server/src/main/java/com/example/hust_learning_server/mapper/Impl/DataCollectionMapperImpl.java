@@ -20,7 +20,7 @@ public class DataCollectionMapperImpl implements DataCollectionMapper {
     dataCollectionRes.setVocabularyId(entity.getVocabulary().getId());
     dataCollectionRes.setVocabularyContent(entity.getVocabulary().getContent());
 
-    dataCollectionRes.setVolunteerEmail(entity.getAuthor());
+    dataCollectionRes.setVolunteerEmail(entity.getCreatedBy());
     dataCollectionRes.setAdminEmail(entity.getAdminEmail());
 
     return dataCollectionRes;

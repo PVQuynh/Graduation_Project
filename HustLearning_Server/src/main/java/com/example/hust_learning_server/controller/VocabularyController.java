@@ -173,5 +173,12 @@ public class VocabularyController {
         return ResponseEntity.ok(ms);
     }
 
+    @DeleteMapping("/delete-list")
+    public ResponseEntity<MessageResponse> deleteVocabularies(@RequestBody DeleteVocabulariesReq deleteVocabulariesReq) {
+        MessageResponse ms = new MessageResponse();
+        vocabularyService.deleteAllById(deleteVocabulariesReq);
+        return ResponseEntity.ok(ms);
+    }
+
 
 }

@@ -18,7 +18,7 @@ public interface TopicRepository extends JpaRepository<Topic, Long> {
     @Query("select topic from Topic topic where topic.classRoom.id = :classRoomId and topic.isPrivate = false order by topic.id desc")
     List<Topic> findAllCommonTopicByClassRoomId(@Param("classRoomId") long classRoomId);
 
-    @Query("select topic from Topic topic where topic.classRoom.id = :classRoomId and topic.author = :email and topic.isPrivate = true order by topic.id desc")
+    @Query("select topic from Topic topic where topic.classRoom.id = :classRoomId and topic.createdBy = :email and topic.isPrivate = true order by topic.id desc")
     List<Topic> findAllPrivateTopicByClassRoomId(@Param("classRoomId") long classRoomId, @Param("email") String email);
 
     List<Topic> findAllByClassRoomId(long id);
