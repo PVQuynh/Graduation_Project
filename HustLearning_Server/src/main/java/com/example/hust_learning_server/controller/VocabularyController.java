@@ -28,12 +28,11 @@ public class VocabularyController {
     @GetMapping("/all")
     public ResponseEntity<MessageResponse> getAllVocabulary(
         @RequestParam(required = false, defaultValue = "0") long topicId,
-        @RequestParam(required = false, defaultValue = "") String isPrivate,
         @RequestParam(required = false) String vocabularyType,
         @RequestParam(required = false, defaultValue = "") String contentSearch
     ) {
         MessageResponse ms = new MessageResponse();
-        ms.data = vocabularyService.getAllVocabularies(topicId, vocabularyType, isPrivate, contentSearch);
+        ms.data = vocabularyService.getAllVocabularies(topicId, vocabularyType, contentSearch);
         return ResponseEntity.ok(ms);
     }
 

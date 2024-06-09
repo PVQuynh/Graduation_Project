@@ -29,7 +29,7 @@ public class SQLTopic {
             (case
                 when :contentSearch is not null then
                     case
-                        when topic.created_by = :email then topic.content like concat('%', :contentSearch, '%') and topic.created_by = :email
+                        when topic.created_by = :email then topic.content like concat('%', :contentSearch, '%')
                         else topic.content like concat('%', :contentSearch, '%') and topic.is_private = 0
                     end
                 else 1

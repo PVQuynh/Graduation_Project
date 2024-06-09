@@ -23,8 +23,6 @@ public class Vocabulary extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private VocabularyType vocabularyType;
 
-    private boolean isPrivate;
-
     @OneToMany(
             mappedBy = "vocabulary",
             fetch = FetchType.LAZY,

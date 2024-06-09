@@ -25,7 +25,5 @@ public class UpdateVocabularyReq {
     @Enumerated(EnumType.STRING)
     private VocabularyType vocabularyType;
 
-    private boolean isPrivate;
-
 //    private List<VocabularyMediumReq> vocabularyMediumReqs;
 }

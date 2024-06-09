@@ -30,8 +30,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.util.ObjectUtils;
@@ -68,9 +68,15 @@ public class VocabularyServiceImpl implements VocabularySerivce {
     }
 
     @Override
-    public List<VocabularyRes> getAllVocabularies(long topicId, String vocabularyType, String isPrivate, String contentSearch) {
+    public List<VocabularyRes> getAllVocabularies(long topicId, String vocabularyType, String contentSearch) {
         String email = EmailUtils.getCurrentUser();
-        int checkPrivate = CommonUtils.convertPrivate(isPrivate);
+        int checkPrivate = -1;
+        if (topicId > 0) {
+            Topic topic = topicRepository.findById(topicId).orElse(null);
+            if (Objects.nonNull(topic)) {
+                checkPrivate = topic.isPrivate() ? 1 : 0;
+            }
+        }
         if (Strings.isBlank(contentSearch)) contentSearch = null;
         List<Vocabulary> vocabularies = vocabularyRepository.findAllVocabularies(topicId, vocabularyType, checkPrivate, email, contentSearch);
         if (vocabularies.isEmpty()) {return null;}
@@ -596,7 +602,6 @@ public class VocabularyServiceImpl implements VocabularySerivce {
         if (updateVocabularyReq.getVocabularyType() != null) {
             vocabulary.setVocabularyType(updateVocabularyReq.getVocabularyType());
         }
-        vocabulary.setPrivate(updateVocabularyReq.isPrivate());
         vocabularyRepository.save(vocabulary);
     }
 

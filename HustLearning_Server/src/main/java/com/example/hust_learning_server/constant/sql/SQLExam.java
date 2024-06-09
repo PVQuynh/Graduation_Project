@@ -28,7 +28,7 @@ public class SQLExam {
         	(case
         	    when :nameSearch is not null then
         	    case
-        	        when exam.created_by = :email then exam.name like concat('%', :nameSearch, '%') and exam.created_by = :email
+        	        when exam.created_by = :email then exam.name like concat('%', :nameSearch, '%')
         	        else exam.name like concat('%', :nameSearch, '%') and exam.is_private = 0
         	    end
         	    else 1

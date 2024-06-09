@@ -19,12 +19,10 @@ public class SQLVocabulary {
                     else vocabulary.vocabulary_type
                 end)
             and
-            vocabulary.is_private =
-                 (case
-                    when :isPrivate = 0 then 0
-                    when :isPrivate = 1 then 1
-                    when :isPrivate = -1 then vocabulary.is_private
-                 end)
+            (case
+                when :isPrivate = -1 then topic.is_private is null or topic.is_private = topic.is_private
+                else  topic.is_private = :isPrivate
+            end)
             and
             (case
                 when :isPrivate = 1 then vocabulary.created_by = :email
@@ -34,8 +32,8 @@ public class SQLVocabulary {
             (case
                 when :contentSearch is not null then
                     case
-                        when vocabulary.created_by = :email then vocabulary.content like concat('%', :contentSearch, '%') and vocabulary.created_by = :email
-                        else vocabulary.content like concat('%', :contentSearch, '%') and vocabulary.is_private = 0
+                        when vocabulary.created_by = :email then vocabulary.content like concat('%', :contentSearch, '%')
+                        else vocabulary.content like concat('%', :contentSearch, '%') and (topic.is_private = 0 or topic.is_private is null)
                     end
                 else 1
             end)

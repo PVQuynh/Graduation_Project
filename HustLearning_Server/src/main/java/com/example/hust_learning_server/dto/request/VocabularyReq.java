@@ -27,8 +27,6 @@ public class VocabularyReq {
 
     private List<VocabularyVideoReq> vocabularyVideoReqs;
 
-    private boolean isPrivate;
-
     private  long topicId;
 
 }
