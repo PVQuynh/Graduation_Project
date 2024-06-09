@@ -4,15 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dba02908-b05a-40d3-a9fa-0e8f533ad69f" name="Changes" comment="fix all-vocabularies api">
-      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/dto/request/DeleteQuestionsReq.java" afterDir="false" />
+    <list default="true" id="dba02908-b05a-40d3-a9fa-0e8f533ad69f" name="Changes" comment="fix thu thập dữ liệu">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/controller/QuestionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/controller/QuestionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/dto/response/DataCollectionRes.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/dto/response/DataCollectionRes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/entity/DataCollection.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/entity/DataCollection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/QuestionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/QuestionServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/VocabularyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/VocabularyServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/QuestionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/QuestionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/constant/sql/SQLVocabulary.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/constant/sql/SQLVocabulary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/controller/ExamController.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/controller/ExamController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/dto/request/AddExamsForUserReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/dto/request/AddExamsForUserReq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/ExamService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/ExamService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/ExamServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/ExamServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/TopicServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/TopicServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -290,7 +289,7 @@
       <workItem from="1717504484531" duration="13816000" />
       <workItem from="1717563372126" duration="13744000" />
       <workItem from="1717772485140" duration="3322000" />
-      <workItem from="1717903021587" duration="15519000" />
+      <workItem from="1717903021587" duration="16931000" />
     </task>
     <task id="LOCAL-00001" summary="fix servers 16/3/24">
       <option name="closed" value="true" />
@@ -532,7 +531,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717917051336</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="fix thu thập dữ liệu">
+      <option name="closed" value="true" />
+      <created>1717919278928</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1717919278928</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -563,7 +570,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="fix cs-ls-us 16:48 16/3/24" />
     <MESSAGE value="fix cs-ls-us 17:48 16/3/24" />
     <MESSAGE value="dcs 21:48 16/3/24" />
     <MESSAGE value="fix search vocab 19/3/24" />
@@ -588,7 +594,8 @@
     <MESSAGE value="fix all-topics api" />
     <MESSAGE value="fix all-questions api" />
     <MESSAGE value="fix all-vocabularies api" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix all-vocabularies api" />
+    <MESSAGE value="fix thu thập dữ liệu" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix thu thập dữ liệu" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
