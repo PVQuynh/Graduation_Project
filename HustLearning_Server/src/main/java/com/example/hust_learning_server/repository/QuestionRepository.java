@@ -1,5 +1,6 @@
 package com.example.hust_learning_server.repository;
 
+import com.example.hust_learning_server.constant.sql.SQLQuestion;
 import com.example.hust_learning_server.entity.Question;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,6 +15,9 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Query("select q from Question q where q.topic.id = :topicId")
     List<Question>findQuestionsByTopicId(@Param("topicId") long topicId );
 
+    @Query(nativeQuery = true, value = SQLQuestion.GET_ALL_QUESTIONS)
+    List<Question> finAllQuestions(long topicId, String contentSearch);
+
     @Query("select q from Question q where q.topic.id = :topicId")
     List<Question> findQuestionLimitsByTopicId(@Param("topicId") long topicId, Pageable pageable);
 
@@ -21,4 +25,5 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     List<Question>searchQuestionsByTopicId(@Param("topicId") long topicId, Pageable pageable);
 
     List<Question> findAllByTopicId(long id);
+
 }

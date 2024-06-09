@@ -23,8 +23,6 @@ public class QuestionRes {
 
     private  String videoLocation;
 
-    private boolean isPrivate;
-
     private long topicId;
 
     private List<AnswerRes> answerResList;

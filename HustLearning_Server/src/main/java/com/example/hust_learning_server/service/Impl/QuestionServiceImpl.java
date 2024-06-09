@@ -16,8 +16,10 @@ import com.example.hust_learning_server.repository.QuestionExamMappingRepository
 import com.example.hust_learning_server.repository.QuestionRepository;
 import com.example.hust_learning_server.repository.TopicRepository;
 import com.example.hust_learning_server.service.QuestionService;
+import com.example.hust_learning_server.utils.CommonUtils;
 import com.example.hust_learning_server.utils.EmailUtils;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -36,6 +38,25 @@ public class QuestionServiceImpl implements QuestionService {
     private final TopicRepository topicRepository;
     private final QuestionMapper questionMapper;
     private final QuestionExamMappingRepository questionExamMappingRepository;
+
+    @Override
+    public QuestionRes getQuestionById(long id) {
+        Question question = questionRepository.findById(id).orElse(null);
+        if (question == null) {
+            return null;
+        }
+        return questionMapper.toDTO(question);
+    }
+
+    @Override
+    public List<QuestionRes> getAllQuestions(long topicId, String contentSearch) {
+        if (Strings.isBlank(contentSearch)) contentSearch = null;
+        List<Question> questions = questionRepository.finAllQuestions(topicId, contentSearch);
+        if (questions.isEmpty()) {
+            return null;
+        }
+        return questionMapper.toDTOList(questions);
+    }
 
     @Override
     public List<QuestionRes> getQuestionsByTopicId(long topicId) {

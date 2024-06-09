@@ -9,6 +9,10 @@ import java.util.List;
 
 public interface QuestionService {
 
+    QuestionRes getQuestionById(long id);
+
+    List<QuestionRes> getAllQuestions(long topicId, String contentSearch);
+
     List<QuestionRes> getQuestionsByTopicId(long topicId);
 
     List<QuestionRes> getQuestionsByExamId(long examId);
