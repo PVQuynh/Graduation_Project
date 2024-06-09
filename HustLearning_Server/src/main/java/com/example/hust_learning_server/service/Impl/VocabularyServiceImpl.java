@@ -68,15 +68,9 @@ public class VocabularyServiceImpl implements VocabularySerivce {
     }
 
     @Override
-    public List<VocabularyRes> getAllVocabularies(long topicId, String vocabularyType, String contentSearch) {
+    public List<VocabularyRes> getAllVocabularies(long topicId, String vocabularyType, String isPrivate, String contentSearch) {
         String email = EmailUtils.getCurrentUser();
-        int checkPrivate = -1;
-        if (topicId > 0) {
-            Topic topic = topicRepository.findById(topicId).orElse(null);
-            if (Objects.nonNull(topic)) {
-                checkPrivate = topic.isPrivate() ? 1 : 0;
-            }
-        }
+        int checkPrivate = CommonUtils.convertPrivate(isPrivate);
         if (Strings.isBlank(contentSearch)) contentSearch = null;
         List<Vocabulary> vocabularies = vocabularyRepository.findAllVocabularies(topicId, vocabularyType, checkPrivate, email, contentSearch);
         if (vocabularies.isEmpty()) {return null;}

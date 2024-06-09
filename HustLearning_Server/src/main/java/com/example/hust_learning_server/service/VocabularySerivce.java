@@ -11,7 +11,7 @@ public interface VocabularySerivce {
 
     List<VocabularyRes> getAllVocabulary();
 
-    List<VocabularyRes> getAllVocabularies(long topicId, String vocabularyType, String contentSearch);
+    List<VocabularyRes> getAllVocabularies(long topicId, String vocabularyType, String isPrivate,String contentSearch);
 
     List<VocabularyRes> getExactVocabularies(ExactVocabularyReq exactVocabularyReq);
 
