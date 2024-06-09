@@ -40,5 +40,6 @@ public class SQLVocabulary {
                     end
                 else 1
             end)
+            order by vocabulary.vocabulary_id desc
         """;
 }

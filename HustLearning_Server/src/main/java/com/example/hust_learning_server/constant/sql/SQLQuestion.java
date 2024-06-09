@@ -18,5 +18,6 @@ public class SQLQuestion {
                 when :contentSearch is not null then question.content like concat('%', :contentSearch, '%')
                 else 1
             end)
+            order by question.question_id desc  
         """;
 }

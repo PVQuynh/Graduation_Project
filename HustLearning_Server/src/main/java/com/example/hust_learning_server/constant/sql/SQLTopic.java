@@ -35,5 +35,6 @@ public class SQLTopic {
                     end
                 else 1
             end)
+            order by topic.topic_id desc
         """;
 }

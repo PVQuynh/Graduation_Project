@@ -12,7 +12,7 @@ public interface ExamService {
 
     void addExam(ExamReq examReq);
 
-    void addExamsForUser(List<Long> examIds);
+    void addExamsForUser(List<Long> examIds, long userId);
 
     void examScoring(ExamScoringReq examScoringReq);
 

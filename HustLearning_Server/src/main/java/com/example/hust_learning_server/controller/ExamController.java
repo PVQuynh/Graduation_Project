@@ -35,7 +35,7 @@ public class ExamController {
     @PostMapping("/exams-for-user")
     public ResponseEntity<MessageResponse> addExamsForUser(@RequestBody AddExamsForUserReq addExamsForUserReq) {
         MessageResponse ms = new MessageResponse();
-        examService.addExamsForUser(addExamsForUserReq.getExamIds());
+        examService.addExamsForUser(addExamsForUserReq.getExamIds(), addExamsForUserReq.getUserId());
         return ResponseEntity.ok(ms);
     }
 

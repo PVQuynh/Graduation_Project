@@ -3,7 +3,6 @@ package com.example.hust_learning_server.service.Impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -45,7 +44,6 @@ public class ExamServiceImpl implements ExamService {
     private QuestionExamMappingRepository questionExamMappingRepository;
     private UserExamMappingRepository userExamMappingRepository;
 
-    @Transactional
     @Override
     public void addExam(ExamReq examReq) {
         String email = EmailUtils.getCurrentUser();
@@ -76,12 +74,12 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public void addExamsForUser(List<Long> examIds) {
+    public void addExamsForUser(List<Long> examIds, long userId) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
             throw new UnAuthorizedException();
         }
-        User user = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
+        User user = userRepository.findById(userId).orElseThrow(ResourceNotFoundException::new);
         List<Exam> exams = examRepository.findAllById(examIds);
         if (exams.size() != examIds.size()) {
             throw new ResourceNotFoundException();
@@ -89,7 +87,7 @@ public class ExamServiceImpl implements ExamService {
         List<UserExamMapping> userExamMappings = new ArrayList<>();
         for (Long examId : examIds) {
             UserExamMapping userExamMapping = UserExamMapping.builder()
-                .userId(user.getId())
+                .userId(userId)
                 .examId(examId)
                 .isFinish(false)
                 .build();

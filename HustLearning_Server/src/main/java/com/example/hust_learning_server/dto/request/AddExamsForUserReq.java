@@ -13,4 +13,6 @@ import lombok.NoArgsConstructor;
 public class AddExamsForUserReq {
 
     private List<Long> examIds;
+
+    private long userId;
 }

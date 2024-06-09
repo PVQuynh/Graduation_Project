@@ -34,5 +34,6 @@ public class SQLExam {
         	    end
         	    else 1
         	end)
+        	order by exam.exam_id desc
         """;
 }

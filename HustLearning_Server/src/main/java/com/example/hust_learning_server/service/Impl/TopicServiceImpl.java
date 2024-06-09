@@ -80,7 +80,6 @@ public class TopicServiceImpl implements TopicService {
         return topicMapper.toDTOList(topics);
     }
 
-    @Transactional
     @Override
     public void addTopic(TopicReq topicReq) {
         String email = EmailUtils.getCurrentUser();
