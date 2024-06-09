@@ -16,7 +16,7 @@ public interface ExamService {
 
     void examScoring(ExamScoringReq examScoringReq);
 
-    Page<ExamRes> getAllExams(long topicId, boolean isPrivate, String nameSearch, Pageable pageable);
+    Page<ExamRes> getAllExams(long topicId, String isPrivate, String nameSearch, Pageable pageable);
 
     List<ExamResForUser> getAllExamsForUser();
 

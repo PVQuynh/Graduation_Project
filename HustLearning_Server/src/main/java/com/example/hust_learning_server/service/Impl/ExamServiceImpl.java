@@ -104,30 +104,33 @@ public class ExamServiceImpl implements ExamService {
             throw new UnAuthorizedException();
         }
         User user = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
-        UserExamMapping userExamMapping = userExamMappingRepository.findByUserIdAndExamId(user.getId(), examScoringReq.getExamId()).orElseThrow(ResourceNotFoundException::new);
+        UserExamMapping userExamMapping = userExamMappingRepository.findByUserIdAndExamId(user.getId(), examScoringReq.getExamId())
+            .orElseThrow(ResourceNotFoundException::new);
         userExamMapping.setScore(examScoringReq.getScore());
         userExamMapping.setFinish(true);
         userExamMappingRepository.save(userExamMapping);
     }
 
     @Override
-    public Page<ExamRes> getAllExams(long topicId, boolean isPrivate, String nameSearch, Pageable pageable) {
-        Page<Exam> exams;
-        if (isPrivate) {
-            String email = EmailUtils.getCurrentUser();
-            if (ObjectUtils.isEmpty(email)) {
-                throw new UnAuthorizedException();
-            }
-              exams = examRepository.findAllByTopicIdAndPrivateAndCreatedByAndNameSearch
-                  (topicId, isPrivate, email, Objects.isNull(nameSearch) ? Strings.EMPTY : nameSearch, pageable);
-        } else {
-            exams = examRepository.findAllByTopicIdAndPrivateAndNameSearch
-                (topicId, isPrivate, Objects.isNull(nameSearch) ? Strings.EMPTY : nameSearch, pageable);
+    public Page<ExamRes> getAllExams(long topicId, String isPrivate, String nameSearch, Pageable pageable) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new UnAuthorizedException();
         }
+        // check private
+        int checkPrivate = -1;
+        if (Strings.isNotBlank(isPrivate)) {
+            if (isPrivate.toLowerCase().equals(Boolean.TRUE.toString())) {
+                checkPrivate = 1;
+            }
+            if (isPrivate.toLowerCase().equals(Boolean.FALSE.toString())) {
+                checkPrivate = 0;
+            }
+        }
+        Page<Exam> exams = examRepository.findAllExam(topicId, checkPrivate, email, nameSearch, pageable);
         if (exams.isEmpty()) {
             return null;
         }
-
         List<ExamRes> examResList = new ArrayList<>();
         for (Exam exam : exams) {
             ExamRes examRes = new ExamRes();
@@ -176,7 +179,8 @@ public class ExamServiceImpl implements ExamService {
             throw new UnAuthorizedException();
         }
         User user = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
-        UserExamMapping userExamMapping = userExamMappingRepository.findByUserIdAndExamId(user.getId(), examId).orElseThrow(ResourceNotFoundException::new);
+        UserExamMapping userExamMapping = userExamMappingRepository.findByUserIdAndExamId(user.getId(), examId)
+            .orElseThrow(ResourceNotFoundException::new);
         userExamMappingRepository.delete(userExamMapping);
     }
 

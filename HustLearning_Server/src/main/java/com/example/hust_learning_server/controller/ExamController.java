@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.hust_learning_server.dto.request.AddExamsForUserReq;
 import com.example.hust_learning_server.dto.request.ExamReq;
@@ -44,7 +45,7 @@ public class ExamController {
     ) {
         MessageResponse ms = new MessageResponse();
         Pageable pageable = PageUtils.getPageable(searchExamReq.getPage(), searchExamReq.getSize(), searchExamReq.getOrderBy(), searchExamReq.isAscending());
-        ms.data = examService.getAllExams(searchExamReq.getTopicId(), searchExamReq.isPrivate(), searchExamReq.getNameSearch(), pageable);
+        ms.data = examService.getAllExams(searchExamReq.getTopicId(), searchExamReq.getIsPrivate(), searchExamReq.getNameSearch(), pageable);
         return ResponseEntity.ok(ms);
     }
 

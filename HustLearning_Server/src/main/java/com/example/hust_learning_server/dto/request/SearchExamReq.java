@@ -14,7 +14,7 @@ public class SearchExamReq {
 
     private long topicId;
 
-    private boolean isPrivate;
+    private String isPrivate;
 
     private String nameSearch;
 

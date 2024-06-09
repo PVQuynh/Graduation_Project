@@ -18,6 +18,8 @@ public class ExamRes {
 
     private long numberOfQuestions;
 
+    private boolean isPrivate;
+
     private long topicId;
 
 }

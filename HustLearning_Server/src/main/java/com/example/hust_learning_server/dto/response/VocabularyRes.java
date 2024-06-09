@@ -31,6 +31,8 @@ public class VocabularyRes {
 
     private List<VocabularyVideoRes> vocabularyVideoResList;
 
+    private boolean isPrivate;
+
     private long topicId;
 
     private String topicContent;

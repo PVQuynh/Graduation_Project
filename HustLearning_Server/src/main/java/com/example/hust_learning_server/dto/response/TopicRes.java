@@ -19,6 +19,8 @@ public class TopicRes {
 
     private  String videoLocation;
 
+    private boolean isPrivate;
+
     private long classRoomId;
 
     private String classRoomContent;

@@ -10,9 +10,7 @@ import com.example.hust_learning_server.entity.Exam;
 
 
 public interface ExamRepository extends JpaRepository<Exam, Long> {
-    @Query(nativeQuery = true, value = SQLExam.findAllByTopicIdAndPrivateAndCreatedByAndNameSearch)
-    Page<Exam> findAllByTopicIdAndPrivateAndCreatedByAndNameSearch(long topicId, boolean isPrivate, String email, String nameSearch, Pageable pageable);
+    @Query(nativeQuery = true, value = SQLExam.GET_ALL_TOPIC)
+    Page<Exam> findAllExam(long topicId, int isPrivate, String email, String nameSearch, Pageable pageable);
 
-    @Query(nativeQuery = true, value = SQLExam.findAllByTopicIdAndPrivateAndNameSearch)
-    Page<Exam> findAllByTopicIdAndPrivateAndNameSearch(long topicId, boolean isPrivate, String nameSearch, Pageable pageable);
 }
