@@ -125,7 +125,7 @@ public class ExamServiceImpl implements ExamService {
             BeanUtils.copyProperties(exam, examRes);
             List<QuestionExamMapping> questionExamMappings = questionExamMappingRepository.findAllByExamId(exam.getId());
             examRes.setExamId(exam.getId());
-            examRes.setTopicId(exam.getTopic().getId());
+            examRes.setTopicId(Objects.isNull(exam.getTopic()) ? 0 : exam.getTopic().getId());
             examRes.setNumberOfQuestions(questionExamMappings.size());
             examResList.add(examRes);
         }

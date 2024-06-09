@@ -7,13 +7,12 @@ public class SQLTopic {
         select
             topic.*
             from {h-schema}topic
-            join {h-schema}class_room on class_room.class_room_id = topic.class_room_id
+            left join {h-schema}class_room on class_room.class_room_id = topic.class_room_id
         where
-            class_room.class_room_id =
-                (case
-                    when :classRoomId = 0 then class_room.class_room_id
-                    else :classRoomId
-                end)
+            (case
+                when :classRoomId = 0 then topic.class_room_id is null or topic.class_room_id = topic.class_room_id
+                else topic.class_room_id = :classRoomId
+            end)
             and
             topic.is_private =
                  (case

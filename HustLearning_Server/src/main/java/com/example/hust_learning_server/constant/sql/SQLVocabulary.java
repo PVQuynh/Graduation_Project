@@ -6,13 +6,12 @@ public class SQLVocabulary {
         select
             vocabulary.*
             from {h-schema}vocabulary
-            join {h-schema}topic on topic.topic_id = vocabulary.topic_id
+            left join {h-schema}topic on topic.topic_id = vocabulary.topic_id
         where
-            topic.topic_id =
-                (case
-                    when :topicId = 0 then topic.topic_id
-                    else :topicId
-                end)
+            (case
+                when :topicId = 0 then vocabulary.topic_id is null or vocabulary.topic_id = vocabulary.topic_id
+                else vocabulary.topic_id = :topicId
+            end)
             and
             vocabulary.vocabulary_type =
                 (case
