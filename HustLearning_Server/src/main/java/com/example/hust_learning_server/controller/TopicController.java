@@ -19,10 +19,12 @@ public class TopicController {
 
     @GetMapping("/all")
     public ResponseEntity<MessageResponse> getAllTopic(
-        @RequestParam(required = false) Long classRoomId
+        @RequestParam(required = false, defaultValue = "0") long classRoomId,
+        @RequestParam(required = false, defaultValue = "") String isPrivate,
+        @RequestParam(required = false, defaultValue = "") String contentSearch
     ) {
         MessageResponse ms = new MessageResponse();
-        ms.data = topicService.getAllTopics(classRoomId);
+        ms.data = topicService.getAllTopics(classRoomId, isPrivate, contentSearch);
         return ResponseEntity.ok(ms);
     }
 

@@ -1,5 +1,6 @@
 package com.example.hust_learning_server.repository;
 
+import com.example.hust_learning_server.constant.sql.SQLTopic;
 import com.example.hust_learning_server.entity.Topic;
 import feign.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,8 +13,8 @@ public interface TopicRepository extends JpaRepository<Topic, Long> {
 
     Optional<Topic> findByContent(String content);
 
-    @Query("select topic from Topic topic where topic.classRoom.id = :classRoomId order by topic.id desc")
-    List<Topic> findAllTopicByClassRoomId(@Param("classRoomId") long classRoomId);
+    @Query(nativeQuery = true, value = SQLTopic.GET_ALL_TOPICS)
+    List<Topic> findAllTopics(long classRoomId, int isPrivate, String email, String contentSearch);
 
     @Query("select topic from Topic topic where topic.classRoom.id = :classRoomId and topic.isPrivate = false order by topic.id desc")
     List<Topic> findAllCommonTopicByClassRoomId(@Param("classRoomId") long classRoomId);
@@ -22,4 +23,5 @@ public interface TopicRepository extends JpaRepository<Topic, Long> {
     List<Topic> findAllPrivateTopicByClassRoomId(@Param("classRoomId") long classRoomId, @Param("email") String email);
 
     List<Topic> findAllByClassRoomId(long id);
+
 }

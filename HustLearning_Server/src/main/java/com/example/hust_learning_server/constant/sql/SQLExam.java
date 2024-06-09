@@ -2,7 +2,7 @@ package com.example.hust_learning_server.constant.sql;
 
 public class SQLExam {
 
-    public static final String GET_ALL_TOPIC = """
+    public static final String GET_ALL_EXAMS = """
         select
             exam.*
             from {h-schema}exam
@@ -27,7 +27,11 @@ public class SQLExam {
             end)
         	and
         	(case
-        	    when :nameSearch is not null then exam.name like concat('%', :nameSearch, '%') and exam.created_by = :email
+        	    when :nameSearch is not null then
+        	    case
+        	        when exam.created_by = :email then exam.name like concat('%', :nameSearch, '%') and exam.created_by = :email
+        	        else exam.name like concat('%', :nameSearch, '%') and exam.is_private = 0
+        	    end
         	    else 1
         	end)
         """;

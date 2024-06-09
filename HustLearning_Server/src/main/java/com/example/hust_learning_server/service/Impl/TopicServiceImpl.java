@@ -17,6 +17,7 @@ import com.example.hust_learning_server.repository.QuestionRepository;
 import com.example.hust_learning_server.repository.TopicRepository;
 import com.example.hust_learning_server.repository.VocabularyRepository;
 import com.example.hust_learning_server.service.TopicService;
+import com.example.hust_learning_server.utils.CommonUtils;
 import com.example.hust_learning_server.utils.EmailUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -25,6 +26,7 @@ import jakarta.persistence.criteria.*;
 import java.util.ArrayList;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -49,14 +51,13 @@ public class TopicServiceImpl implements TopicService {
     private final TopicMapperImpl topicMapper;
 
     @Override
-    public List<TopicRes> getAllTopics(Long classRoomId) {
-        List<Topic> topics;
-        if (classRoomId == null) {
-            topics = topicRepository.findAll();
-            if (topics.isEmpty()) return null;
-        } else {
-            topics = topicRepository.findAllTopicByClassRoomId(classRoomId);
-            if (topics.isEmpty()) return null;
+    public List<TopicRes> getAllTopics(long classRoomId, String isPrivate, String contentSearch) {
+        String email = EmailUtils.getCurrentUser();
+        int checkPrivate = CommonUtils.convertPrivate(isPrivate);
+        if (Strings.isBlank(contentSearch)) contentSearch = null;
+        List<Topic> topics = topicRepository.findAllTopics(classRoomId, checkPrivate, email, contentSearch);
+        if (topics.isEmpty()) {
+            return null;
         }
         return topicMapper.toDTOList(topics);
     }

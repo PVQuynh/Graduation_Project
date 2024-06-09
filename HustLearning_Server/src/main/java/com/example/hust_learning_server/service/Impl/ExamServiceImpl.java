@@ -30,6 +30,7 @@ import com.example.hust_learning_server.repository.TopicRepository;
 import com.example.hust_learning_server.repository.UserExamMappingRepository;
 import com.example.hust_learning_server.repository.UserRepository;
 import com.example.hust_learning_server.service.ExamService;
+import com.example.hust_learning_server.utils.CommonUtils;
 import com.example.hust_learning_server.utils.EmailUtils;
 import lombok.AllArgsConstructor;
 
@@ -114,19 +115,8 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public Page<ExamRes> getAllExams(long topicId, String isPrivate, String nameSearch, Pageable pageable) {
         String email = EmailUtils.getCurrentUser();
-        if (ObjectUtils.isEmpty(email)) {
-            throw new UnAuthorizedException();
-        }
         // check private
-        int checkPrivate = -1;
-        if (Strings.isNotBlank(isPrivate)) {
-            if (isPrivate.toLowerCase().equals(Boolean.TRUE.toString())) {
-                checkPrivate = 1;
-            }
-            if (isPrivate.toLowerCase().equals(Boolean.FALSE.toString())) {
-                checkPrivate = 0;
-            }
-        }
+        int checkPrivate = CommonUtils.convertPrivate(isPrivate);
         Page<Exam> exams = examRepository.findAllExam(topicId, checkPrivate, email, nameSearch, pageable);
         if (exams.isEmpty()) {
             return null;
