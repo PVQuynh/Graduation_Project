@@ -1,5 +1,6 @@
 package com.example.hust_learning_server.service.Impl;
 
+import com.example.hust_learning_server.dto.request.DeleteQuestionsReq;
 import com.example.hust_learning_server.dto.request.QuestionReq;
 import com.example.hust_learning_server.dto.request.QuestionLimitReq;
 import com.example.hust_learning_server.dto.request.UpdateQuestionReq;
@@ -154,5 +155,16 @@ public class QuestionServiceImpl implements QuestionService {
         questionRepository.deleteById(id);
     }
 
-
+    @Override
+    public void deleteQuestions(DeleteQuestionsReq deleteQuestionsReq) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new UnAuthorizedException();
+        }
+        for (Long id : deleteQuestionsReq.getQuestionIds()) {
+            List<Answer> answerList = answerRepository.findAllByQuestionId(id);
+            if (!answerList.isEmpty())  answerRepository.deleteAll(answerList);
+            questionRepository.deleteById(id);
+        }
+    }
 }

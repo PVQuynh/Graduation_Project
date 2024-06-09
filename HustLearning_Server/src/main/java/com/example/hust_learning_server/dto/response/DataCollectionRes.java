@@ -26,11 +26,11 @@ public class DataCollectionRes {
 
   private String feedBack;
 
-  private Date created;
+  private Date createdDate;
 
-  private Date modified;
+  private Date modifiedDate;
 
-  private String editor;
+  private String modifiedBy;
 
   private long vocabularyId;
 

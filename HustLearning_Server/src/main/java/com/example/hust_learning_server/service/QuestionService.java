@@ -1,5 +1,6 @@
 package com.example.hust_learning_server.service;
 
+import com.example.hust_learning_server.dto.request.DeleteQuestionsReq;
 import com.example.hust_learning_server.dto.request.QuestionReq;
 import com.example.hust_learning_server.dto.request.QuestionLimitReq;
 import com.example.hust_learning_server.dto.request.UpdateQuestionReq;
@@ -29,4 +30,5 @@ public interface QuestionService {
 
     void deleteQuestionById(long id);
 
+    void deleteQuestions(DeleteQuestionsReq deleteQuestionsReq);
 }

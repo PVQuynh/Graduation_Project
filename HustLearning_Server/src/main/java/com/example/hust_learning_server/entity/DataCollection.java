@@ -15,7 +15,7 @@ import lombok.*;
 @Builder
 @AttributeOverrides({
         @AttributeOverride(name = "id", column = @Column(name = "data_collection_id")),
-        @AttributeOverride(name = "author", column = @Column(name = "volunteer_email"))
+        @AttributeOverride(name = "createdBy", column = @Column(name = "volunteer_email"))
 })
 public class DataCollection extends BaseEntity {
 

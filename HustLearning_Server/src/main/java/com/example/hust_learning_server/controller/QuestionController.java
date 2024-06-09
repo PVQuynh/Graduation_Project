@@ -2,6 +2,7 @@ package com.example.hust_learning_server.controller;
 
 
 import java.util.List;
+import com.example.hust_learning_server.dto.request.DeleteQuestionsReq;
 import com.example.hust_learning_server.dto.request.QuestionReq;
 import com.example.hust_learning_server.dto.request.QuestionLimitReq;
 import com.example.hust_learning_server.dto.request.UpdateQuestionReq;
@@ -97,6 +98,15 @@ public class QuestionController {
     public ResponseEntity<MessageResponse> deleteQuestion(@PathVariable long id) {
         MessageResponse ms = new MessageResponse();
         questionService.deleteQuestionById(id);
+        return ResponseEntity.ok(ms);
+    }
+
+    @DeleteMapping("/delete-list")
+    public ResponseEntity<MessageResponse> deleteQuestions(
+        @RequestBody DeleteQuestionsReq deleteQuestionsReq
+    ) {
+        MessageResponse ms = new MessageResponse();
+        questionService.deleteQuestions(deleteQuestionsReq);
         return ResponseEntity.ok(ms);
     }
 }

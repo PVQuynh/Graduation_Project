@@ -77,7 +77,6 @@ public class VocabularyServiceImpl implements VocabularySerivce {
         return vocabularyMapper.toDTOList(vocabularies);
     }
 
-
     @Override
     public List<VocabularyRes> getExactVocabularies(ExactVocabularyReq exactVocabularyReq) {
         List<Vocabulary> vocabularies = vocabularyRepository.findAllByContent(exactVocabularyReq.getContent());
@@ -615,10 +614,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
 
         List<DataCollection> dataCollectionList = dataCollectionRepository.findAllByVocabularyId(id);
         if (!dataCollectionList.isEmpty()) {
-            for (DataCollection dataCollection : dataCollectionList) {
-                dataCollection.setVocabulary(null);
-            }
-            dataCollectionRepository.saveAll(dataCollectionList);
+            dataCollectionRepository.deleteAll(dataCollectionList);
         }
 
         vocabularyRepository.deleteById(id);
@@ -637,10 +633,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
             }
             List<DataCollection> dataCollectionList = dataCollectionRepository.findAllByVocabularyId(vocabularyId);
             if (!dataCollectionList.isEmpty()) {
-                for (DataCollection dataCollection : dataCollectionList) {
-                    dataCollection.setVocabulary(null);
-                }
-                dataCollectionRepository.saveAll(dataCollectionList);
+                dataCollectionRepository.deleteAll(dataCollectionList);
             }
         }
         vocabularyRepository.deleteAllById(deleteVocabulariesReq.getVocabularyIds());
