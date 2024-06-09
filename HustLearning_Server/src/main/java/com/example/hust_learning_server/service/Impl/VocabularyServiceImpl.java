@@ -12,6 +12,7 @@ import com.example.hust_learning_server.mapper.Impl.VocabularyMapperImpl;
 import com.example.hust_learning_server.repository.*;
 import com.example.hust_learning_server.service.VocabularySerivce;
 import com.example.hust_learning_server.utils.AvoidRepetition;
+import com.example.hust_learning_server.utils.CommonUtils;
 import com.example.hust_learning_server.utils.EmailUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -24,6 +25,7 @@ import jakarta.persistence.criteria.Root;
 import java.util.ArrayList;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -64,6 +66,17 @@ public class VocabularyServiceImpl implements VocabularySerivce {
         }
         return vocabularyMapper.toDTOList(vocabularies);
     }
+
+    @Override
+    public List<VocabularyRes> getAllVocabularies(long topicId, String vocabularyType, String isPrivate, String contentSearch) {
+        String email = EmailUtils.getCurrentUser();
+        int checkPrivate = CommonUtils.convertPrivate(isPrivate);
+        if (Strings.isBlank(contentSearch)) contentSearch = null;
+        List<Vocabulary> vocabularies = vocabularyRepository.findAllVocabularies(topicId, vocabularyType, checkPrivate, email, contentSearch);
+        if (vocabularies.isEmpty()) {return null;}
+        return vocabularyMapper.toDTOList(vocabularies);
+    }
+
 
     @Override
     public List<VocabularyRes> getExactVocabularies(ExactVocabularyReq exactVocabularyReq) {
@@ -584,7 +597,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
         if (updateVocabularyReq.getVocabularyType() != null) {
             vocabulary.setVocabularyType(updateVocabularyReq.getVocabularyType());
         }
-
+        vocabulary.setPrivate(updateVocabularyReq.isPrivate());
         vocabularyRepository.save(vocabulary);
     }
 

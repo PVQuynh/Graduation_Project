@@ -11,6 +11,8 @@ public interface VocabularySerivce {
 
     List<VocabularyRes> getAllVocabulary();
 
+    List<VocabularyRes> getAllVocabularies(long topicId, String vocabularyType, String isPrivate, String contentSearch);
+
     List<VocabularyRes> getExactVocabularies(ExactVocabularyReq exactVocabularyReq);
 
     List<VocabularyRes> getVocabulariesByContent(String content);
@@ -42,4 +44,5 @@ public interface VocabularySerivce {
     void deleteById(long id);
 
     void deleteAllById(DeleteVocabulariesReq deleteVocabulariesReq);
+
 }
