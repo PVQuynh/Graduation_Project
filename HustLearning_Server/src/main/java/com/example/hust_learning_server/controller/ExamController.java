@@ -50,9 +50,22 @@ public class ExamController {
     }
 
     @GetMapping("/all-exams-of-user")
-    public ResponseEntity<MessageResponse> getAllExamsForUser() {
+    public ResponseEntity<MessageResponse> getAllExamsForUser(
+        @RequestParam(required = true, defaultValue = "0") int page,
+        @RequestParam(required = true, defaultValue = "10") int size
+    ) {
         MessageResponse ms = new MessageResponse();
-        ms.data = examService.getAllExamsForUser();
+        Pageable pageable = PageUtils.getPageable(page,size,null,false);
+        ms.data = examService.getAllExamsForUser(pageable);
+        return ResponseEntity.ok(ms);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<MessageResponse> getAllExamsForUser(
+        @PathVariable("id") long id
+    ) {
+        MessageResponse ms = new MessageResponse();
+        ms.data = examService.getExamById(id);
         return ResponseEntity.ok(ms);
     }
 

@@ -3,6 +3,7 @@ package com.example.hust_learning_server.service.Impl;
 import com.example.hust_learning_server.dto.request.DeleteQuestionsReq;
 import com.example.hust_learning_server.dto.request.QuestionReq;
 import com.example.hust_learning_server.dto.request.QuestionLimitReq;
+import com.example.hust_learning_server.dto.request.UpdateAnswerReq;
 import com.example.hust_learning_server.dto.request.UpdateQuestionReq;
 import com.example.hust_learning_server.dto.response.QuestionRes;
 import com.example.hust_learning_server.entity.Answer;
@@ -24,6 +25,7 @@ import org.apache.logging.log4j.util.Strings;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
@@ -51,7 +53,9 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<QuestionRes> getAllQuestions(long topicId, String contentSearch) {
-        if (Strings.isBlank(contentSearch)) contentSearch = null;
+        if (Strings.isBlank(contentSearch)) {
+            contentSearch = null;
+        }
         List<Question> questions = questionRepository.finAllQuestions(topicId, contentSearch);
         if (questions.isEmpty()) {
             return null;
@@ -62,18 +66,24 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public List<QuestionRes> getQuestionsByTopicId(long topicId) {
         List<Question> questions = questionRepository.findQuestionsByTopicId(topicId);
-        if (questions.isEmpty()) return null;
+        if (questions.isEmpty()) {
+            return null;
+        }
         return questionMapper.toDTOList(questions);
     }
 
     @Override
     public List<QuestionRes> getQuestionsByExamId(long examId) {
         List<QuestionExamMapping> questionExamMappings = questionExamMappingRepository.findAllByExamId(examId);
-        if (questionExamMappings.isEmpty()) return null;
+        if (questionExamMappings.isEmpty()) {
+            return null;
+        }
         List<Question> questions = new ArrayList<>();
         for (QuestionExamMapping questionExamMapping : questionExamMappings) {
             Question question = questionRepository.findById(questionExamMapping.getQuestionId()).orElse(null);
-            if (Objects.isNull(question)) continue;
+            if (Objects.isNull(question)) {
+                continue;
+            }
             questions.add(question);
         }
         return questionMapper.toDTOList(questions);
@@ -83,7 +93,9 @@ public class QuestionServiceImpl implements QuestionService {
     public List<QuestionRes> questionLimits(QuestionLimitReq questionLimitReq) {
         Pageable pageable = PageRequest.of(questionLimitReq.getPage() - 1, questionLimitReq.getSize());
         List<Question> questions = questionRepository.findQuestionLimitsByTopicId(questionLimitReq.getTopicId(), pageable);
-        if (questions.isEmpty()) return null;
+        if (questions.isEmpty()) {
+            return null;
+        }
         return questionMapper.toDTOList(questions);
     }
 
@@ -91,7 +103,9 @@ public class QuestionServiceImpl implements QuestionService {
     public List<QuestionRes> questionLimits_v2(int page, int size, long topicId) {
         Pageable pageable = PageRequest.of(page - 1, size);
         List<Question> questions = questionRepository.findQuestionLimitsByTopicId(topicId, pageable);
-        if (questions.isEmpty()) return null;
+        if (questions.isEmpty()) {
+            return null;
+        }
         return questionMapper.toDTOList(questions);
     }
 
@@ -114,7 +128,7 @@ public class QuestionServiceImpl implements QuestionService {
         if (ObjectUtils.isEmpty(email)) {
             throw new UnAuthorizedException();
         }
-        for(QuestionReq questionReq : questionReqList) {
+        for (QuestionReq questionReq : questionReqList) {
             // check có topic dung ko
             Topic topic = topicRepository.findById(questionReq.getTopicId()).orElseThrow(ResourceNotFoundException::new);
             Question question = questionMapper.toEntity(questionReq);
@@ -122,6 +136,7 @@ public class QuestionServiceImpl implements QuestionService {
         }
     }
 
+    @Transactional
     @Override
     public void updateQuestion(UpdateQuestionReq updateQuestionReq) {
         String email = EmailUtils.getCurrentUser();
@@ -129,19 +144,44 @@ public class QuestionServiceImpl implements QuestionService {
             throw new UnAuthorizedException();
         }
         Question question = questionRepository.findById(updateQuestionReq.getQuestionId()).orElseThrow(ResourceNotFoundException::new);
-        if (question.getContent() != null) {
+        if (updateQuestionReq.getContent() != null) {
             question.setContent(updateQuestionReq.getContent());
         }
-        if (question.getExplanation() != null) {
+        if (updateQuestionReq.getExplanation() != null) {
             question.setExplanation(updateQuestionReq.getExplanation());
         }
-        if (question.getImageLocation() != null) {
+        if (updateQuestionReq.getImageLocation() != null) {
             question.setImageLocation(updateQuestionReq.getImageLocation());
         }
-        if (question.getVideoLocation() != null) {
+        if (updateQuestionReq.getVideoLocation() != null) {
+            question.setVideoLocation(updateQuestionReq.getVideoLocation());
+        }
+        if (updateQuestionReq.getQuestionType() != null) {
+            question.setQuestionType(updateQuestionReq.getQuestionType());
+        }
+        if (updateQuestionReq.getFileType() != null) {
+            question.setFileType(updateQuestionReq.getFileType());
+        }
+        if (updateQuestionReq.getVideoLocation() != null) {
             question.setVideoLocation(updateQuestionReq.getVideoLocation());
         }
         questionRepository.save(question);
+        if (!ObjectUtils.isEmpty(updateQuestionReq.getUpdateAnswerReqs())) {
+            for (UpdateAnswerReq updateAnswerReq : updateQuestionReq.getUpdateAnswerReqs()) {
+                Answer answer = answerRepository.findById(updateAnswerReq.getAnswerId()).orElseThrow(ResourceNotFoundException::new);
+                if (updateAnswerReq.getContent() != null) {
+                    answer.setContent(updateAnswerReq.getContent());
+                }
+                if (updateAnswerReq.getImageLocation() != null) {
+                    answer.setImageLocation(updateAnswerReq.getImageLocation());
+                }
+                if (updateAnswerReq.getVideoLocation() != null) {
+                    answer.setVideoLocation(updateAnswerReq.getVideoLocation());
+                }
+                answer.setCorrect(updateAnswerReq.isCorrect());
+                answerRepository.save(answer);
+            }
+        }
     }
 
     @Override
@@ -151,7 +191,9 @@ public class QuestionServiceImpl implements QuestionService {
             throw new UnAuthorizedException();
         }
         List<Answer> answerList = answerRepository.findAllByQuestionId(id);
-        if (!answerList.isEmpty())  answerRepository.deleteAll(answerList);
+        if (!answerList.isEmpty()) {
+            answerRepository.deleteAll(answerList);
+        }
         questionRepository.deleteById(id);
     }
 
@@ -163,7 +205,9 @@ public class QuestionServiceImpl implements QuestionService {
         }
         for (Long id : deleteQuestionsReq.getQuestionIds()) {
             List<Answer> answerList = answerRepository.findAllByQuestionId(id);
-            if (!answerList.isEmpty())  answerRepository.deleteAll(answerList);
+            if (!answerList.isEmpty()) {
+                answerRepository.deleteAll(answerList);
+            }
             questionRepository.deleteById(id);
         }
     }

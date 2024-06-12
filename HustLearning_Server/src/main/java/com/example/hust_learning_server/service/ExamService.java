@@ -16,11 +16,14 @@ public interface ExamService {
 
     void examScoring(ExamScoringReq examScoringReq);
 
+    ExamRes getExamById(long id);
+
     Page<ExamRes> getAllExams(long topicId, String isPrivate, String nameSearch, Pageable pageable);
 
-    List<ExamResForUser> getAllExamsForUser();
+    Page<ExamResForUser> getAllExamsForUser(Pageable pageable);
 
     void deleteExamOfUser(long examId);
 
     void deleteExam(long examId);
+
 }

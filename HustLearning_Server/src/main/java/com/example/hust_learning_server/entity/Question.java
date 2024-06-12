@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import com.example.hust_learning_server.constant.enum_constant.FileType;
+import com.example.hust_learning_server.constant.enum_constant.QuestionType;
 
 @Getter
 @Setter
@@ -23,6 +25,12 @@ public class Question extends BaseEntity {
     private String imageLocation;
 
     private String videoLocation;
+
+    @Enumerated(EnumType.STRING)
+    private QuestionType questionType;
+
+    @Enumerated(EnumType.STRING)
+    private FileType fileType;
 
     @OneToMany(mappedBy = "question",
             cascade = {CascadeType.ALL},

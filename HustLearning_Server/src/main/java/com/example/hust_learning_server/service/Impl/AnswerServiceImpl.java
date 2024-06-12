@@ -40,7 +40,6 @@ public class AnswerServiceImpl implements AnswerService {
         }
 
         Answer answer = answerRepository.findById(updateAnswerReq.getAnswerId()).orElseThrow(ResourceNotFoundException::new);
-
         if (updateAnswerReq.getContent() != null) {
             answer.setContent(updateAnswerReq.getContent());
         }

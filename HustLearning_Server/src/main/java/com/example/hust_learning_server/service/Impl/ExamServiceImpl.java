@@ -111,6 +111,21 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
+    public ExamRes getExamById(long id) {
+        Exam exam = examRepository.findById(id).orElse(null);
+        if (exam == null) {
+            return null;
+        }
+        ExamRes examRes = new ExamRes();
+        BeanUtils.copyProperties(exam, examRes);
+        List<QuestionExamMapping> questionExamMappings = questionExamMappingRepository.findAllByExamId(exam.getId());
+        examRes.setExamId(exam.getId());
+        examRes.setTopicId(Objects.isNull(exam.getTopic()) ? 0 : exam.getTopic().getId());
+        examRes.setNumberOfQuestions(questionExamMappings.size());
+        return examRes;
+    }
+
+    @Override
     public Page<ExamRes> getAllExams(long topicId, String isPrivate, String nameSearch, Pageable pageable) {
         String email = EmailUtils.getCurrentUser();
         // check private
@@ -133,13 +148,13 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public List<ExamResForUser> getAllExamsForUser() {
+    public Page<ExamResForUser> getAllExamsForUser(Pageable pageable) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
             throw new UnAuthorizedException();
         }
         User user = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
-        List<UserExamMapping> userExamMappings = userExamMappingRepository.findAllByUserId(user.getId());
+        Page<UserExamMapping> userExamMappings = userExamMappingRepository.findAllByUserId(user.getId(), pageable);
         List<ExamResForUser> examResForUsers = new ArrayList<>();
         if (!userExamMappings.isEmpty()) {
             for (UserExamMapping userExamMapping : userExamMappings) {
@@ -157,7 +172,7 @@ public class ExamServiceImpl implements ExamService {
                 }
             }
         }
-        return examResForUsers;
+        return new PageImpl<>(examResForUsers, pageable, userExamMappings.getTotalElements());
     }
 
     @Override
