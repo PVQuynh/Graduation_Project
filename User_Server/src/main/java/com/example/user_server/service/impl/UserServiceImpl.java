@@ -36,6 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
@@ -76,7 +77,6 @@ public class UserServiceImpl implements UserService {
             User user = new User();
             user.setName(registerReq.getName());
             user.setEmail(registerReq.getEmail());
-//            user.setEmail(EmailUtils.ADMIN_USER_NAME);
             user.setPassword(registerReq.getPassword());
             Role role = roleRepository.findByCode(registerReq.getRole()).orElseThrow(ResourceNotFoundException::new);
             user.setRole(role);
@@ -118,12 +118,7 @@ public class UserServiceImpl implements UserService {
         if (ObjectUtils.isEmpty(email)) {
             throw new UnAuthorizedException();
         }
-        UserDTO userDTO = new UserDTO();
-        if (email.equals(EmailUtils.ADMIN_EMAIL)) {
-            userDTO = userRepository.findByEmail(EmailUtils.ADMIN_USER_NAME).map(userMapper::toDTO).orElse(null);
-        } else {
-            userDTO = userRepository.findByEmail(email).map(userMapper::toDTO).orElse(null);
-        }
+        UserDTO userDTO = userRepository.findByEmail(email).map(userMapper::toDTO).orElse(null);
         return userDTO;
     }
 
@@ -285,19 +280,18 @@ public class UserServiceImpl implements UserService {
         if (ObjectUtils.isEmpty(email)) {
             throw new UnAuthorizedException();
         }
-        User user = userRepository.findById(userId).orElseThrow(ResourceNotFoundException::new);
+        User user = userRepository.findById(userId).orElse(null);
+        if (Objects.isNull(user)) {
+            return null;
+        }
         UserDTO userDTO = userMapper.toDTO(user);
         UserDetailDTO userDetailDTO = new UserDetailDTO(userDTO);
         User currentUser = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
-        if (currentUser.getRole().getCode().equals("USER")) {
-            FriendShip friendShip = friendShipRepository.checkFriendStatus(currentUser.getId(),
-                    userDetailDTO.getUserId())
-                .orElseThrow(BusinessLogicException::new);
-
-            userDetailDTO.setFriendStatus(friendShip.getStatus());
+        Optional<FriendShip> friendShipOptional = friendShipRepository.checkFriendStatus(currentUser.getId(), userDetailDTO.getUserId());
+        if (friendShipOptional.isPresent()) {
+            userDetailDTO.setFriendStatus(friendShipOptional.get().getStatus());
         }
         return userDetailDTO;
-
     }
 
     @Transactional
@@ -349,7 +343,7 @@ public class UserServiceImpl implements UserService {
         if (ObjectUtils.isEmpty(email)) {
             throw new UnAuthorizedException();
         }
-        Page<User> users = userRepository.findUserNotApproved(false,"TEACHER", pageable);
+        Page<User> users = userRepository.findUserNotApproved(false, "TEACHER", pageable);
         List<UserDTO> userDTOS = userMapper.toDTOList(users.stream().toList());
         return new PageImpl<>(userDTOS, pageable, users.getTotalElements());
     }

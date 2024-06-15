@@ -86,7 +86,6 @@ public class KeycloakService {
         UserRepresentation user = new UserRepresentation();
         user.setEmail(email);
         user.setUsername(email);
-//        user.setUsername(EmailUtils.ADMIN_USER_NAME);
         user.setCredentials(Collections.singletonList(passwordCredential));
         user.setEnabled(true);
         Response res = userResource.create(user);

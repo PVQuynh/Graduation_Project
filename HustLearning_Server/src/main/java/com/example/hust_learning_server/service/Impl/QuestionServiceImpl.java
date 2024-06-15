@@ -7,6 +7,7 @@ import com.example.hust_learning_server.dto.request.UpdateAnswerReq;
 import com.example.hust_learning_server.dto.request.UpdateQuestionReq;
 import com.example.hust_learning_server.dto.response.QuestionRes;
 import com.example.hust_learning_server.entity.Answer;
+import com.example.hust_learning_server.entity.BaseEntity;
 import com.example.hust_learning_server.entity.Question;
 import com.example.hust_learning_server.entity.QuestionExamMapping;
 import com.example.hust_learning_server.entity.Topic;
@@ -18,7 +19,6 @@ import com.example.hust_learning_server.repository.QuestionExamMappingRepository
 import com.example.hust_learning_server.repository.QuestionRepository;
 import com.example.hust_learning_server.repository.TopicRepository;
 import com.example.hust_learning_server.service.QuestionService;
-import com.example.hust_learning_server.utils.CommonUtils;
 import com.example.hust_learning_server.utils.EmailUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -180,6 +181,15 @@ public class QuestionServiceImpl implements QuestionService {
                 }
                 answer.setCorrect(updateAnswerReq.isCorrect());
                 answerRepository.save(answer);
+            }
+            // Xóa các answer ko truyền vào
+            List<Answer> answers = answerRepository.findAllByQuestionId(updateQuestionReq.getQuestionId());
+            HashSet<Long> allAnswerIds = new HashSet<>(answers.stream().map(BaseEntity::getId).toList());
+            HashSet<Long> updateAnswerReqIds = new HashSet<>(updateQuestionReq.getUpdateAnswerReqs().stream().map(a->a.getAnswerId()).toList());
+            for (long updateAnswerReqId : updateAnswerReqIds) {
+                if (!allAnswerIds.contains(updateAnswerReqId)) {
+                    answerRepository.deleteById(updateAnswerReqId);
+                }
             }
         }
     }

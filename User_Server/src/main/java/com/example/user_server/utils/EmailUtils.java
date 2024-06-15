@@ -6,10 +6,6 @@ import org.springframework.util.ObjectUtils;
 
 public class EmailUtils {
 
-    public static final String ADMIN_EMAIL = "phamquynhltbn12@gmail.com";
-
-    public static final String ADMIN_USER_NAME = "admin@gmail.com";
-
     public static String getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 

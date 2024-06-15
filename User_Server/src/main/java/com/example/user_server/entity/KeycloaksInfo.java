@@ -33,6 +33,8 @@ public class KeycloaksInfo {
     private Boolean email_verified;
     private String preferred_username;
     private String email;
+    private String given_name;
+    private String family_name;
 
     // Getters and setters
 
