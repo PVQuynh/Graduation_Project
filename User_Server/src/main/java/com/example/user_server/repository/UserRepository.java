@@ -3,6 +3,8 @@ package com.example.user_server.repository;
 
 import com.example.user_server.entity.User;
 import com.example.user_server.enum_constant.Gender;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -27,5 +29,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Transactional
     @Query("update User u set u.role.code=:code where u.email=:email")
     void changeRole(@Param("code") String code, @Param("email") String email);
+
+    @Query("select u from User u where u.isApproved = :isApproved and u.role.code = :roleCoe")
+    Page<User> findUserNotApproved(boolean isApproved, String roleCoe, Pageable pageable);
 
 }

@@ -25,8 +25,6 @@ import com.example.user_server.service.KeycloakService;
 import com.example.user_server.service.UserService;
 import com.example.user_server.utils.EmailUtils;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.PersistenceContextType;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -41,7 +39,9 @@ import java.util.List;
 import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
@@ -69,16 +69,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public User create(RegisterReq registerReq) {
         ContactClientReq contactRequest = new ContactClientReq(registerReq.getName(),
-                registerReq.getEmail(), null);
+            registerReq.getEmail(), null);
         MessageResponse ms = chatFeignClient.createContact(contactRequest);
 
         if (ms.code == 200) {
             User user = new User();
             user.setName(registerReq.getName());
             user.setEmail(registerReq.getEmail());
+//            user.setEmail(EmailUtils.ADMIN_USER_NAME);
             user.setPassword(registerReq.getPassword());
             Role role = roleRepository.findByCode(registerReq.getRole()).orElseThrow(ResourceNotFoundException::new);
             user.setRole(role);
+            user.setApproved(true);
+            if (role.getCode().equals("TEACHER")) {
+                user.setApproved(false);
+            }
 
             return userRepository.save(user);
         }
@@ -113,7 +118,12 @@ public class UserServiceImpl implements UserService {
         if (ObjectUtils.isEmpty(email)) {
             throw new UnAuthorizedException();
         }
-        UserDTO userDTO = userRepository.findByEmail(email).map(userMapper::toDTO).orElse(null);
+        UserDTO userDTO = new UserDTO();
+        if (email.equals(EmailUtils.ADMIN_EMAIL)) {
+            userDTO = userRepository.findByEmail(EmailUtils.ADMIN_USER_NAME).map(userMapper::toDTO).orElse(null);
+        } else {
+            userDTO = userRepository.findByEmail(email).map(userMapper::toDTO).orElse(null);
+        }
         return userDTO;
     }
 
@@ -186,11 +196,13 @@ public class UserServiceImpl implements UserService {
             Predicate validEmail = criteriaBuilder.notEqual(root.get("email"), email);
             predicates.add(criteriaBuilder.or(nameLike, emailLike));
             predicates.add(validEmail);
-        } else return null;
+        } else {
+            return null;
+        }
 
         // Filter by descending and orderBy (if provided)
         if (!ObjectUtils.isEmpty(userSearchReq.ascending) && !ObjectUtils.isEmpty(
-                userSearchReq.orderBy)) {
+            userSearchReq.orderBy)) {
             if (userSearchReq.ascending) {
                 criteriaQuery.orderBy(criteriaBuilder.asc(root.get(userSearchReq.orderBy)));
             } else {
@@ -206,12 +218,12 @@ public class UserServiceImpl implements UserService {
         int totalRows = query.getResultList().size();
 
         List<User> results = query
-                .setFirstResult((userSearchReq.page - 1) * userSearchReq.size) // Offset
-                .setMaxResults(userSearchReq.size) // Limit
-                .getResultList();
+            .setFirstResult((userSearchReq.page - 1) * userSearchReq.size) // Offset
+            .setMaxResults(userSearchReq.size) // Limit
+            .getResultList();
 
         PageDTO<UserDTO> userResPageDTO = new PageDTO<>(userMapper.toDTOList(results),
-                userSearchReq.page, totalRows);
+            userSearchReq.page, totalRows);
 
         return userResPageDTO;
     }
@@ -237,7 +249,9 @@ public class UserServiceImpl implements UserService {
             Predicate validEmail = criteriaBuilder.notEqual(root.get("email"), email);
             predicates.add(criteriaBuilder.or(nameLike, emailLike));
             predicates.add(validEmail);
-        } else return null;
+        } else {
+            return null;
+        }
 
         // Filter by descending and orderBy (if provided)
         if (!ObjectUtils.isEmpty(ascending) && !ObjectUtils.isEmpty(orderBy)) {
@@ -256,9 +270,9 @@ public class UserServiceImpl implements UserService {
         int totalRows = query.getResultList().size();
 
         List<User> results = query
-                .setFirstResult((page - 1) * size) // Offset
-                .setMaxResults(size) // Limit
-                .getResultList();
+            .setFirstResult((page - 1) * size) // Offset
+            .setMaxResults(size) // Limit
+            .getResultList();
 
         PageDTO<UserDTO> userResPageDTO = new PageDTO<>(userMapper.toDTOList(results), page, totalRows);
 
@@ -277,8 +291,8 @@ public class UserServiceImpl implements UserService {
         User currentUser = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
         if (currentUser.getRole().getCode().equals("USER")) {
             FriendShip friendShip = friendShipRepository.checkFriendStatus(currentUser.getId(),
-                            userDetailDTO.getUserId())
-                    .orElseThrow(BusinessLogicException::new);
+                    userDetailDTO.getUserId())
+                .orElseThrow(BusinessLogicException::new);
 
             userDetailDTO.setFriendStatus(friendShip.getStatus());
         }
@@ -295,10 +309,10 @@ public class UserServiceImpl implements UserService {
         }
 
         UploadAvatarClientReq uploadAvatarClientReq = UploadAvatarClientReq
-                .builder()
-                .avatarLocation(uploadAvatarReq.getAvatarLocation())
-                .email(email)
-                .build();
+            .builder()
+            .avatarLocation(uploadAvatarReq.getAvatarLocation())
+            .email(email)
+            .build();
 
         MessageResponse ms = chatFeignClient.uploadAvatar(uploadAvatarClientReq);
 
@@ -308,5 +322,35 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user);
         }
 
+    }
+
+    @Override
+    public void checkApproved(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(UnAuthorizedException::new);
+        if (!user.isApproved()) {
+            throw new UnAuthorizedException();
+        }
+    }
+
+    @Override
+    public void approveUser(long id) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new UnAuthorizedException();
+        }
+        User user = userRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
+        user.setApproved(true);
+        userRepository.save(user);
+    }
+
+    @Override
+    public Page<UserDTO> getUserNotApproved(Pageable pageable) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new UnAuthorizedException();
+        }
+        Page<User> users = userRepository.findUserNotApproved(false,"TEACHER", pageable);
+        List<UserDTO> userDTOS = userMapper.toDTOList(users.stream().toList());
+        return new PageImpl<>(userDTOS, pageable, users.getTotalElements());
     }
 }

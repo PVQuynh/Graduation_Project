@@ -7,6 +7,7 @@ import com.example.user_server.entity.TokenObj;
 import com.example.user_server.exception.RefreshTokenFailedException;
 import com.example.user_server.exception.UnAuthorizedException;
 import com.example.user_server.service.KeycloakService;
+import com.example.user_server.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,11 +31,16 @@ public class AuthController {
 
     private final RedisTemplate<String, Object> redisTemplate;
 
-    private  final KeycloakService keycloakService;
+    private final KeycloakService keycloakService;
+
+    private final UserService userService;
 
     @PostMapping("/login")
     public AuthenticationResponse Login(@RequestBody @Valid LoginRequest loginRequest) {
         try {
+            // check is approved
+            userService.checkApproved(loginRequest.getEmail());
+
             String accessToken = keycloakService.getAccessToken(loginRequest.getEmail(), loginRequest.getPassword());
             String refreshToken = UUID.randomUUID().toString();
             TokenObj tokenObj = new TokenObj();

@@ -10,6 +10,8 @@ import com.example.user_server.entity.User;
 
 import java.text.ParseException;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface UserService {
     User create(RegisterReq registerReq);
@@ -33,4 +35,11 @@ public interface UserService {
     UserDetailDTO getUserById(long userId);
 
     void uploadAvatar(UploadAvatarReq uploadAvatarReq);
+
+    // Authorization
+    void checkApproved(String email);
+
+    void approveUser(long id);
+
+    Page<UserDTO> getUserNotApproved(Pageable pageable);
 }

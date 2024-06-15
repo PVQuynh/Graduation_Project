@@ -4,6 +4,7 @@ import com.example.user_server.config.Keycloaks;
 import com.example.user_server.dto.request.ChangePasswordReq;
 import com.example.user_server.dto.request.RegisterReq;
 import com.example.user_server.entity.Role;
+import com.example.user_server.utils.EmailUtils;
 import lombok.RequiredArgsConstructor;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.RealmResource;
@@ -85,6 +86,7 @@ public class KeycloakService {
         UserRepresentation user = new UserRepresentation();
         user.setEmail(email);
         user.setUsername(email);
+//        user.setUsername(EmailUtils.ADMIN_USER_NAME);
         user.setCredentials(Collections.singletonList(passwordCredential));
         user.setEnabled(true);
         Response res = userResource.create(user);
