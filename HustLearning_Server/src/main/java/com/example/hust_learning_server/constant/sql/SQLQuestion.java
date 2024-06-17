@@ -6,11 +6,11 @@ public class SQLQuestion {
         select
             question.*
             from {h-schema}question
-            left join {h-schema}classRoom on classRoom.classRoom_id = question.classRoom_id
+            left join {h-schema}class_room on class_room.class_room_id = question.class_room_id
         where
            (case
-                when :classRoomId = 0 then question.classRoom_id is null or question.classRoom_id = question.classRoom_id
-                else question.classRoom_id = :classRoomId
+                when :classRoomId = 0 then question.class_room_id is null or question.class_room_id = question.class_room_id
+                else question.class_room_id = :classRoomId
            end)
            and
            (case
@@ -19,4 +19,5 @@ public class SQLQuestion {
            end)
            order by question.question_id desc
         """;
+
 }
