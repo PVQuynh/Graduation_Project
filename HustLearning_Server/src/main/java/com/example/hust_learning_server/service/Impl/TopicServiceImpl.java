@@ -211,13 +211,11 @@ public class TopicServiceImpl implements TopicService {
             for (Question question : questionList) question.setTopic(null);
             questionRepository.saveAll(questionList);
         }
-
         List<Vocabulary> vocabularyList = vocabularyRepository.findAllByTopicId(id);
         if (!vocabularyList.isEmpty()) {
             for (Vocabulary vocabulary : vocabularyList) vocabulary.setTopic(null);
             vocabularyRepository.saveAll(vocabularyList);
         }
-
         topicRepository.deleteById(id);
     }
 }

@@ -4,46 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dba02908-b05a-40d3-a9fa-0e8f533ad69f" name="Changes" comment="sửa lỗi update câu hỏi">
-      <change afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/constant/ExceptionMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/entity/Role.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/entity/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/enum_constant/Gender.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/exception/EmailNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/repository/UserRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/security/JWTService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/security/KeycloaksInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/security/UserDetail.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/security/UserDetailService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/constant/ExceptionMessage.java" afterDir="false" />
+    <list default="true" id="dba02908-b05a-40d3-a9fa-0e8f533ad69f" name="Changes" comment="sửa các lôi liên quan đến phân quyền va lấy quyền">
+      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/dto/request/ExamSavedReq.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/dto/response/ExamSavedRes.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/entity/QuestionExamUserMapping.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/security/JWTService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/security/KeycloaksInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/security/UserDetail.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/security/UserDetailService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SQL/2211-15062024.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/repository/QuestionExamUserMappingRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SQL/1033-17062024.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/dto/KeycloaksInfo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/security/JWTAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/security/JWTAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/security/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/security/WebSecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/service/impl/ContactServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/service/impl/ContactServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/utils/EmailUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/utils/EmailUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/dto/KeycloaksInfo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/security/JWTAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/security/JWTAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/security/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/security/WebSecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/TopicServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/TopicServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/VocabularyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/VocabularyServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/utils/CommonUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/utils/CommonUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/utils/EmailUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/utils/EmailUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/entity/KeycloaksInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/security/KeycloaksInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/security/JWTAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/security/JWTAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/TestService.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/TestService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/impl/AddFriendServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/impl/AddFriendServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/utils/EmailUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/utils/EmailUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/controller/ExamController.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/controller/ExamController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/repository/QuestionExamMappingRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/repository/QuestionExamMappingRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/ExamService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/ExamService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/ExamServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/ExamServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/QuestionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/QuestionServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,11 +125,11 @@
       <recent name="C:\Users\ASUS\Desktop\gp_be\HustLearning_Server\src\main\java\com\example\hust_learning_server" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.hust_learning_server.dto.response" />
+      <recent name="com.example.hust_learning_server.repository" />
+      <recent name="com.example.hust_learning_server.dto.request" />
       <recent name="com.example.hust_learning_server.entity" />
       <recent name="com.chat.chat_server.repository" />
-      <recent name="com.chat.chat_server.exception" />
-      <recent name="com.example.hust_learning_server.exception" />
-      <recent name="com.chat.chat_server.constant" />
     </key>
   </component>
   <component name="RunAnythingCache">
@@ -328,7 +300,7 @@
       <workItem from="1718196421048" duration="4193000" />
       <workItem from="1718430770417" duration="9583000" />
       <workItem from="1718456105492" duration="6343000" />
-      <workItem from="1718589028493" duration="4996000" />
+      <workItem from="1718589028493" duration="8855000" />
     </task>
     <task id="LOCAL-00001" summary="fix servers 16/3/24">
       <option name="closed" value="true" />
@@ -642,7 +614,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718462266701</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="sửa các lôi liên quan đến phân quyền va lấy quyền">
+      <option name="closed" value="true" />
+      <created>1718594166022</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1718594166022</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -673,7 +653,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="fix @Data 26/3/24" />
     <MESSAGE value="add vocab list to new topic" />
     <MESSAGE value="cập nhật mật khẩu mysql" />
     <MESSAGE value="expired opt code" />
@@ -698,7 +677,8 @@
     <MESSAGE value="update api questions" />
     <MESSAGE value="sửa phân quyền người dùng" />
     <MESSAGE value="sửa lỗi update câu hỏi" />
-    <option name="LAST_COMMIT_MESSAGE" value="sửa lỗi update câu hỏi" />
+    <MESSAGE value="sửa các lôi liên quan đến phân quyền va lấy quyền" />
+    <option name="LAST_COMMIT_MESSAGE" value="sửa các lôi liên quan đến phân quyền va lấy quyền" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

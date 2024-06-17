@@ -10,5 +10,7 @@ import feign.Param;
 
 public interface QuestionExamMappingRepository extends JpaRepository<QuestionExamMapping, Long> {
 
-    List<QuestionExamMapping> findAllByExamId(Long exam_id);
+    List<QuestionExamMapping> findAllByExamId(Long examId);
+
+    List<QuestionExamMapping> findAllByQuestionId(Long questionId);
 }

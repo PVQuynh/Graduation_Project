@@ -1,5 +1,6 @@
 package com.example.hust_learning_server.controller;
 
+import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.hust_learning_server.dto.request.AddExamsForUserReq;
 import com.example.hust_learning_server.dto.request.ExamReq;
+import com.example.hust_learning_server.dto.request.ExamSavedReq;
 import com.example.hust_learning_server.dto.request.ExamScoringReq;
 import com.example.hust_learning_server.dto.request.SearchExamReq;
 import com.example.hust_learning_server.dto.response.MessageResponse;
@@ -73,6 +75,20 @@ public class ExamController {
     public ResponseEntity<MessageResponse> examScoring(@RequestBody ExamScoringReq examScoringReq) {
         MessageResponse ms = new MessageResponse();
         examService.examScoring(examScoringReq);
+        return ResponseEntity.ok(ms);
+    }
+
+    @PostMapping("/exam-saved")
+    public ResponseEntity<MessageResponse> examSaved(@RequestBody List<ExamSavedReq> examSavedReqs) {
+        MessageResponse ms = new MessageResponse();
+        examService.examSaved(examSavedReqs);
+        return ResponseEntity.ok(ms);
+    }
+
+    @GetMapping("/exam-saved/{examId}")
+    public ResponseEntity<MessageResponse> getExamSaved(@PathVariable("examId") long examId) {
+        MessageResponse ms = new MessageResponse();
+        ms.data = examService.getExamSaved(examId);
         return ResponseEntity.ok(ms);
     }
 

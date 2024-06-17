@@ -11,12 +11,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 import com.example.hust_learning_server.dto.request.ExamReq;
+import com.example.hust_learning_server.dto.request.ExamSavedReq;
 import com.example.hust_learning_server.dto.request.ExamScoringReq;
 import com.example.hust_learning_server.dto.response.ExamRes;
 import com.example.hust_learning_server.dto.response.ExamResForUser;
+import com.example.hust_learning_server.dto.response.ExamSavedRes;
 import com.example.hust_learning_server.entity.Exam;
 import com.example.hust_learning_server.entity.Question;
 import com.example.hust_learning_server.entity.QuestionExamMapping;
+import com.example.hust_learning_server.entity.QuestionExamUserMapping;
 import com.example.hust_learning_server.entity.Topic;
 import com.example.hust_learning_server.entity.User;
 import com.example.hust_learning_server.entity.UserExamMapping;
@@ -24,6 +27,7 @@ import com.example.hust_learning_server.exception.ResourceNotFoundException;
 import com.example.hust_learning_server.exception.UnAuthorizedException;
 import com.example.hust_learning_server.repository.ExamRepository;
 import com.example.hust_learning_server.repository.QuestionExamMappingRepository;
+import com.example.hust_learning_server.repository.QuestionExamUserMappingRepository;
 import com.example.hust_learning_server.repository.QuestionRepository;
 import com.example.hust_learning_server.repository.TopicRepository;
 import com.example.hust_learning_server.repository.UserExamMappingRepository;
@@ -37,12 +41,13 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ExamServiceImpl implements ExamService {
 
-    private ExamRepository examRepository;
-    private QuestionRepository questionRepository;
-    private TopicRepository topicRepository;
-    private UserRepository userRepository;
-    private QuestionExamMappingRepository questionExamMappingRepository;
-    private UserExamMappingRepository userExamMappingRepository;
+    private final ExamRepository examRepository;
+    private final QuestionRepository questionRepository;
+    private final TopicRepository topicRepository;
+    private final UserRepository userRepository;
+    private final QuestionExamMappingRepository questionExamMappingRepository;
+    private final UserExamMappingRepository userExamMappingRepository;
+    private final QuestionExamUserMappingRepository questionExamUserMappingRepository;
 
     @Override
     public void addExam(ExamReq examReq) {
@@ -111,6 +116,39 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
+    public void examSaved(List<ExamSavedReq> examSavedReqs) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new UnAuthorizedException();
+        }
+        User user = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
+        List<QuestionExamUserMapping> questionExamUserMappings =examSavedReqs.stream().map(examSavedReq -> {
+            QuestionExamUserMapping questionExamUserMapping = new QuestionExamUserMapping();
+            BeanUtils.copyProperties(examSavedReq, questionExamUserMapping);
+            questionExamUserMapping.setUserId(user.getId());
+            return questionExamUserMapping;
+        }).toList();
+        questionExamUserMappingRepository.saveAll(questionExamUserMappings);
+    }
+
+    @Override
+    public List<ExamSavedRes> getExamSaved(long examId) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new UnAuthorizedException();
+        }
+        User user = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
+        List<QuestionExamUserMapping> questionExamUserMappings = questionExamUserMappingRepository.findByExamIdAndUserId(examId, user.getId());
+        List<ExamSavedRes> examSavedRes = questionExamUserMappings.stream()
+            .map(questionExamUserMapping -> {
+                ExamSavedRes savedRes = new ExamSavedRes();
+                BeanUtils.copyProperties(questionExamUserMapping, savedRes);
+                return savedRes;
+            }).toList();
+        return examSavedRes;
+    }
+
+    @Override
     public ExamRes getExamById(long id) {
         Exam exam = examRepository.findById(id).orElse(null);
         if (exam == null) {
@@ -175,6 +213,7 @@ public class ExamServiceImpl implements ExamService {
         return new PageImpl<>(examResForUsers, pageable, userExamMappings.getTotalElements());
     }
 
+    @Transactional
     @Override
     public void deleteExamOfUser(long examId) {
         String email = EmailUtils.getCurrentUser();
@@ -182,8 +221,10 @@ public class ExamServiceImpl implements ExamService {
             throw new UnAuthorizedException();
         }
         User user = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
-        UserExamMapping userExamMapping = userExamMappingRepository.findByUserIdAndExamId(user.getId(), examId)
-            .orElseThrow(ResourceNotFoundException::new);
+
+        List<QuestionExamUserMapping> questionExamUserMappings = questionExamUserMappingRepository.findByExamIdAndUserId(examId, user.getId());
+        questionExamUserMappingRepository.deleteAll(questionExamUserMappings);
+        UserExamMapping userExamMapping = userExamMappingRepository.findByUserIdAndExamId(user.getId(), examId).orElseThrow(ResourceNotFoundException::new);
         userExamMappingRepository.delete(userExamMapping);
     }
 
@@ -196,12 +237,15 @@ public class ExamServiceImpl implements ExamService {
         }
         User user = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
         Exam exam = examRepository.findById(examId).orElseThrow(ResourceNotFoundException::new);
+
+        List<QuestionExamUserMapping> questionExamUserMappings = questionExamUserMappingRepository.findByExamIdAndUserId(examId, user.getId());
+        questionExamUserMappingRepository.deleteAll(questionExamUserMappings);
         List<QuestionExamMapping> questionExamMappings = questionExamMappingRepository.findAllByExamId(examId);
+        questionExamMappingRepository.deleteAll(questionExamMappings);
         UserExamMapping userExamMapping = userExamMappingRepository.findByUserIdAndExamId(user.getId(), examId).orElse(null);
         if (Objects.nonNull(userExamMapping)) {
             userExamMappingRepository.delete(userExamMapping);
         }
-        questionExamMappingRepository.deleteAll(questionExamMappings);
         examRepository.delete(exam);
     }
 }
