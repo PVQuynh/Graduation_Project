@@ -2,10 +2,8 @@
 server:
   port: 8060
 spring:
-  # Server name
   application:
     name: learningserver
-#   My SQL
   datasource:
 #    url: jdbc:mysql://localhost:3307/hustappuser
 #    username: root
@@ -29,3 +27,28 @@ eureka:
     fetchRegistry: true
     serviceUrl:
       defaultZone: http://localhost:8070/eureka/
+
+#Email Config
+mailServer:
+  host: smtp.gmail.com
+  port: 587
+  email: phamquynhltbn12@gmail.com
+  password: vbwpvroafrnttgvm
+  protocol: smtp
+  isSSL: false
+  
+# Keycloak Config
+keycloak:
+  realm: master
+  auth-server-url: http://localhost:7080
+  ssl-required: none
+  resource: HustApp
+  use-resource-role-mappings: true
+  bearer-only: true
+  cors: true
+  principal-attribute: admin
+  username: admin
+  password: admin
+  credentials:
+    secret: Cg286gllWPjbUcFYj3koZpIbP3OGMuOx
+#    secret: o6hKN3PkOk9f8FeMX8xyTTnKhZwABExd

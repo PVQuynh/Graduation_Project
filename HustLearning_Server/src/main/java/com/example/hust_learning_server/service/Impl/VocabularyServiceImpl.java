@@ -70,7 +70,8 @@ public class VocabularyServiceImpl implements VocabularySerivce {
     @Override
     public List<VocabularyRes> getAllVocabularies(long topicId, String vocabularyType, String isPrivate, String contentSearch) {
         String email = EmailUtils.getCurrentUser();
-        int checkPrivate = CommonUtils.convertPrivate(isPrivate);
+        String role = EmailUtils.getRoleOfCurrentUser();
+        int checkPrivate = CommonUtils.convertPrivateWithRole(isPrivate, role);
         if (Strings.isBlank(contentSearch)) contentSearch = null;
         List<Vocabulary> vocabularies = vocabularyRepository.findAllVocabularies(topicId, vocabularyType, checkPrivate, email, contentSearch);
         if (vocabularies.isEmpty()) {return null;}

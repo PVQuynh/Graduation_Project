@@ -4,7 +4,6 @@ import com.example.user_server.constant.FriendShipStatus;
 import com.example.user_server.dto.UserDTO;
 import com.example.user_server.entity.FriendShip;
 import com.example.user_server.entity.User;
-import com.example.user_server.exception.BusinessLogicException;
 import com.example.user_server.exception.ConflictException;
 import com.example.user_server.exception.ResourceNotFoundException;
 import com.example.user_server.exception.UnAuthorizedException;
@@ -18,9 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @Service

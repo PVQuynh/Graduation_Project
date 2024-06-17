@@ -77,6 +77,7 @@ public class ContactServiceImpl implements ContactService {
     @Override
     public ContactRes getMyContact() {
         String email = EmailUtils.getCurrentUser();
+        String role = EmailUtils.getRoleOfCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
             throw new BusinessLogicException();
         }

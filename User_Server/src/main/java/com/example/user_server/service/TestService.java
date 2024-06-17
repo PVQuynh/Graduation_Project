@@ -1,6 +1,6 @@
 package com.example.user_server.service;
 
-import com.example.user_server.entity.KeycloaksInfo;
+import com.example.user_server.security.KeycloaksInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 

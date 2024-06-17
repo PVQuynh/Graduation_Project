@@ -53,7 +53,8 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public List<TopicRes> getAllTopics(long classRoomId, String isPrivate, String contentSearch) {
         String email = EmailUtils.getCurrentUser();
-        int checkPrivate = CommonUtils.convertPrivate(isPrivate);
+        String role = EmailUtils.getRoleOfCurrentUser();
+        int checkPrivate = CommonUtils.convertPrivateWithRole(isPrivate, role);
         if (Strings.isBlank(contentSearch)) contentSearch = null;
         List<Topic> topics = topicRepository.findAllTopics(classRoomId, checkPrivate, email, contentSearch);
         if (topics.isEmpty()) {

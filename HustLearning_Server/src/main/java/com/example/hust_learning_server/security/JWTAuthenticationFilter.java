@@ -1,37 +1,60 @@
 package com.example.hust_learning_server.security;
 
 
-import com.example.hust_learning_server.dto.KeycloaksInfo;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Collections;
+import java.util.Set;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
-
+@AllArgsConstructor
+@NoArgsConstructor
 @Slf4j
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
+    @Autowired
+    JWTService jwtService;
+    @Autowired
+    UserDetailService userDetailService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
  try {
 
-     String email = getEmailFromRequest(request);
-     if (!ObjectUtils.isEmpty(email)){
-         UsernamePasswordAuthenticationToken authenticationToken =
-                 new UsernamePasswordAuthenticationToken(email, null, null);
-         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+     KeycloaksInfo keycloaksInfo = getKeyCloaksInfoFromRequest(request);
+     if(keycloaksInfo !=null) {
+         String email = keycloaksInfo.getEmail();
+         if (!ObjectUtils.isEmpty(email)){
+             KeycloaksInfo.RealmAccess roleRealmAccess = keycloaksInfo.getRealmAccess();
+             String  role = roleRealmAccess.getRoles().get(3);
+
+             Set<GrantedAuthority> grantedAuthority = Collections.singleton(new GrantedAuthority() {
+                 @Override
+                 public String getAuthority() {
+                     return role;
+                 }
+             });
+             UsernamePasswordAuthenticationToken authenticationToken =
+                     new UsernamePasswordAuthenticationToken(email, null, grantedAuthority);
+
+             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+         }
      }
  } catch (Exception ex) {
      log.error("Failed to set user authentication",ex);
@@ -39,7 +62,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    public String getEmailFromRequest(HttpServletRequest request) {
+    public KeycloaksInfo getKeyCloaksInfoFromRequest(HttpServletRequest request) {
 
         String bearerToken = request.getHeader("Authorization");
 
@@ -51,7 +74,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
                 KeycloaksInfo userInfo = objectMapper.readValue(abc, KeycloaksInfo.class);
-                return userInfo.getEmail();
+                return userInfo;
             } catch (Exception e) {
                 e.printStackTrace();
             }
