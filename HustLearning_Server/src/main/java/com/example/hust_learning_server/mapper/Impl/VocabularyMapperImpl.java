@@ -15,6 +15,7 @@ import com.example.hust_learning_server.mapper.VocabularyImageMapper;
 import com.example.hust_learning_server.mapper.VocabularyVideoMapper;
 import com.example.hust_learning_server.repository.TopicRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -37,15 +38,19 @@ public class VocabularyMapperImpl implements VocabularyMapper {
 
         // set image
         List<VocabularyImageReq> vocabularyImageListReqs = dto.getVocabularyImageReqs();
-        List<VocabularyImage> vocabularyImageList = vocabularyImageMapper.toEntityList(vocabularyImageListReqs);
-        vocabularyImageList.forEach(vocabularyImage -> vocabularyImage.setVocabulary(vocabulary));
-        vocabulary.setVocabularyImages(vocabularyImageList);
-        
+        if (ObjectUtils.isNotEmpty(vocabularyImageListReqs)) {
+            List<VocabularyImage> vocabularyImageList = vocabularyImageMapper.toEntityList(vocabularyImageListReqs);
+            vocabularyImageList.forEach(vocabularyImage -> vocabularyImage.setVocabulary(vocabulary));
+            vocabulary.setVocabularyImages(vocabularyImageList);
+        }
+
         // set video
         List<VocabularyVideoReq> vocabularyVideoListReqs = dto.getVocabularyVideoReqs();
-        List<VocabularyVideo> vocabularyVideoList = vocabularyVideoMapper.toEntityList(vocabularyVideoListReqs);
-        vocabularyVideoList.forEach(vocabularyVideo -> vocabularyVideo.setVocabulary(vocabulary));
-        vocabulary.setVocabularyVideos(vocabularyVideoList);
+        if (ObjectUtils.isNotEmpty(vocabularyVideoListReqs)) {
+            List<VocabularyVideo> vocabularyVideoList = vocabularyVideoMapper.toEntityList(vocabularyVideoListReqs);
+            vocabularyVideoList.forEach(vocabularyVideo -> vocabularyVideo.setVocabulary(vocabulary));
+            vocabulary.setVocabularyVideos(vocabularyVideoList);
+        }
 
         // set topic
         Topic topic = topicRepository.findById(dto.getTopicId()).orElse(null);

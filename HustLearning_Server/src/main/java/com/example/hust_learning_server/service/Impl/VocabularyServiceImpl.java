@@ -274,27 +274,31 @@ public class VocabularyServiceImpl implements VocabularySerivce {
 
             // neu co image primary la true
             List<VocabularyImage> vocabularyImageList = vocabulary.getVocabularyImages();
-            for (VocabularyImage image : vocabularyImageList) {
-                // neu la true thi thay doi toan bo con lai ve false
-                if (image.isPrimary()) {
-                    List<VocabularyImage> vocabularyImageListByVocabId = vocabularyImageRepository.findAllByVocabularyId(image.getId());
-                    for (VocabularyImage vocabularyImage : vocabularyImageListByVocabId) {
-                        vocabularyImage.setPrimary(false);
+            if (org.apache.commons.lang3.ObjectUtils.isNotEmpty(vocabularyImageList)) {
+                for (VocabularyImage image : vocabularyImageList) {
+                    // neu la true thi thay doi toan bo con lai ve false
+                    if (image.isPrimary()) {
+                        List<VocabularyImage> vocabularyImageListByVocabId = vocabularyImageRepository.findAllByVocabularyId(image.getId());
+                        for (VocabularyImage vocabularyImage : vocabularyImageListByVocabId) {
+                            vocabularyImage.setPrimary(false);
+                        }
+                        vocabularyImageRepository.saveAll(vocabularyImageListByVocabId);
                     }
-                    vocabularyImageRepository.saveAll(vocabularyImageListByVocabId);
                 }
             }
 
             // neu co video primary la true
             List<VocabularyVideo> vocabularyVideoList = vocabulary.getVocabularyVideos();
-            for (VocabularyVideo video : vocabularyVideoList) {
-                // neu la true thi thay doi toan bo con lai ve false
-                if (video.isPrimary()) {
-                    List<VocabularyVideo> vocabularyVideoListByVocabId = vocabularyVideoRepository.findAllByVocabularyId(video.getId());
-                    for (VocabularyVideo vocabularyVideo : vocabularyVideoListByVocabId) {
-                        vocabularyVideo.setPrimary(false);
+            if (org.apache.commons.lang3.ObjectUtils.isNotEmpty(vocabularyVideoList)) {
+                for (VocabularyVideo video : vocabularyVideoList) {
+                    // neu la true thi thay doi toan bo con lai ve false
+                    if (video.isPrimary()) {
+                        List<VocabularyVideo> vocabularyVideoListByVocabId = vocabularyVideoRepository.findAllByVocabularyId(video.getId());
+                        for (VocabularyVideo vocabularyVideo : vocabularyVideoListByVocabId) {
+                            vocabularyVideo.setPrimary(false);
+                        }
+                        vocabularyVideoRepository.saveAll(vocabularyVideoListByVocabId);
                     }
-                    vocabularyVideoRepository.saveAll(vocabularyVideoListByVocabId);
                 }
             }
 
@@ -549,33 +553,36 @@ public class VocabularyServiceImpl implements VocabularySerivce {
 
                     // neu co image primary la true
                     List<VocabularyImage> vocabularyImageList = vocabulary.getVocabularyImages();
-                    for (VocabularyImage image : vocabularyImageList) {
-                        // neu la true thi thay doi toan bo con lai ve false
-                        if (image.isPrimary()) {
-                            List<VocabularyImage> vocabularyImageListByVocabId = vocabularyImageRepository.findAllByVocabularyId(image.getId());
-                            for (VocabularyImage vocabularyImage : vocabularyImageListByVocabId) {
-                                vocabularyImage.setPrimary(false);
+                    if (!vocabularyImageList.isEmpty()) {
+                        for (VocabularyImage image : vocabularyImageList) {
+                            // neu la true thi thay doi toan bo con lai ve false
+                            if (image.isPrimary()) {
+                                List<VocabularyImage> vocabularyImageListByVocabId = vocabularyImageRepository.findAllByVocabularyId(image.getId());
+                                for (VocabularyImage vocabularyImage : vocabularyImageListByVocabId) {
+                                    vocabularyImage.setPrimary(false);
+                                }
+                                vocabularyImageRepository.saveAll(vocabularyImageListByVocabId);
                             }
-                            vocabularyImageRepository.saveAll(vocabularyImageListByVocabId);
                         }
                     }
 
                     // neu co video primary la true
                     List<VocabularyVideo> vocabularyVideoList = vocabulary.getVocabularyVideos();
-                    for (VocabularyVideo video : vocabularyVideoList) {
-                        // neu la true thi thay doi toan bo con lai ve false
-                        if (video.isPrimary()) {
-                            List<VocabularyVideo> vocabularyVideoListByVocabId = vocabularyVideoRepository.findAllByVocabularyId(video.getId());
-                            for (VocabularyVideo vocabularyVideo : vocabularyVideoListByVocabId) {
-                                vocabularyVideo.setPrimary(false);
+                    if (!vocabularyVideoList.isEmpty()) {
+                        for (VocabularyVideo video : vocabularyVideoList) {
+                            // neu la true thi thay doi toan bo con lai ve false
+                            if (video.isPrimary()) {
+                                List<VocabularyVideo> vocabularyVideoListByVocabId = vocabularyVideoRepository.findAllByVocabularyId(video.getId());
+                                for (VocabularyVideo vocabularyVideo : vocabularyVideoListByVocabId) {
+                                    vocabularyVideo.setPrimary(false);
+                                }
+                                vocabularyVideoRepository.saveAll(vocabularyVideoListByVocabId);
                             }
-                            vocabularyVideoRepository.saveAll(vocabularyVideoListByVocabId);
                         }
                     }
                 }
             }
         }
-
         vocabularyRepository.saveAll(nonOverlappingVocabularyList);
     }
 
