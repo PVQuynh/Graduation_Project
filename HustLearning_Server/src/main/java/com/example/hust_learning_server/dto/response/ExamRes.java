@@ -20,6 +20,6 @@ public class ExamRes {
 
     private boolean isPrivate;
 
-    private long topicId;
+    private Long classRoomId;
 
 }

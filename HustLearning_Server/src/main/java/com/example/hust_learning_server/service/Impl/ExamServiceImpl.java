@@ -20,7 +20,7 @@ import com.example.hust_learning_server.entity.Exam;
 import com.example.hust_learning_server.entity.Question;
 import com.example.hust_learning_server.entity.QuestionExamMapping;
 import com.example.hust_learning_server.entity.QuestionExamUserMapping;
-import com.example.hust_learning_server.entity.Topic;
+import com.example.hust_learning_server.entity.ClassRoom;
 import com.example.hust_learning_server.entity.User;
 import com.example.hust_learning_server.entity.UserExamMapping;
 import com.example.hust_learning_server.exception.ResourceNotFoundException;
@@ -29,7 +29,7 @@ import com.example.hust_learning_server.repository.ExamRepository;
 import com.example.hust_learning_server.repository.QuestionExamMappingRepository;
 import com.example.hust_learning_server.repository.QuestionExamUserMappingRepository;
 import com.example.hust_learning_server.repository.QuestionRepository;
-import com.example.hust_learning_server.repository.TopicRepository;
+import com.example.hust_learning_server.repository.ClassRoomRepository;
 import com.example.hust_learning_server.repository.UserExamMappingRepository;
 import com.example.hust_learning_server.repository.UserRepository;
 import com.example.hust_learning_server.service.ExamService;
@@ -43,7 +43,7 @@ public class ExamServiceImpl implements ExamService {
 
     private final ExamRepository examRepository;
     private final QuestionRepository questionRepository;
-    private final TopicRepository topicRepository;
+    private final ClassRoomRepository classRoomRepository;
     private final UserRepository userRepository;
     private final QuestionExamMappingRepository questionExamMappingRepository;
     private final UserExamMappingRepository userExamMappingRepository;
@@ -59,12 +59,11 @@ public class ExamServiceImpl implements ExamService {
         if (questions.size() != examReq.getQuestionIds().size()) {
             throw new ResourceNotFoundException();
         }
-        Topic topic = topicRepository.findById(examReq.getTopicId()).orElseThrow(ResourceNotFoundException::new);
         // save exam
         Exam exam = examRepository.save(Exam.builder()
             .name(examReq.getName())
             .isPrivate(examReq.isPrivate())
-            .topic(topic)
+            .classRoomId(examReq.getClassRoomId())
             .build());
         // save question exam mapping
         List<QuestionExamMapping> questionExamMappings = new ArrayList<>();
@@ -158,17 +157,17 @@ public class ExamServiceImpl implements ExamService {
         BeanUtils.copyProperties(exam, examRes);
         List<QuestionExamMapping> questionExamMappings = questionExamMappingRepository.findAllByExamId(exam.getId());
         examRes.setExamId(exam.getId());
-        examRes.setTopicId(Objects.isNull(exam.getTopic()) ? 0 : exam.getTopic().getId());
+        examRes.setClassRoomId(exam.getClassRoomId());
         examRes.setNumberOfQuestions(questionExamMappings.size());
         return examRes;
     }
 
     @Override
-    public Page<ExamRes> getAllExams(long topicId, String isPrivate, String nameSearch, Pageable pageable) {
+    public Page<ExamRes> getAllExams(long classRoomId, String isPrivate, String nameSearch, Pageable pageable) {
         String email = EmailUtils.getCurrentUser();
         // check private
         int checkPrivate = CommonUtils.convertPrivate(isPrivate);
-        Page<Exam> exams = examRepository.findAllExam(topicId, checkPrivate, email, nameSearch, pageable);
+        Page<Exam> exams = examRepository.findAllExam(classRoomId, checkPrivate, email, nameSearch, pageable);
         if (exams.isEmpty()) {
             return null;
         }
@@ -178,7 +177,7 @@ public class ExamServiceImpl implements ExamService {
             BeanUtils.copyProperties(exam, examRes);
             List<QuestionExamMapping> questionExamMappings = questionExamMappingRepository.findAllByExamId(exam.getId());
             examRes.setExamId(exam.getId());
-            examRes.setTopicId(Objects.isNull(exam.getTopic()) ? 0 : exam.getTopic().getId());
+            examRes.setClassRoomId(exam.getClassRoomId());
             examRes.setNumberOfQuestions(questionExamMappings.size());
             examResList.add(examRes);
         }
@@ -205,7 +204,7 @@ public class ExamServiceImpl implements ExamService {
                     examResForUser.setNumberOfQuestions(questionExamMappings.size());
                     examResForUser.setScore(userExamMapping.getScore());
                     examResForUser.setFinish(userExamMapping.isFinish());
-                    examResForUser.setTopicId(exam.getTopic().getId());
+                    examResForUser.setClassRoomId(exam.getClassRoomId());
                     examResForUsers.add(examResForUser);
                 }
             }

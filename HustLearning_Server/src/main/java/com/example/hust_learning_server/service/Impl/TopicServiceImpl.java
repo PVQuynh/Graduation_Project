@@ -206,15 +206,10 @@ public class TopicServiceImpl implements TopicService {
         if (ObjectUtils.isEmpty(email)) {
             throw new UnAuthorizedException();
         }
-        List<Question> questionList = questionRepository.findAllByTopicId(id);
-        if (!questionList.isEmpty()) {
-            for (Question question : questionList) question.setTopic(null);
-            questionRepository.saveAll(questionList);
-        }
         List<Vocabulary> vocabularyList = vocabularyRepository.findAllByTopicId(id);
         if (!vocabularyList.isEmpty()) {
             for (Vocabulary vocabulary : vocabularyList) vocabulary.setTopic(null);
-            vocabularyRepository.saveAll(vocabularyList);
+            vocabularyRepository.deleteAll(vocabularyList);
         }
         topicRepository.deleteById(id);
     }

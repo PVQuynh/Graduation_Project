@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 public class QuestionMapperImpl implements QuestionMapper {
 
     private final AnswerMapper anwserMapper;
-    private final TopicRepository topicRepository;
 
     @Override
     public Question toEntity(QuestionReq dto) {
@@ -34,10 +33,6 @@ public class QuestionMapperImpl implements QuestionMapper {
         List<Answer> answers = anwserMapper.toEntityList(answerReqs);
         answers.forEach(answer -> answer.setQuestion(question));
         question.setAnswers(answers);
-
-        long topicId = dto.getTopicId();
-        question.setTopic(topicRepository.findById(topicId).orElse(null));
-
         return question;
     }
 
@@ -51,7 +46,6 @@ public class QuestionMapperImpl implements QuestionMapper {
 
         questionRes.setQuestionId(entity.getId());
         questionRes.setAnswerResList(answerResList);
-        questionRes.setTopicId(Objects.isNull(entity.getTopic()) ? 0 : entity.getTopic().getId());
 
         return questionRes;
     }

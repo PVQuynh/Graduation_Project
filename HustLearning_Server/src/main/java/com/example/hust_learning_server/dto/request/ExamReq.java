@@ -18,5 +18,5 @@ public class ExamReq {
 
     private List<Long> questionIds;
 
-    private long topicId;
+    private Long classRoomId;
 }

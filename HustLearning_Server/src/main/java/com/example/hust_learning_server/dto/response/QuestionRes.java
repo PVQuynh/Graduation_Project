@@ -33,7 +33,7 @@ public class QuestionRes {
     @Enumerated(EnumType.STRING)
     private FileType fileType;
 
-    private long topicId;
+    private Long classRoomId;
 
     private List<AnswerRes> answerResList;
 

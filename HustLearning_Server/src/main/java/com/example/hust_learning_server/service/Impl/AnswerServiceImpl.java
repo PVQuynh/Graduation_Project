@@ -60,9 +60,7 @@ public class AnswerServiceImpl implements AnswerService {
         if (ObjectUtils.isEmpty(email)) {
             throw new UnAuthorizedException();
         }
-
-        Answer answer = answerRepository.findById(id).orElse(null);
-        assert answer != null;
+        Answer answer = answerRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
         answerRepository.delete(answer);
     }
 

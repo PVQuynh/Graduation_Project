@@ -12,15 +12,15 @@ public interface QuestionService {
 
     QuestionRes getQuestionById(long id);
 
-    List<QuestionRes> getAllQuestions(long topicId, String contentSearch);
+    List<QuestionRes> getAllQuestions(long classRoomId, String contentSearch);
 
-    List<QuestionRes> getQuestionsByTopicId(long topicId);
+    List<QuestionRes> getQuestionsByClassRoomId(long classRoomId);
 
     List<QuestionRes> getQuestionsByExamId(long examId);
 
     List<QuestionRes> questionLimits(QuestionLimitReq questionLimitReq);
 
-    List<QuestionRes> questionLimits_v2(int page, int size, long topicId);
+    List<QuestionRes> questionLimits_v2(int page, int size, long classRoomId);
 
     void addQuestion(QuestionReq question);
 

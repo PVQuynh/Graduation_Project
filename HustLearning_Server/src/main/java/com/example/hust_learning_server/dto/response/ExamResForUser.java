@@ -21,6 +21,6 @@ public class ExamResForUser {
 
     private boolean isFinish;
 
-    private long topicId;
+    private Long classRoomId;
 
 }

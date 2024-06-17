@@ -11,9 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class QuestionLimitReq {
 
-    public  int page =1 ;
-
-    public  int size =10;
-    
-    public  long topicId;
+    private int page =1 ;
+    private int size =10;
+    private Long classRoomId;
 }

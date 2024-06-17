@@ -5,11 +5,14 @@ import com.example.hust_learning_server.dto.request.ClassRoomReq;
 import com.example.hust_learning_server.dto.request.UpdateClassRoomReq;
 import com.example.hust_learning_server.dto.response.ClassRoomRes;
 import com.example.hust_learning_server.entity.ClassRoom;
+import com.example.hust_learning_server.entity.Exam;
 import com.example.hust_learning_server.entity.Question;
 import com.example.hust_learning_server.entity.Topic;
 import com.example.hust_learning_server.exception.ResourceNotFoundException;
 import com.example.hust_learning_server.exception.UnAuthorizedException;
 import com.example.hust_learning_server.repository.ClassRoomRepository;
+import com.example.hust_learning_server.repository.ExamRepository;
+import com.example.hust_learning_server.repository.QuestionRepository;
 import com.example.hust_learning_server.repository.TopicRepository;
 import com.example.hust_learning_server.service.ClassRoomService;
 import com.example.hust_learning_server.utils.EmailUtils;
@@ -26,7 +29,8 @@ import java.util.List;
 public class ClassRoomServiceImpl implements ClassRoomService {
     private final ClassRoomRepository classRoomRepository;
     private final TopicRepository topicRepository;
-
+    private final QuestionRepository questionRepository;
+    private final ExamRepository examRepository;
 
     @Override
     public List<ClassRoomRes> getAllClassRoom() {
@@ -71,10 +75,20 @@ public class ClassRoomServiceImpl implements ClassRoomService {
             throw new UnAuthorizedException();
         }
 
+        List<Question> questionList = questionRepository.findAllByClassRoomId(id);
+        if (!questionList.isEmpty()) {
+            for (Question question : questionList) question.setClassRoomId(null);
+            questionRepository.deleteAll(questionList);
+        }
+        List<Exam> examList = examRepository.findAllByClassRoomId(id);
+        if (!examList.isEmpty()) {
+            for (Exam exam : examList) exam.setClassRoomId(null);
+            examRepository.deleteAll(examList);
+        }
         List<Topic> topics = topicRepository.findAllByClassRoomId(id);
         if (!topics.isEmpty()) {
             for (Topic topic : topics) topic.setClassRoom(null);
-            topicRepository.saveAll(topics);
+            topicRepository.deleteAll(topics);
         }
 
         classRoomRepository.deleteById(id);

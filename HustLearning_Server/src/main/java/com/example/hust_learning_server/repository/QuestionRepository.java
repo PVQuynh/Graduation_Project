@@ -12,18 +12,18 @@ import java.util.Optional;
 
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 
-    @Query("select q from Question q where q.topic.id = :topicId")
-    List<Question>findQuestionsByTopicId(@Param("topicId") long topicId );
+    @Query("select q from Question q where q.classRoomId = :classRoomId")
+    List<Question>findQuestionsByClassRoomId(@Param("classRoomId") long classRoomId );
 
     @Query(nativeQuery = true, value = SQLQuestion.GET_ALL_QUESTIONS)
-    List<Question> finAllQuestions(long topicId, String contentSearch);
+    List<Question> finAllQuestions(long classRoomId, String contentSearch);
 
-    @Query("select q from Question q where q.topic.id = :topicId")
-    List<Question> findQuestionLimitsByTopicId(@Param("topicId") long topicId, Pageable pageable);
+    @Query("select q from Question q where q.classRoomId = :classRoomId")
+    List<Question> findQuestionLimitsByClassRoomId(@Param("classRoomId") long classRoomId, Pageable pageable);
 
-    @Query("select q from Question q where q.topic.id = :topicId")
-    List<Question>searchQuestionsByTopicId(@Param("topicId") long topicId, Pageable pageable);
+    @Query("select q from Question q where q.classRoomId = :classRoomId")
+    List<Question>searchQuestionsByClassRoomId(@Param("classRoomId") long classRoomId, Pageable pageable);
 
-    List<Question> findAllByTopicId(long id);
+    List<Question> findAllByClassRoomId(long id);
 
 }

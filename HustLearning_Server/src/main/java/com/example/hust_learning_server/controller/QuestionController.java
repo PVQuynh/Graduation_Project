@@ -27,20 +27,20 @@ public class QuestionController {
 
     }
 
-    @GetMapping("/{topicId}")
-    public ResponseEntity<MessageResponse> getAllQuestions(@PathVariable("topicId") long topicId) {
+    @GetMapping("/{classRoomId}")
+    public ResponseEntity<MessageResponse> getAllQuestions(@PathVariable("classRoomId") long classRoomId) {
         MessageResponse ms = new MessageResponse();
-        ms.data = questionService.getQuestionsByTopicId(topicId);
+        ms.data = questionService.getQuestionsByClassRoomId(classRoomId);
         return ResponseEntity.ok(ms);
     }
 
     @GetMapping("/all")
     public ResponseEntity<MessageResponse> getAllQuestions(
-        @RequestParam(required = false, defaultValue = "0") long topicId,
+        @RequestParam(required = false, defaultValue = "0") long classRoomId,
         @RequestParam(required = false, defaultValue = "") String contentSearch
     ) {
         MessageResponse ms = new MessageResponse();
-        ms.data = questionService.getAllQuestions(topicId, contentSearch);
+        ms.data = questionService.getAllQuestions(classRoomId, contentSearch);
         return ResponseEntity.ok(ms);
     }
 
@@ -52,7 +52,7 @@ public class QuestionController {
 
     }
 
-    @PostMapping("/limits-topic")
+    @PostMapping("/limits-classRoom")
     public ResponseEntity<MessageResponse> questionLimits(@RequestBody QuestionLimitReq questionLimitReq) {
         MessageResponse ms = new MessageResponse();
         ms.data = questionService.questionLimits(questionLimitReq);
@@ -60,14 +60,14 @@ public class QuestionController {
 
     }
 
-    @GetMapping("/limits-topic/v2")
+    @GetMapping("/limits-classRoom/v2")
     public ResponseEntity<MessageResponse> questionLimits_v2(
             @RequestParam(defaultValue = "1", required = true) int page,
             @RequestParam(defaultValue = "10", required = true) int size,
-            @RequestParam(required = true) long topicId
+            @RequestParam(required = true) long classRoomId
     ) {
         MessageResponse ms = new MessageResponse();
-        ms.data = questionService.questionLimits_v2(page, size, topicId);
+        ms.data = questionService.questionLimits_v2(page, size, classRoomId);
         return ResponseEntity.ok(ms);
 
     }

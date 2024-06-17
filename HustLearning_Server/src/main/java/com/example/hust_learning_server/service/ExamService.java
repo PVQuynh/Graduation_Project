@@ -24,7 +24,7 @@ public interface ExamService {
 
     ExamRes getExamById(long id);
 
-    Page<ExamRes> getAllExams(long topicId, String isPrivate, String nameSearch, Pageable pageable);
+    Page<ExamRes> getAllExams(long classRoomId, String isPrivate, String nameSearch, Pageable pageable);
 
     Page<ExamResForUser> getAllExamsForUser(Pageable pageable);
 

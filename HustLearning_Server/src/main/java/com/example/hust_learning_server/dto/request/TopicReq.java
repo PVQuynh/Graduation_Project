@@ -21,6 +21,4 @@ public class TopicReq {
 
     private long classRoomId;
 
-    private String classRoomContent;
-
 }

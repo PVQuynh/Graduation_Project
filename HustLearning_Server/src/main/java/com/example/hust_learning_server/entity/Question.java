@@ -32,13 +32,10 @@ public class Question extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private FileType fileType;
 
+    private Long classRoomId;
+
     @OneToMany(mappedBy = "question",
             cascade = {CascadeType.ALL},
             fetch = FetchType.LAZY)
     private List<Answer> answers;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "topic_id")
-    private Topic topic;
-
 }

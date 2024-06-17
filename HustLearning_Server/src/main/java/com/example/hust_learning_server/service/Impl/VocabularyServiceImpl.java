@@ -606,17 +606,18 @@ public class VocabularyServiceImpl implements VocabularySerivce {
         if (ObjectUtils.isEmpty(email)) {
             throw new UnAuthorizedException();
         }
-
         List<VocabularyImage> vocabularyImageList = vocabularyImageRepository.findAllByVocabularyId(id);
         if (!vocabularyImageList.isEmpty()) {
             vocabularyImageRepository.deleteAll(vocabularyImageList);
         }
-
+        List<VocabularyVideo> vocabularyVideoList = vocabularyVideoRepository.findAllByVocabularyId(id);
+        if (!vocabularyVideoList.isEmpty()) {
+            vocabularyVideoRepository.deleteAll(vocabularyVideoList);
+        }
         List<DataCollection> dataCollectionList = dataCollectionRepository.findAllByVocabularyId(id);
         if (!dataCollectionList.isEmpty()) {
             dataCollectionRepository.deleteAll(dataCollectionList);
         }
-
         vocabularyRepository.deleteById(id);
     }
 
@@ -630,6 +631,10 @@ public class VocabularyServiceImpl implements VocabularySerivce {
             List<VocabularyImage> vocabularyImageList = vocabularyImageRepository.findAllByVocabularyId(vocabularyId);
             if (!vocabularyImageList.isEmpty()) {
                 vocabularyImageRepository.deleteAll(vocabularyImageList);
+            }
+            List<VocabularyVideo> vocabularyVideoList = vocabularyVideoRepository.findAllByVocabularyId(vocabularyId);
+            if (!vocabularyVideoList.isEmpty()) {
+                vocabularyVideoRepository.deleteAll(vocabularyVideoList);
             }
             List<DataCollection> dataCollectionList = dataCollectionRepository.findAllByVocabularyId(vocabularyId);
             if (!dataCollectionList.isEmpty()) {

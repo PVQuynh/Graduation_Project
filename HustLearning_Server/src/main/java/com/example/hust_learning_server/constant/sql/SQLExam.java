@@ -6,11 +6,11 @@ public class SQLExam {
         select
             exam.*
             from {h-schema}exam
-            left join {h-schema}topic on topic.topic_id = exam.topic_id
+            left join {h-schema}classRoom on classRoom.classRoom_id = exam.classRoom_id
         where
             (case
-                when :topicId = 0 then exam.topic_id is null or exam.topic_id = exam.topic_id
-                else exam.topic_id = :topicId
+                when :classRoomId = 0 then exam.classRoom_id is null or exam.classRoom_id = exam.classRoom_id
+                else exam.classRoom_id = :classRoomId
             end)
             and
         	exam.is_private =

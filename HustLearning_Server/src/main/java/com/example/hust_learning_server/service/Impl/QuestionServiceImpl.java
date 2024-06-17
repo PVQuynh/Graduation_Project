@@ -11,15 +11,14 @@ import com.example.hust_learning_server.entity.BaseEntity;
 import com.example.hust_learning_server.entity.Question;
 import com.example.hust_learning_server.entity.QuestionExamMapping;
 import com.example.hust_learning_server.entity.QuestionExamUserMapping;
-import com.example.hust_learning_server.entity.Topic;
 import com.example.hust_learning_server.exception.ResourceNotFoundException;
 import com.example.hust_learning_server.exception.UnAuthorizedException;
 import com.example.hust_learning_server.mapper.QuestionMapper;
 import com.example.hust_learning_server.repository.AnswerRepository;
+import com.example.hust_learning_server.repository.ClassRoomRepository;
 import com.example.hust_learning_server.repository.QuestionExamMappingRepository;
 import com.example.hust_learning_server.repository.QuestionExamUserMappingRepository;
 import com.example.hust_learning_server.repository.QuestionRepository;
-import com.example.hust_learning_server.repository.TopicRepository;
 import com.example.hust_learning_server.service.QuestionService;
 import com.example.hust_learning_server.utils.EmailUtils;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +40,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     private final QuestionRepository questionRepository;
     private final AnswerRepository answerRepository;
-    private final TopicRepository topicRepository;
+    private final ClassRoomRepository classRoomRepository;
     private final QuestionMapper questionMapper;
     private final QuestionExamMappingRepository questionExamMappingRepository;
     private final QuestionExamUserMappingRepository questionExamUserMappingRepository;
@@ -56,11 +55,11 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<QuestionRes> getAllQuestions(long topicId, String contentSearch) {
+    public List<QuestionRes> getAllQuestions(long classRoomId, String contentSearch) {
         if (Strings.isBlank(contentSearch)) {
             contentSearch = null;
         }
-        List<Question> questions = questionRepository.finAllQuestions(topicId, contentSearch);
+        List<Question> questions = questionRepository.finAllQuestions(classRoomId, contentSearch);
         if (questions.isEmpty()) {
             return null;
         }
@@ -68,8 +67,8 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<QuestionRes> getQuestionsByTopicId(long topicId) {
-        List<Question> questions = questionRepository.findQuestionsByTopicId(topicId);
+    public List<QuestionRes> getQuestionsByClassRoomId(long classRoomId) {
+        List<Question> questions = questionRepository.findQuestionsByClassRoomId(classRoomId);
         if (questions.isEmpty()) {
             return null;
         }
@@ -96,7 +95,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public List<QuestionRes> questionLimits(QuestionLimitReq questionLimitReq) {
         Pageable pageable = PageRequest.of(questionLimitReq.getPage() - 1, questionLimitReq.getSize());
-        List<Question> questions = questionRepository.findQuestionLimitsByTopicId(questionLimitReq.getTopicId(), pageable);
+        List<Question> questions = questionRepository.findQuestionLimitsByClassRoomId(questionLimitReq.getClassRoomId(), pageable);
         if (questions.isEmpty()) {
             return null;
         }
@@ -104,9 +103,9 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<QuestionRes> questionLimits_v2(int page, int size, long topicId) {
+    public List<QuestionRes> questionLimits_v2(int page, int size, long classRoomId) {
         Pageable pageable = PageRequest.of(page - 1, size);
-        List<Question> questions = questionRepository.findQuestionLimitsByTopicId(topicId, pageable);
+        List<Question> questions = questionRepository.findQuestionLimitsByClassRoomId(classRoomId, pageable);
         if (questions.isEmpty()) {
             return null;
         }
@@ -119,9 +118,6 @@ public class QuestionServiceImpl implements QuestionService {
         if (ObjectUtils.isEmpty(email)) {
             throw new UnAuthorizedException();
         }
-        // check có topic dung ko
-        Topic topic = topicRepository.findById(questionReq.getTopicId()).orElseThrow(ResourceNotFoundException::new);
-
         Question question = questionMapper.toEntity(questionReq);
         questionRepository.save(question);
     }
@@ -133,8 +129,6 @@ public class QuestionServiceImpl implements QuestionService {
             throw new UnAuthorizedException();
         }
         for (QuestionReq questionReq : questionReqList) {
-            // check có topic dung ko
-            Topic topic = topicRepository.findById(questionReq.getTopicId()).orElseThrow(ResourceNotFoundException::new);
             Question question = questionMapper.toEntity(questionReq);
             questionRepository.save(question);
         }

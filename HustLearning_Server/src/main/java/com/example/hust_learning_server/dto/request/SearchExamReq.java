@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SearchExamReq {
 
-    private long topicId;
+    private Long classRoomId;
 
     private String isPrivate;
 

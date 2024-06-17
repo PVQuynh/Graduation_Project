@@ -6,11 +6,11 @@ public class SQLQuestion {
         select
             question.*
             from {h-schema}question
-            left join {h-schema}topic on topic.topic_id = question.topic_id
+            left join {h-schema}classRoom on classRoom.classRoom_id = question.classRoom_id
         where
            (case
-                when :topicId = 0 then question.topic_id is null or question.topic_id = question.topic_id
-                else question.topic_id = :topicId
+                when :classRoomId = 0 then question.classRoom_id is null or question.classRoom_id = question.classRoom_id
+                else question.classRoom_id = :classRoomId
            end)
            and
            (case

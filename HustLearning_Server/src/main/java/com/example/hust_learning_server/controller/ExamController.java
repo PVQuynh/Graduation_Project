@@ -47,7 +47,7 @@ public class ExamController {
     ) {
         MessageResponse ms = new MessageResponse();
         Pageable pageable = PageUtils.getPageable(searchExamReq.getPage(), searchExamReq.getSize(), searchExamReq.getOrderBy(), searchExamReq.isAscending());
-        ms.data = examService.getAllExams(searchExamReq.getTopicId(), searchExamReq.getIsPrivate(), searchExamReq.getNameSearch(), pageable);
+        ms.data = examService.getAllExams(searchExamReq.getClassRoomId(), searchExamReq.getIsPrivate(), searchExamReq.getNameSearch(), pageable);
         return ResponseEntity.ok(ms);
     }
 

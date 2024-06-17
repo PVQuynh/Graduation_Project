@@ -31,7 +31,7 @@ public class QuestionReq {
     @Enumerated(EnumType.STRING)
     private FileType fileType;
 
-    private long topicId;
+    private Long classRoomId;
 
     private List<AnswerReq> answerReqs;
 }

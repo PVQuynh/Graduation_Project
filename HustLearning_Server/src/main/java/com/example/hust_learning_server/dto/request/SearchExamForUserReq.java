@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SearchExamForUserReq {
 
-    private long topicId;
+    private Long classRoomId;
 
     private boolean isPrivate;
 
