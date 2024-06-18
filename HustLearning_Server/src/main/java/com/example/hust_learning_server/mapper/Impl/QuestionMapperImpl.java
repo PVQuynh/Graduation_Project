@@ -5,11 +5,11 @@ import com.example.hust_learning_server.dto.response.AnswerRes;
 import com.example.hust_learning_server.dto.request.QuestionReq;
 import com.example.hust_learning_server.dto.response.QuestionRes;
 import com.example.hust_learning_server.entity.Answer;
+import com.example.hust_learning_server.entity.ClassRoom;
 import com.example.hust_learning_server.entity.Question;
-import com.example.hust_learning_server.exception.BusinessLogicException;
 import com.example.hust_learning_server.mapper.AnswerMapper;
 import com.example.hust_learning_server.mapper.QuestionMapper;
-import com.example.hust_learning_server.repository.TopicRepository;
+import com.example.hust_learning_server.repository.ClassRoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 public class QuestionMapperImpl implements QuestionMapper {
 
     private final AnswerMapper anwserMapper;
+    private final ClassRoomRepository classRoomRepository;
 
     @Override
     public Question toEntity(QuestionReq dto) {
@@ -43,9 +44,12 @@ public class QuestionMapperImpl implements QuestionMapper {
 
         List<Answer> answers = entity.getAnswers();
         List<AnswerRes> answerResList = anwserMapper.toDTOList(answers);
-
         questionRes.setQuestionId(entity.getId());
         questionRes.setAnswerResList(answerResList);
+        ClassRoom classRoom = classRoomRepository.findById(entity.getClassRoomId()).orElse(null);
+        if (Objects.nonNull(classRoom)) {
+            questionRes.setClassRoomContent(classRoom.getContent());
+        }
 
         return questionRes;
     }

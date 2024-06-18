@@ -10,4 +10,6 @@ public interface QuestionExamUserMappingRepository extends JpaRepository<Questio
     List<QuestionExamUserMapping> findByExamIdAndUserId(Long examId, Long userId);
 
     List<QuestionExamUserMapping> findAllByQuestionId(Long questionId);
+
+    boolean existsByQuestionIdAndExamIdAndUserId(Long questionId, Long examId, Long userId);
 }

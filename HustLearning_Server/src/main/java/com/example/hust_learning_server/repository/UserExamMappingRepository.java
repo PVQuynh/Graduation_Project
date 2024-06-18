@@ -13,4 +13,6 @@ public interface UserExamMappingRepository extends JpaRepository<UserExamMapping
     Page<UserExamMapping> findAllByUserId(long userId, Pageable pageable);
 
     Optional<UserExamMapping> findByUserIdAndExamId(long userId, long examId);
+
+    boolean existsByUserIdAndExamId(long userId, long examId);
 }

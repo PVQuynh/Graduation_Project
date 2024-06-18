@@ -20,7 +20,6 @@ import com.example.hust_learning_server.entity.Exam;
 import com.example.hust_learning_server.entity.Question;
 import com.example.hust_learning_server.entity.QuestionExamMapping;
 import com.example.hust_learning_server.entity.QuestionExamUserMapping;
-import com.example.hust_learning_server.entity.ClassRoom;
 import com.example.hust_learning_server.entity.User;
 import com.example.hust_learning_server.entity.UserExamMapping;
 import com.example.hust_learning_server.exception.ResourceNotFoundException;
@@ -43,7 +42,6 @@ public class ExamServiceImpl implements ExamService {
 
     private final ExamRepository examRepository;
     private final QuestionRepository questionRepository;
-    private final ClassRoomRepository classRoomRepository;
     private final UserRepository userRepository;
     private final QuestionExamMappingRepository questionExamMappingRepository;
     private final UserExamMappingRepository userExamMappingRepository;
@@ -66,7 +64,17 @@ public class ExamServiceImpl implements ExamService {
             .classRoomId(examReq.getClassRoomId())
             .build());
         // save question exam mapping
-        List<QuestionExamMapping> questionExamMappings = new ArrayList<>();
+        List<QuestionExamMapping> questionExamMappings = examReq.getQuestionIds().stream()
+            .filter(questionId -> !questionExamMappingRepository.existsByQuestionIdAndExamId(questionId, exam.getId()))
+            .map(questionId -> {
+                QuestionExamMapping questionExamMapping = QuestionExamMapping.builder()
+                    .questionId(questionId)
+                    .examId(exam.getId())
+                    .build();
+                return questionExamMapping;
+            })
+            .toList();
+
         for (Long questionId : examReq.getQuestionIds()) {
             QuestionExamMapping questionExamMapping = QuestionExamMapping.builder()
                 .questionId(questionId)
@@ -88,15 +96,17 @@ public class ExamServiceImpl implements ExamService {
         if (exams.size() != examIds.size()) {
             throw new ResourceNotFoundException();
         }
-        List<UserExamMapping> userExamMappings = new ArrayList<>();
-        for (Long examId : examIds) {
-            UserExamMapping userExamMapping = UserExamMapping.builder()
-                .userId(userId)
-                .examId(examId)
-                .isFinish(false)
-                .build();
-            userExamMappings.add(userExamMapping);
-        }
+        List<UserExamMapping> userExamMappings = examIds.stream()
+            .filter(examId -> !userExamMappingRepository.existsByUserIdAndExamId(user.getId(), examId))
+            .map(examId -> {
+                 UserExamMapping userExamMapping = UserExamMapping.builder()
+                    .userId(userId)
+                    .examId(examId)
+                    .isFinish(false)
+                    .build();
+                 return userExamMapping;
+            })
+            .toList();
         userExamMappingRepository.saveAll(userExamMappings);
     }
 
@@ -121,12 +131,16 @@ public class ExamServiceImpl implements ExamService {
             throw new UnAuthorizedException();
         }
         User user = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
-        List<QuestionExamUserMapping> questionExamUserMappings =examSavedReqs.stream().map(examSavedReq -> {
-            QuestionExamUserMapping questionExamUserMapping = new QuestionExamUserMapping();
-            BeanUtils.copyProperties(examSavedReq, questionExamUserMapping);
-            questionExamUserMapping.setUserId(user.getId());
-            return questionExamUserMapping;
-        }).toList();
+        List<QuestionExamUserMapping> questionExamUserMappings = examSavedReqs.stream()
+            .filter(examSavedReq -> !questionExamUserMappingRepository.existsByQuestionIdAndExamIdAndUserId(examSavedReq.getQuestionId(),
+                examSavedReq.getExamId(), user.getId()))
+            .map(examSavedReq -> {
+                QuestionExamUserMapping questionExamUserMapping = new QuestionExamUserMapping();
+                BeanUtils.copyProperties(examSavedReq, questionExamUserMapping);
+                questionExamUserMapping.setUserId(user.getId());
+                return questionExamUserMapping;
+            })
+            .toList();
         questionExamUserMappingRepository.saveAll(questionExamUserMappings);
     }
 
@@ -223,7 +237,8 @@ public class ExamServiceImpl implements ExamService {
 
         List<QuestionExamUserMapping> questionExamUserMappings = questionExamUserMappingRepository.findByExamIdAndUserId(examId, user.getId());
         questionExamUserMappingRepository.deleteAll(questionExamUserMappings);
-        UserExamMapping userExamMapping = userExamMappingRepository.findByUserIdAndExamId(user.getId(), examId).orElseThrow(ResourceNotFoundException::new);
+        UserExamMapping userExamMapping = userExamMappingRepository.findByUserIdAndExamId(user.getId(), examId)
+            .orElseThrow(ResourceNotFoundException::new);
         userExamMappingRepository.delete(userExamMapping);
     }
 
