@@ -17,13 +17,13 @@ import java.util.List;
 @NoArgsConstructor
 public class UserDetail implements UserDetails {
     private User user;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorityList = List.of(new SimpleGrantedAuthority(user.getRole().getCode()));
 
         return  authorityList;
     }
-
 
     @Override
     public String getPassword() {

@@ -47,6 +47,8 @@ public class ExamServiceImpl implements ExamService {
     private final UserExamMappingRepository userExamMappingRepository;
     private final QuestionExamUserMappingRepository questionExamUserMappingRepository;
 
+
+    @Transactional
     @Override
     public void addExam(ExamReq examReq) {
         String email = EmailUtils.getCurrentUser();
@@ -74,14 +76,6 @@ public class ExamServiceImpl implements ExamService {
                 return questionExamMapping;
             })
             .toList();
-
-        for (Long questionId : examReq.getQuestionIds()) {
-            QuestionExamMapping questionExamMapping = QuestionExamMapping.builder()
-                .questionId(questionId)
-                .examId(exam.getId())
-                .build();
-            questionExamMappings.add(questionExamMapping);
-        }
         questionExamMappingRepository.saveAll(questionExamMappings);
     }
 
@@ -142,6 +136,16 @@ public class ExamServiceImpl implements ExamService {
             })
             .toList();
         questionExamUserMappingRepository.saveAll(questionExamUserMappings);
+        List<QuestionExamUserMapping> existingQuestionExamUserMappings = examSavedReqs.stream()
+            .filter(examSavedReq -> questionExamUserMappingRepository.existsByQuestionIdAndExamIdAndUserId(examSavedReq.getQuestionId(), examSavedReq.getExamId(), user.getId()))
+            .map(examSavedReq -> {
+                QuestionExamUserMapping questionExamUserMapping = questionExamUserMappingRepository.findByQuestionIdAndExamIdAndUserId(examSavedReq.getQuestionId(), examSavedReq.getExamId(), user.getId()).orElseThrow(ResourceNotFoundException::new);
+                BeanUtils.copyProperties(examSavedReq, questionExamUserMapping);
+                questionExamUserMapping.setUserId(user.getId());
+                return questionExamUserMapping;
+            })
+            .toList();
+        questionExamUserMappingRepository.saveAll(existingQuestionExamUserMappings);
     }
 
     @Override

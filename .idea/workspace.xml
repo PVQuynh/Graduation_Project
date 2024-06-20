@@ -4,14 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dba02908-b05a-40d3-a9fa-0e8f533ad69f" name="Changes" comment="fixbug: Fix thêm từ vưng khi ảnh/video null">
+    <list default="true" id="dba02908-b05a-40d3-a9fa-0e8f533ad69f" name="Changes" comment="fixbug: check trùng cho các bảng mapping">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HustLearning_Server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/dto/response/QuestionRes.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/dto/response/QuestionRes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/mapper/Impl/QuestionMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/mapper/Impl/QuestionMapperImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/repository/QuestionExamMappingRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/repository/QuestionExamMappingRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/repository/QuestionExamUserMappingRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/repository/QuestionExamUserMappingRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/ExamServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/ExamServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/security/UserDetail.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/security/UserDetail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/security/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/security/WebSecurityConfig.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -302,7 +301,13 @@
       <workItem from="1718617925266" duration="788000" />
       <workItem from="1718632631278" duration="1334000" />
       <workItem from="1718636231749" duration="818000" />
-      <workItem from="1718722222576" duration="1610000" />
+      <workItem from="1718722222576" duration="2168000" />
+      <workItem from="1718760562154" duration="12000" />
+      <workItem from="1718763297404" duration="1207000" />
+      <workItem from="1718785372616" duration="640000" />
+      <workItem from="1718857709371" duration="1856000" />
+      <workItem from="1718873595654" duration="940000" />
+      <workItem from="1718893650341" duration="2181000" />
     </task>
     <task id="LOCAL-00001" summary="fix servers 16/3/24">
       <option name="closed" value="true" />
@@ -664,7 +669,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718615920774</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="fixbug: check trùng cho các bảng mapping">
+      <option name="closed" value="true" />
+      <created>1718724106722</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1718724106722</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -695,7 +708,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="fix GlobalExceptionHandler và FriendShipController" />
     <MESSAGE value="api ClassRoom" />
     <MESSAGE value="Phân loại từ, câu đoạn ở Entity" />
     <MESSAGE value="Phân loại từ, câu, đoạn ở controller" />
@@ -720,7 +732,8 @@
     <MESSAGE value="feature: question và exam là của class_room" />
     <MESSAGE value="fixbug: Fix lỗi sql của exam và question" />
     <MESSAGE value="fixbug: Fix thêm từ vưng khi ảnh/video null" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixbug: Fix thêm từ vưng khi ảnh/video null" />
+    <MESSAGE value="fixbug: check trùng cho các bảng mapping" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixbug: check trùng cho các bảng mapping" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
