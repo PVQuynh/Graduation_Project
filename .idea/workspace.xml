@@ -4,13 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dba02908-b05a-40d3-a9fa-0e8f533ad69f" name="Changes" comment="fixbug: check trùng cho các bảng mapping">
+    <list default="true" id="dba02908-b05a-40d3-a9fa-0e8f533ad69f" name="Changes" comment="fixbug: update bài kiểm tra khi lưu">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/6c6bbabe-9aa5-4a79-b91e-7f78cbccf9a5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8a6a0fba-2461-4733-83a8-946bcf064c09.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/entity/GroupMember.java" beforeDir="false" afterPath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/entity/GroupMember.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HustApp-Docker/docker-compose-primary.yml" beforeDir="false" afterPath="$PROJECT_DIR$/HustApp-Docker/docker-compose-primary.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HustLearning_Server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/repository/QuestionExamUserMappingRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/repository/QuestionExamUserMappingRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/ExamServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/ExamServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/security/UserDetail.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/security/UserDetail.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/security/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/security/WebSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/entity/Answer.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/entity/Answer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/AnswerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/AnswerServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/QuestionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/QuestionServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,12 +104,12 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.21839081&quot;,
     &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
     &quot;service.view.auto.scroll.to.source&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.appearance&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.new.ui&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -307,7 +312,22 @@
       <workItem from="1718785372616" duration="640000" />
       <workItem from="1718857709371" duration="1856000" />
       <workItem from="1718873595654" duration="940000" />
-      <workItem from="1718893650341" duration="2181000" />
+      <workItem from="1718893650341" duration="2426000" />
+      <workItem from="1718976532816" duration="3720000" />
+      <workItem from="1719218316439" duration="1554000" />
+      <workItem from="1719288581115" duration="612000" />
+      <workItem from="1719412079141" duration="157000" />
+      <workItem from="1719413735669" duration="572000" />
+      <workItem from="1719414643443" duration="1574000" />
+      <workItem from="1719416369319" duration="50000" />
+      <workItem from="1719416434604" duration="115000" />
+      <workItem from="1719473594405" duration="3478000" />
+      <workItem from="1719557520799" duration="970000" />
+      <workItem from="1719843220228" duration="1060000" />
+      <workItem from="1719929377121" duration="1471000" />
+      <workItem from="1720038152209" duration="2934000" />
+      <workItem from="1720072841498" duration="699000" />
+      <workItem from="1720100087737" duration="1545000" />
     </task>
     <task id="LOCAL-00001" summary="fix servers 16/3/24">
       <option name="closed" value="true" />
@@ -677,7 +697,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718724106722</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="fixbug: update bài kiểm tra khi lưu">
+      <option name="closed" value="true" />
+      <created>1718895905648</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1718895905648</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -708,7 +736,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="api ClassRoom" />
     <MESSAGE value="Phân loại từ, câu đoạn ở Entity" />
     <MESSAGE value="Phân loại từ, câu, đoạn ở controller" />
     <MESSAGE value="api thêm list câu hỏi" />
@@ -733,7 +760,8 @@
     <MESSAGE value="fixbug: Fix lỗi sql của exam và question" />
     <MESSAGE value="fixbug: Fix thêm từ vưng khi ảnh/video null" />
     <MESSAGE value="fixbug: check trùng cho các bảng mapping" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixbug: check trùng cho các bảng mapping" />
+    <MESSAGE value="fixbug: update bài kiểm tra khi lưu" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixbug: update bài kiểm tra khi lưu" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

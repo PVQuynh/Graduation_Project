@@ -2,7 +2,7 @@ services:
 
   userservice:
     container_name: userserver
-    image: quynhpv/userserver:s42
+    image: quynhpv/userserver:s49
     ports:
       - 8080:8080
     depends_on:
@@ -24,7 +24,7 @@ services:
 
       SPRING_DATASOURCE_URL: jdbc:mysql://hustappdb:3306/hustappuser?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_DATASOURCE_PASSWORD: Hust20232
 
       SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379
@@ -44,7 +44,7 @@ services:
       - 3307:3306
     environment:
       MYSQL_DATABASE: hustappuser
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: Hust20232
     volumes:
       - ./hustdata:/var/lib/mysql
     networks:
@@ -86,7 +86,7 @@ services:
 
   datacollectionservice:
     container_name: datacollectionserver
-    image: quynhpv/datacollectionserver:s6
+    image: quynhpv/datacollectionserver:s10
     ports:
       - 8090:8090
     depends_on:
@@ -102,8 +102,8 @@ services:
       SERVICE_HOST: http://172.17.0.1:9001
       SERVER_IP: https://wetalk.ibme.edu.vn/upload
 
-      SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE: 100MB
-      SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE: 100MB
+      SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE: 1000MB
+      SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE: 10000MB
 
       SPRING_DATASOURCE_URL: jdbc:mysql://hustappdb:3306/hustappuser?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: root
@@ -120,7 +120,7 @@ services:
 
   hustlearningservice:
     container_name: hustlearningserver
-    image: quynhpv/hustlearningserver:s46
+    image: quynhpv/hustlearningserver:s75
     ports:
       - 8060:8060
     depends_on:
@@ -129,7 +129,7 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://hustappdb:3306/hustappuser?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_DATASOURCE_PASSWORD: Hust20232
 
       EUREKA_INSTANCE_PREFERIPADDRESS: true
       EUREKA_CLIENT_REGISTERWITHEUREKA: true
@@ -141,7 +141,7 @@ services:
 
   chatservice:
     container_name: chatserver
-    image: quynhpv/chatserver:s49
+    image: quynhpv/chatserver:s51
     ports:
       - 8050:8050
       - 8055:8055 # Socket IO Port
@@ -151,7 +151,7 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://hustappdb:3306/hustappuser?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_DATASOURCE_PASSWORD: Hust20232
 
       SOCKET_SERVER_PORT: 8055 # Cấu hình cổng của Socket.IO server
 
@@ -161,6 +161,9 @@ services:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
     networks:
       - hustapp
+
+
+
 
 networks:
   hustapp:

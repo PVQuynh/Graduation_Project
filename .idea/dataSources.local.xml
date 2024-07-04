@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="dataSourceStorageLocal" created-in="IU-241.17011.79">
+  <component name="dataSourceStorageLocal" created-in="IU-232.10319.17">
     <data-source name="hustappuser@localhost" uuid="2fe9d1d1-a494-4d84-a89a-4569bcb50c5c">
-      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="MYSQL" />
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="MYSQL" exact-version="0" />
       <user-name>root</user-name>
       <schema-mapping />
     </data-source>
@@ -33,7 +33,7 @@
       </schema-mapping>
     </data-source>
     <data-source name="0@localhost" uuid="25cc500a-2cb2-425b-8164-725fe0e11e0d">
-      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="REDIS" />
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="REDIS" exact-version="0" />
       <schema-mapping />
     </data-source>
   </component>

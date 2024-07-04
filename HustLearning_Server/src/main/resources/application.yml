@@ -50,5 +50,5 @@ keycloak:
   username: admin
   password: admin
   credentials:
-    secret: Cg286gllWPjbUcFYj3koZpIbP3OGMuOx
-#    secret: o6hKN3PkOk9f8FeMX8xyTTnKhZwABExd
+#    secret: Cg286gllWPjbUcFYj3koZpIbP3OGMuOx
+    secret: o6hKN3PkOk9f8FeMX8xyTTnKhZwABExd

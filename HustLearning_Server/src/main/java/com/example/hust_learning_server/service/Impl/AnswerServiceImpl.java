@@ -38,7 +38,6 @@ public class AnswerServiceImpl implements AnswerService {
         if (ObjectUtils.isEmpty(email)) {
             throw new UnAuthorizedException();
         }
-
         Answer answer = answerRepository.findById(updateAnswerReq.getAnswerId()).orElseThrow(ResourceNotFoundException::new);
         if (updateAnswerReq.getContent() != null) {
             answer.setContent(updateAnswerReq.getContent());
@@ -50,7 +49,6 @@ public class AnswerServiceImpl implements AnswerService {
             answer.setVideoLocation(updateAnswerReq.getVideoLocation());
         }
         answer.setCorrect(updateAnswerReq.isCorrect());
-
         answerRepository.save(answer);
     }
 

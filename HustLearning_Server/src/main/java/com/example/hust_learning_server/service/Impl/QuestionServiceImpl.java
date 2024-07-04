@@ -29,10 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -163,21 +160,33 @@ public class QuestionServiceImpl implements QuestionService {
         if (updateQuestionReq.getVideoLocation() != null) {
             question.setVideoLocation(updateQuestionReq.getVideoLocation());
         }
-        questionRepository.save(question);
+        Question SavedQuestion = questionRepository.save(question);
         if (!ObjectUtils.isEmpty(updateQuestionReq.getUpdateAnswerReqs())) {
             for (UpdateAnswerReq updateAnswerReq : updateQuestionReq.getUpdateAnswerReqs()) {
-                Answer answer = answerRepository.findById(updateAnswerReq.getAnswerId()).orElseThrow(ResourceNotFoundException::new);
-                if (updateAnswerReq.getContent() != null) {
-                    answer.setContent(updateAnswerReq.getContent());
+                Optional<Answer> optionalAnswer = answerRepository.findById(updateAnswerReq.getAnswerId());
+                if (optionalAnswer.isPresent()) {
+                    Answer answer = optionalAnswer.get();
+                    if (updateAnswerReq.getContent() != null) {
+                        answer.setContent(updateAnswerReq.getContent());
+                    }
+                    if (updateAnswerReq.getImageLocation() != null) {
+                        answer.setImageLocation(updateAnswerReq.getImageLocation());
+                    }
+                    if (updateAnswerReq.getVideoLocation() != null) {
+                        answer.setVideoLocation(updateAnswerReq.getVideoLocation());
+                    }
+                    answer.setCorrect(updateAnswerReq.isCorrect());
+                    answerRepository.save(answer);
+                } else {
+                    Answer answer = Answer.builder()
+                            .content(updateAnswerReq.getContent())
+                            .imageLocation(updateAnswerReq.getImageLocation())
+                            .videoLocation(updateAnswerReq.getVideoLocation())
+                            .isCorrect(updateAnswerReq.isCorrect())
+                            .question(SavedQuestion)
+                            .build();
+                    answerRepository.save(answer);
                 }
-                if (updateAnswerReq.getImageLocation() != null) {
-                    answer.setImageLocation(updateAnswerReq.getImageLocation());
-                }
-                if (updateAnswerReq.getVideoLocation() != null) {
-                    answer.setVideoLocation(updateAnswerReq.getVideoLocation());
-                }
-                answer.setCorrect(updateAnswerReq.isCorrect());
-                answerRepository.save(answer);
             }
             // Xóa các answer ko truyền vào
             List<Answer> answers = answerRepository.findAllByQuestionId(updateQuestionReq.getQuestionId());

@@ -20,8 +20,6 @@ public class GroupMember extends BaseEntity {
 
     private LocalDateTime lastActivity;
 
-    private boolean isActive;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="contact_id")
     private Contact contact;
