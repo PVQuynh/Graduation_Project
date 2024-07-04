@@ -1,21 +1,11 @@
 package com.example.hust_learning_server.controller;
 
 import java.util.List;
+
+import com.example.hust_learning_server.dto.request.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import com.example.hust_learning_server.dto.request.AddExamsForUserReq;
-import com.example.hust_learning_server.dto.request.ExamReq;
-import com.example.hust_learning_server.dto.request.ExamSavedReq;
-import com.example.hust_learning_server.dto.request.ExamScoringReq;
-import com.example.hust_learning_server.dto.request.SearchExamReq;
+import org.springframework.web.bind.annotation.*;
 import com.example.hust_learning_server.dto.response.MessageResponse;
 import com.example.hust_learning_server.service.ExamService;
 import com.example.hust_learning_server.utils.PageUtils;
@@ -31,6 +21,13 @@ public class ExamController {
     public ResponseEntity<MessageResponse> addExam(@RequestBody ExamReq examReq) {
         MessageResponse ms = new MessageResponse();
         examService.addExam(examReq);
+        return ResponseEntity.ok(ms);
+    }
+
+    @PutMapping
+    public ResponseEntity<MessageResponse> updateExam(@RequestBody UpdateExamReq updateExamReq) {
+        MessageResponse ms = new MessageResponse();
+        examService.updateExam(updateExamReq);
         return ResponseEntity.ok(ms);
     }
 

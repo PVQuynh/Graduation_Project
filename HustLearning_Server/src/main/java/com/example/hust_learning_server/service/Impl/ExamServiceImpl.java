@@ -3,6 +3,9 @@ package com.example.hust_learning_server.service.Impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import com.example.hust_learning_server.dto.request.UpdateExamReq;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -77,6 +80,50 @@ public class ExamServiceImpl implements ExamService {
             })
             .toList();
         questionExamMappingRepository.saveAll(questionExamMappings);
+    }
+
+    @Transactional
+    @Override
+    public void updateExam(UpdateExamReq updateExamReq) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new UnAuthorizedException();
+        }
+        // update question exam mapping
+        List<Long> questionIdReqs = updateExamReq.getQuestionIds();
+        List<Long> questionIdDBs = questionExamMappingRepository.findAllByExamId(updateExamReq.getExamId()).stream()
+                .map(q -> q.getQuestionId())
+                .toList();
+
+        List<Long> questionsToSave = new ArrayList<>();
+        for (Long questionIdReq : questionIdReqs) {
+            if (!questionIdDBs.contains(questionIdReq)) {
+                questionsToSave.add(questionIdReq);
+            }
+        }
+        List<QuestionExamMapping> questionExamMappings = questionsToSave.stream()
+                .filter(questionId -> !questionExamMappingRepository.existsByQuestionIdAndExamId(questionId, updateExamReq.getExamId()))
+                .map(questionId -> {
+                    QuestionExamMapping questionExamMapping = QuestionExamMapping.builder()
+                            .questionId(questionId)
+                            .examId(updateExamReq.getExamId())
+                            .build();
+                    return questionExamMapping;
+                })
+                .toList();
+        questionExamMappingRepository.saveAll(questionExamMappings);
+
+        for (Long questionIdDB : questionIdDBs) {
+            if (!questionIdReqs.contains(questionIdDB)) {
+                questionExamMappingRepository.deleteByQuestionId(questionIdDB);
+            }
+        }
+
+        // update exam
+        Exam exam = examRepository.findById(updateExamReq.getExamId()).orElseThrow(ResourceNotFoundException::new);
+        if (StringUtils.isNotBlank(updateExamReq.getName())) {
+            exam.setName(updateExamReq.getName());
+        }
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.example.hust_learning_server.service;
 
 import java.util.List;
+
+import com.example.hust_learning_server.dto.request.UpdateExamReq;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import com.example.hust_learning_server.dto.request.ExamReq;
@@ -13,6 +15,8 @@ import com.example.hust_learning_server.dto.response.ExamSavedRes;
 public interface ExamService {
 
     void addExam(ExamReq examReq);
+
+    void updateExam(UpdateExamReq updateExamReq);
 
     void addExamsForUser(List<Long> examIds, long userId);
 
@@ -31,4 +35,5 @@ public interface ExamService {
     void deleteExamOfUser(long examId);
 
     void deleteExam(long examId);
+
 }
