@@ -83,7 +83,6 @@ public class AddFriendServiceImpl implements AddFriendService {
         User sendUser = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
         // Lấy ra danh sách đã gửi lời mời cho mình
         List<FriendShip> friendShipList = friendShipRepository.findSendingListByUserId(userId);
-        if (friendShipList.isEmpty()) throw new ResourceNotFoundException();
         List<User> sendingUsers = friendShipList.stream()
                 .map(FriendShip::getAcceptFriend)
                 .toList();
