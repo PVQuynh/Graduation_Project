@@ -117,7 +117,7 @@ public class TopicServiceImpl implements TopicService {
         }
         topic.setPrivate(updateTopicReq.isPrivate());
 
-        Optional<ClassRoom> classRoomOptional = classRoomRepository.findById(updateTopicReq.getTopicId());
+        Optional<ClassRoom> classRoomOptional = classRoomRepository.findById(updateTopicReq.getClassRoomId());
         if (classRoomOptional.isPresent()) {
             if (topic.getClassRoom().getId() != classRoomOptional.get().getId()) {
                 topic.setClassRoom(classRoomOptional.get());
