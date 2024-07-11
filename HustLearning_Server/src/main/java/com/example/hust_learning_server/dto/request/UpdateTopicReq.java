@@ -21,4 +21,6 @@ public class UpdateTopicReq {
 
     private boolean isPrivate;
 
+    private long classRoomId;
+
 }

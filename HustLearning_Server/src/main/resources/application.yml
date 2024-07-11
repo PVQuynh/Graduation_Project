@@ -5,12 +5,12 @@ spring:
   application:
     name: learningserver
   datasource:
-    url: jdbc:mysql://localhost:3307/hustappuser
+#    url: jdbc:mysql://localhost:3307/hustappuser
+#    username: root
+#    password: Hust20232
+    url: jdbc:mysql://localhost:3306/hustappuser
     username: root
-    password: Hust20232
-#    url: jdbc:mysql://localhost:3306/hustappuser
-#    username: hust
-#    password: hust
+    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -50,5 +50,5 @@ keycloak:
   username: admin
   password: admin
   credentials:
-#    secret: Cg286gllWPjbUcFYj3koZpIbP3OGMuOx
-    secret: o6hKN3PkOk9f8FeMX8xyTTnKhZwABExd
+    secret: Y7j8BGBJ1ZVO0IgFjkdvnqtQtoF3xb8h
+#    secret: o6hKN3PkOk9f8FeMX8xyTTnKhZwABExd

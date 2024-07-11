@@ -6,6 +6,7 @@ import com.example.hust_learning_server.dto.request.SearchTopicParamReq;
 import com.example.hust_learning_server.dto.request.TopicReq;
 import com.example.hust_learning_server.dto.request.UpdateTopicReq;
 import com.example.hust_learning_server.dto.response.TopicRes;
+import com.example.hust_learning_server.entity.ClassRoom;
 import com.example.hust_learning_server.entity.Question;
 import com.example.hust_learning_server.entity.Topic;
 import com.example.hust_learning_server.entity.Vocabulary;
@@ -13,6 +14,7 @@ import com.example.hust_learning_server.exception.ConflictException;
 import com.example.hust_learning_server.exception.ResourceNotFoundException;
 import com.example.hust_learning_server.exception.UnAuthorizedException;
 import com.example.hust_learning_server.mapper.Impl.TopicMapperImpl;
+import com.example.hust_learning_server.repository.ClassRoomRepository;
 import com.example.hust_learning_server.repository.QuestionRepository;
 import com.example.hust_learning_server.repository.TopicRepository;
 import com.example.hust_learning_server.repository.VocabularyRepository;
@@ -49,6 +51,7 @@ public class TopicServiceImpl implements TopicService {
     private final QuestionRepository questionRepository;
     private final VocabularyRepository vocabularyRepository;
     private final TopicMapperImpl topicMapper;
+    private final ClassRoomRepository classRoomRepository;
 
     @Override
     public List<TopicRes> getAllTopics(long classRoomId, String isPrivate, String contentSearch) {
@@ -113,6 +116,14 @@ public class TopicServiceImpl implements TopicService {
             topic.setVideoLocation(updateTopicReq.getVideoLocation());
         }
         topic.setPrivate(updateTopicReq.isPrivate());
+
+        Optional<ClassRoom> classRoomOptional = classRoomRepository.findById(updateTopicReq.getTopicId());
+        if (classRoomOptional.isPresent()) {
+            if (topic.getClassRoom().getId() != classRoomOptional.get().getId()) {
+                topic.setClassRoom(classRoomOptional.get());
+            }
+        }
+
         topicRepository.save(topic);
     }
 
