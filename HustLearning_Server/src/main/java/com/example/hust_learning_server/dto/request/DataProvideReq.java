@@ -13,5 +13,7 @@ public class DataProvideReq {
 
     private String dataLocation;
 
+    private String detectionContent;
+
     private long vocabularyId;
 }

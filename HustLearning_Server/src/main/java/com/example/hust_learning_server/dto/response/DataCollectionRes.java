@@ -16,6 +16,8 @@ public class DataCollectionRes {
 
   private String dataLocation;
 
+  private String detectionContent;
+
   private String volunteerEmail;
 
   private String adminEmail;

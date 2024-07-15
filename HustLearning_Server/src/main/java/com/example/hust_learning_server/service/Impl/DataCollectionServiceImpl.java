@@ -56,6 +56,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
         DataCollection dataCollection = DataCollection.builder()
                 .dataLocation(dataProvideReq.getDataLocation())
+                .detectionContent(dataProvideReq.getDetectionContent())
                 .vocabulary(vocabulary)
                 .status(DataStatus.WAITING)
                 .build();
