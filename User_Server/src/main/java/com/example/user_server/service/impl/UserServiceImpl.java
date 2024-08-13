@@ -24,6 +24,7 @@ import com.example.user_server.repository.UserRepository;
 import com.example.user_server.service.KeycloakService;
 import com.example.user_server.service.UserService;
 import com.example.user_server.utils.EmailUtils;
+import com.example.user_server.utils.RandomStringUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -169,6 +170,16 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public User randomlyGeneratePassword(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(BusinessLogicException::new);
+
+        String password = RandomStringUtils.generateRandomString(12);
+        user.setPassword(password);
+        keycloakService.randomlyGeneratePassword(email, password);
+
+        return userRepository.save(user);
+    }
 
     @Override
     public PageDTO<UserDTO> search(UserSearchReq userSearchReq) {

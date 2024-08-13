@@ -28,6 +28,8 @@ public interface UserService {
 
     void changePassword(ChangePasswordReq changePasswordReq);
 
+    User randomlyGeneratePassword(String email);
+
     PageDTO<UserDTO> search(UserSearchReq userSearchReq);
 
     PageDTO<UserDTO> searchV2(int page, int size, String text, boolean ascending, String orderBy);

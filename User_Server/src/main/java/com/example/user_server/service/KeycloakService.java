@@ -166,8 +166,21 @@ public class KeycloakService {
         existingUser.resetPassword(newPasswordCredential);
     }
 
+    public void randomlyGeneratePassword(String email, String password) {
+        Keycloak keycloak = keycloaks.getKeycloakInstance();
+        UsersResource userResource = keycloak.realm(realm).users();
 
+        UserRepresentation existingUserRepresentation = userResource.search(email).stream().findFirst()
+                .orElseThrow(() -> new RuntimeException("Người dùng không tồn tại"));
 
+        UserResource existingUser = userResource.get(existingUserRepresentation.getId());
 
+        CredentialRepresentation newPasswordCredential = new CredentialRepresentation();
+        newPasswordCredential.setTemporary(false);
+        newPasswordCredential.setType(CredentialRepresentation.PASSWORD);
+        newPasswordCredential.setValue(password);
+
+        existingUser.resetPassword(newPasswordCredential);
+    }
 }
 
