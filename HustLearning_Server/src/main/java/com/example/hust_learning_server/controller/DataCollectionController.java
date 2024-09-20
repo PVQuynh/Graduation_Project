@@ -6,18 +6,20 @@ import com.example.hust_learning_server.dto.response.MessageResponse;
 import com.example.hust_learning_server.dto.response.SearchDataRes;
 import com.example.hust_learning_server.service.DataCollectionService;
 
+import java.io.IOException;
 import java.text.ParseException;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/data-collection")
 @RequiredArgsConstructor
 public class DataCollectionController {
     private final DataCollectionService dataCollectionService;
-
 
     // User
     @GetMapping("/all-me")
@@ -94,6 +96,17 @@ public class DataCollectionController {
     public ResponseEntity<MessageResponse> updateData(@RequestBody UpdateDataReq updateDataReq) {
         MessageResponse ms = new MessageResponse();
         dataCollectionService.updateData(updateDataReq);
+        return ResponseEntity.ok(ms);
+    }
+
+    @PostMapping(path = "/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<MessageResponse> uploadGeneralMediaFile(
+            @RequestPart(value = "file") MultipartFile file,
+            @RequestParam long vocabularyId,
+            @RequestParam(required = false) String detectionContent
+    ) throws IOException {
+        MessageResponse ms = new MessageResponse();
+        dataCollectionService.sendData(vocabularyId, detectionContent, file);
         return ResponseEntity.ok(ms);
     }
 

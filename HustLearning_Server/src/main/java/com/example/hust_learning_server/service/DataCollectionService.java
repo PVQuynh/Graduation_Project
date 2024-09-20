@@ -5,7 +5,9 @@ import com.example.hust_learning_server.dto.PageDTO;
 import com.example.hust_learning_server.dto.request.*;
 import com.example.hust_learning_server.dto.response.DataCollectionRes;
 import com.example.hust_learning_server.dto.response.SearchDataRes;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
@@ -31,6 +33,8 @@ public interface DataCollectionService {
             throws ParseException;
 
     void sendData(DataProvideReq dataProvideReq);
+
+    void sendData(long vocabularyId, String detectionContent, MultipartFile file) throws IOException;
 
     void updateData(UpdateDataReq updateDataReq);
 

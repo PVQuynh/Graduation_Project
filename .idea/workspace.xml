@@ -4,18 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dba02908-b05a-40d3-a9fa-0e8f533ad69f" name="Changes" comment="thêm api quản lý giới thiệu">
-      <change afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/ForgotPasswordController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/dto/request/ForgotPasswordReq.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/utils/RandomStringUtils.java" afterDir="false" />
+    <list default="true" id="dba02908-b05a-40d3-a9fa-0e8f533ad69f" name="Changes" comment="thêm api quên mật khẩu">
+      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/config/MinioClientConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/controller/UploadDataCollectionController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/dto/response/VocabularyCollectionRes.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/MinioFileServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/MinioFileService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/utils/GetPreSignedUrlUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/utils/MergeVocabularyRes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustApp-Docker/docker-compose-server.yml" beforeDir="false" afterPath="$PROJECT_DIR$/HustApp-Docker/docker-compose-server.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataCollection_Server/src/main/java/com/example/data_collection_server/service/Impl/UploadDataCollectionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/DataCollection_Server/src/main/java/com/example/data_collection_server/service/Impl/UploadDataCollectionServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HustLearning_Server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/controller/DataCollectionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/controller/DataCollectionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/DataCollectionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/DataCollectionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/DataCollectionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/DataCollectionServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/KeycloakService.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/KeycloakService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/impl/UserServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,8 +92,8 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.ChatApplication.executor": "Debug",
-    "Spring Boot.DataCollectionApplication.executor": "Run",
-    "Spring Boot.EurekaApplication.executor": "Debug",
+    "Spring Boot.DataCollectionApplication.executor": "Debug",
+    "Spring Boot.EurekaApplication.executor": "Run",
     "Spring Boot.GatewayApplication.executor": "Debug",
     "Spring Boot.HustLearningApplication.executor": "Debug",
     "Spring Boot.UserApplication.executor": "Debug",
@@ -98,7 +101,7 @@
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/ASUS/Desktop/gp_be/User_Server/src/main/java/com/example/user_server/dto/request",
+    "last_opened_file_path": "D:/pvq/references/VNPT/be_code/onedx_be",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -118,18 +121,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\ASUS\Desktop\gp_be\HustLearning_Server\src\main\java\com\example\hust_learning_server\service" />
+      <recent name="C:\Users\ASUS\Desktop\gp_be\HustLearning_Server\src\main\java\com\example\hust_learning_server\utils" />
       <recent name="C:\Users\ASUS\Desktop\gp_be\User_Server\src\main\java\com\example\user_server\dto\request" />
       <recent name="C:\Users\ASUS\Desktop\gp_be\User_Server\src\main\java\com\example\user_server\controller" />
       <recent name="C:\Users\ASUS\Desktop\gp_be\Chat_Server\src\main\java\com\chat\chat_server\security" />
-      <recent name="C:\Users\ASUS\Desktop\gp_be\HustLearning_Server\src\main\java\com\example\hust_learning_server\security" />
-      <recent name="C:\Users\ASUS\Desktop\gp_be\Chat_Server\src\main\java\com\chat\chat_server\entity" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.example.user_server.utils" />
-      <recent name="com.example.hust_learning_server.controller" />
       <recent name="com.example.hust_learning_server.dto.response" />
+      <recent name="com.example.hust_learning_server.controller" />
+      <recent name="com.example.hust_learning_server.config" />
+      <recent name="com.example.user_server.utils" />
       <recent name="com.example.hust_learning_server.dto.request" />
-      <recent name="com.example.hust_learning_server.service" />
     </key>
   </component>
   <component name="RunAnythingCache">
@@ -147,7 +150,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.UserApplication">
+  <component name="RunManager" selected="Spring Boot.HustLearningApplication">
     <configuration name="ChatApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="chatserver" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.chat.chat_server.ChatApplication" />
@@ -334,15 +337,9 @@
       <workItem from="1720680719220" duration="6304000" />
       <workItem from="1721045207974" duration="4628000" />
       <workItem from="1722929153500" duration="290000" />
-      <workItem from="1723531207277" duration="6004000" />
-    </task>
-    <task id="LOCAL-00009" summary="fix search 20/3/24">
-      <option name="closed" value="true" />
-      <created>1710914711854</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1710914711854</updated>
+      <workItem from="1723531207277" duration="7150000" />
+      <workItem from="1724774388758" duration="2302000" />
+      <workItem from="1726814746631" duration="10387000" />
     </task>
     <task id="LOCAL-00010" summary="fix search 23/3/24">
       <option name="closed" value="true" />
@@ -728,7 +725,15 @@
       <option name="project" value="LOCAL" />
       <updated>1723561350151</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="thêm api quên mật khẩu">
+      <option name="closed" value="true" />
+      <created>1723563165873</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1723563165873</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -759,7 +764,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="fix all-questions api" />
     <MESSAGE value="fix all-vocabularies api" />
     <MESSAGE value="fix thu thập dữ liệu" />
     <MESSAGE value="fix api thêm bài kiểm tra cho người dùng" />
@@ -784,14 +788,15 @@
     <MESSAGE value="update DataCollection" />
     <MESSAGE value="them quan ly link mobile" />
     <MESSAGE value="thêm api quản lý giới thiệu" />
-    <option name="LAST_COMMIT_MESSAGE" value="thêm api quản lý giới thiệu" />
+    <MESSAGE value="thêm api quên mật khẩu" />
+    <option name="LAST_COMMIT_MESSAGE" value="thêm api quên mật khẩu" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/DataCollectionServiceImpl.java</url>
-          <line>385</line>
+          <line>417</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -818,6 +823,56 @@
           <url>file://$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/impl/AddFriendServiceImpl.java</url>
           <line>89</line>
           <option name="timeStamp" value="42" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/DataCollection_Server/src/main/java/com/example/data_collection_server/controller/UploadDataCollectionController.java</url>
+          <line>51</line>
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/DataCollection_Server/src/main/java/com/example/data_collection_server/service/Impl/UploadDataCollectionServiceImpl.java</url>
+          <line>38</line>
+          <option name="timeStamp" value="44" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/DataCollection_Server/src/main/java/com/example/data_collection_server/service/Impl/UploadDataCollectionServiceImpl.java</url>
+          <line>42</line>
+          <option name="timeStamp" value="47" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/DataCollection_Server/src/main/java/com/example/data_collection_server/service/Impl/UploadDataCollectionServiceImpl.java</url>
+          <line>40</line>
+          <option name="timeStamp" value="48" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/DataCollection_Server/src/main/java/com/example/data_collection_server/service/Impl/UploadDataCollectionServiceImpl.java</url>
+          <line>44</line>
+          <option name="timeStamp" value="49" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/DataCollection_Server/src/main/java/com/example/data_collection_server/service/Impl/UploadDataCollectionServiceImpl.java</url>
+          <line>50</line>
+          <option name="timeStamp" value="50" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/DataCollection_Server/src/main/java/com/example/data_collection_server/service/Impl/UploadDataCollectionServiceImpl.java</url>
+          <line>68</line>
+          <option name="timeStamp" value="52" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/DataCollectionServiceImpl.java</url>
+          <line>71</line>
+          <option name="timeStamp" value="53" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/controller/DataCollectionController.java</url>
+          <line>109</line>
+          <option name="timeStamp" value="56" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/controller/DataCollectionController.java</url>
+          <line>103</line>
+          <option name="timeStamp" value="57" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

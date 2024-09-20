@@ -6,6 +6,7 @@ import com.example.hust_learning_server.dto.request.*;
 import com.example.hust_learning_server.dto.response.DataCollectionRes;
 import com.example.hust_learning_server.dto.response.SearchDataRes;
 import com.example.hust_learning_server.entity.DataCollection;
+import com.example.hust_learning_server.entity.User;
 import com.example.hust_learning_server.entity.Vocabulary;
 import com.example.hust_learning_server.exception.ConflictException;
 import com.example.hust_learning_server.exception.ResourceNotFoundException;
@@ -13,8 +14,10 @@ import com.example.hust_learning_server.exception.UnAuthorizedException;
 import com.example.hust_learning_server.mapper.DataCollectionMapper;
 import com.example.hust_learning_server.mapper.SearchDataMapper;
 import com.example.hust_learning_server.repository.DataCollectionRepository;
+import com.example.hust_learning_server.repository.UserRepository;
 import com.example.hust_learning_server.repository.VocabularyRepository;
 import com.example.hust_learning_server.service.DataCollectionService;
+import com.example.hust_learning_server.service.MinioFileService;
 import com.example.hust_learning_server.utils.EmailUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -24,6 +27,7 @@ import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,20 +38,19 @@ import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
 public class DataCollectionServiceImpl implements DataCollectionService {
 
     private final EntityManager entityManager;
-
     private final DataCollectionRepository dataCollectionRepository;
-
     private final VocabularyRepository vocabularyRepository;
-
     private final DataCollectionMapper dataCollectionMapper;
-
     private final SearchDataMapper searchDataMapper;
+    private final MinioFileService minioFileService;
+    private final UserRepository userRepository;
 
     @Override
     public void sendData(DataProvideReq dataProvideReq) {
@@ -62,6 +65,35 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 .build();
 
         dataCollectionRepository.save(dataCollection);
+    }
+
+    @Override
+    public void sendData(long vocabularyId, String detectionContent, MultipartFile file) throws IOException {
+        Vocabulary vocabulary = vocabularyRepository.findById(vocabularyId)
+                .orElseThrow(ResourceNotFoundException::new);
+        // process file path
+        String fileFolder = "waiting/"+vocabulary.getId()+"_"+vocabulary.getContent();
+        String email = EmailUtils.getCurrentUser();
+        String fileName="";
+        if (email != null && !email.isEmpty()) {
+            User user = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
+            fileName = vocabulary.getId()+"_"+vocabulary.getContent()+"_"+user.getId()+"_"+System.currentTimeMillis();
+        } else {
+            fileName = vocabulary.getId()+"_"+vocabulary.getContent()+"_"+"anonymousUser"+"_"+System.currentTimeMillis();
+        }
+        String filePath = fileFolder+"/"+fileName;
+
+        // save file to minio
+        String  minioUrl = minioFileService.uploadFile(filePath, file.getBytes());
+        if (minioUrl != null && !minioUrl.isEmpty()) {
+            DataCollection dataCollection = DataCollection.builder()
+                    .dataLocation(minioUrl)
+                    .detectionContent(detectionContent)
+                    .vocabulary(vocabulary)
+                    .status(DataStatus.WAITING)
+                    .build();
+              dataCollectionRepository.save(dataCollection);
+        }
     }
 
     @Override
