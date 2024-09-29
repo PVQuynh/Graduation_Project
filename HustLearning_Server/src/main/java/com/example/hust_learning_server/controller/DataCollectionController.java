@@ -99,18 +99,6 @@ public class DataCollectionController {
         return ResponseEntity.ok(ms);
     }
 
-    @PostMapping(path = "/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<MessageResponse> uploadGeneralMediaFile(
-            @RequestPart(value = "file") MultipartFile file,
-            @RequestParam long vocabularyId,
-            @RequestParam(required = false) String detectionContent
-    ) throws IOException {
-        MessageResponse ms = new MessageResponse();
-        dataCollectionService.sendData(vocabularyId, detectionContent, file);
-        return ResponseEntity.ok(ms);
-    }
-
-
     // Admin
     @GetMapping("/options-list-admin")
     public ResponseEntity<MessageResponse> getOptionsListAdmin(

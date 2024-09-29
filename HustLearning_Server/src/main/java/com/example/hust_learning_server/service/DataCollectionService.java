@@ -50,7 +50,11 @@ public interface DataCollectionService {
 
     void approve(DataReq dataReq);
 
+    void approveV2(DataReq dataReq) throws Exception;
+
     void reject(DataReq dataReq);
+
+    void rejectV2(DataReq dataReq) throws Exception;
 
     void delete(long id);
 }

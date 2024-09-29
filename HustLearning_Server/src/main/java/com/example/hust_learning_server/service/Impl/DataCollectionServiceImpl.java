@@ -27,7 +27,11 @@ import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -72,19 +76,19 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         Vocabulary vocabulary = vocabularyRepository.findById(vocabularyId)
                 .orElseThrow(ResourceNotFoundException::new);
         // process file path
-        String fileFolder = "waiting/"+vocabulary.getId()+"_"+vocabulary.getContent();
+        String fileFolder = "waiting/" + vocabulary.getId() + "_" + vocabulary.getContent();
         String email = EmailUtils.getCurrentUser();
-        String fileName="";
+        String fileName = "";
         if (email != null && !email.isEmpty()) {
             User user = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
-            fileName = vocabulary.getId()+"_"+vocabulary.getContent()+"_"+user.getId()+"_"+System.currentTimeMillis();
+            fileName = vocabulary.getId() + "_" + vocabulary.getContent() + "_" + user.getId() + "_" + System.currentTimeMillis();
         } else {
-            fileName = vocabulary.getId()+"_"+vocabulary.getContent()+"_"+"anonymousUser"+"_"+System.currentTimeMillis();
+            fileName = vocabulary.getId() + "_" + vocabulary.getContent() + "_" + "anonymousUser" + "_" + System.currentTimeMillis();
         }
-        String filePath = fileFolder+"/"+fileName;
+        String filePath = fileFolder + "/" + fileName;
 
         // save file to minio
-        String  minioUrl = minioFileService.uploadFile(filePath, file.getBytes());
+        String minioUrl = minioFileService.uploadFile(filePath, file.getBytes());
         if (minioUrl != null && !minioUrl.isEmpty()) {
             DataCollection dataCollection = DataCollection.builder()
                     .dataLocation(minioUrl)
@@ -92,7 +96,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                     .vocabulary(vocabulary)
                     .status(DataStatus.WAITING)
                     .build();
-              dataCollectionRepository.save(dataCollection);
+            dataCollectionRepository.save(dataCollection);
         }
     }
 
@@ -194,7 +198,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             predicates.add(statusLike);
         }
 
-        if (dataSearchForUserParam.score >=0 && dataSearchForUserParam.score <= 10) {
+        if (dataSearchForUserParam.score >= 0 && dataSearchForUserParam.score <= 10) {
             Predicate statusLike = criteriaBuilder.equal(root.get("score"), dataSearchForUserParam.score);
             predicates.add(statusLike);
         }
@@ -270,7 +274,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             predicates.add(statusLike);
         }
 
-        if (score >=0 && score <= 10) {
+        if (score >= 0 && score <= 10) {
             Predicate statusLike = criteriaBuilder.equal(root.get("score"), score);
             predicates.add(statusLike);
         }
@@ -343,7 +347,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             predicates.add(statusLike);
         }
 
-        if (dataSearchForUserParam.score >=0 && dataSearchForUserParam.score <= 10) {
+        if (dataSearchForUserParam.score >= 0 && dataSearchForUserParam.score <= 10) {
             Predicate statusLike = criteriaBuilder.equal(root.get("score"), dataSearchForUserParam.score);
             predicates.add(statusLike);
         }
@@ -441,7 +445,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             Predicate statusLike = criteriaBuilder.equal(root.get("status"), dataSearchForAdminParam.status);
             predicates.add(statusLike);
         }
-        if (dataSearchForAdminParam.score >=0 && dataSearchForAdminParam.score <= 10) {
+        if (dataSearchForAdminParam.score >= 0 && dataSearchForAdminParam.score <= 10) {
             Predicate statusLike = criteriaBuilder.equal(root.get("score"), dataSearchForAdminParam.score);
             predicates.add(statusLike);
         }
@@ -513,7 +517,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             predicates.add(statusLike);
         }
 
-        if (score >=0 && score <= 10) {
+        if (score >= 0 && score <= 10) {
             Predicate statusLike = criteriaBuilder.equal(root.get("score"), score);
             predicates.add(statusLike);
         }
@@ -521,7 +525,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if (!ObjectUtils.isEmpty(vocabulary)) {
             Join<DataCollection, Vocabulary> vocabJoin = root.join("vocabulary");
             Predicate vocabLike = criteriaBuilder.like(criteriaBuilder.lower(vocabJoin.get("content")),
-                    "%" +vocabulary.toLowerCase() + "%");
+                    "%" + vocabulary.toLowerCase() + "%");
             predicates.add(vocabLike);
         } else return null;
 
@@ -583,6 +587,60 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     }
 
     @Override
+    public void approveV2(DataReq dataReq) throws Exception {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new UnAuthorizedException();
+        }
+        DataCollection dataCollection = dataCollectionRepository.findById(
+                dataReq.dataCollectionId).orElseThrow(ResourceNotFoundException::new);
+        Vocabulary vocabulary = vocabularyRepository.findById(dataCollection.getVocabulary().getId()).orElseThrow(ResourceNotFoundException::new);
+        if (dataCollection.getStatus() == DataStatus.APPROVED) {
+            throw new ConflictException();
+        }
+        dataCollection.setAdminEmail("email");
+        dataCollection.setStatus(DataStatus.APPROVED);
+        dataCollection.setScore(dataReq.score);
+        dataCollection.setFeedBack(dataReq.feedBack);
+
+        // process file path
+        byte[] file = downloadFile(dataCollection.getDataLocation());
+        String fileFolder = "approved/" + vocabulary.getId() + "_" + vocabulary.getContent();
+        String fileName = "";
+        if (email != null && !email.isEmpty()) {
+            User user = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
+            fileName = vocabulary.getId() + "_" + vocabulary.getContent() + "_" + user.getId() + "_" + System.currentTimeMillis();
+        } else {
+            fileName = vocabulary.getId() + "_" + vocabulary.getContent() + "_" + "anonymousUser" + "_" + System.currentTimeMillis();
+        }
+        String filePath = fileFolder + "/" + fileName;
+        String minioUrl = minioFileService.uploadFile(filePath, file);
+        dataCollection.setDataLocation(minioUrl);
+
+        dataCollectionRepository.save(dataCollection);
+    }
+
+    private byte[] downloadFile(String fileUrl) throws Exception {
+        URL url = new URL(fileUrl);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        connection.setDoInput(true);
+        int responseCode = connection.getResponseCode();
+        if (responseCode != HttpURLConnection.HTTP_OK) {
+            throw new Exception("Failed to download file: " + responseCode);
+        }
+        try (InputStream inputStream = connection.getInputStream();
+             ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            return outputStream.toByteArray();
+        }
+    }
+
+    @Override
     public void reject(DataReq dataReq) {
         String email = EmailUtils.getCurrentUser();
         if (ObjectUtils.isEmpty(email)) {
@@ -600,6 +658,41 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         dataCollection.setStatus(DataStatus.REJECTED);
         dataCollection.setScore(dataReq.score);
         dataCollection.setFeedBack(dataReq.feedBack);
+        dataCollectionRepository.save(dataCollection);
+    }
+
+    @Override
+    public void rejectV2(DataReq dataReq) throws Exception {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new UnAuthorizedException();
+        }
+
+        DataCollection dataCollection = dataCollectionRepository.findById(
+                dataReq.dataCollectionId).orElseThrow(ResourceNotFoundException::new);
+        Vocabulary vocabulary = vocabularyRepository.findById(dataCollection.getVocabulary().getId()).orElseThrow(ResourceNotFoundException::new);
+        if (dataCollection.getStatus() == DataStatus.REJECTED) {
+            throw new ConflictException();
+        }
+        dataCollection.setAdminEmail(email);
+        dataCollection.setStatus(DataStatus.REJECTED);
+        dataCollection.setScore(dataReq.score);
+        dataCollection.setFeedBack(dataReq.feedBack);
+
+        // process file path
+        byte[] file = downloadFile(dataCollection.getDataLocation());
+        String fileFolder = "rejected/" + vocabulary.getId() + "_" + vocabulary.getContent();
+        String fileName = "";
+        if (email != null && !email.isEmpty()) {
+            User user = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
+            fileName = vocabulary.getId() + "_" + vocabulary.getContent() + "_" + user.getId() + "_" + System.currentTimeMillis();
+        } else {
+            fileName = vocabulary.getId() + "_" + vocabulary.getContent() + "_" + "anonymousUser" + "_" + System.currentTimeMillis();
+        }
+        String filePath = fileFolder + "/" + fileName;
+        String minioUrl = minioFileService.uploadFile(filePath, file);
+        dataCollection.setDataLocation(minioUrl);
+
         dataCollectionRepository.save(dataCollection);
     }
 
