@@ -17,4 +17,5 @@ public class ClassRoomRes {
 
     private String imageLocation;
 
+    private String createdBy;
 }
