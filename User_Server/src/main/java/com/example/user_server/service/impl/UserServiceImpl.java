@@ -184,9 +184,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public PageDTO<UserDTO> search(UserSearchReq userSearchReq) {
         String email = EmailUtils.getCurrentUser();
-        if (ObjectUtils.isEmpty(email)) {
-            throw new UnAuthorizedException();
-        }
+//        if (ObjectUtils.isEmpty(email)) {
+//            throw new UnAuthorizedException();
+//        }
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
@@ -202,8 +202,6 @@ public class UserServiceImpl implements UserService {
             Predicate validEmail = criteriaBuilder.notEqual(root.get("email"), email);
             predicates.add(criteriaBuilder.or(nameLike, emailLike));
             predicates.add(validEmail);
-        } else {
-            return null;
         }
 
         // Filter by descending and orderBy (if provided)

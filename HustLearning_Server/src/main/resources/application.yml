@@ -1,8 +1,8 @@
 # Server port
 server:
   port: 8060
-  ip: localhost:9090
-#  ip: 202.191.56.11/up
+#  ip: localhost:9090
+  ip: 202.191.56.11/up
 
 service:
   host: localhost:9001
@@ -11,12 +11,12 @@ spring:
   application:
     name: learningserver
   datasource:
-#    url: jdbc:mysql://localhost:3307/hustappuser
-#    username: root
-#    password: Hust20232
-    url: jdbc:mysql://localhost:3306/hustappuser
+    url: jdbc:mysql://202.191.56.11:3307/hustappuser
     username: root
-    password: root
+    password: Hust20232
+#    url: jdbc:mysql://localhost:3306/hustappuser
+#    username: root
+#    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -36,7 +36,7 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://localhost:8070/eureka/
+      defaultZone: http://202.191.56.11:8070/eureka/
 
 #Email Config
 mailServer:
@@ -50,7 +50,7 @@ mailServer:
 # Keycloak Config
 keycloak:
   realm: master
-  auth-server-url: http://localhost:7080
+  auth-server-url: http://202.191.56.11:7080
   ssl-required: none
   resource: HustApp
   use-resource-role-mappings: true
@@ -60,16 +60,16 @@ keycloak:
   username: admin
   password: admin
   credentials:
-#    secret: Y7j8BGBJ1ZVO0IgFjkdvnqtQtoF3xb8h
-    secret: o6hKN3PkOk9f8FeMX8xyTTnKhZwABExd
+    secret: Y7j8BGBJ1ZVO0IgFjkdvnqtQtoF3xb8h
+#    secret: o6hKN3PkOk9f8FeMX8xyTTnKhZwABExd
 
 # Minio
 minio:
   access:
-    name: ROOTUSER
-    secret: CHANGEME123
-#      name: root
-#      secret: Tuyen18072001
+#    name: ROOTUSER
+#    secret: CHANGEME123
+      name: root
+      secret: Tuyen18072001
   url: http://localhost:9001
   data_collection-bucket: data-collection
   vocabulary-bucket: vocabulary
