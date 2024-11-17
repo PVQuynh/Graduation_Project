@@ -20,18 +20,22 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
 @Component
 @RequiredArgsConstructor
 public class VocabularyMapperImpl implements VocabularyMapper {
-private final PartRepository partRepository;
+    private final PartRepository partRepository;
     private final TopicRepository topicRepository;
     private final VocabularyImageMapper vocabularyImageMapper;
     private final VocabularyVideoMapper vocabularyVideoMapper;
 
     @Override
     public Vocabulary toEntity(VocabularyReq dto) {
-        ModelMapper modelMapper = new ModelMapper();
-        Vocabulary vocabulary = modelMapper.map(dto, Vocabulary.class);
+        Vocabulary vocabulary =Vocabulary.builder()
+                .content(dto.getContent())
+                .note(dto.getNote())
+                .vocabularyType(dto.getVocabularyType())
+                .build();
         vocabulary.setId(0);
 
         // set image
@@ -84,10 +88,12 @@ private final PartRepository partRepository;
         vocabularyRes.setTopicContent(Objects.nonNull(entity.getTopic()) ? entity.getTopic().getContent() : null);
 
         // set part
-        Part part = partRepository.findById(entity.getPartId()).orElse(null);
-        if (part != null) {
-            vocabularyRes.setPartId(part.getId());
-            vocabularyRes.setPartName(part.getPartName());
+        if (entity.getPartId() != null) {
+            Part part = partRepository.findById(entity.getPartId()).orElse(null);
+            if (part != null) {
+                vocabularyRes.setPartId(part.getId());
+                vocabularyRes.setPartName(part.getPartName());
+            }
         } else {
             vocabularyRes.setPartId(0);
             vocabularyRes.setPartName(null);

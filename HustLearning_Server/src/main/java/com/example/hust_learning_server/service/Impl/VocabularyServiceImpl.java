@@ -54,8 +54,8 @@ public class VocabularyServiceImpl implements VocabularySerivce {
     @Override
     public VocabularyRes getById(long id) {
         VocabularyRes vocabularyRes = vocabularyRepository.findById(id)
-            .map(vocabularyMapper::toDTO)
-            .orElse(null);
+                .map(vocabularyMapper::toDTO)
+                .orElse(null);
         return vocabularyRes;
     }
 
@@ -75,14 +75,18 @@ public class VocabularyServiceImpl implements VocabularySerivce {
         int checkPrivate = CommonUtils.convertPrivateWithRole(isPrivate, role);
         if (Strings.isBlank(contentSearch)) contentSearch = null;
         List<Vocabulary> vocabularies = vocabularyRepository.findAllVocabularies(topicId, vocabularyType, checkPrivate, email, contentSearch);
-        if (vocabularies.isEmpty()) {return null;}
+        if (vocabularies.isEmpty()) {
+            return null;
+        }
         return vocabularyMapper.toDTOList(vocabularies);
     }
 
     @Override
     public List<VocabularyRes> getAllVocabulariesByPartId(long partId) {
         List<Vocabulary> vocabularies = vocabularyRepository.findAllByPartId(partId);
-        if (vocabularies.isEmpty()) {return null;}
+        if (vocabularies.isEmpty()) {
+            return null;
+        }
         return vocabularyMapper.toDTOList(vocabularies);
     }
 
@@ -145,9 +149,9 @@ public class VocabularyServiceImpl implements VocabularySerivce {
 
         TypedQuery<Vocabulary> query = entityManager.createQuery(criteriaQuery);
         List<Vocabulary> results = query
-            .setFirstResult(0) // Offset
-            .setMaxResults(Integer.MAX_VALUE) // Limit
-            .getResultList();
+                .setFirstResult(0) // Offset
+                .setMaxResults(Integer.MAX_VALUE) // Limit
+                .getResultList();
 
         List<VocabularyRes> vocabularyResList = vocabularyMapper.toDTOList(results);
         return vocabularyResList;
@@ -212,11 +216,11 @@ public class VocabularyServiceImpl implements VocabularySerivce {
         TypedQuery<Vocabulary> query = entityManager.createQuery(criteriaQuery);
         int totalRows = query.getResultList().size();
         List<Vocabulary> results = query.setFirstResult((searchVocabularyParamReq.page - 1) * searchVocabularyParamReq.size) // Offset
-            .setMaxResults(searchVocabularyParamReq.size) // Limit
-            .getResultList();
+                .setMaxResults(searchVocabularyParamReq.size) // Limit
+                .getResultList();
 
         PageDTO<VocabularyRes> vocabularyResPageDTO = new PageDTO<>(vocabularyMapper.toDTOList(results), searchVocabularyParamReq.page,
-            totalRows);
+                totalRows);
         return vocabularyResPageDTO;
     }
 
@@ -257,8 +261,8 @@ public class VocabularyServiceImpl implements VocabularySerivce {
         TypedQuery<Vocabulary> query = entityManager.createQuery(criteriaQuery);
         int totalRows = query.getResultList().size();
         List<Vocabulary> results = query.setFirstResult((page - 1) * size) // Offset
-            .setMaxResults(size) // Limit
-            .getResultList();
+                .setMaxResults(size) // Limit
+                .getResultList();
 
         PageDTO<VocabularyRes> vocabularyResPageDTO = new PageDTO<>(vocabularyMapper.toDTOList(results), page, totalRows);
         return vocabularyResPageDTO;
@@ -271,12 +275,66 @@ public class VocabularyServiceImpl implements VocabularySerivce {
             throw new UnAuthorizedException();
         }
 
+        if (vocabularyReq.getTopicId() != 0) {
+            addVocabularyToTopic(vocabularyReq);
+        } else {
+            addVocabularyToPart(vocabularyReq);
+        }
+    }
+
+    private void addVocabularyToTopic(VocabularyReq vocabularyReq) {
         // check có topic dung ko
         Topic topic = topicRepository.findById(vocabularyReq.getTopicId()).orElseThrow(ResourceNotFoundException::new);
 
         // tu da ton tai khong luu
         Optional<Vocabulary> existingVocabulary = vocabularyRepository.findByContentAndTopicId(vocabularyReq.getContent(),
-            vocabularyReq.getTopicId());
+                vocabularyReq.getTopicId());
+        if (existingVocabulary.isEmpty()) {
+            Vocabulary vocabulary = vocabularyMapper.toEntity(vocabularyReq);
+
+            // neu co image primary la true
+            List<VocabularyImage> vocabularyImageList = vocabulary.getVocabularyImages();
+            if (org.apache.commons.lang3.ObjectUtils.isNotEmpty(vocabularyImageList)) {
+                for (VocabularyImage image : vocabularyImageList) {
+                    // neu la true thi thay doi toan bo con lai ve false
+                    if (image.isPrimary()) {
+                        List<VocabularyImage> vocabularyImageListByVocabId = vocabularyImageRepository.findAllByVocabularyId(image.getId());
+                        for (VocabularyImage vocabularyImage : vocabularyImageListByVocabId) {
+                            vocabularyImage.setPrimary(false);
+                        }
+                        vocabularyImageRepository.saveAll(vocabularyImageListByVocabId);
+                    }
+                }
+            }
+
+            // neu co video primary la true
+            List<VocabularyVideo> vocabularyVideoList = vocabulary.getVocabularyVideos();
+            if (org.apache.commons.lang3.ObjectUtils.isNotEmpty(vocabularyVideoList)) {
+                for (VocabularyVideo video : vocabularyVideoList) {
+                    // neu la true thi thay doi toan bo con lai ve false
+                    if (video.isPrimary()) {
+                        List<VocabularyVideo> vocabularyVideoListByVocabId = vocabularyVideoRepository.findAllByVocabularyId(video.getId());
+                        for (VocabularyVideo vocabularyVideo : vocabularyVideoListByVocabId) {
+                            vocabularyVideo.setPrimary(false);
+                        }
+                        vocabularyVideoRepository.saveAll(vocabularyVideoListByVocabId);
+                    }
+                }
+            }
+
+            vocabularyRepository.save(vocabulary);
+        } else {
+            throw new ConflictException();
+        }
+    }
+
+    private void addVocabularyToPart(VocabularyReq vocabularyReq) {
+        // check có part dung ko
+        Part part = partRepository.findById(vocabularyReq.getPartId()).orElseThrow(ResourceNotFoundException::new);
+
+        // tu da ton tai khong luu
+        Optional<Vocabulary> existingVocabulary = vocabularyRepository.findByContentAndPartId(vocabularyReq.getContent(),
+                vocabularyReq.getPartId());
         if (existingVocabulary.isEmpty()) {
             Vocabulary vocabulary = vocabularyMapper.toEntity(vocabularyReq);
 
@@ -328,19 +386,19 @@ public class VocabularyServiceImpl implements VocabularySerivce {
 
         // lay ra tu o chu de hien tai
         Vocabulary vocabularyPresent = vocabularyRepository.findById(addVocabularyToNewTopic.getId())
-            .orElseThrow(ResourceNotFoundException::new);
+                .orElseThrow(ResourceNotFoundException::new);
 
         // kiem tra topic them vao da ton tai tu nay chua, khong ton tai thi moi them vao
         Optional<Vocabulary> existingVocabularyInTopicOptional = vocabularyRepository.findByContentAndTopicId(vocabularyPresent.getContent(),
-            addVocabularyToNewTopic.getTopicId());
+                addVocabularyToNewTopic.getTopicId());
         if (existingVocabularyInTopicOptional.isEmpty()) {
             // them moi vao db
             Vocabulary vocabularyWillAdd = Vocabulary.builder()
-                .content(vocabularyPresent.getContent())
-                .note(vocabularyPresent.getNote())
-                .vocabularyType(vocabularyPresent.getVocabularyType())
-                .topic(topicWillAdd)
-                .build();
+                    .content(vocabularyPresent.getContent())
+                    .note(vocabularyPresent.getNote())
+                    .vocabularyType(vocabularyPresent.getVocabularyType())
+                    .topic(topicWillAdd)
+                    .build();
             Vocabulary vocabularyAdded = vocabularyRepository.save(vocabularyWillAdd);
 
             // copy toan bo VocabularyImage cua tu hien tai vao tu moi duoc tao ra
@@ -349,10 +407,10 @@ public class VocabularyServiceImpl implements VocabularySerivce {
             List<VocabularyImage> vocabularyImageListWillAdd = new ArrayList<>();
             for (VocabularyImage vocabularyImagePresent : vocabularyImageListPresent) {
                 VocabularyImage vocabularyImageCopy = VocabularyImage.builder()
-                    .imageLocation(vocabularyImagePresent.getImageLocation())
-                    .isPrimary(vocabularyImagePresent.isPrimary())
-                    .vocabulary(vocabularyAdded)
-                    .build();
+                        .imageLocation(vocabularyImagePresent.getImageLocation())
+                        .isPrimary(vocabularyImagePresent.isPrimary())
+                        .vocabulary(vocabularyAdded)
+                        .build();
 
                 vocabularyImageListWillAdd.add(vocabularyImageCopy);
             }
@@ -363,10 +421,10 @@ public class VocabularyServiceImpl implements VocabularySerivce {
             List<VocabularyVideo> vocabularyVideoListWillAdd = new ArrayList<>();
             for (VocabularyVideo vocabularyVideoPresent : vocabularyVideoListPresent) {
                 VocabularyVideo vocabularyVideoCopy = VocabularyVideo.builder()
-                    .videoLocation(vocabularyVideoPresent.getVideoLocation())
-                    .isPrimary(vocabularyVideoPresent.isPrimary())
-                    .vocabulary(vocabularyAdded)
-                    .build();
+                        .videoLocation(vocabularyVideoPresent.getVideoLocation())
+                        .isPrimary(vocabularyVideoPresent.isPrimary())
+                        .vocabulary(vocabularyAdded)
+                        .build();
 
                 vocabularyVideoListWillAdd.add(vocabularyVideoCopy);
             }
@@ -405,15 +463,15 @@ public class VocabularyServiceImpl implements VocabularySerivce {
 
                 // kiem tra topic them vao da ton tai tu nay chua, khong ton tai thi moi them vao
                 Optional<Vocabulary> existingVocabularyInTopicOptional = vocabularyRepository.findByContentAndTopicId(
-                    vocabularyPresent.getContent(), addVocabularyToNewTopic.getTopicId());
+                        vocabularyPresent.getContent(), addVocabularyToNewTopic.getTopicId());
                 if (existingVocabularyInTopicOptional.isEmpty()) {
                     // them moi vao db
                     Vocabulary vocabularyWillAdd = Vocabulary.builder()
-                        .content(vocabularyPresent.getContent())
-                        .note(vocabularyPresent.getNote())
-                        .vocabularyType(vocabularyPresent.getVocabularyType())
-                        .topic(topicWillAdd)
-                        .build();
+                            .content(vocabularyPresent.getContent())
+                            .note(vocabularyPresent.getNote())
+                            .vocabularyType(vocabularyPresent.getVocabularyType())
+                            .topic(topicWillAdd)
+                            .build();
                     Vocabulary vocabularyAdded = vocabularyRepository.save(vocabularyWillAdd);
 
                     // copy toan bo VocabularyImage cua tu hien tai vao tu moi duoc tao ra
@@ -422,10 +480,10 @@ public class VocabularyServiceImpl implements VocabularySerivce {
                     List<VocabularyImage> vocabularyImageListWillAdd = new ArrayList<>();
                     for (VocabularyImage vocabularyImagePresent : vocabularyImageListPresent) {
                         VocabularyImage vocabularyImageCopy = VocabularyImage.builder()
-                            .imageLocation(vocabularyImagePresent.getImageLocation())
-                            .isPrimary(vocabularyImagePresent.isPrimary())
-                            .vocabulary(vocabularyAdded)
-                            .build();
+                                .imageLocation(vocabularyImagePresent.getImageLocation())
+                                .isPrimary(vocabularyImagePresent.isPrimary())
+                                .vocabulary(vocabularyAdded)
+                                .build();
 
                         vocabularyImageListWillAdd.add(vocabularyImageCopy);
                     }
@@ -436,10 +494,10 @@ public class VocabularyServiceImpl implements VocabularySerivce {
                     List<VocabularyVideo> vocabularyVideoListWillAdd = new ArrayList<>();
                     for (VocabularyVideo vocabularyVideoPresent : vocabularyVideoListPresent) {
                         VocabularyVideo vocabularyVideoCopy = VocabularyVideo.builder()
-                            .videoLocation(vocabularyVideoPresent.getVideoLocation())
-                            .isPrimary(vocabularyVideoPresent.isPrimary())
-                            .vocabulary(vocabularyAdded)
-                            .build();
+                                .videoLocation(vocabularyVideoPresent.getVideoLocation())
+                                .isPrimary(vocabularyVideoPresent.isPrimary())
+                                .vocabulary(vocabularyAdded)
+                                .build();
 
                         vocabularyVideoListWillAdd.add(vocabularyVideoCopy);
                     }
@@ -480,15 +538,15 @@ public class VocabularyServiceImpl implements VocabularySerivce {
 
                     // kiem tra topic them vao da ton tai tu nay chua, khong ton tai thi moi them vao
                     Optional<Vocabulary> existingVocabularyInTopicOptional = vocabularyRepository.findByContentAndTopicId(
-                        vocabularyPresent.getContent(), addVocabularyListToNewTopic.getTopicId());
+                            vocabularyPresent.getContent(), addVocabularyListToNewTopic.getTopicId());
                     if (existingVocabularyInTopicOptional.isEmpty()) {
                         // them moi vao db
                         Vocabulary vocabularyWillAdd = Vocabulary.builder()
-                            .content(vocabularyPresent.getContent())
-                            .note(vocabularyPresent.getNote())
-                            .vocabularyType(vocabularyPresent.getVocabularyType())
-                            .topic(topicWillAdd)
-                            .build();
+                                .content(vocabularyPresent.getContent())
+                                .note(vocabularyPresent.getNote())
+                                .vocabularyType(vocabularyPresent.getVocabularyType())
+                                .topic(topicWillAdd)
+                                .build();
                         Vocabulary vocabularyAdded = vocabularyRepository.save(vocabularyWillAdd);
 
                         // copy toan bo VocabularyImage cua tu hien tai vao tu moi duoc tao ra
@@ -497,10 +555,10 @@ public class VocabularyServiceImpl implements VocabularySerivce {
                         List<VocabularyImage> vocabularyImageListWillAdd = new ArrayList<>();
                         for (VocabularyImage vocabularyImagePresent : vocabularyImageListPresent) {
                             VocabularyImage vocabularyImageCopy = VocabularyImage.builder()
-                                .imageLocation(vocabularyImagePresent.getImageLocation())
-                                .isPrimary(vocabularyImagePresent.isPrimary())
-                                .vocabulary(vocabularyAdded)
-                                .build();
+                                    .imageLocation(vocabularyImagePresent.getImageLocation())
+                                    .isPrimary(vocabularyImagePresent.isPrimary())
+                                    .vocabulary(vocabularyAdded)
+                                    .build();
 
                             vocabularyImageListWillAdd.add(vocabularyImageCopy);
                         }
@@ -511,10 +569,10 @@ public class VocabularyServiceImpl implements VocabularySerivce {
                         List<VocabularyVideo> vocabularyVideoListWillAdd = new ArrayList<>();
                         for (VocabularyVideo vocabularyVideoPresent : vocabularyVideoListPresent) {
                             VocabularyVideo vocabularyVideoCopy = VocabularyVideo.builder()
-                                .videoLocation(vocabularyVideoPresent.getVideoLocation())
-                                .isPrimary(vocabularyVideoPresent.isPrimary())
-                                .vocabulary(vocabularyAdded)
-                                .build();
+                                    .videoLocation(vocabularyVideoPresent.getVideoLocation())
+                                    .isPrimary(vocabularyVideoPresent.isPrimary())
+                                    .vocabulary(vocabularyAdded)
+                                    .build();
 
                             vocabularyVideoListWillAdd.add(vocabularyVideoCopy);
                         }
@@ -769,7 +827,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
         if (ObjectUtils.isEmpty(email)) {
             throw new UnAuthorizedException();
         }
-        for (Long vocabularyId: deleteVocabulariesReq.getVocabularyIds()) {
+        for (Long vocabularyId : deleteVocabulariesReq.getVocabularyIds()) {
             List<VocabularyImage> vocabularyImageList = vocabularyImageRepository.findAllByVocabularyId(vocabularyId);
             if (!vocabularyImageList.isEmpty()) {
                 vocabularyImageRepository.deleteAll(vocabularyImageList);
