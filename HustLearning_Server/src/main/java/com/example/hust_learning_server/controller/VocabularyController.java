@@ -27,21 +27,40 @@ public class VocabularyController {
 
     @GetMapping("/all")
     public ResponseEntity<MessageResponse> getAllVocabulary(
-        @RequestParam(required = false, defaultValue = "0") long topicId,
-        @RequestParam(required = false, defaultValue = "") String isPrivate,
-        @RequestParam(required = false) String vocabularyType,
-        @RequestParam(required = false, defaultValue = "") String contentSearch
+            @RequestParam(required = false, defaultValue = "0") long partId,
+            @RequestParam(required = false, defaultValue = "0") long topicId,
+            @RequestParam(required = false, defaultValue = "") String isPrivate,
+            @RequestParam(required = false) String vocabularyType,
+            @RequestParam(required = false, defaultValue = "") String contentSearch
     ) {
         MessageResponse ms = new MessageResponse();
-        ms.data = vocabularyService.getAllVocabularies(topicId, vocabularyType, isPrivate, contentSearch);
+        if (partId != 0) {
+            ms.data = vocabularyService.getAllVocabulariesByPartId(partId);
+        } else {
+            ms.data = vocabularyService.getAllVocabulariesByTopicId(topicId, vocabularyType, isPrivate, contentSearch);
+        }
+        return ResponseEntity.ok(ms);
+    }
+
+    @PostMapping("/add-vocab-list-to-part")
+    public ResponseEntity<MessageResponse> addVocabularyListToPart(@RequestBody AddVocabularyListToPart addVocabularyListToPart) {
+        MessageResponse ms = new MessageResponse();
+        vocabularyService.addVocabularyListToPart(addVocabularyListToPart);
+        return ResponseEntity.ok(ms);
+    }
+
+    @PostMapping("/add-list")
+    public ResponseEntity<MessageResponse> addVocabularyList(@RequestBody List<VocabularyReq> vocabularyReqList) {
+        MessageResponse ms = new MessageResponse();
+        vocabularyService.addVocabularyList(vocabularyReqList);
         return ResponseEntity.ok(ms);
     }
 
     @GetMapping("/all/v2")
     public ResponseEntity<MessageResponse> getAllVocabularyV2(
-        @RequestParam(required = false) Long topicId,
-        @RequestParam(required = false) String vocabularyType,
-        @RequestParam(required = false) String content
+            @RequestParam(required = false) Long topicId,
+            @RequestParam(required = false) String vocabularyType,
+            @RequestParam(required = false) String content
     ) {
         MessageResponse ms = new MessageResponse();
         if (topicId != null) {
@@ -73,7 +92,7 @@ public class VocabularyController {
 
     @GetMapping("/get-by-content/v2")
     public ResponseEntity<MessageResponse> getExactVocabularies(
-        @RequestParam(required = true) String content
+            @RequestParam(required = true) String content
     ) {
         MessageResponse ms = new MessageResponse();
         ms.data = vocabularyService.getVocabulariesByContent(content);
@@ -89,9 +108,9 @@ public class VocabularyController {
 
     @GetMapping("/limits-topic/v2")
     public ResponseEntity<MessageResponse> getVocabulariesLimits(
-        @RequestParam(defaultValue = "1", required = true) int page,
-        @RequestParam(defaultValue = "10", required = true) int size,
-        @RequestParam(required = true) long topicId
+            @RequestParam(defaultValue = "1", required = true) int page,
+            @RequestParam(defaultValue = "10", required = true) int size,
+            @RequestParam(required = true) long topicId
     ) {
         MessageResponse ms = new MessageResponse();
         ms.data = vocabularyService.vocabularyLimitsTopic(page, size, topicId);
@@ -105,12 +124,12 @@ public class VocabularyController {
 
     @GetMapping("/search/v2")
     public ResponseEntity<MessageResponse> getList_v2(
-        @RequestParam(defaultValue = "1", required = true) int page,
-        @RequestParam(defaultValue = "10", required = true) int size,
-        @RequestParam(required = true) String text,
-        @RequestParam(required = false) boolean ascending,
-        @RequestParam(required = false) String orderBy,
-        @RequestParam(required = false) long topicId
+            @RequestParam(defaultValue = "1", required = true) int page,
+            @RequestParam(defaultValue = "10", required = true) int size,
+            @RequestParam(required = true) String text,
+            @RequestParam(required = false) boolean ascending,
+            @RequestParam(required = false) String orderBy,
+            @RequestParam(required = false) long topicId
 
     ) {
         MessageResponse ms = new MessageResponse();
@@ -143,13 +162,6 @@ public class VocabularyController {
     public ResponseEntity<MessageResponse> addVocabularyListToNewTopic_v2(@RequestBody AddVocabularyListToNewTopic addVocabularyListToNewTopic) {
         MessageResponse ms = new MessageResponse();
         vocabularyService.addVocabularyListToNewTopic_v2(addVocabularyListToNewTopic);
-        return ResponseEntity.ok(ms);
-    }
-
-    @PostMapping("/add-list")
-    public ResponseEntity<MessageResponse> addVocabularyList(@RequestBody List<VocabularyReq> vocabularyReqList) {
-        MessageResponse ms = new MessageResponse();
-        vocabularyService.addVocabularyList(vocabularyReqList);
         return ResponseEntity.ok(ms);
     }
 

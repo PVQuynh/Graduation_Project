@@ -35,4 +35,7 @@ public class VocabularyRes {
 
     private String topicContent;
 
+    private long partId;
+
+    private String partName;
 }

@@ -44,4 +44,6 @@ public class Vocabulary extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="topic_id")
     private Topic topic;
+
+    private Long partId;
 }

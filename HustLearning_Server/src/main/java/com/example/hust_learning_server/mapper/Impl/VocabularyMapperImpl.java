@@ -6,13 +6,11 @@ import com.example.hust_learning_server.dto.request.VocabularyVideoReq;
 import com.example.hust_learning_server.dto.response.VocabularyImageRes;
 import com.example.hust_learning_server.dto.response.VocabularyRes;
 import com.example.hust_learning_server.dto.response.VocabularyVideoRes;
-import com.example.hust_learning_server.entity.Topic;
-import com.example.hust_learning_server.entity.Vocabulary;
-import com.example.hust_learning_server.entity.VocabularyImage;
-import com.example.hust_learning_server.entity.VocabularyVideo;
+import com.example.hust_learning_server.entity.*;
 import com.example.hust_learning_server.mapper.VocabularyMapper;
 import com.example.hust_learning_server.mapper.VocabularyImageMapper;
 import com.example.hust_learning_server.mapper.VocabularyVideoMapper;
+import com.example.hust_learning_server.repository.PartRepository;
 import com.example.hust_learning_server.repository.TopicRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
@@ -25,7 +23,7 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class VocabularyMapperImpl implements VocabularyMapper {
-
+private final PartRepository partRepository;
     private final TopicRepository topicRepository;
     private final VocabularyImageMapper vocabularyImageMapper;
     private final VocabularyVideoMapper vocabularyVideoMapper;
@@ -56,6 +54,13 @@ public class VocabularyMapperImpl implements VocabularyMapper {
         Topic topic = topicRepository.findById(dto.getTopicId()).orElse(null);
         vocabulary.setTopic(topic);
 
+        // set partId
+        Part part = partRepository.findById(dto.getPartId()).orElse(null);
+        if (part != null) {
+            vocabulary.setPartId(part.getId());
+        } else {
+            vocabulary.setPartId(null);
+        }
         return vocabulary;
     }
 
@@ -78,6 +83,15 @@ public class VocabularyMapperImpl implements VocabularyMapper {
         vocabularyRes.setTopicId(Objects.nonNull(entity.getTopic()) ? entity.getTopic().getId() : 0);
         vocabularyRes.setTopicContent(Objects.nonNull(entity.getTopic()) ? entity.getTopic().getContent() : null);
 
+        // set part
+        Part part = partRepository.findById(entity.getPartId()).orElse(null);
+        if (part != null) {
+            vocabularyRes.setPartId(part.getId());
+            vocabularyRes.setPartName(part.getPartName());
+        } else {
+            vocabularyRes.setPartId(0);
+            vocabularyRes.setPartName(null);
+        }
         return vocabularyRes;
     }
 

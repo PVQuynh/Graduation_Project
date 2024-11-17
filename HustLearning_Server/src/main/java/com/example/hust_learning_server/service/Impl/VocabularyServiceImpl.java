@@ -48,6 +48,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
 
     private final DataCollectionRepository dataCollectionRepository;
     private final TopicRepository topicRepository;
+    private final PartRepository partRepository;
     private final VocabularyMapperImpl vocabularyMapper;
 
     @Override
@@ -68,12 +69,19 @@ public class VocabularyServiceImpl implements VocabularySerivce {
     }
 
     @Override
-    public List<VocabularyRes> getAllVocabularies(long topicId, String vocabularyType, String isPrivate, String contentSearch) {
+    public List<VocabularyRes> getAllVocabulariesByTopicId(long topicId, String vocabularyType, String isPrivate, String contentSearch) {
         String email = EmailUtils.getCurrentUser();
         String role = EmailUtils.getRoleOfCurrentUser();
         int checkPrivate = CommonUtils.convertPrivateWithRole(isPrivate, role);
         if (Strings.isBlank(contentSearch)) contentSearch = null;
         List<Vocabulary> vocabularies = vocabularyRepository.findAllVocabularies(topicId, vocabularyType, checkPrivate, email, contentSearch);
+        if (vocabularies.isEmpty()) {return null;}
+        return vocabularyMapper.toDTOList(vocabularies);
+    }
+
+    @Override
+    public List<VocabularyRes> getAllVocabulariesByPartId(long partId) {
+        List<Vocabulary> vocabularies = vocabularyRepository.findAllByPartId(partId);
         if (vocabularies.isEmpty()) {return null;}
         return vocabularyMapper.toDTOList(vocabularies);
     }
@@ -527,14 +535,141 @@ public class VocabularyServiceImpl implements VocabularySerivce {
         }
     }
 
+    @Override
+    public void addVocabularyListToPart(AddVocabularyListToPart addVocabularyListToPart) {
+        // check có part dung ko, neu ko thi chuyen den tu khac
+        Optional<Part> partWillAddOptional = partRepository.findById(addVocabularyListToPart.getPartId());
+        if (partWillAddOptional.isPresent()) {
+            Part partWillAdd = partWillAddOptional.get();
+
+            // duyet qua tung tu de xu lý
+            for (Long id : addVocabularyListToPart.getIds()) {
+                // check có part và vocab dung ko, neu ko thi chuyen den tu khac
+                Optional<Vocabulary> vocabularyPresentOptional = vocabularyRepository.findById(id);
+                if (vocabularyPresentOptional.isPresent()) {
+                    // lay ra tu hien tai và chu de muon them vao
+                    Vocabulary vocabularyPresent = vocabularyPresentOptional.get();
+
+                    // kiem tra part them vao da ton tai tu nay chua, khong ton tai thi moi them vao
+                    Optional<Vocabulary> existingVocabularyInPartOptional = vocabularyRepository.findByContentAndPartId(
+                            vocabularyPresent.getContent(), addVocabularyListToPart.getPartId());
+                    if (existingVocabularyInPartOptional.isEmpty()) {
+                        // them moi vao db
+                        Vocabulary vocabularyWillAdd = Vocabulary.builder()
+                                .content(vocabularyPresent.getContent())
+                                .note(vocabularyPresent.getNote())
+                                .vocabularyType(vocabularyPresent.getVocabularyType())
+                                .partId(partWillAdd.getId())
+                                .build();
+                        Vocabulary vocabularyAdded = vocabularyRepository.save(vocabularyWillAdd);
+
+                        // copy toan bo VocabularyImage cua tu hien tai vao tu moi duoc tao ra
+                        // note: tranh luu lai chinh no se khong tao ra duoc image hoac tu moi
+                        List<VocabularyImage> vocabularyImageListPresent = vocabularyPresent.getVocabularyImages();
+                        List<VocabularyImage> vocabularyImageListWillAdd = new ArrayList<>();
+                        for (VocabularyImage vocabularyImagePresent : vocabularyImageListPresent) {
+                            VocabularyImage vocabularyImageCopy = VocabularyImage.builder()
+                                    .imageLocation(vocabularyImagePresent.getImageLocation())
+                                    .isPrimary(vocabularyImagePresent.isPrimary())
+                                    .vocabulary(vocabularyAdded)
+                                    .build();
+
+                            vocabularyImageListWillAdd.add(vocabularyImageCopy);
+                        }
+
+                        // copy toan bo video cua tu hien tai vao tu moi duoc tao ra
+                        // note: tranh luu lai chinh no se khong tao ra duoc video hoac tu moi
+                        List<VocabularyVideo> vocabularyVideoListPresent = vocabularyPresent.getVocabularyVideos();
+                        List<VocabularyVideo> vocabularyVideoListWillAdd = new ArrayList<>();
+                        for (VocabularyVideo vocabularyVideoPresent : vocabularyVideoListPresent) {
+                            VocabularyVideo vocabularyVideoCopy = VocabularyVideo.builder()
+                                    .videoLocation(vocabularyVideoPresent.getVideoLocation())
+                                    .isPrimary(vocabularyVideoPresent.isPrimary())
+                                    .vocabulary(vocabularyAdded)
+                                    .build();
+
+                            vocabularyVideoListWillAdd.add(vocabularyVideoCopy);
+                        }
+
+                        // them cac image/video from cu -> moi
+                        vocabularyImageRepository.saveAll(vocabularyImageListWillAdd);
+                        vocabularyVideoRepository.saveAll(vocabularyVideoListWillAdd);
+
+                        // neu chu de la 1 thi xoa tu do di
+//                        if (vocabularyPresent.getPartId() == null) {
+//                            vocabularyImageRepository.deleteAllByVocabularyId(id);
+//                            vocabularyVideoRepository.deleteAllByVocabularyId(id);
+//                            vocabularyRepository.deleteById(id);
+//                        }
+                    }
+                }
+            }
+        }
+    }
+
 
     @Override
     public void addVocabularyList(List<VocabularyReq> vocabularyReqList) {
-        String email = EmailUtils.getCurrentUser();
-        if (ObjectUtils.isEmpty(email)) {
-            throw new UnAuthorizedException();
+        if (vocabularyReqList.stream().findFirst().get().getPartId() != 0) {
+            addVocabularyListToPartId(vocabularyReqList);
+        } else {
+            addVocabularyListToTopicId(vocabularyReqList);
         }
+    }
 
+    private void addVocabularyListToPartId(List<VocabularyReq> vocabularyReqList) {
+        // xu ly dau vao, ko bi lap lai content
+        List<Vocabulary> vocabularyList = AvoidRepetition.avoidRepeatingVocabularyContent(vocabularyMapper.toEntityList(vocabularyReqList));
+
+        // xu ly phia db, tranh bi chong lan tu
+        List<Vocabulary> nonOverlappingVocabularyList = new ArrayList<>();
+        for (Vocabulary vocabulary : vocabularyList) {
+            // check có part dung ko
+            if (vocabulary.getPartId() != 0) {
+                // Kiểm tra xem từ vựng đã tồn tại trong part chua
+                Optional<Vocabulary> existingVocabulary = vocabularyRepository.findByContentAndPartId(vocabulary.getContent(),
+                        vocabulary.getPartId());
+
+                // Nếu từ vựng không tồn tại, thêm vào danh sách không trùng lặp
+                if (existingVocabulary.isEmpty()) {
+                    nonOverlappingVocabularyList.add(vocabulary);
+
+                    // neu co image primary la true
+                    List<VocabularyImage> vocabularyImageList = vocabulary.getVocabularyImages();
+                    if (!vocabularyImageList.isEmpty()) {
+                        for (VocabularyImage image : vocabularyImageList) {
+                            // neu la true thi thay doi toan bo con lai ve false
+                            if (image.isPrimary()) {
+                                List<VocabularyImage> vocabularyImageListByVocabId = vocabularyImageRepository.findAllByVocabularyId(image.getId());
+                                for (VocabularyImage vocabularyImage : vocabularyImageListByVocabId) {
+                                    vocabularyImage.setPrimary(false);
+                                }
+                                vocabularyImageRepository.saveAll(vocabularyImageListByVocabId);
+                            }
+                        }
+                    }
+
+                    // neu co video primary la true
+                    List<VocabularyVideo> vocabularyVideoList = vocabulary.getVocabularyVideos();
+                    if (!vocabularyVideoList.isEmpty()) {
+                        for (VocabularyVideo video : vocabularyVideoList) {
+                            // neu la true thi thay doi toan bo con lai ve false
+                            if (video.isPrimary()) {
+                                List<VocabularyVideo> vocabularyVideoListByVocabId = vocabularyVideoRepository.findAllByVocabularyId(video.getId());
+                                for (VocabularyVideo vocabularyVideo : vocabularyVideoListByVocabId) {
+                                    vocabularyVideo.setPrimary(false);
+                                }
+                                vocabularyVideoRepository.saveAll(vocabularyVideoListByVocabId);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        vocabularyRepository.saveAll(nonOverlappingVocabularyList);
+    }
+
+    private void addVocabularyListToTopicId(List<VocabularyReq> vocabularyReqList) {
         // xu ly dau vao, ko bi lap lai content
         List<Vocabulary> vocabularyList = AvoidRepetition.avoidRepeatingVocabularyContent(vocabularyMapper.toEntityList(vocabularyReqList));
 
@@ -545,7 +680,7 @@ public class VocabularyServiceImpl implements VocabularySerivce {
             if (vocabulary.getTopic().getId() != 0) {
                 // Kiểm tra xem từ vựng đã tồn tại trong topic chua
                 Optional<Vocabulary> existingVocabulary = vocabularyRepository.findByContentAndTopicId(vocabulary.getContent(),
-                    vocabulary.getTopic().getId());
+                        vocabulary.getTopic().getId());
 
                 // Nếu từ vựng không tồn tại, thêm vào danh sách không trùng lặp
                 if (existingVocabulary.isEmpty()) {

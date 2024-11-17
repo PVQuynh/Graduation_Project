@@ -11,7 +11,9 @@ public interface VocabularySerivce {
 
     List<VocabularyRes> getAllVocabulary();
 
-    List<VocabularyRes> getAllVocabularies(long topicId, String vocabularyType, String isPrivate,String contentSearch);
+    List<VocabularyRes> getAllVocabulariesByTopicId(long topicId, String vocabularyType, String isPrivate,String contentSearch);
+
+    List<VocabularyRes> getAllVocabulariesByPartId(long partId);
 
     List<VocabularyRes> getExactVocabularies(ExactVocabularyReq exactVocabularyReq);
 
@@ -36,6 +38,8 @@ public interface VocabularySerivce {
     void addVocabularyListToNewTopic(List<AddVocabularyToNewTopic> addVocabularyToNewTopicList);
 
     void addVocabularyListToNewTopic_v2(AddVocabularyListToNewTopic addVocabularyListToNewTopic);
+
+    void addVocabularyListToPart(AddVocabularyListToPart addVocabularyListToPart);
 
     void addVocabularyList(List<VocabularyReq> vocabularyReqList);
 
