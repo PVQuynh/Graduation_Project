@@ -75,7 +75,7 @@ public class VocabularyMapperImpl implements VocabularyMapper {
                 .content(entity.getContent())
                 .note(entity.getNote())
                 .vocabularyType(entity.getVocabularyType())
-                .partId(entity.getPartId())
+                .partId(entity.getPartId() == null ? 0 : entity.getPartId())
                 .build();
 
         // set image

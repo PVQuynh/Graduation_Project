@@ -672,9 +672,10 @@ public class VocabularyServiceImpl implements VocabularySerivce {
     public void addVocabularyList(List<VocabularyReq> vocabularyReqList) {
         if (vocabularyReqList.stream().findFirst().get().getLessonId() != 0 & vocabularyReqList.stream().findFirst().get().getPartId() != 0) {
             addVocabularyListToLessonPart(vocabularyReqList);
-        }
-        if (vocabularyReqList.stream().findFirst().get().getTopicId() != 0) {
-            addVocabularyListToTopic(vocabularyReqList);
+        } else {
+            if (vocabularyReqList.stream().findFirst().get().getTopicId() != 0) {
+                addVocabularyListToTopic(vocabularyReqList);
+            }
         }
     }
 

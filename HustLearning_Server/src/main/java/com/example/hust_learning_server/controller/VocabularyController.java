@@ -37,9 +37,10 @@ public class VocabularyController {
         MessageResponse ms = new MessageResponse();
         if (lessonId != 0 && partId != 0) {
             ms.data = vocabularyService.getAllVocabulariesByLessonIdAndPartId(lessonId, partId);
-        }
-        if (topicId != 0) {
-            ms.data = vocabularyService.getAllVocabulariesByTopicId(topicId, vocabularyType, isPrivate, contentSearch);
+        } else {
+            if (topicId != 0) {
+                ms.data = vocabularyService.getAllVocabulariesByTopicId(topicId, vocabularyType, isPrivate, contentSearch);
+            }
         }
         return ResponseEntity.ok(ms);
     }
