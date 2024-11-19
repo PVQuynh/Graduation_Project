@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddVocabularyListToPart {
+public class AddVocabularyListToLessonPart {
     private long[] ids;
     private long partId;
+    private long lessonId;
 }

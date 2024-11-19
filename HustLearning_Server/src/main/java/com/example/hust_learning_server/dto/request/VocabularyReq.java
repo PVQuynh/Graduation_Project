@@ -29,6 +29,8 @@ public class VocabularyReq {
 
     private  long topicId;
 
+    private long lessonId;
+
     private long partId;
 
 }

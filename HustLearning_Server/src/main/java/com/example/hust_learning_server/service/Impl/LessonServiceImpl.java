@@ -4,11 +4,9 @@ import com.example.hust_learning_server.dto.request.LessonReq;
 import com.example.hust_learning_server.dto.response.LessonRes;
 import com.example.hust_learning_server.entity.ClassRoom;
 import com.example.hust_learning_server.entity.Lesson;
-import com.example.hust_learning_server.entity.Part;
 import com.example.hust_learning_server.exception.ResourceNotFoundException;
 import com.example.hust_learning_server.repository.ClassRoomRepository;
 import com.example.hust_learning_server.repository.LessonRepository;
-import com.example.hust_learning_server.repository.PartRepository;
 import com.example.hust_learning_server.service.LessonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +20,6 @@ import java.util.List;
 public class LessonServiceImpl implements LessonService {
     private final LessonRepository lessonRepository;
     private final ClassRoomRepository classRoomRepository;
-    private final PartRepository partRepository;
 
     @Override
     public void addLesson(LessonReq lessonReq) {
@@ -53,8 +50,12 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public List<LessonRes> getAll(Long classRoomId) {
-        ClassRoom classRoom = classRoomRepository.findById(classRoomId).orElseThrow(ResourceNotFoundException::new);
-        List<Lesson> lessons = lessonRepository.findAllByClassRoomId(classRoomId);
+        List<Lesson> lessons = new ArrayList<>();
+        if (classRoomId != null) {
+            lessons = lessonRepository.findAllByClassRoomId(classRoomId);
+        } else {
+            lessons = lessonRepository.findAll();
+        }
         List<LessonRes> lessonResList = new ArrayList<>();
         for (Lesson lesson : lessons) {
             LessonRes lessonRes = LessonRes.builder()
@@ -64,7 +65,7 @@ public class LessonServiceImpl implements LessonService {
                     .videoLocation(lesson.getVideoLocation())
                     .classRoomId(lesson.getId())
                     .build();
-            lessonRes.setClassRoomId(classRoom.getId());
+            lessonRes.setClassRoomId(lesson.getClassRoomId());
             lessonResList.add(lessonRes);
         }
         return lessonResList;
@@ -88,11 +89,6 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public void deleteById(Long lessonId) {
-        List<Part> parts = partRepository.findAllByLessonId(lessonId);
-        parts.forEach(part -> {
-            part.setLessonId(null);
-        });
-        partRepository.saveAll(parts);
         lessonRepository.deleteById(lessonId);
     }
 }

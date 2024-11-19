@@ -28,24 +28,26 @@ public class VocabularyController {
     @GetMapping("/all")
     public ResponseEntity<MessageResponse> getAllVocabulary(
             @RequestParam(required = false, defaultValue = "0") long partId,
+            @RequestParam(required = false, defaultValue = "0") long lessonId,
             @RequestParam(required = false, defaultValue = "0") long topicId,
             @RequestParam(required = false, defaultValue = "") String isPrivate,
             @RequestParam(required = false) String vocabularyType,
             @RequestParam(required = false, defaultValue = "") String contentSearch
     ) {
         MessageResponse ms = new MessageResponse();
-        if (partId != 0) {
-            ms.data = vocabularyService.getAllVocabulariesByPartId(partId);
-        } else {
+        if (lessonId != 0 && partId != 0) {
+            ms.data = vocabularyService.getAllVocabulariesByLessonIdAndPartId(lessonId, partId);
+        }
+        if (topicId != 0) {
             ms.data = vocabularyService.getAllVocabulariesByTopicId(topicId, vocabularyType, isPrivate, contentSearch);
         }
         return ResponseEntity.ok(ms);
     }
 
-    @PostMapping("/add-vocab-list-to-part")
-    public ResponseEntity<MessageResponse> addVocabularyListToPart(@RequestBody AddVocabularyListToPart addVocabularyListToPart) {
+    @PostMapping("/add-vocab-list-to-lesson-part")
+    public ResponseEntity<MessageResponse> addVocabularyListToLessonPart(@RequestBody AddVocabularyListToLessonPart addVocabularyListToLessonPart) {
         MessageResponse ms = new MessageResponse();
-        vocabularyService.addVocabularyListToPart(addVocabularyListToPart);
+        vocabularyService.addVocabularyListToLessonPart(addVocabularyListToLessonPart);
         return ResponseEntity.ok(ms);
     }
 

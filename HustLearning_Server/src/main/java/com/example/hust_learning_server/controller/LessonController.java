@@ -34,7 +34,7 @@ public class LessonController {
 
     @GetMapping("/all")
     public ResponseEntity<MessageResponse> getAllLessons(
-            @RequestParam Long classRoomId
+            @RequestParam(required = false) Long classRoomId
     ) {
         MessageResponse ms = new MessageResponse();
         ms.data = lessonService.getAll(classRoomId);

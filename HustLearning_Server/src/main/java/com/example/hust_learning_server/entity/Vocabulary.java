@@ -46,4 +46,6 @@ public class Vocabulary extends BaseEntity{
     private Topic topic;
 
     private Long partId;
+
+    private Long lessonId;
 }

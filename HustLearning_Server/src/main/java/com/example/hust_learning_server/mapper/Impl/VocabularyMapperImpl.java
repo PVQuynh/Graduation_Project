@@ -10,11 +10,10 @@ import com.example.hust_learning_server.entity.*;
 import com.example.hust_learning_server.mapper.VocabularyMapper;
 import com.example.hust_learning_server.mapper.VocabularyImageMapper;
 import com.example.hust_learning_server.mapper.VocabularyVideoMapper;
-import com.example.hust_learning_server.repository.PartRepository;
+import com.example.hust_learning_server.repository.LessonRepository;
 import com.example.hust_learning_server.repository.TopicRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -24,17 +23,18 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class VocabularyMapperImpl implements VocabularyMapper {
-    private final PartRepository partRepository;
+    private final LessonRepository lessonRepository;
     private final TopicRepository topicRepository;
     private final VocabularyImageMapper vocabularyImageMapper;
     private final VocabularyVideoMapper vocabularyVideoMapper;
 
     @Override
     public Vocabulary toEntity(VocabularyReq dto) {
-        Vocabulary vocabulary =Vocabulary.builder()
+        Vocabulary vocabulary = Vocabulary.builder()
                 .content(dto.getContent())
                 .note(dto.getNote())
                 .vocabularyType(dto.getVocabularyType())
+                .partId(dto.getPartId())
                 .build();
         vocabulary.setId(0);
 
@@ -58,20 +58,25 @@ public class VocabularyMapperImpl implements VocabularyMapper {
         Topic topic = topicRepository.findById(dto.getTopicId()).orElse(null);
         vocabulary.setTopic(topic);
 
-        // set partId
-        Part part = partRepository.findById(dto.getPartId()).orElse(null);
-        if (part != null) {
-            vocabulary.setPartId(part.getId());
+        // set lessonId
+        Lesson lesson = lessonRepository.findById(dto.getLessonId()).orElse(null);
+        if (lesson != null) {
+            vocabulary.setLessonId(lesson.getId());
         } else {
-            vocabulary.setPartId(null);
+            vocabulary.setLessonId(null);
         }
         return vocabulary;
     }
 
     @Override
     public VocabularyRes toDTO(Vocabulary entity) {
-        ModelMapper modelMapper = new ModelMapper();
-        VocabularyRes vocabularyRes = modelMapper.map(entity, VocabularyRes.class);
+        VocabularyRes vocabularyRes = VocabularyRes.builder()
+                .vocabularyId(entity.getId())
+                .content(entity.getContent())
+                .note(entity.getNote())
+                .vocabularyType(entity.getVocabularyType())
+                .partId(entity.getPartId())
+                .build();
 
         // set image
         List<VocabularyImage> vocabularyImageList = entity.getVocabularyImages();
@@ -87,16 +92,16 @@ public class VocabularyMapperImpl implements VocabularyMapper {
         vocabularyRes.setTopicId(Objects.nonNull(entity.getTopic()) ? entity.getTopic().getId() : 0);
         vocabularyRes.setTopicContent(Objects.nonNull(entity.getTopic()) ? entity.getTopic().getContent() : null);
 
-        // set part
-        if (entity.getPartId() != null) {
-            Part part = partRepository.findById(entity.getPartId()).orElse(null);
+        // set lesson
+        if (entity.getLessonId() != null) {
+            Lesson part = lessonRepository.findById(entity.getLessonId()).orElse(null);
             if (part != null) {
-                vocabularyRes.setPartId(part.getId());
-                vocabularyRes.setPartName(part.getPartName());
+                vocabularyRes.setLessonId(part.getId());
+                vocabularyRes.setLessonName(part.getLessonName());
             }
         } else {
-            vocabularyRes.setPartId(0);
-            vocabularyRes.setPartName(null);
+            vocabularyRes.setLessonId(0);
+            vocabularyRes.setLessonName(null);
         }
         return vocabularyRes;
     }

@@ -25,10 +25,9 @@ public interface VocabularyRepository extends JpaRepository<Vocabulary, Long> {
 
     Optional<Vocabulary> findByContentAndTopicId(String content, long topicId);
 
-    Optional<Vocabulary> findByContentAndPartId(String content, long partId);
+    Optional<Vocabulary> findByContentAndLessonIdAndPartId(String content, long lessonId, long partId);
 
     List<Vocabulary> findAllByTopicId(long id);
 
-    List<Vocabulary> findAllByPartId(Long partId);
-
+    List<Vocabulary> findAllByLessonIdAndPartId(long lessonId, long partId);
 }

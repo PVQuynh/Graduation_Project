@@ -13,7 +13,7 @@ public interface VocabularySerivce {
 
     List<VocabularyRes> getAllVocabulariesByTopicId(long topicId, String vocabularyType, String isPrivate,String contentSearch);
 
-    List<VocabularyRes> getAllVocabulariesByPartId(long partId);
+    List<VocabularyRes> getAllVocabulariesByLessonIdAndPartId(long lessonId, long partId);
 
     List<VocabularyRes> getExactVocabularies(ExactVocabularyReq exactVocabularyReq);
 
@@ -39,7 +39,7 @@ public interface VocabularySerivce {
 
     void addVocabularyListToNewTopic_v2(AddVocabularyListToNewTopic addVocabularyListToNewTopic);
 
-    void addVocabularyListToPart(AddVocabularyListToPart addVocabularyListToPart);
+    void addVocabularyListToLessonPart(AddVocabularyListToLessonPart addVocabularyListToLessonPart);
 
     void addVocabularyList(List<VocabularyReq> vocabularyReqList);
 
