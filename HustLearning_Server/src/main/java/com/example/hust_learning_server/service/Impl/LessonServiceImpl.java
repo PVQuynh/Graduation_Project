@@ -38,7 +38,7 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public LessonRes getById(Long lessonId) {
+    public LessonRes getById(long lessonId) {
         Lesson lesson = lessonRepository.findById(lessonId).orElseThrow(ResourceNotFoundException::new);
         ClassRoom classRoom = classRoomRepository.findById(lesson.getClassRoomId()).orElse(null);
         return LessonRes.builder()
@@ -52,20 +52,36 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public List<LessonRes> getAll(Long classRoomId) {
-        ClassRoom classRoom = classRoomRepository.findById(classRoomId).orElseThrow(ResourceNotFoundException::new);
-        List<Lesson> lessons = lessonRepository.findAllByClassRoomId(classRoomId);
+    public List<LessonRes> getAll(long classRoomId) {
         List<LessonRes> lessonResList = new ArrayList<>();
-        for (Lesson lesson : lessons) {
-            LessonRes lessonRes = LessonRes.builder()
-                    .lessonId(lesson.getId())
-                    .lessonName(lesson.getLessonName())
-                    .imageLocation(lesson.getImageLocation())
-                    .videoLocation(lesson.getVideoLocation())
-                    .classRoomId(lesson.getId())
-                    .build();
-            lessonRes.setClassRoomId(classRoom.getId());
-            lessonResList.add(lessonRes);
+        if (classRoomId != 0) {
+            ClassRoom classRoom = classRoomRepository.findById(classRoomId).orElseThrow(ResourceNotFoundException::new);
+            List<Lesson> lessons = lessonRepository.findAllByClassRoomId(classRoomId);
+            for (Lesson lesson : lessons) {
+                LessonRes lessonRes = LessonRes.builder()
+                        .lessonId(lesson.getId())
+                        .lessonName(lesson.getLessonName())
+                        .imageLocation(lesson.getImageLocation())
+                        .videoLocation(lesson.getVideoLocation())
+                        .classRoomId(lesson.getClassRoomId())
+                        .classRoomContent(classRoom.getContent())
+                        .build();
+                lessonResList.add(lessonRes);
+            }
+        } else {
+            List<Lesson> lessons = lessonRepository.findAll();
+            for (Lesson lesson : lessons) {
+                ClassRoom classRoom = classRoomRepository.findById(lesson.getClassRoomId()).orElse(null);
+                LessonRes lessonRes = LessonRes.builder()
+                        .lessonId(lesson.getId())
+                        .lessonName(lesson.getLessonName())
+                        .imageLocation(lesson.getImageLocation())
+                        .videoLocation(lesson.getVideoLocation())
+                        .classRoomId(lesson.getClassRoomId())
+                        .classRoomContent(classRoom!= null ? classRoom.getContent() : null)
+                        .build();
+                lessonResList.add(lessonRes);
+            }
         }
         return lessonResList;
     }
@@ -87,7 +103,7 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public void deleteById(Long lessonId) {
+    public void deleteById(long lessonId) {
         List<Part> parts = partRepository.findAllByLessonId(lessonId);
         parts.forEach(part -> {
             part.setLessonId(null);

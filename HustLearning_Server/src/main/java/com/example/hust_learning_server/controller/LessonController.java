@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("lessons")
 public class LessonController {
-  private final LessonService lessonService;
+    private final LessonService lessonService;
 
     @PostMapping
     public ResponseEntity<MessageResponse> addLesson(@RequestBody LessonReq lessonReq) {
@@ -24,7 +24,7 @@ public class LessonController {
 
     @GetMapping("/{lessonId}")
     public ResponseEntity<MessageResponse> getLessonById(
-            @PathVariable("lessonId") Long lessonId
+            @PathVariable("lessonId") long lessonId
     ) {
         MessageResponse ms = new MessageResponse();
         ms.data = lessonService.getById(lessonId);
@@ -34,12 +34,11 @@ public class LessonController {
 
     @GetMapping("/all")
     public ResponseEntity<MessageResponse> getAllLessons(
-            @RequestParam Long classRoomId
+            @RequestParam(required = false, defaultValue = "0") long classRoomId
     ) {
         MessageResponse ms = new MessageResponse();
         ms.data = lessonService.getAll(classRoomId);
         return ResponseEntity.ok(ms);
-
     }
 
     @PutMapping
@@ -50,7 +49,7 @@ public class LessonController {
     }
 
     @DeleteMapping("/{lessonId}")
-    public ResponseEntity<MessageResponse> deleteLessonById(@PathVariable("lessonId") Long lessonId) {
+    public ResponseEntity<MessageResponse> deleteLessonById(@PathVariable("lessonId") long lessonId) {
         MessageResponse ms = new MessageResponse();
         lessonService.deleteById(lessonId);
         return ResponseEntity.ok(ms);

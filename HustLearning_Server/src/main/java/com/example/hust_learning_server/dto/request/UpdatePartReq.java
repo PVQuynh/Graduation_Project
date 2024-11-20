@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PartImageReq {
-    private String imageLocation;
+public class UpdatePartReq {
+    private long partId;
+
+    private String partName;
 }

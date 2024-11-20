@@ -19,7 +19,7 @@ public class LessonRes {
 
     private  String videoLocation;
 
-    private Long classRoomId;
+    private long classRoomId;
 
     private String classRoomContent;
 

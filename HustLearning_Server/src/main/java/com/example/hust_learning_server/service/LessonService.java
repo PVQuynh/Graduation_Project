@@ -9,11 +9,11 @@ public interface LessonService {
 
     void addLesson(LessonReq lessonReq);
 
-    LessonRes getById(Long lessonId);
+    LessonRes getById(long lessonId);
     
-    List<LessonRes> getAll(Long classRoomId);
+    List<LessonRes> getAll(long classRoomId);
 
     void updateLesson(LessonRes lessonRes);
 
-    void deleteById(Long lessonId);
+    void deleteById(long lessonId);
 }

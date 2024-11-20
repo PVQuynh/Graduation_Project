@@ -10,10 +10,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PartVideoReq {
-
-    private long partVideoId;
-
     private String videoLocation;
-
-    private long partId;
 }

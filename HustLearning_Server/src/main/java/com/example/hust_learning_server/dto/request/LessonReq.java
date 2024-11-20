@@ -17,6 +17,5 @@ public class LessonReq {
 
     private  String videoLocation;
 
-    private Long classRoomId;
-
+    private long classRoomId;
 }
