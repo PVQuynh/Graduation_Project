@@ -8,6 +8,7 @@ import com.example.hust_learning_server.dto.response.PartVideoRes;
 import com.example.hust_learning_server.entity.Part;
 import com.example.hust_learning_server.entity.PartImage;
 import com.example.hust_learning_server.entity.PartVideo;
+import com.example.hust_learning_server.exception.ConflictException;
 import com.example.hust_learning_server.exception.ResourceNotFoundException;
 import com.example.hust_learning_server.repository.PartImageRepository;
 import com.example.hust_learning_server.repository.PartRepository;
@@ -17,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -31,6 +31,8 @@ public class PartServiceImpl implements PartService {
 
     @Override
     public void addPart(PartReq partReq) {
+        if (partRepository.existsByPartNameAndLessonId(partReq.getPartName(), partReq.getLessonId())) throw new ConflictException();
+
         Part p = Part.builder()
                 .partName(partReq.getPartName())
                 .lessonId(partReq.getLessonId())
@@ -66,10 +68,10 @@ public class PartServiceImpl implements PartService {
 
     @Override
     public List<PartRes> getAllParts(long lessonId) {
-        List<PartRes> partResList = Collections.synchronizedList(new ArrayList<>());
+        List<PartRes> partResList = new ArrayList<>();
         if (lessonId == 0) {
             List<Part> parts = partRepository.findAll();
-            parts.parallelStream().forEach(part -> {
+            parts.forEach(part -> {
                 PartRes partRes = PartRes.builder()
                         .partId(part.getId())
                         .partName(part.getPartName())
@@ -112,7 +114,7 @@ public class PartServiceImpl implements PartService {
             });
         } else {
             List<Part> parts = partRepository.findAllByLessonId(lessonId);
-            parts.parallelStream().forEach(part -> {
+            parts.forEach(part -> {
                 PartRes partRes = PartRes.builder()
                         .partId(part.getId())
                         .partName(part.getPartName())

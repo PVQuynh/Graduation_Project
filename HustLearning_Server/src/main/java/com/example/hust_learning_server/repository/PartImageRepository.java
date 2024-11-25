@@ -9,4 +9,6 @@ public interface PartImageRepository extends JpaRepository<PartImage, Long> {
 
 
     List<PartImage> findByPartId(long id);
+
+    boolean existsByImageLocationAndPartId(String imageLocation, long partId);
 }

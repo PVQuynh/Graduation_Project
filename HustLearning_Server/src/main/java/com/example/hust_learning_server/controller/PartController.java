@@ -1,9 +1,7 @@
 package com.example.hust_learning_server.controller;
 
-import com.example.hust_learning_server.dto.PageDTO;
 import com.example.hust_learning_server.dto.request.*;
 import com.example.hust_learning_server.dto.response.MessageResponse;
-import com.example.hust_learning_server.dto.response.PartRes;
 import com.example.hust_learning_server.service.PartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

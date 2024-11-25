@@ -1,5 +1,6 @@
 package com.example.hust_learning_server.controller;
 
+import com.example.hust_learning_server.dto.request.PartImageReq;
 import com.example.hust_learning_server.dto.request.UpdatePartImageReq;
 import com.example.hust_learning_server.dto.response.MessageResponse;
 import com.example.hust_learning_server.service.PartImageService;
@@ -13,10 +14,24 @@ import org.springframework.web.bind.annotation.*;
 public class PartImageController {
     private final PartImageService partImageService;
 
+    @PostMapping
+    public ResponseEntity<MessageResponse> addPartImage(@RequestBody PartImageReq partImageReq) {
+        MessageResponse ms = new MessageResponse();
+        partImageService.addPartImage(partImageReq);
+        return ResponseEntity.ok(ms);
+    }
+
     @PutMapping
     public ResponseEntity<MessageResponse> updatePartImage(@RequestBody UpdatePartImageReq updatePartImageReq) {
         MessageResponse ms = new MessageResponse();
         partImageService.updatePartImage(updatePartImageReq);
+        return ResponseEntity.ok(ms);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<MessageResponse> deletePartImage(@PathVariable long id) {
+        MessageResponse ms = new MessageResponse();
+        partImageService.deleteById(id);
         return ResponseEntity.ok(ms);
     }
 

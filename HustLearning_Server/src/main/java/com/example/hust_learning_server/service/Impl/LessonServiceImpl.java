@@ -10,6 +10,7 @@ import com.example.hust_learning_server.repository.ClassRoomRepository;
 import com.example.hust_learning_server.repository.LessonRepository;
 import com.example.hust_learning_server.repository.PartRepository;
 import com.example.hust_learning_server.service.LessonService;
+import com.example.hust_learning_server.service.PartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ public class LessonServiceImpl implements LessonService {
     private final LessonRepository lessonRepository;
     private final ClassRoomRepository classRoomRepository;
     private final PartRepository partRepository;
+    private final PartService partService;
 
     @Override
     public void addLesson(LessonReq lessonReq) {
@@ -106,9 +108,8 @@ public class LessonServiceImpl implements LessonService {
     public void deleteById(long lessonId) {
         List<Part> parts = partRepository.findAllByLessonId(lessonId);
         parts.forEach(part -> {
-            part.setLessonId(null);
+            partService.deletePart(part.getId());
         });
-        partRepository.saveAll(parts);
         lessonRepository.deleteById(lessonId);
     }
 }

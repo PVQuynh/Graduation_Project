@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PartImageReq {
     private String imageLocation;
+    private long partId;
 }
