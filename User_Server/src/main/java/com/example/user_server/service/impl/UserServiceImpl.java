@@ -41,6 +41,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -52,6 +54,7 @@ import org.springframework.util.ObjectUtils;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
+    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     private final EntityManager entityManager;
 
     private final KeycloakService keycloakService;
@@ -317,13 +320,17 @@ public class UserServiceImpl implements UserService {
             .email(email)
             .build();
 
-        MessageResponse ms = chatFeignClient.uploadAvatar(uploadAvatarClientReq);
+        try {
+            MessageResponse ms = chatFeignClient.uploadAvatar(uploadAvatarClientReq);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
 
-        if (ms.code == 200) {
+//        if (ms.code == 200) {
             User user = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
             user.setAvatarLocation(uploadAvatarReq.getAvatarLocation());
             userRepository.save(user);
-        }
+//        }
 
     }
 
