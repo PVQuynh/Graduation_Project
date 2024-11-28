@@ -11,9 +11,12 @@ public interface PartService {
 
     void addParts(List<PartReq> partReqList);
 
+    PartRes getPart(long partId);
+
     List<PartRes> getAllParts(long lessonId);
 
     void deletePart(long partId);
 
     void updatePart(UpdatePartReq updatePartReq);
+
 }

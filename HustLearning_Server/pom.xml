@@ -153,7 +153,7 @@
                 <version>3.3.2</version>
                 <configuration>
                     <to>
-                        <image>quynhpv/${project.artifactId}:s88</image>
+                        <image>quynhpv/${project.artifactId}:s89</image>
                     </to>
                 </configuration>
             </plugin>

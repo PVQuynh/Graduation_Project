@@ -1,12 +1,15 @@
 package com.example.hust_learning_server.controller;
 
 import com.example.hust_learning_server.dto.request.PartVideoReq;
+import com.example.hust_learning_server.dto.request.PartVideoReq;
 import com.example.hust_learning_server.dto.request.UpdatePartVideoReq;
 import com.example.hust_learning_server.dto.response.MessageResponse;
 import com.example.hust_learning_server.service.PartVideoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,6 +21,22 @@ public class PartVideoController {
     public ResponseEntity<MessageResponse> addPartVideo(@RequestBody PartVideoReq partVideoReq) {
         MessageResponse ms = new MessageResponse();
         partVideoService.addPartVideo(partVideoReq);
+        return ResponseEntity.ok(ms);
+    }
+
+    @PostMapping("/add-list")
+    public ResponseEntity<MessageResponse> addPartVideos(@RequestBody List<PartVideoReq> partVideoReqs) {
+        MessageResponse ms = new MessageResponse();
+        partVideoService.addPartVideos(partVideoReqs);
+        return ResponseEntity.ok(ms);
+    }
+
+    @GetMapping
+    public ResponseEntity<MessageResponse> getPartVideo(
+            @RequestParam long partVideoId
+    ) {
+        MessageResponse ms = new MessageResponse();
+        ms.data = partVideoService.getPartVideo(partVideoId);
         return ResponseEntity.ok(ms);
     }
     

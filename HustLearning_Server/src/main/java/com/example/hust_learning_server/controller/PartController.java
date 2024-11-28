@@ -30,6 +30,15 @@ public class PartController {
         return ResponseEntity.ok(ms);
     }
 
+    @GetMapping
+    public ResponseEntity<MessageResponse> getPart(
+            @RequestParam long partId
+    ) {
+        MessageResponse ms = new MessageResponse();
+        ms.data = partService.getPart(partId);
+        return ResponseEntity.ok(ms);
+    }
+
     @GetMapping("/all")
     public ResponseEntity<MessageResponse> getAllPart(
             @RequestParam(required = false, defaultValue = "0") long lessonId

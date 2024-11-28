@@ -31,7 +31,8 @@ public class PartServiceImpl implements PartService {
 
     @Override
     public void addPart(PartReq partReq) {
-        if (partRepository.existsByPartNameAndLessonId(partReq.getPartName(), partReq.getLessonId())) throw new ConflictException();
+        if (partRepository.existsByPartNameAndLessonId(partReq.getPartName(), partReq.getLessonId()))
+            return;
 
         Part p = Part.builder()
                 .partName(partReq.getPartName())
@@ -64,6 +65,51 @@ public class PartServiceImpl implements PartService {
     @Override
     public void addParts(List<PartReq> partReqList) {
         partReqList.forEach(this::addPart);
+    }
+
+    @Override
+    public PartRes getPart(long partId) {
+        Part part = partRepository.findById(partId).orElseThrow(ResourceNotFoundException::new);
+
+        PartRes partRes = PartRes.builder()
+                .partId(part.getId())
+                .partName(part.getPartName())
+                .lessonId(part.getLessonId())
+                .build();
+
+        List<PartImageRes> partImageResList = Collections.synchronizedList(new ArrayList<>());
+        List<PartVideoRes> partVideoResList = Collections.synchronizedList(new ArrayList<>());
+
+        CompletableFuture<?> partImageFuture = CompletableFuture.runAsync(() -> {
+            List<PartImage> partImages = partImageRepository.findByPartId(part.getId());
+            partImages.parallelStream().forEach(partImage -> {
+                PartImageRes partImageRes = PartImageRes.builder()
+                        .partImageId(partImage.getId())
+                        .imageLocation(partImage.getImageLocation())
+                        .partId(partImage.getPartId())
+                        .build();
+                partImageResList.add(partImageRes);
+            });
+        });
+
+        CompletableFuture<?> partVideoFuture = CompletableFuture.runAsync(() -> {
+            List<PartVideo> partVideos = partVideoRepository.findByPartId(part.getId());
+            partVideos.parallelStream().forEach(partVideo -> {
+                PartVideoRes partVideoRes = PartVideoRes.builder()
+                        .partVideoId(partVideo.getId())
+                        .videoLocation(partVideo.getVideoLocation())
+                        .partId(partVideo.getPartId())
+                        .build();
+                partVideoResList.add(partVideoRes);
+            });
+        });
+
+        partImageFuture.join();
+        partVideoFuture.join();
+
+        partRes.setPartImageResList(partImageResList);
+        partRes.setPartVideoResList(partVideoResList);
+        return partRes;
     }
 
     @Override
