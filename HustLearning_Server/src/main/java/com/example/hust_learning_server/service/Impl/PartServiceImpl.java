@@ -8,7 +8,6 @@ import com.example.hust_learning_server.dto.response.PartVideoRes;
 import com.example.hust_learning_server.entity.Part;
 import com.example.hust_learning_server.entity.PartImage;
 import com.example.hust_learning_server.entity.PartVideo;
-import com.example.hust_learning_server.exception.ConflictException;
 import com.example.hust_learning_server.exception.ResourceNotFoundException;
 import com.example.hust_learning_server.repository.PartImageRepository;
 import com.example.hust_learning_server.repository.PartRepository;
@@ -43,22 +42,26 @@ public class PartServiceImpl implements PartService {
         CompletableFuture.runAsync(() -> {
             List<PartImage> partImages = new ArrayList<>();
             List<PartVideo> partVideos = new ArrayList<>();
-            partReq.getPartImageReqs().forEach(partImageReq -> {
-                PartImage partImage = PartImage.builder()
-                        .imageLocation(partImageReq.getImageLocation())
-                        .partId(part.getId())
-                        .build();
-                partImages.add(partImage);
-            });
-            partReq.getPartVideoReqs().forEach(partVideoReq -> {
-                PartVideo partVideo = PartVideo.builder()
-                        .videoLocation(partVideoReq.getVideoLocation())
-                        .partId(part.getId())
-                        .build();
-                partVideos.add(partVideo);
-            });
-            partImageRepository.saveAll(partImages);
-            partVideoRepository.saveAll(partVideos);
+            if (partReq.getPartImageReqs() != null) {
+                partReq.getPartImageReqs().forEach(partImageReq -> {
+                    PartImage partImage = PartImage.builder()
+                            .imageLocation(partImageReq.getImageLocation())
+                            .partId(part.getId())
+                            .build();
+                    partImages.add(partImage);
+                    partImageRepository.saveAll(partImages);
+                });
+            }
+            if (partReq.getPartVideoReqs() != null) {
+                partReq.getPartVideoReqs().forEach(partVideoReq -> {
+                    PartVideo partVideo = PartVideo.builder()
+                            .videoLocation(partVideoReq.getVideoLocation())
+                            .partId(part.getId())
+                            .build();
+                    partVideos.add(partVideo);
+                });
+                partVideoRepository.saveAll(partVideos);
+            }
         });
     }
 

@@ -102,6 +102,9 @@ public class LessonServiceImpl implements LessonService {
         if (lessonRes.getVideoLocation() != null) {
             lesson.setVideoLocation(lessonRes.getVideoLocation().trim());
         }
+        if (lessonRes.getClassRoomId() != 0) {
+            lesson.setClassRoomId(lessonRes.getClassRoomId());
+        }
         lessonRepository.save(lesson);
     }
 
