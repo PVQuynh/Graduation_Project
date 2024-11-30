@@ -31,7 +31,6 @@ import com.example.hust_learning_server.repository.ExamRepository;
 import com.example.hust_learning_server.repository.QuestionExamMappingRepository;
 import com.example.hust_learning_server.repository.QuestionExamUserMappingRepository;
 import com.example.hust_learning_server.repository.QuestionRepository;
-import com.example.hust_learning_server.repository.ClassRoomRepository;
 import com.example.hust_learning_server.repository.UserExamMappingRepository;
 import com.example.hust_learning_server.repository.UserRepository;
 import com.example.hust_learning_server.service.ExamService;
@@ -64,21 +63,21 @@ public class ExamServiceImpl implements ExamService {
         }
         // save exam
         Exam exam = examRepository.save(Exam.builder()
-            .name(examReq.getName())
-            .isPrivate(examReq.isPrivate())
-            .classRoomId(examReq.getClassRoomId())
-            .build());
+                .name(examReq.getName())
+                .isPrivate(examReq.isPrivate())
+                .classRoomId(examReq.getClassRoomId())
+                .build());
         // save question exam mapping
         List<QuestionExamMapping> questionExamMappings = examReq.getQuestionIds().stream()
-            .filter(questionId -> !questionExamMappingRepository.existsByQuestionIdAndExamId(questionId, exam.getId()))
-            .map(questionId -> {
-                QuestionExamMapping questionExamMapping = QuestionExamMapping.builder()
-                    .questionId(questionId)
-                    .examId(exam.getId())
-                    .build();
-                return questionExamMapping;
-            })
-            .toList();
+                .filter(questionId -> !questionExamMappingRepository.existsByQuestionIdAndExamId(questionId, exam.getId()))
+                .map(questionId -> {
+                    QuestionExamMapping questionExamMapping = QuestionExamMapping.builder()
+                            .questionId(questionId)
+                            .examId(exam.getId())
+                            .build();
+                    return questionExamMapping;
+                })
+                .toList();
         questionExamMappingRepository.saveAll(questionExamMappings);
     }
 
@@ -138,16 +137,16 @@ public class ExamServiceImpl implements ExamService {
             throw new ResourceNotFoundException();
         }
         List<UserExamMapping> userExamMappings = examIds.stream()
-            .filter(examId -> !userExamMappingRepository.existsByUserIdAndExamId(user.getId(), examId))
-            .map(examId -> {
-                 UserExamMapping userExamMapping = UserExamMapping.builder()
-                    .userId(userId)
-                    .examId(examId)
-                    .isFinish(false)
-                    .build();
-                 return userExamMapping;
-            })
-            .toList();
+                .filter(examId -> !userExamMappingRepository.existsByUserIdAndExamId(user.getId(), examId))
+                .map(examId -> {
+                    UserExamMapping userExamMapping = UserExamMapping.builder()
+                            .userId(userId)
+                            .examId(examId)
+                            .isFinish(false)
+                            .build();
+                    return userExamMapping;
+                })
+                .toList();
         userExamMappingRepository.saveAll(userExamMappings);
     }
 
@@ -159,7 +158,7 @@ public class ExamServiceImpl implements ExamService {
         }
         User user = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
         UserExamMapping userExamMapping = userExamMappingRepository.findByUserIdAndExamId(user.getId(), examScoringReq.getExamId())
-            .orElseThrow(ResourceNotFoundException::new);
+                .orElseThrow(ResourceNotFoundException::new);
         userExamMapping.setScore(examScoringReq.getScore());
         userExamMapping.setFinish(true);
         userExamMappingRepository.save(userExamMapping);
@@ -173,25 +172,25 @@ public class ExamServiceImpl implements ExamService {
         }
         User user = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
         List<QuestionExamUserMapping> questionExamUserMappings = examSavedReqs.stream()
-            .filter(examSavedReq -> !questionExamUserMappingRepository.existsByQuestionIdAndExamIdAndUserId(examSavedReq.getQuestionId(),
-                examSavedReq.getExamId(), user.getId()))
-            .map(examSavedReq -> {
-                QuestionExamUserMapping questionExamUserMapping = new QuestionExamUserMapping();
-                BeanUtils.copyProperties(examSavedReq, questionExamUserMapping);
-                questionExamUserMapping.setUserId(user.getId());
-                return questionExamUserMapping;
-            })
-            .toList();
+                .filter(examSavedReq -> !questionExamUserMappingRepository.existsByQuestionIdAndExamIdAndUserId(examSavedReq.getQuestionId(),
+                        examSavedReq.getExamId(), user.getId()))
+                .map(examSavedReq -> {
+                    QuestionExamUserMapping questionExamUserMapping = new QuestionExamUserMapping();
+                    BeanUtils.copyProperties(examSavedReq, questionExamUserMapping);
+                    questionExamUserMapping.setUserId(user.getId());
+                    return questionExamUserMapping;
+                })
+                .toList();
         questionExamUserMappingRepository.saveAll(questionExamUserMappings);
         List<QuestionExamUserMapping> existingQuestionExamUserMappings = examSavedReqs.stream()
-            .filter(examSavedReq -> questionExamUserMappingRepository.existsByQuestionIdAndExamIdAndUserId(examSavedReq.getQuestionId(), examSavedReq.getExamId(), user.getId()))
-            .map(examSavedReq -> {
-                QuestionExamUserMapping questionExamUserMapping = questionExamUserMappingRepository.findByQuestionIdAndExamIdAndUserId(examSavedReq.getQuestionId(), examSavedReq.getExamId(), user.getId()).orElseThrow(ResourceNotFoundException::new);
-                BeanUtils.copyProperties(examSavedReq, questionExamUserMapping);
-                questionExamUserMapping.setUserId(user.getId());
-                return questionExamUserMapping;
-            })
-            .toList();
+                .filter(examSavedReq -> questionExamUserMappingRepository.existsByQuestionIdAndExamIdAndUserId(examSavedReq.getQuestionId(), examSavedReq.getExamId(), user.getId()))
+                .map(examSavedReq -> {
+                    QuestionExamUserMapping questionExamUserMapping = questionExamUserMappingRepository.findByQuestionIdAndExamIdAndUserId(examSavedReq.getQuestionId(), examSavedReq.getExamId(), user.getId()).orElseThrow(ResourceNotFoundException::new);
+                    BeanUtils.copyProperties(examSavedReq, questionExamUserMapping);
+                    questionExamUserMapping.setUserId(user.getId());
+                    return questionExamUserMapping;
+                })
+                .toList();
         questionExamUserMappingRepository.saveAll(existingQuestionExamUserMappings);
     }
 
@@ -204,11 +203,11 @@ public class ExamServiceImpl implements ExamService {
         User user = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
         List<QuestionExamUserMapping> questionExamUserMappings = questionExamUserMappingRepository.findByExamIdAndUserId(examId, user.getId());
         List<ExamSavedRes> examSavedRes = questionExamUserMappings.stream()
-            .map(questionExamUserMapping -> {
-                ExamSavedRes savedRes = new ExamSavedRes();
-                BeanUtils.copyProperties(questionExamUserMapping, savedRes);
-                return savedRes;
-            }).toList();
+                .map(questionExamUserMapping -> {
+                    ExamSavedRes savedRes = new ExamSavedRes();
+                    BeanUtils.copyProperties(questionExamUserMapping, savedRes);
+                    return savedRes;
+                }).toList();
         return examSavedRes;
     }
 
@@ -289,7 +288,7 @@ public class ExamServiceImpl implements ExamService {
         List<QuestionExamUserMapping> questionExamUserMappings = questionExamUserMappingRepository.findByExamIdAndUserId(examId, user.getId());
         questionExamUserMappingRepository.deleteAll(questionExamUserMappings);
         UserExamMapping userExamMapping = userExamMappingRepository.findByUserIdAndExamId(user.getId(), examId)
-            .orElseThrow(ResourceNotFoundException::new);
+                .orElseThrow(ResourceNotFoundException::new);
         userExamMappingRepository.delete(userExamMapping);
     }
 
@@ -307,10 +306,8 @@ public class ExamServiceImpl implements ExamService {
         questionExamUserMappingRepository.deleteAll(questionExamUserMappings);
         List<QuestionExamMapping> questionExamMappings = questionExamMappingRepository.findAllByExamId(examId);
         questionExamMappingRepository.deleteAll(questionExamMappings);
-        UserExamMapping userExamMapping = userExamMappingRepository.findByUserIdAndExamId(user.getId(), examId).orElse(null);
-        if (Objects.nonNull(userExamMapping)) {
-            userExamMappingRepository.delete(userExamMapping);
-        }
+        List<UserExamMapping> userExamMappings = userExamMappingRepository.findAllByExamId(examId);
+        userExamMappingRepository.deleteAll(userExamMappings);
         examRepository.delete(exam);
     }
 }

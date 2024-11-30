@@ -15,4 +15,6 @@ public interface UserExamMappingRepository extends JpaRepository<UserExamMapping
     Optional<UserExamMapping> findByUserIdAndExamId(long userId, long examId);
 
     boolean existsByUserIdAndExamId(long userId, long examId);
+
+    List<UserExamMapping> findAllByExamId(long examId);
 }
