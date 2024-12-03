@@ -39,6 +39,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -74,24 +75,27 @@ public class UserServiceImpl implements UserService {
     @Override
     public User create(RegisterReq registerReq) {
         ContactClientReq contactRequest = new ContactClientReq(registerReq.getName(),
-            registerReq.getEmail(), null);
-        MessageResponse ms = chatFeignClient.createContact(contactRequest);
-
-        if (ms.code == 200) {
-            User user = new User();
-            user.setName(registerReq.getName());
-            user.setEmail(registerReq.getEmail());
-            user.setPassword(registerReq.getPassword());
-            Role role = roleRepository.findByCode(registerReq.getRole()).orElseThrow(ResourceNotFoundException::new);
-            user.setRole(role);
-            user.setApproved(true);
-            if (role.getCode().equals("TEACHER")) {
-                user.setApproved(false);
+                registerReq.getEmail(), null);
+        CompletableFuture.runAsync(() -> {
+            try {
+                MessageResponse ms = chatFeignClient.createContact(contactRequest);
+            } catch (Exception e) {
+                log.error(e.getMessage());
             }
+        });
 
-            return userRepository.save(user);
+        User user = new User();
+        user.setName(registerReq.getName());
+        user.setEmail(registerReq.getEmail());
+        user.setPassword(registerReq.getPassword());
+        Role role = roleRepository.findByCode(registerReq.getRole()).orElseThrow(ResourceNotFoundException::new);
+        user.setRole(role);
+        user.setApproved(true);
+        if (role.getCode().equals("TEACHER")) {
+            user.setApproved(false);
         }
-        return null;
+
+        return userRepository.save(user);
     }
 
 
@@ -209,7 +213,7 @@ public class UserServiceImpl implements UserService {
 
         // Filter by descending and orderBy (if provided)
         if (!ObjectUtils.isEmpty(userSearchReq.ascending) && !ObjectUtils.isEmpty(
-            userSearchReq.orderBy)) {
+                userSearchReq.orderBy)) {
             if (userSearchReq.ascending) {
                 criteriaQuery.orderBy(criteriaBuilder.asc(root.get(userSearchReq.orderBy)));
             } else {
@@ -225,12 +229,12 @@ public class UserServiceImpl implements UserService {
         int totalRows = query.getResultList().size();
 
         List<User> results = query
-            .setFirstResult((userSearchReq.page - 1) * userSearchReq.size) // Offset
-            .setMaxResults(userSearchReq.size) // Limit
-            .getResultList();
+                .setFirstResult((userSearchReq.page - 1) * userSearchReq.size) // Offset
+                .setMaxResults(userSearchReq.size) // Limit
+                .getResultList();
 
         PageDTO<UserDTO> userResPageDTO = new PageDTO<>(userMapper.toDTOList(results),
-            userSearchReq.page, totalRows);
+                userSearchReq.page, totalRows);
 
         return userResPageDTO;
     }
@@ -277,9 +281,9 @@ public class UserServiceImpl implements UserService {
         int totalRows = query.getResultList().size();
 
         List<User> results = query
-            .setFirstResult((page - 1) * size) // Offset
-            .setMaxResults(size) // Limit
-            .getResultList();
+                .setFirstResult((page - 1) * size) // Offset
+                .setMaxResults(size) // Limit
+                .getResultList();
 
         PageDTO<UserDTO> userResPageDTO = new PageDTO<>(userMapper.toDTOList(results), page, totalRows);
 
@@ -315,10 +319,10 @@ public class UserServiceImpl implements UserService {
         }
 
         UploadAvatarClientReq uploadAvatarClientReq = UploadAvatarClientReq
-            .builder()
-            .avatarLocation(uploadAvatarReq.getAvatarLocation())
-            .email(email)
-            .build();
+                .builder()
+                .avatarLocation(uploadAvatarReq.getAvatarLocation())
+                .email(email)
+                .build();
 
         try {
             MessageResponse ms = chatFeignClient.uploadAvatar(uploadAvatarClientReq);
@@ -327,9 +331,9 @@ public class UserServiceImpl implements UserService {
         }
 
 //        if (ms.code == 200) {
-            User user = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
-            user.setAvatarLocation(uploadAvatarReq.getAvatarLocation());
-            userRepository.save(user);
+        User user = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
+        user.setAvatarLocation(uploadAvatarReq.getAvatarLocation());
+        userRepository.save(user);
 //        }
 
     }

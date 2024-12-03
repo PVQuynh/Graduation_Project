@@ -6,6 +6,7 @@ import com.example.user_server.dto.request.ConfirmOTP;
 import com.example.user_server.dto.request.RegisterReq;
 import com.example.user_server.dto.response.MessageResponse;
 import com.example.user_server.entity.User;
+import com.example.user_server.exception.UnAuthorizedException;
 import com.example.user_server.service.EmailService;
 import com.example.user_server.service.KeycloakService;
 import com.example.user_server.service.OTPService;
@@ -132,5 +133,31 @@ public class RegisterController {
         return res;
     }
 
+    @PostMapping("/create-user")
+    public ResponseEntity<MessageResponse> createUser(@RequestBody @Valid RegisterReq registerReq) {
+        if (registerReq.getRole().equals("ADMIN")) {
+            throw new UnAuthorizedException();
+        }
+        final String SUCCESS = "Create User Successfully!";
+        MessageResponse ms = new MessageResponse();
+
+        //Save Account
+        try {
+            User user = userService.create(registerReq);
+            if (ObjectUtils.isNotEmpty(user)) {
+                keycloakService.createUser(registerReq);
+            }
+            ms.message = SUCCESS;
+            return ResponseEntity.ok(ms);
+
+        } catch (Exception e) {
+            ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            ms.message = e.getMessage();
+            return ResponseEntity
+                    .status(ms.code)
+                    .body(ms);
+        }
+
+    }
 
 }
