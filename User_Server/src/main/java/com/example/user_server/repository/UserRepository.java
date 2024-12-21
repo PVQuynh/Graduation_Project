@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.util.annotation.NonNullApi;
 
 import java.util.Date;
 import java.util.Optional;
@@ -33,4 +34,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u from User u where u.isApproved = :isApproved and u.role.code = :roleCoe")
     Page<User> findUserNotApproved(boolean isApproved, String roleCoe, Pageable pageable);
 
+    @Modifying
+    @Transactional
+    @Query("update User u set u.isDeleted = true where u.id = :userId")
+    void userIsDeleted(long userId);
+
+    @Query("select u from User u where u.isDeleted = false")
+    Page<User> findAll(Pageable pageable);
 }

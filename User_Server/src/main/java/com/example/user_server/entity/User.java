@@ -44,6 +44,9 @@ public class User extends  BaseEntity {
 
     private boolean isApproved;
 
+    @Column(nullable = false)
+    private boolean isDeleted = false;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "code")
     private Role role;

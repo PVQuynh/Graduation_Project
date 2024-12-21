@@ -10,6 +10,8 @@ import com.example.user_server.entity.User;
 
 import java.text.ParseException;
 import java.util.Optional;
+
+import jakarta.validation.constraints.Email;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -26,6 +28,8 @@ public interface UserService {
 
     void updateUser(UpdateUserReq updateUserReq) throws ParseException;
 
+    void updateUserById(UpdateUserReq updateUserReq) throws ParseException;
+
     void changePassword(ChangePasswordReq changePasswordReq);
 
     User randomlyGeneratePassword(String email);
@@ -38,10 +42,16 @@ public interface UserService {
 
     void uploadAvatar(UploadAvatarReq uploadAvatarReq);
 
+    Page<UserDTO> getAllUser(Pageable pageable);
+
+    void deleteUserById(long userId);
+
     // Authorization
     void checkApproved(String email);
 
     void approveUser(long id);
 
     Page<UserDTO> getUserNotApproved(Pageable pageable);
+
+    void checkDeleted(@Email String email);
 }

@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class AuthController {
     @Value("${refreshToken.expiredTime}")
-    private  int EXPIRED_TIME;
+    private int EXPIRED_TIME;
 
     private final RedisTemplate<String, Object> redisTemplate;
 
@@ -37,31 +37,28 @@ public class AuthController {
 
     @PostMapping("/login")
     public AuthenticationResponse Login(@RequestBody @Valid LoginRequest loginRequest) {
-        try {
-            // check is approved
-            userService.checkApproved(loginRequest.getEmail());
+        // check is approved
+        userService.checkApproved(loginRequest.getEmail());
+        // check user be not deleted
+        userService.checkDeleted(loginRequest.getEmail());
 
-            String accessToken = keycloakService.getAccessToken(loginRequest.getEmail(), loginRequest.getPassword());
-            String refreshToken = UUID.randomUUID().toString();
-            TokenObj tokenObj = new TokenObj();
-            tokenObj.setEmail(loginRequest.getEmail());
-            tokenObj.setPassword(loginRequest.getPassword());
-            tokenObj.setCreated(LocalDateTime.now());
-            redisTemplate.opsForHash().put(refreshToken,refreshToken.hashCode(), tokenObj);
-            redisTemplate.expire(refreshToken, 300, TimeUnit.SECONDS);
-            return new AuthenticationResponse(accessToken,refreshToken);
-        }
-        catch (Exception e) {
-            throw new UnAuthorizedException();
-        }
-}
+        String accessToken = keycloakService.getAccessToken(loginRequest.getEmail(), loginRequest.getPassword());
+        String refreshToken = UUID.randomUUID().toString();
+        TokenObj tokenObj = new TokenObj();
+        tokenObj.setEmail(loginRequest.getEmail());
+        tokenObj.setPassword(loginRequest.getPassword());
+        tokenObj.setCreated(LocalDateTime.now());
+        redisTemplate.opsForHash().put(refreshToken, refreshToken.hashCode(), tokenObj);
+        redisTemplate.expire(refreshToken, 300, TimeUnit.SECONDS);
+        return new AuthenticationResponse(accessToken, refreshToken);
+    }
 
     @PostMapping("/refresh-token")
     public AuthenticationResponse refresh(@RequestBody @Valid RefreshTokenRq refreshTokenRq) {
         String refreshToken = refreshTokenRq.getRefresh_token();
-        TokenObj tokenObj = (TokenObj) redisTemplate.opsForHash().get(refreshToken,refreshToken.hashCode());
+        TokenObj tokenObj = (TokenObj) redisTemplate.opsForHash().get(refreshToken, refreshToken.hashCode());
 
-        if (ObjectUtils.isEmpty(tokenObj)  ) {
+        if (ObjectUtils.isEmpty(tokenObj)) {
             throw new RefreshTokenFailedException("Refresh Token isn't match or expired!");
         }
         String accessToken = keycloakService.getAccessToken(tokenObj.getEmail(), tokenObj.getPassword());

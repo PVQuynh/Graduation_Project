@@ -91,6 +91,7 @@ public class UserServiceImpl implements UserService {
         Role role = roleRepository.findByCode(registerReq.getRole()).orElseThrow(ResourceNotFoundException::new);
         user.setRole(role);
         user.setApproved(true);
+        user.setDeleted(false);
         if (role.getCode().equals("TEACHER")) {
             user.setApproved(false);
         }
@@ -157,6 +158,30 @@ public class UserServiceImpl implements UserService {
             user.setGender(Gender.valueOf(updateUserReq.getGender()));
         }
 
+        userRepository.save(user);
+    }
+
+    @Transactional
+    @Override
+    public void updateUserById(UpdateUserReq updateUserReq) throws ParseException {
+        User user = userRepository.findById(updateUserReq.getUserId()).orElseThrow(ResourceNotFoundException::new);
+        if (updateUserReq.getName() != null) {
+            user.setName(updateUserReq.getName());
+        }
+        if (updateUserReq.getPhoneNumber() != null) {
+            user.setPhoneNumber(updateUserReq.getPhoneNumber());
+        }
+        if (updateUserReq.getAddress() != null) {
+            user.setAddress(updateUserReq.getAddress());
+        }
+        if (updateUserReq.getBirthDay() != null) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date birthDay = dateFormat.parse(updateUserReq.getBirthDay());
+            user.setBirthDay(birthDay);
+        }
+        if (updateUserReq.getGender() != null) {
+            user.setGender(Gender.valueOf(updateUserReq.getGender()));
+        }
         userRepository.save(user);
     }
 
@@ -366,5 +391,27 @@ public class UserServiceImpl implements UserService {
         Page<User> users = userRepository.findUserNotApproved(false, "TEACHER", pageable);
         List<UserDTO> userDTOS = userMapper.toDTOList(users.stream().toList());
         return new PageImpl<>(userDTOS, pageable, users.getTotalElements());
+    }
+
+    @Override
+    public void checkDeleted(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
+        if (user.isDeleted()) {
+            String message = String.format("Tài khoản %s đã bị xóa", email);
+            throw new RuntimeException(message);
+        }
+    }
+
+    @Override
+    public Page<UserDTO> getAllUser(Pageable pageable) {
+        Page<User> users = userRepository.findAll(pageable);
+        List<UserDTO> userDTOS = userMapper.toDTOList(users.stream().toList());
+        return new PageImpl<>(userDTOS, pageable, users.getTotalElements());
+    }
+
+    @Override
+    public void deleteUserById(long userId) {
+        userRepository.findById(userId).orElseThrow(ResourceNotFoundException::new);
+        userRepository.userIsDeleted(userId);
     }
 }
