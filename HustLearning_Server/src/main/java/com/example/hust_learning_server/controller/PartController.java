@@ -41,10 +41,13 @@ public class PartController {
 
     @GetMapping("/all")
     public ResponseEntity<MessageResponse> getAllPart(
-            @RequestParam(required = false, defaultValue = "0") long lessonId
+            @RequestParam(required = false, defaultValue = "0") long classRoomId,
+            @RequestParam(required = false, defaultValue = "0") long lessonId,
+            @RequestParam(required = false, defaultValue = "") String searchContent
+
     ) {
         MessageResponse ms = new MessageResponse();
-        ms.data = partService.getAllParts(lessonId);
+        ms.data = partService.getAllParts(classRoomId, lessonId, searchContent);
         return ResponseEntity.ok(ms);
     }
 

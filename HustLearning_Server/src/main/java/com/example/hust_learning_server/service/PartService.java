@@ -13,7 +13,7 @@ public interface PartService {
 
     PartRes getPart(long partId);
 
-    List<PartRes> getAllParts(long lessonId);
+    List<PartRes> getAllParts(long classRoomId, long lessonId, String searchContent);
 
     void deletePart(long partId);
 

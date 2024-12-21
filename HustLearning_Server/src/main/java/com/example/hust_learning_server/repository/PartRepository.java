@@ -1,5 +1,7 @@
 package com.example.hust_learning_server.repository;
 
+import com.example.hust_learning_server.constant.sql.SQLPart;
+import com.example.hust_learning_server.constant.sql.SQLVocabulary;
 import com.example.hust_learning_server.entity.Part;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -46,4 +48,7 @@ public interface PartRepository extends JpaRepository<Part, Long> {
     List<Part> findAllByLessonId(long lessonId);
 
     boolean existsByPartNameAndLessonId(String partName, long lessonId);
+
+    @Query(nativeQuery = true, value = SQLPart.GET_ALL_PARTS)
+    List<Part> findAllParts(long classRoomId, long lessonId, String searchContent);
 }

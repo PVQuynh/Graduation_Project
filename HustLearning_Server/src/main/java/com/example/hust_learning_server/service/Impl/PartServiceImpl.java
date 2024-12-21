@@ -116,95 +116,50 @@ public class PartServiceImpl implements PartService {
     }
 
     @Override
-    public List<PartRes> getAllParts(long lessonId) {
+    public List<PartRes> getAllParts(long classRoomId, long lessonId, String searchContent) {
         List<PartRes> partResList = new ArrayList<>();
-        if (lessonId == 0) {
-            List<Part> parts = partRepository.findAll();
-            parts.forEach(part -> {
-                PartRes partRes = PartRes.builder()
-                        .partId(part.getId())
-                        .partName(part.getPartName())
-                        .lessonId(part.getLessonId())
-                        .build();
+        List<Part> parts = partRepository.findAllParts(classRoomId, lessonId, searchContent);
+        parts.forEach(part -> {
+            PartRes partRes = PartRes.builder()
+                    .partId(part.getId())
+                    .partName(part.getPartName())
+                    .lessonId(part.getLessonId())
+                    .build();
 
-                List<PartImageRes> partImageResList = Collections.synchronizedList(new ArrayList<>());
-                List<PartVideoRes> partVideoResList = Collections.synchronizedList(new ArrayList<>());
+            List<PartImageRes> partImageResList = Collections.synchronizedList(new ArrayList<>());
+            List<PartVideoRes> partVideoResList = Collections.synchronizedList(new ArrayList<>());
 
-                CompletableFuture<?> partImageFuture = CompletableFuture.runAsync(() -> {
-                    List<PartImage> partImages = partImageRepository.findByPartId(part.getId());
-                    partImages.parallelStream().forEach(partImage -> {
-                        PartImageRes partImageRes = PartImageRes.builder()
-                                .partImageId(partImage.getId())
-                                .imageLocation(partImage.getImageLocation())
-                                .partId(partImage.getPartId())
-                                .build();
-                        partImageResList.add(partImageRes);
-                    });
+            CompletableFuture<?> partImageFuture = CompletableFuture.runAsync(() -> {
+                List<PartImage> partImages = partImageRepository.findByPartId(part.getId());
+                partImages.parallelStream().forEach(partImage -> {
+                    PartImageRes partImageRes = PartImageRes.builder()
+                            .partImageId(partImage.getId())
+                            .imageLocation(partImage.getImageLocation())
+                            .partId(partImage.getPartId())
+                            .build();
+                    partImageResList.add(partImageRes);
                 });
-
-                CompletableFuture<?> partVideoFuture = CompletableFuture.runAsync(() -> {
-                    List<PartVideo> partVideos = partVideoRepository.findByPartId(part.getId());
-                    partVideos.parallelStream().forEach(partVideo -> {
-                        PartVideoRes partVideoRes = PartVideoRes.builder()
-                                .partVideoId(partVideo.getId())
-                                .videoLocation(partVideo.getVideoLocation())
-                                .partId(partVideo.getPartId())
-                                .build();
-                        partVideoResList.add(partVideoRes);
-                    });
-                });
-
-                partImageFuture.join();
-                partVideoFuture.join();
-
-                partRes.setPartImageResList(partImageResList);
-                partRes.setPartVideoResList(partVideoResList);
-                partResList.add(partRes);
             });
-        } else {
-            List<Part> parts = partRepository.findAllByLessonId(lessonId);
-            parts.forEach(part -> {
-                PartRes partRes = PartRes.builder()
-                        .partId(part.getId())
-                        .partName(part.getPartName())
-                        .lessonId(part.getLessonId())
-                        .build();
 
-                List<PartImageRes> partImageResList = Collections.synchronizedList(new ArrayList<>());
-                List<PartVideoRes> partVideoResList = Collections.synchronizedList(new ArrayList<>());
-
-                CompletableFuture<?> partImageFuture = CompletableFuture.runAsync(() -> {
-                    List<PartImage> partImages = partImageRepository.findByPartId(part.getId());
-                    partImages.parallelStream().forEach(partImage -> {
-                        PartImageRes partImageRes = PartImageRes.builder()
-                                .partImageId(partImage.getId())
-                                .imageLocation(partImage.getImageLocation())
-                                .partId(partImage.getPartId())
-                                .build();
-                        partImageResList.add(partImageRes);
-                    });
+            CompletableFuture<?> partVideoFuture = CompletableFuture.runAsync(() -> {
+                List<PartVideo> partVideos = partVideoRepository.findByPartId(part.getId());
+                partVideos.parallelStream().forEach(partVideo -> {
+                    PartVideoRes partVideoRes = PartVideoRes.builder()
+                            .partVideoId(partVideo.getId())
+                            .videoLocation(partVideo.getVideoLocation())
+                            .partId(partVideo.getPartId())
+                            .build();
+                    partVideoResList.add(partVideoRes);
                 });
-
-                CompletableFuture<?> partVideoFuture = CompletableFuture.runAsync(() -> {
-                    List<PartVideo> partVideos = partVideoRepository.findByPartId(part.getId());
-                    partVideos.parallelStream().forEach(partVideo -> {
-                        PartVideoRes partVideoRes = PartVideoRes.builder()
-                                .partVideoId(partVideo.getId())
-                                .videoLocation(partVideo.getVideoLocation())
-                                .partId(partVideo.getPartId())
-                                .build();
-                        partVideoResList.add(partVideoRes);
-                    });
-                });
-
-                partImageFuture.join();
-                partVideoFuture.join();
-
-                partRes.setPartImageResList(partImageResList);
-                partRes.setPartVideoResList(partVideoResList);
-                partResList.add(partRes);
             });
-        }
+
+            partImageFuture.join();
+            partVideoFuture.join();
+
+            partRes.setPartImageResList(partImageResList);
+            partRes.setPartVideoResList(partVideoResList);
+            partResList.add(partRes);
+        });
         return partResList;
     }
 
