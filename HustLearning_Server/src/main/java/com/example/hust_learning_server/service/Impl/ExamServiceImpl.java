@@ -53,10 +53,10 @@ public class ExamServiceImpl implements ExamService {
     @Transactional
     @Override
     public void addExam(ExamReq examReq) {
-        String email = EmailUtils.getCurrentUser();
-        if (ObjectUtils.isEmpty(email)) {
-            throw new UnAuthorizedException();
-        }
+//        String email = EmailUtils.getCurrentUser();
+//        if (ObjectUtils.isEmpty(email)) {
+//            throw new UnAuthorizedException();
+//        }
         List<Question> questions = questionRepository.findAllById(examReq.getQuestionIds());
         if (questions.size() != examReq.getQuestionIds().size()) {
             throw new ResourceNotFoundException();
@@ -79,6 +79,16 @@ public class ExamServiceImpl implements ExamService {
                 })
                 .toList();
         questionExamMappingRepository.saveAll(questionExamMappings);
+        // add exam for all users
+        List<User> users = userRepository.findAll();
+        List<UserExamMapping> userExamMappings = new ArrayList<>();
+        for (User user : users) {
+            UserExamMapping userExamMapping = addExamForUser(exam, user);
+            if (Objects.nonNull(userExamMapping)) {
+                userExamMappings.add(userExamMapping);
+            }
+        }
+        userExamMappingRepository.saveAll(userExamMappings);
     }
 
     @Transactional
@@ -123,6 +133,18 @@ public class ExamServiceImpl implements ExamService {
         if (StringUtils.isNotBlank(updateExamReq.getName())) {
             exam.setName(updateExamReq.getName());
         }
+    }
+
+    public UserExamMapping addExamForUser(Exam exam, User user) {
+        if (!userExamMappingRepository.existsByUserIdAndExamId(user.getId(), exam.getId())) {
+            UserExamMapping userExamMapping = UserExamMapping.builder()
+                    .userId(user.getId())
+                    .examId(exam.getId())
+                    .isFinish(false)
+                    .build();
+            return userExamMapping;
+        }
+        return null;
     }
 
     @Override

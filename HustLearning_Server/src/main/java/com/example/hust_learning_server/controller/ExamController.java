@@ -31,7 +31,7 @@ public class ExamController {
         return ResponseEntity.ok(ms);
     }
 
-    @PostMapping("/exams-for-user")
+    @PostMapping("/exams-for-user") // api này không sử dụng nữa
     public ResponseEntity<MessageResponse> addExamsForUser(@RequestBody AddExamsForUserReq addExamsForUserReq) {
         MessageResponse ms = new MessageResponse();
         examService.addExamsForUser(addExamsForUserReq.getExamIds(), addExamsForUserReq.getUserId());
