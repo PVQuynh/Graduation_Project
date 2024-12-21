@@ -1,6 +1,7 @@
 package com.example.hust_learning_server.service.Impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -10,6 +11,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
@@ -38,6 +41,7 @@ import com.example.hust_learning_server.utils.CommonUtils;
 import com.example.hust_learning_server.utils.EmailUtils;
 import lombok.AllArgsConstructor;
 
+@EnableScheduling
 @Service
 @AllArgsConstructor
 public class ExamServiceImpl implements ExamService {
@@ -53,10 +57,10 @@ public class ExamServiceImpl implements ExamService {
     @Transactional
     @Override
     public void addExam(ExamReq examReq) {
-//        String email = EmailUtils.getCurrentUser();
-//        if (ObjectUtils.isEmpty(email)) {
-//            throw new UnAuthorizedException();
-//        }
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new UnAuthorizedException();
+        }
         List<Question> questions = questionRepository.findAllById(examReq.getQuestionIds());
         if (questions.size() != examReq.getQuestionIds().size()) {
             throw new ResourceNotFoundException();
@@ -88,6 +92,23 @@ public class ExamServiceImpl implements ExamService {
                 userExamMappings.add(userExamMapping);
             }
         }
+        userExamMappingRepository.saveAll(userExamMappings);
+    }
+
+    @Scheduled(cron = "0 */15 * * * *")
+//    @Scheduled(cron = "*/10 * * * * *")
+    public void addAllExamsForAllUsers() {
+        List<Exam> exams = examRepository.findCommonAllExam();
+        List<UserExamMapping> userExamMappings = Collections.synchronizedList(new ArrayList<>());
+        exams.forEach(exam -> {
+            List<User> users = userRepository.findAll();
+            users.parallelStream().forEach(user -> {
+                UserExamMapping userExamMapping = addExamForUser(exam, user);
+                if (Objects.nonNull(userExamMapping)) {
+                    userExamMappings.add(userExamMapping);
+                }
+            });
+        });
         userExamMappingRepository.saveAll(userExamMappings);
     }
 

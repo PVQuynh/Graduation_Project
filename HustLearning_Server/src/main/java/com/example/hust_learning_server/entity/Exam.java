@@ -22,7 +22,7 @@ public class Exam extends BaseEntity{
 
     private String name;
 
-    private boolean isPrivate;
+    private Boolean isPrivate;
 
     private Long classRoomId;
 }

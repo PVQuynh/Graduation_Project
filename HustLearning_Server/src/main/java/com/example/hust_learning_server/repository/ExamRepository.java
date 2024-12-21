@@ -15,4 +15,7 @@ public interface ExamRepository extends JpaRepository<Exam, Long> {
     Page<Exam> findAllExam(long classRoomId, int isPrivate, String email, String nameSearch, Pageable pageable);
 
     List<Exam> findAllByClassRoomId(long id);
+
+    @Query("select e from Exam e where e.isPrivate = false")
+    List<Exam> findCommonAllExam();
 }
