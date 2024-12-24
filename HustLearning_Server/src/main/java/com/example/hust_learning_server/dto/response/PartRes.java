@@ -22,4 +22,11 @@ public class PartRes {
     private List<PartVideoRes> partVideoResList;
 
     private Long lessonId;
+
+    private String lessonName;
+
+    private Long classRoomId;
+
+    private String classRoomName;
+
 }

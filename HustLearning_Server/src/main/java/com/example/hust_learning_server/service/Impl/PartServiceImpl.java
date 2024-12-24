@@ -5,13 +5,9 @@ import com.example.hust_learning_server.dto.request.UpdatePartReq;
 import com.example.hust_learning_server.dto.response.PartImageRes;
 import com.example.hust_learning_server.dto.response.PartRes;
 import com.example.hust_learning_server.dto.response.PartVideoRes;
-import com.example.hust_learning_server.entity.Part;
-import com.example.hust_learning_server.entity.PartImage;
-import com.example.hust_learning_server.entity.PartVideo;
+import com.example.hust_learning_server.entity.*;
 import com.example.hust_learning_server.exception.ResourceNotFoundException;
-import com.example.hust_learning_server.repository.PartImageRepository;
-import com.example.hust_learning_server.repository.PartRepository;
-import com.example.hust_learning_server.repository.PartVideoRepository;
+import com.example.hust_learning_server.repository.*;
 import com.example.hust_learning_server.service.PartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @Service
@@ -27,6 +24,8 @@ public class PartServiceImpl implements PartService {
     private final PartRepository partRepository;
     private final PartImageRepository partImageRepository;
     private final PartVideoRepository partVideoRepository;
+    private final LessonRepository lessonRepository;
+    private final ClassRoomRepository classRoomRepository;
 
     @Override
     public void addPart(PartReq partReq) {
@@ -74,11 +73,17 @@ public class PartServiceImpl implements PartService {
     public PartRes getPart(long partId) {
         Part part = partRepository.findById(partId).orElseThrow(ResourceNotFoundException::new);
 
-        PartRes partRes = PartRes.builder()
-                .partId(part.getId())
-                .partName(part.getPartName())
-                .lessonId(part.getLessonId())
-                .build();
+        PartRes partRes = new PartRes();
+        partRes.setPartId(part.getId());
+        partRes.setPartName(part.getPartName());
+        lessonRepository.findById(part.getLessonId()).ifPresent(lesson -> {
+            partRes.setLessonId(lesson.getId());
+            partRes.setLessonName(lesson.getLessonName());
+            classRoomRepository.findById(lesson.getClassRoomId()).ifPresent(classRoom -> {
+                partRes.setClassRoomId(classRoom.getId());
+                partRes.setClassRoomName(classRoom.getContent());
+            });
+        });
 
         List<PartImageRes> partImageResList = Collections.synchronizedList(new ArrayList<>());
         List<PartVideoRes> partVideoResList = Collections.synchronizedList(new ArrayList<>());
@@ -120,11 +125,17 @@ public class PartServiceImpl implements PartService {
         List<PartRes> partResList = new ArrayList<>();
         List<Part> parts = partRepository.findAllParts(classRoomId, lessonId, searchContent);
         parts.forEach(part -> {
-            PartRes partRes = PartRes.builder()
-                    .partId(part.getId())
-                    .partName(part.getPartName())
-                    .lessonId(part.getLessonId())
-                    .build();
+            PartRes partRes = new PartRes();
+            partRes.setPartId(part.getId());
+            partRes.setPartName(part.getPartName());
+            lessonRepository.findById(part.getLessonId()).ifPresent(lesson -> {
+                partRes.setLessonId(lesson.getId());
+                partRes.setLessonName(lesson.getLessonName());
+                classRoomRepository.findById(lesson.getClassRoomId()).ifPresent(classRoom -> {
+                    partRes.setClassRoomId(classRoom.getId());
+                    partRes.setClassRoomName(classRoom.getContent());
+                });
+            });
 
             List<PartImageRes> partImageResList = Collections.synchronizedList(new ArrayList<>());
             List<PartVideoRes> partVideoResList = Collections.synchronizedList(new ArrayList<>());
