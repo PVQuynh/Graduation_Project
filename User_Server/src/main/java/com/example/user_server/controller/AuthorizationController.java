@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.user_server.dto.response.MessageResponse;
+import com.example.user_server.dto.response.MessageRes;
 import com.example.user_server.service.UserService;
 import com.example.user_server.utils.PageUtils;
 import lombok.RequiredArgsConstructor;
@@ -20,18 +20,18 @@ public class AuthorizationController {
     private final UserService userService;
 
     @PostMapping("/{id}")
-    public ResponseEntity<MessageResponse> approveUser(@PathVariable long id) {
-        MessageResponse ms = new MessageResponse();
+    public ResponseEntity<MessageRes> approveUser(@PathVariable long id) {
+        MessageRes ms = new MessageRes();
         userService.approveUser(id);
         return ResponseEntity.ok(ms);
     }
 
     @GetMapping("/list-not-approved")
-    public ResponseEntity<MessageResponse> getUserNotApproved(
+    public ResponseEntity<MessageRes> getUserNotApproved(
         @RequestParam(required = true, defaultValue = "0") int page,
         @RequestParam(required = true, defaultValue = "10") int size
     ) {
-        MessageResponse ms = new MessageResponse();
+        MessageRes ms = new MessageRes();
         Pageable pageable = PageUtils.getPageable(page,size,null,false);
         ms.data  = userService.getUserNotApproved(pageable);
         return ResponseEntity.ok(ms);

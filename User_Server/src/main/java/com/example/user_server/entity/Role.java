@@ -2,13 +2,15 @@ package com.example.user_server.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.*;
 
 @Entity
-@Table
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Role {
     @Id
     private String code;
@@ -17,4 +19,9 @@ public class Role {
     private String name;
 
     private  String description;
+
+    public static final String ADMIN = "ADMIN";
+    public static final String TEACHER = "TEACHER";
+    public static final String USER = "USER";
+
 }

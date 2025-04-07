@@ -4,11 +4,10 @@ package com.example.user_server.controller;
 import com.example.user_server.client.ChatFeignClient;
 import com.example.user_server.dto.request.ConfirmOTP;
 import com.example.user_server.dto.request.RegisterReq;
-import com.example.user_server.dto.response.MessageResponse;
+import com.example.user_server.dto.response.MessageRes;
 import com.example.user_server.entity.User;
-import com.example.user_server.exception.UnAuthorizedException;
+import com.example.user_server.service.AuthenticationService;
 import com.example.user_server.service.EmailService;
-import com.example.user_server.service.KeycloakService;
 import com.example.user_server.service.OTPService;
 import com.example.user_server.service.UserService;
 import jakarta.validation.Valid;
@@ -27,8 +26,6 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class RegisterController {
 
-    private final KeycloakService keycloakService;
-
     private final UserService userService;
 
     private final OTPService otpService;
@@ -37,15 +34,13 @@ public class RegisterController {
 
     private final RedisTemplate<String, Object> redisTemplate;
 
-    private final ChatFeignClient chatFeignClient;
-
 
     @PostMapping("/generate-otp")
-    public ResponseEntity<MessageResponse> generateOTP(@RequestBody @Valid RegisterReq registerReq) {
-        MessageResponse ms = new MessageResponse();
+    public ResponseEntity<MessageRes> generateOTP(@RequestBody @Valid RegisterReq registerReq) {
+        MessageRes ms = new MessageRes();
         ms.message = "Sent";
         String email = registerReq.getEmail();
-        ResponseEntity<MessageResponse> res = ResponseEntity.ok(ms);
+        ResponseEntity<MessageRes> res = ResponseEntity.ok(ms);
 
         try {
             if (userService.findByEmail(registerReq.getEmail()).isPresent()) {
@@ -78,16 +73,16 @@ public class RegisterController {
 
     @Transactional
     @PostMapping("/validate-otp")
-    public ResponseEntity<MessageResponse> validateOtp(@RequestBody @Valid ConfirmOTP confirmOTP) {
+    public ResponseEntity<MessageRes> validateOtp(@RequestBody @Valid ConfirmOTP confirmOTP) {
         final String SUCCESS = "Register Successfully!";
         final String FAIL = "Entered Otp is NOT valid. Please Retry!";
 
-        MessageResponse ms = new MessageResponse();
+        MessageRes ms = new MessageRes();
         ms.message = SUCCESS;
         String email = confirmOTP.getEmail();
         RegisterReq registerReq = (RegisterReq) redisTemplate.opsForHash().get(email, email.hashCode());
         int otpnum = confirmOTP.getOtpNum();
-        ResponseEntity<MessageResponse> res = ResponseEntity.ok(ms);
+        ResponseEntity<MessageRes> res = ResponseEntity.ok(ms);
 
         //Validate the Otp
         if (otpnum >= 0) {
@@ -98,9 +93,6 @@ public class RegisterController {
                     //Save Account
                     try {
                         User user = userService.create(registerReq);
-                        if (ObjectUtils.isNotEmpty(user)) {
-                            keycloakService.createUser(registerReq);
-                        }
                         redisTemplate.opsForHash().getOperations().delete(email);
                     } catch (Exception e) {
                         ms.code = HttpStatus.INTERNAL_SERVER_ERROR.value();

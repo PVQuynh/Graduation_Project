@@ -1,33 +1,29 @@
 package com.example.hust_learning_server.entity;
 
-import java.util.Date;
 import com.example.hust_learning_server.constant.enum_constant.Gender;
-import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "user")
 @Builder
 @AttributeOverride(name = "id", column = @Column(name = "user_id"))
-public class User extends  BaseEntity {
+public class User extends BaseEntity implements UserDetails {
 
     @Email(message = "Email isn't valid")
     @Column(unique = true,nullable = false)
@@ -51,8 +47,50 @@ public class User extends  BaseEntity {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    private boolean isApproved;
+
+    @Column(nullable = false)
+    private boolean isDeleted = false;
+
+    @ManyToOne
     @JoinColumn(name = "code")
     private Role role;
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        // Định nghĩa các authority của ROLE đó khi sử dụng hasAuthority
+        // Mặc định nếu không phần quyền hạn cụ thể thì cứ phân quyền theo role
+        List<GrantedAuthority> authorityList = List.of(new SimpleGrantedAuthority(role.getCode().toUpperCase()));
+        return authorityList;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

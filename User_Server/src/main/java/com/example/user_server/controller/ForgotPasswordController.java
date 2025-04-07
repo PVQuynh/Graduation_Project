@@ -4,7 +4,7 @@ package com.example.user_server.controller;
 
 import com.example.user_server.dto.request.ConfirmOTP;
 import com.example.user_server.dto.request.ForgotPasswordReq;
-import com.example.user_server.dto.response.MessageResponse;
+import com.example.user_server.dto.response.MessageRes;
 import com.example.user_server.entity.User;
 import com.example.user_server.service.EmailService;
 import com.example.user_server.service.OTPService;
@@ -30,8 +30,8 @@ public class ForgotPasswordController {
 
 
     @PostMapping("/generate-otp")
-    public MessageResponse generateOTP(@RequestBody @Valid ForgotPasswordReq forgotPasswordReq) {
-        MessageResponse ms = new MessageResponse();
+    public MessageRes generateOTP(@RequestBody @Valid ForgotPasswordReq forgotPasswordReq) {
+        MessageRes ms = new MessageRes();
         ms.message = "Sent";
         String email = forgotPasswordReq.getEmail();
 
@@ -55,10 +55,10 @@ public class ForgotPasswordController {
     }
 
     @PostMapping("/validate-otp-and-password-retrieval")
-    public MessageResponse validateOtp(@RequestBody @Valid ConfirmOTP confirmOTP) {
+    public MessageRes validateOtp(@RequestBody @Valid ConfirmOTP confirmOTP) {
         final String SUCCESS = "OTP is correct, please check your email to retrieve your password!!";
         final String FAIL = "Entered Otp is NOT valid. Please Retry!";
-        MessageResponse ms = new MessageResponse();
+        MessageRes ms = new MessageRes();
         ms.message = SUCCESS;
 
         // lay email va opt tu request

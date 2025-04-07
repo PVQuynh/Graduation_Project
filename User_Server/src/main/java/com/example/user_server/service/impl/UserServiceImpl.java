@@ -8,7 +8,7 @@ import com.example.user_server.dto.PageDTO;
 import com.example.user_server.dto.UserDTO;
 import com.example.user_server.dto.UserDetailDTO;
 import com.example.user_server.dto.request.*;
-import com.example.user_server.dto.response.MessageResponse;
+import com.example.user_server.dto.response.MessageRes;
 import com.example.user_server.entity.FriendShip;
 import com.example.user_server.entity.Role;
 import com.example.user_server.entity.User;
@@ -21,7 +21,6 @@ import com.example.user_server.mapper.impl.UserMapper;
 import com.example.user_server.repository.FriendShipRepository;
 import com.example.user_server.repository.RoleRepository;
 import com.example.user_server.repository.UserRepository;
-import com.example.user_server.service.KeycloakService;
 import com.example.user_server.service.UserService;
 import com.example.user_server.utils.EmailUtils;
 import com.example.user_server.utils.RandomStringUtils;
@@ -56,9 +55,8 @@ import org.springframework.util.ObjectUtils;
 public class UserServiceImpl implements UserService {
 
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
-    private final EntityManager entityManager;
 
-    private final KeycloakService keycloakService;
+    private final EntityManager entityManager;
 
     private final UserRepository userRepository;
 
@@ -78,7 +76,7 @@ public class UserServiceImpl implements UserService {
                 registerReq.getEmail(), null);
         CompletableFuture.runAsync(() -> {
             try {
-                MessageResponse ms = chatFeignClient.createContact(contactRequest);
+                MessageRes ms = chatFeignClient.createContact(contactRequest);
             } catch (Exception e) {
                 log.error(e.getMessage());
             }
@@ -196,7 +194,6 @@ public class UserServiceImpl implements UserService {
         if (user.getPassword().equals(changePasswordReq.getOldPassword())) {
             user.setPassword(changePasswordReq.getNewPassword());
             userRepository.save(user);
-            keycloakService.changePassword(changePasswordReq);
         } else {
             throw new BadRequestException();
         }
@@ -208,7 +205,6 @@ public class UserServiceImpl implements UserService {
 
         String password = RandomStringUtils.generateRandomString(12);
         user.setPassword(password);
-        keycloakService.randomlyGeneratePassword(email, password);
 
         return userRepository.save(user);
     }
@@ -350,7 +346,7 @@ public class UserServiceImpl implements UserService {
                 .build();
 
         try {
-            MessageResponse ms = chatFeignClient.uploadAvatar(uploadAvatarClientReq);
+            MessageRes ms = chatFeignClient.uploadAvatar(uploadAvatarClientReq);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
