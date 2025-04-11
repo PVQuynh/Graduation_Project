@@ -6,6 +6,7 @@ import com.example.user_server.dto.UserDTO;
 import com.example.user_server.dto.UserDetailDTO;
 import com.example.user_server.dto.request.*;
 
+import com.example.user_server.dto.response.DataResponse;
 import com.example.user_server.entity.User;
 
 import java.text.ParseException;
@@ -37,6 +38,8 @@ public interface UserService {
     PageDTO<UserDTO> search(UserSearchReq userSearchReq);
 
     PageDTO<UserDTO> searchV2(int page, int size, String text, boolean ascending, String orderBy);
+
+    DataResponse getAllUsers(Pageable pageable);
 
     UserDetailDTO getUserById(long userId);
 

@@ -45,7 +45,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleEmailNotFoundException(EmailNotFoundException ex) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setCode(HttpStatus.BAD_REQUEST.value());
-        errorResponse.setDescription(ex.getMessage());
+        errorResponse.setMessage(ex.getMessage());
+        errorResponse.setStatus(0);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
@@ -57,7 +58,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleUnAuthorizedException(UnAuthorizedException ex) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setCode(HttpStatus.UNAUTHORIZED.value());
-        errorResponse.setDescription(ex.getMessage());
+        errorResponse.setMessage(ex.getMessage());
+        errorResponse.setStatus(0);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
 
     }
@@ -70,7 +72,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleRefreshTokenFailedException(RefreshTokenFailedException ex) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setCode(HttpStatus.UNAUTHORIZED.value());
-        errorResponse.setDescription(ex.getMessage());
+        errorResponse.setMessage(ex.getMessage());
+        errorResponse.setStatus(0);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
 
     }
@@ -83,7 +86,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleBusinessLogicException(BusinessLogicException ex) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setCode(HttpStatus.BAD_REQUEST.value());
-        errorResponse.setDescription(ex.getMessage());
+        errorResponse.setMessage(ex.getMessage());
+        errorResponse.setStatus(0);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 
     }
@@ -96,7 +100,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException ex) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setCode(HttpStatus.BAD_REQUEST.value());
-        errorResponse.setDescription(ex.getMessage());
+        errorResponse.setMessage(ex.getMessage());
+        errorResponse.setStatus(0);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 
     }
@@ -109,7 +114,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleResourceNotFoundException(ResourceNotFoundException ex) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setCode(HttpStatus.NOT_FOUND.value());
-        errorResponse.setDescription(ex.getMessage());
+        errorResponse.setMessage(ex.getMessage());
+        errorResponse.setStatus(0);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
 
     }
@@ -122,7 +128,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleConflictException(ConflictException ex) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setCode(HttpStatus.CONFLICT.value());
-        errorResponse.setDescription(ex.getMessage());
+        errorResponse.setMessage(ex.getMessage());
+        errorResponse.setStatus(0);
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
 
     }
@@ -135,7 +142,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> exception(Exception e) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-        errorResponse.setDescription(e.getMessage());
+        errorResponse.setMessage(e.getMessage());
+        errorResponse.setStatus(0);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
 
     }

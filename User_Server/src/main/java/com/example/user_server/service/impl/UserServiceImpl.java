@@ -8,10 +8,9 @@ import com.example.user_server.dto.PageDTO;
 import com.example.user_server.dto.UserDTO;
 import com.example.user_server.dto.UserDetailDTO;
 import com.example.user_server.dto.request.*;
+import com.example.user_server.dto.response.DataResponse;
 import com.example.user_server.dto.response.MessageRes;
-import com.example.user_server.entity.FriendShip;
-import com.example.user_server.entity.Role;
-import com.example.user_server.entity.User;
+import com.example.user_server.entity.*;
 import com.example.user_server.enum_constant.Gender;
 import com.example.user_server.exception.BadRequestException;
 import com.example.user_server.exception.BusinessLogicException;
@@ -21,6 +20,7 @@ import com.example.user_server.mapper.impl.UserMapper;
 import com.example.user_server.repository.FriendShipRepository;
 import com.example.user_server.repository.RoleRepository;
 import com.example.user_server.repository.UserRepository;
+import com.example.user_server.repository.UsersRepository;
 import com.example.user_server.service.UserService;
 import com.example.user_server.utils.EmailUtils;
 import com.example.user_server.utils.RandomStringUtils;
@@ -33,11 +33,7 @@ import jakarta.persistence.criteria.Root;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 import lombok.RequiredArgsConstructor;
@@ -59,6 +55,8 @@ public class UserServiceImpl implements UserService {
     private final EntityManager entityManager;
 
     private final UserRepository userRepository;
+
+    private final UsersRepository usersRepository;
 
     private final UserMapper userMapper;
 
@@ -309,6 +307,38 @@ public class UserServiceImpl implements UserService {
         PageDTO<UserDTO> userResPageDTO = new PageDTO<>(userMapper.toDTOList(results), page, totalRows);
 
         return userResPageDTO;
+    }
+
+    @Override
+    public DataResponse getAllUsers(Pageable pageable) {
+        String email = EmailUtils.getCurrentUser();
+        if (ObjectUtils.isEmpty(email)) {
+            throw new UnAuthorizedException();
+        }
+
+        List<Users> users = usersRepository.findAll(pageable).getContent();
+        UserSchema userSchema = new UserSchema();
+        userSchema.setUserId("Long");
+        userSchema.setCreatedBy("Timestamp");
+        userSchema.setCreatedDate("Timestamp");
+        userSchema.setModifiedBy("String");
+        userSchema.setModifiedDate("Timestamp");
+        userSchema.setAddress("String");
+        userSchema.setAvatarLocation("String");
+        userSchema.setBirthDay("Timestamp");
+        userSchema.setEmail("String");
+        userSchema.setGender("String");
+        userSchema.setName("String");
+        userSchema.setPassword("String");
+        userSchema.setPhoneNumber("String");
+        userSchema.setPhoneNumber("String");
+        userSchema.setCode("String");
+
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setDataTypes(userSchema);
+        dataResponse.setRecords(users);
+
+        return  dataResponse;
     }
 
     @Override

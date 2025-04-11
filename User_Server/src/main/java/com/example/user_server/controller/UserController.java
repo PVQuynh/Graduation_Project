@@ -6,6 +6,8 @@ import com.example.user_server.dto.request.*;
 import com.example.user_server.dto.response.MessageRes;
 import com.example.user_server.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,6 +53,17 @@ public class UserController {
     ) {
         MessageRes ms = new MessageRes();
         ms.data = userService.searchV2(page, size, text, ascending, orderBy);
+        return ResponseEntity.ok(ms);
+    }
+
+    @GetMapping("get-all")
+    public ResponseEntity<MessageRes> getAllUsers(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        MessageRes ms = new MessageRes();
+        Pageable pageable = PageRequest.of(page, size);
+        ms.data = userService.getAllUsers(pageable);
         return ResponseEntity.ok(ms);
     }
 

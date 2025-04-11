@@ -4,143 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dba02908-b05a-40d3-a9fa-0e8f533ad69f" name="Changes" comment="thêm api quên mật khẩu">
-      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/config/ApplicationConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/security/JwtAuthenticationFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/security/JwtService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/security/SecurityConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/LogoutService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/config/ApplicationConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/security/JwtAuthenticationFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/security/JwtService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/security/SecurityConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/AuthenticationService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/LogoutService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+    <list default="true" id="dba02908-b05a-40d3-a9fa-0e8f533ad69f" name="Changes" comment="feat: test ingestion users">
+      <change afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/dto/response/DataResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/entity/UserSchema.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/entity/Users.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/repository/UsersRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/ChatApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/config/JpaAuditingConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/config/WebmvcConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/constant/ExceptionMessage.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/constant/MessageStatus.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/controller/ContactController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/controller/ConversationController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/controller/GroupMemberController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/controller/MessageController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/dto/PageDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/dto/request/ContactByEmailReq.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/dto/request/ContactReq.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/dto/request/ContactSearchReq.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/dto/request/ConversationReq.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/dto/request/GroupMemberReq.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/dto/request/MessageLimitReq.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/dto/request/MessageReq.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/dto/request/SaveMessageReq.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/dto/request/UpdateConversationReq.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/dto/request/UpdateMessageReq.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/dto/request/UploadAvatarReq.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/dto/response/ContactRes.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/dto/response/ConversationAndGrouAttachConvListRes.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/dto/response/GrouAttachConvRes.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/dto/response/GroupMemberRes.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/dto/response/LastMessageRes.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/dto/response/MessageRes.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/dto/response/MessageResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/entity/BaseEntity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/entity/Contact.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/entity/Conversation.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/entity/GroupMember.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/entity/Message.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/entity/Role.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/entity/User.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/enum_constant/ConversationType.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/enum_constant/Gender.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/enum_constant/MessageType.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/exception/AlreadyExistsException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/exception/BusinessLogicException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/exception/EmailNotFoundException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/exception/ErrorResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/exception/GlobalExceptionHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/mapper/Mapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/mapper/impl/ContactMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/mapper/impl/MessageMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/repository/ContactRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/repository/ConversationRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/repository/GroupMemberRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/repository/MessageRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/repository/UserRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/security/JWTAuthenticationFilter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/security/JWTService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/security/KeycloaksInfo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/security/UserDetail.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/security/UserDetailService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/security/WebSecurityConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/service/ContactService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/service/ConversationService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/service/GroupMemberService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/service/MessageService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/service/impl/ContactServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/service/impl/ConversationServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/service/impl/GroupMemberServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/service/impl/MessageServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/socket_io/SocketController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/socket_io/SocketIOConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/socket_io/StartupConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/utils/EmailUtils.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/websocket/WebsocketConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/java/com/chat/chat_server/websocket/WebsocketController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chat_Server/src/test/java/com/chat/chat_server/WebsocketApplicationTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/entity/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/entity/Role.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/security/JWTAuthenticationFilter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/security/JWTService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/security/KeycloaksInfo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/security/UserDetail.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/security/UserDetailService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/security/WebSecurityConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/utils/EmailUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/utils/EmailUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/dto/response/MessageResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/dto/response/MessageResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/exception/ErrorResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/exception/ErrorResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/VocabularyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/service/Impl/VocabularyServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/User_Server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/client/ChatFeignClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/client/ChatFeignClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/config/Keycloaks.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/AdminUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/AdminUserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/AuthenticationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/AuthorizationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/AuthorizationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/ForgotPasswordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/ForgotPasswordController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/FriendShipController.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/FriendShipController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/RegisterController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/RoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/RoleController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/dto/request/LoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/dto/request/AuthenticationReq.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/dto/response/AuthenticationResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/dto/response/AuthenticationRes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/dto/response/MessageResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/dto/response/MessageRes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/entity/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/entity/Role.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/repository/RoleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/repository/RoleRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/security/JWTAuthenticationFilter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/security/JWTService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/security/KeycloaksInfo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/security/UserDetail.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/security/UserDetailService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/security/WebSecurityConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/KeycloakService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/RefreshTokenService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/TestService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/impl/RoleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/impl/RoleServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/dto/response/MessageRes.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/dto/response/MessageRes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/exception/ErrorResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/exception/ErrorResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/impl/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/utils/EmailUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/utils/EmailUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/User_Server/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -169,6 +50,7 @@
       </list>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="MIXED" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -179,7 +61,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/PVQuynh/Graduation_Project.git&quot;,
-    &quot;accountId&quot;: &quot;14d3c5e4-e2ed-48b3-8f0d-acccdc0c2ea1&quot;
+    &quot;accountId&quot;: &quot;fe888dff-e2fe-49ed-bd26-02660fb5e514&quot;
   }
 }</component>
   <component name="KubernetesApiPersistence">{}</component>
@@ -188,6 +70,9 @@
 }</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -253,11 +138,11 @@
       <recent name="C:\Users\ASUS\Desktop\gp_be\User_Server\src\main\java\com\example\user_server\dto\request" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.user_server.repository" />
+      <recent name="com.example.user_server.entity" />
+      <recent name="com.example.hust_learning_server.dto.response" />
       <recent name="com.example.hust_learning_server.service" />
       <recent name="com.example.hust_learning_server.config" />
-      <recent name="com.example.user_server.config" />
-      <recent name="com.example.user_server.dto.request" />
-      <recent name="com.example.user_server.service" />
     </key>
   </component>
   <component name="RunAnythingCache">
@@ -275,7 +160,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.HustLearningApplication">
+  <component name="RunManager" selected="Spring Boot.UserApplication">
     <configuration name="ChatApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="chatserver" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.chat.chat_server.ChatApplication" />
@@ -467,14 +352,8 @@
       <workItem from="1726814746631" duration="10387000" />
       <workItem from="1744021660112" duration="16000" />
       <workItem from="1744033550042" duration="9116000" />
-    </task>
-    <task id="LOCAL-00010" summary="fix search 23/3/24">
-      <option name="closed" value="true" />
-      <created>1711181001015</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1711181001016</updated>
+      <workItem from="1744338908437" duration="4999000" />
+      <workItem from="1744347207369" duration="1296000" />
     </task>
     <task id="LOCAL-00011" summary="Change MessageResponse 24/3/24">
       <option name="closed" value="true" />
@@ -860,7 +739,15 @@
       <option name="project" value="LOCAL" />
       <updated>1723563165873</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="feat: test ingestion users">
+      <option name="closed" value="true" />
+      <created>1744343298446</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1744343298446</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -877,7 +764,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="main" />
+                        <option value="quynhpv" />
                       </list>
                     </value>
                   </entry>
@@ -891,8 +778,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="fix all-vocabularies api" />
-    <MESSAGE value="fix thu thập dữ liệu" />
     <MESSAGE value="fix api thêm bài kiểm tra cho người dùng" />
     <MESSAGE value="fix lỗi get all" />
     <MESSAGE value="bỏ private trong Vocabulary" />
@@ -915,8 +800,10 @@
     <MESSAGE value="update DataCollection" />
     <MESSAGE value="them quan ly link mobile" />
     <MESSAGE value="thêm api quản lý giới thiệu" />
+    <MESSAGE value="feat: init spring security and delete chat" />
     <MESSAGE value="thêm api quên mật khẩu" />
-    <option name="LAST_COMMIT_MESSAGE" value="thêm api quên mật khẩu" />
+    <MESSAGE value="feat: test ingestion users" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: test ingestion users" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1003,13 +890,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/controller/UserController.java</url>
-          <line>21</line>
+          <line>23</line>
           <option name="timeStamp" value="63" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/controller/VocabularyController.java</url>
-          <line>35</line>
-          <option name="timeStamp" value="71" />
+          <url>file://$PROJECT_DIR$/HustLearning_Server/src/main/java/com/example/hust_learning_server/exception/GlobalExceptionHandler.java</url>
+          <line>59</line>
+          <option name="timeStamp" value="77" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/User_Server/src/main/java/com/example/user_server/service/impl/UserServiceImpl.java</url>
+          <line>325</line>
+          <option name="timeStamp" value="80" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
